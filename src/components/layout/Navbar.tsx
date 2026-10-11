@@ -13,17 +13,16 @@ export function Navbar({ locale }: { locale: Locale }) {
   const [open, setOpen] = useState(false);
   const text = (en: string, bn: string) => (locale === "bn" ? bn : en);
 
-  const main: Item[] = [
+  // Keep the navigation grouped in a consistent order: school information,
+  // learning and campus life, community, then announcements and practical links.
+  const allItems: Item[] = [
     { href: "about", label: text("About", "পরিচিতি") },
     { href: "academics", label: text("Academics", "একাডেমিক") },
     { href: "student-life", label: text("Student life", "শিক্ষাজীবন") },
     { href: "facilities", label: text("Campus", "ক্যাম্পাস") },
-    { href: "leadership-messages", label: text("Leadership", "নেতৃত্ব") },
-  ];
-
-  const extra: Item[] = [
     { href: "clubs", label: text("Clubs", "ক্লাব") },
     { href: "alumni", label: text("Alumni", "প্রাক্তন শিক্ষার্থী") },
+    { href: "leadership-messages", label: text("Leadership", "নেতৃত্ব") },
     { href: "notices", label: text("Notices", "নোটিশ") },
     { href: "careers", label: text("Careers", "ক্যারিয়ার") },
     { href: "contact", label: text("Contact", "যোগাযোগ") },
@@ -70,14 +69,14 @@ export function Navbar({ locale }: { locale: Locale }) {
           </Link>
 
           <nav
-            className="ml-auto hidden items-center gap-1 lg:flex"
+            className="ml-auto hidden items-center gap-0 lg:flex"
             aria-label="Primary"
           >
-            {main.map((item) => (
+            {allItems.map((item) => (
               <Link
                 key={item.href}
                 href={`/${locale}/${item.href}`}
-                className="kc-nav-link"
+                className="kc-nav-link !px-2 2xl:!px-[11px]"
               >
                 {item.label}
               </Link>
@@ -99,7 +98,7 @@ export function Navbar({ locale }: { locale: Locale }) {
               aria-expanded={open}
               aria-controls="site-menu"
               onClick={() => setOpen((value) => !value)}
-              className="rounded-full border border-[#d9d8cf] px-4 py-2 text-[10px] font-medium uppercase tracking-[.08em] text-[#3f4741] transition hover:border-[#176b45] hover:text-[#176b45]"
+              className="rounded-full border border-[#d9d8cf] px-4 py-2 text-[10px] font-medium uppercase tracking-[.08em] text-[#3f4741] transition hover:border-[#176b45] hover:text-[#176b45] lg:hidden"
             >
               {open ? text("Close", "বন্ধ") : text("Menu", "মেনু")}
             </button>
@@ -110,7 +109,7 @@ export function Navbar({ locale }: { locale: Locale }) {
       {open && (
         <div
           id="site-menu"
-          className="fixed inset-0 z-40 bg-[#242824]/15 backdrop-blur-[2px]"
+          className="fixed inset-0 z-40 bg-[#242824]/15 backdrop-blur-[2px] lg:hidden"
           onMouseDown={() => setOpen(false)}
         >
           <div
@@ -141,7 +140,7 @@ export function Navbar({ locale }: { locale: Locale }) {
               </p>
 
               <div className="mt-3 divide-y divide-[#d9d8cf] border-y border-[#d9d8cf]">
-                {extra.map((item, index) => (
+                {allItems.map((item, index) => (
                   <Link
                     key={item.href}
                     href={`/${locale}/${item.href}`}
