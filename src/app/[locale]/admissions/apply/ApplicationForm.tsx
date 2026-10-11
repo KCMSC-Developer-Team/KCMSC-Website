@@ -1483,7 +1483,7 @@ export function ApplicationForm({
 
   submittingLabel,
 }: {
-  action: (formData: FormData) => void | Promise<void>;
+  action: (formData: FormData) => Promise<void | { ok: false; message: string }>;
 
   sections: Record<string, string>;
 
@@ -1533,6 +1533,17 @@ export function ApplicationForm({
       }
     });
   }, [step]);
+
+  useEffect(() => {
+    if (!error) return;
+    const frame = requestAnimationFrame(() => {
+      document.getElementById("application-error")?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [error]);
 
   /*
 
@@ -1748,8 +1759,23 @@ export function ApplicationForm({
       data.set("certificate", certificate);
     }
 
+    setError("");
     startTransition(() => {
-      void action(data);
+      void action(data)
+        .then((result) => {
+          if (result && result.ok === false) {
+            setError(result.message);
+          }
+        })
+        .catch((submitError: unknown) => {
+          // The server action normally returns a structured error for expected
+          // failures. This fallback covers unexpected transport/server errors
+          // without clearing the values held in this client component.
+          console.error("Admission application submission failed", submitError);
+          setError(
+            "We couldn't submit your application because of an unexpected server or connection problem. Your entries are still on this form. Please try again shortly."
+          );
+        });
     });
   };
 
@@ -1823,7 +1849,9 @@ export function ApplicationForm({
 
       {error ? (
         <p
+          id="application-error"
           role="alert"
+          tabIndex={-1}
           className="mb-6 flex items-start gap-3 rounded-xl border border-[#edc7c1] bg-[#fff8f6] px-4 py-3.5 text-sm leading-6 text-[#8c3c32] shadow-none"
         >
           {error}

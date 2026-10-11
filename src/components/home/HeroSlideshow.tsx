@@ -85,7 +85,7 @@ export function HeroSlideshow({ locale = "en" }: HeroSlideshowProps) {
 
     const timer = window.setInterval(() => {
       setActive((current) => (current + 1) % slides.length);
-    }, 7000);
+    }, 5000);
 
     return () => window.clearInterval(timer);
   }, [paused]);

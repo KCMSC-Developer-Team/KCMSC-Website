@@ -65,12 +65,6 @@ export default async function AdmissionsPage({
                 </Link>
               ) : null}
 
-              <Link
-                href={`/${locale}/admissions/track`}
-                className="kc-classic-button kc-classic-button-outline"
-              >
-                {page.trackCta}
-              </Link>
             </div>
           </div>
 

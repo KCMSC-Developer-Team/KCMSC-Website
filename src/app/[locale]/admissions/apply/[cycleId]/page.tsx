@@ -79,7 +79,9 @@ export default async function ApplyCyclePage({
 
           {searchParams.error === "invalid" ? (
             <p className="mb-6 border border-[#a7473b]/30 bg-[#a7473b]/5 px-4 py-3 text-sm text-[#8c3c32]">
-              {locale === "bn" ? "তথ্যে কোনো সমস্যা হয়েছে। অনুগ্রহ করে তথ্যগুলো যাচাই করে আবার চেষ্টা করুন।" : "Something was missing or invalid. Please check the form and try again."}
+              {locale === "bn"
+                ? "আগের আবেদনটি সম্পন্ন হয়নি। ফর্মে নির্দিষ্ট সমস্যাগুলো এখন দেখানো হবে। আপনার তথ্য আবার পূরণ করে জমা দিন; সার্ভারে আবেদন সংরক্ষিত হয়েছে বলে ধরে নেবেন না।"
+                : "The previous submission was not completed. Specific validation errors will now appear directly in the form. Please submit again; do not assume an application was saved."}
             </p>
           ) : null}
 
