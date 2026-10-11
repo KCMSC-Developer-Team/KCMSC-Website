@@ -1,5 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
+import { notFound } from "next/navigation";
+import { getDictionary, isLocale, type Locale } from "@/i18n/config";
+import { prisma } from "@/lib/db";
 
 const photos = {
   hero: "/kcmsc/media/vibrant_student_life.jpg",
@@ -10,8 +13,40 @@ const photos = {
   garden: "/kcmsc/media/rooftop_garden.jpg",
 };
 
+type ClubEntry = { name: string; description: string };
+
+const clubPhotos = [
+  { src: "/kcmsc/media/team2.jpg", alt: "KCMSC students on a sports field" },
+  { src: "/kcmsc/media/vibrant_student_culture.jpg", alt: "KCMSC students taking part in a school activity" },
+  { src: "/kcmsc/media/vibrant_art_culture.jpg", alt: "KCMSC students presenting creative work" },
+  { src: "/kcmsc/media/student_trip2.jpg", alt: "KCMSC students together outdoors" },
+  { src: "/kcmsc/media/students_at_bookfair.jpg", alt: "KCMSC students browsing books" },
+  { src: "/kcmsc/media/students_having_fun_after_sports.jpg", alt: "KCMSC students spending time together" },
+];
+
+async function getClubEntries(locale: Locale): Promise<ClubEntry[]> {
+  const fallback = getDictionary(locale).clubsPage.clubs
+    .filter((club) => !club.name.toLowerCase().includes("alumni") && !club.name.includes("প্রাক্তন শিক্ষার্থী"))
+    .map((club) => ({ name: club.name, description: club.description }));
+
+  try {
+    const rows = await prisma.club.findMany({ orderBy: { createdAt: "asc" } });
+    const entries = rows
+      .map((club) => ({
+        name: locale === "bn" ? club.nameBn : club.nameEn,
+        description: locale === "bn" ? club.descriptionBn : club.descriptionEn,
+      }))
+      .filter((club) => club.name && !club.name.toLowerCase().includes("alumni") && !club.name.includes("প্রাক্তন শিক্ষার্থী"));
+    return entries.length ? entries : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
 export default async function StudentLifePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
+  if (!isLocale(locale)) notFound();
+  const clubEntries = await getClubEntries(locale);
   const bn = locale === "bn";
 
   const copy = bn
@@ -178,13 +213,22 @@ export default async function StudentLifePage({ params }: { params: Promise<{ lo
           </div>
           <div>
             <p className="max-w-2xl text-sm leading-7 text-[#64748B] sm:text-base">{copy.activitiesBody}</p>
-            <div className="mt-9 border-t border-[#CBD5E1]">
-              {copy.clubs.map((club, index) => (
-                <div key={club} className="grid grid-cols-[52px_1fr] border-b border-[#CBD5E1] py-4 text-sm text-[#33483f] sm:grid-cols-[64px_1fr] sm:py-5">
-                  <span className="font-mono text-xs text-[#C27A05]">0{index + 1}</span>
-                  <span>{club}</span>
-                </div>
-              ))}
+            <div id="clubs" className="mt-9 border-t border-[#CBD5E1]">
+              {clubEntries.map((club, index) => {
+                const photo = clubPhotos[index % clubPhotos.length]!;
+                return (
+                  <article key={`${club.name}-${index}`} className="grid gap-4 border-b border-[#CBD5E1] py-5 sm:grid-cols-[6rem_1fr] sm:items-center sm:gap-6">
+                    <div className="relative aspect-[4/3] overflow-hidden bg-[#deddd4]">
+                      <Image src={photo.src} alt={photo.alt} fill sizes="(min-width: 640px) 6rem, 100vw" className="object-cover" />
+                    </div>
+                    <div>
+                      <p className="mb-2 text-[10px] font-bold uppercase tracking-[.18em] text-[#C27A05]">{String(index + 1).padStart(2, "0")}</p>
+                      <h3 className="font-heading text-xl leading-tight text-[#12324A] sm:text-2xl">{club.name}</h3>
+                      {club.description ? <p className="mt-2 text-sm leading-6 text-[#64748B]">{club.description}</p> : null}
+                    </div>
+                  </article>
+                );
+              })}
             </div>
           </div>
         </div>

@@ -20,7 +20,6 @@ export function Navbar({ locale }: { locale: Locale }) {
     { href: "academics", label: text("Academics", "একাডেমিক") },
     { href: "student-life", label: text("Student life", "শিক্ষাজীবন") },
     { href: "facilities", label: text("Campus", "ক্যাম্পাস") },
-    { href: "clubs", label: text("Clubs", "ক্লাব") },
     { href: "alumni", label: text("Alumni", "প্রাক্তন শিক্ষার্থী") },
     { href: "leadership-messages", label: text("Leadership", "নেতৃত্ব") },
     { href: "notices", label: text("Notices", "নোটিশ") },

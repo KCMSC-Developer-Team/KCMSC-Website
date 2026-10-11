@@ -15,11 +15,17 @@ export default async function AlumniPage({ params }: { params: { locale: string 
 
   return (
     <main className="bg-[#f7f5ef] text-[#242824]">
-      <section className="border-b border-[#d9d8cf] bg-[#fffdf8]">
-        <div className="mx-auto max-w-[1180px] px-5 py-20 sm:px-8 lg:px-10 lg:py-28">
-          <span className="kc-classic-kicker">{copy.kicker}</span>
-          <h1 className="mt-5 max-w-4xl font-heading text-[clamp(2.8rem,6vw,6rem)] leading-[.9] tracking-[-.05em] text-[#124c36]">{copy.title}</h1>
-          <p className="mt-8 max-w-2xl text-[15px] leading-7 text-[#69716b] sm:text-base">{copy.intro}</p>
+      <section className="relative isolate flex min-h-[390px] items-center overflow-hidden border-b border-[#d9d8cf] bg-[#124c36] sm:min-h-[430px] lg:min-h-[490px]">
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 -z-20 bg-cover bg-center"
+          style={{ backgroundImage: "url('/kcmsc/media/farewell.jpeg')" }}
+        />
+        <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-r from-[#092c21]/85 via-[#0b3326]/65 to-[#102b23]/35" />
+        <div className="mx-auto w-full max-w-[1180px] px-5 py-20 sm:px-8 lg:px-10 lg:py-28">
+          <span className="kc-classic-kicker !text-[#e1c777]">{copy.kicker}</span>
+          <h1 className="mt-5 max-w-4xl font-heading text-[clamp(2.8rem,6vw,6rem)] leading-[.9] tracking-[-.05em] text-white">{copy.title}</h1>
+          <p className="mt-8 max-w-2xl text-[15px] leading-7 text-white/90 sm:text-base">{copy.intro}</p>
         </div>
       </section>
 
