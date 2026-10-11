@@ -4,20 +4,21 @@
 
 :root {
   /*
-   * KEEP THE ORIGINAL ENGLISH TYPOGRAPHY.
-   * Do not add Bengali fonts here.
+   * English typography remains primary.
+   * Bengali fonts are supplied by the locale layout and are
+   * included as fallbacks before generic font families.
    */
-  --font-heading: Georgia, "Times New Roman", serif;
+  --font-heading: Georgia, "Times New Roman";
   --font-sans:
     Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", sans-serif;
+    "Segoe UI";
 
   /*
-   * Bengali typography is available separately.
-   * These variables are provided by [locale]/layout.tsx.
+   * These variables are overridden by next/font on the locale wrapper.
+   * The values below remain useful as fallback definitions.
    */
   --font-bangla: "Noto Sans Bengali", sans-serif;
-  --font-bangla-heading: "Noto Serif Bengali", "Noto Sans Bengali", sans-serif;
+  --font-bangla-heading: "Noto Serif Bengali", "Noto Sans Bengali", serif;
 
   --kc-green: #176b45;
   --kc-green-dark: #124c36;
@@ -35,50 +36,51 @@
  * BENGALI TYPOGRAPHY
  * ------------------------------------------------------------
  *
- * IMPORTANT:
+ * The locale layout applies either .font-sans or .font-bangla.
  *
- * These rules only affect elements explicitly given
- * .font-bangla.
+ * English routes:
+ *   English characters use the existing English font.
+ *   Bengali characters fall back to Noto Sans Bengali.
  *
- * Therefore:
+ * Bengali routes:
+ *   Body/UI text uses Noto Sans Bengali.
+ *   Editorial headings use Noto Serif Bengali.
  *
- * English page:
- *   English text -> original English font
- *   Bengali text -> Bengali font
- *
- * Bangla page:
- *   Existing root .font-bangla -> Bengali font
- *
- * Nothing here changes the English font globally.
+ * Font fallbacks are ordered before generic serif/sans-serif
+ * families so the browser can select the intended Bengali font.
  */
 
-/* Bengali body / UI text */
+/* Bengali body and UI text */
 .font-bangla {
   font-family: var(--font-bangla), "Noto Sans Bengali", sans-serif;
 }
 
-/* Bengali headings when the element itself has both classes */
-.font-bangla.font-heading {
+/* Bengali headings when both classes are on the same element */
+.font-bangla.font-heading,
+.font-bangla.font-bangla-heading {
   font-family:
     var(--font-bangla-heading), "Noto Serif Bengali", "Noto Sans Bengali", serif;
 }
 
 /* Bengali headings nested inside a Bengali page */
 .font-bangla .font-heading,
+.font-bangla .font-bangla-heading,
 .font-bangla .kc-classic-title,
 .font-bangla .kc-section-title {
   font-family:
     var(--font-bangla-heading), "Noto Serif Bengali", "Noto Sans Bengali", serif;
 }
 
-/* Explicit Bengali classic title on an English page */
-.font-bangla.kc-classic-title {
+/* Explicit Bengali classic title on any route */
+.font-bangla.kc-classic-title,
+.kc-classic-title.font-bangla {
   font-family:
     var(--font-bangla-heading), "Noto Serif Bengali", "Noto Sans Bengali", serif;
 }
 
-/* Explicit Bengali section title on an English page */
-.font-bangla.kc-section-title {
+/* Explicit Bengali section title on any route */
+.font-bangla.kc-section-title,
+.kc-section-title.font-bangla {
   font-family:
     var(--font-bangla-heading), "Noto Serif Bengali", "Noto Sans Bengali", serif;
 }
@@ -145,7 +147,9 @@ summary {
 
 .kc-classic-title {
   max-width: 54rem;
-  font-family: var(--font-heading), serif;
+  font-family:
+    var(--font-heading), var(--font-bangla-heading), "Noto Serif Bengali",
+    Georgia, serif;
   font-size: clamp(2.15rem, 4.4vw, 4.25rem);
   font-weight: 400;
   line-height: 0.99;
@@ -311,7 +315,9 @@ summary {
 
 .kc-section-title {
   color: var(--kc-green-dark);
-  font-family: var(--font-heading), serif;
+  font-family:
+    var(--font-heading), var(--font-bangla-heading), "Noto Serif Bengali",
+    Georgia, serif;
   font-size: clamp(2rem, 4vw, 3.8rem);
   font-weight: 400;
   line-height: 1;

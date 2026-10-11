@@ -1,47 +1,71 @@
 import type { Config } from "tailwindcss";
 
-// Tokens transcribed directly from
-// "K. C. Model School & College — Website Colour Palette & Digital Brand Guide".
-// Do not introduce additional saturated colours outside this system —
-// see the brand guide's hierarchy: core green > neutral > support > accent.
+// K. C. Model School & College brand configuration.
+// English typography remains the primary font; Bengali fonts are
+// included before generic fallbacks so Bengali glyphs render consistently.
 const config: Config = {
   content: ["./src/**/*.{ts,tsx}"],
+
   theme: {
     extend: {
       colors: {
         primary: {
-          DEFAULT: "#176B45", // Primary Green — nav, buttons, links, headings
-          dark: "#124C36" // Dark Green — header/footer, hover states
+          DEFAULT: "#176B45",
+          dark: "#124C36",
         },
         soft: {
-          green: "#6F8F7D" // Soft Green — secondary accents, subtle backgrounds
+          green: "#6F8F7D",
         },
-        brass: "#B59A4A", // Muted Brass — dividers, small highlights, active indicators
-        brick: "#B94A4A", // Brick Red — important accents, notices (use sparingly)
-        burgundy: "#7F3035", // deep red accent — rare emphasis only
-        background: "#F7F5EF", // Warm Off-White — primary page background
-        surface: "#EFEEE7", // Soft Cream — cards, panels, form areas
+        brass: "#B59A4A",
+        brick: "#B94A4A",
+        burgundy: "#7F3035",
+        background: "#F7F5EF",
+        surface: "#EFEEE7",
         ink: {
-          DEFAULT: "#242824", // Charcoal — primary text
-          muted: "#69716B" // Slate Grey — secondary text
+          DEFAULT: "#242824",
+          muted: "#69716B",
         },
-        border: "#D9D8CF" // Border Grey — structural neutral
+        border: "#D9D8CF",
       },
+
       fontFamily: {
-        // Editorial serif for headings, restrained sans for body/UI.
-        // Add actual font files/next/font wiring in a follow-up phase —
-        // this only reserves the token names so components don't
-        // hardcode font stacks ad hoc.
-        heading: ["var(--font-heading)", "Georgia", "serif"],
-        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
-        bangla: ["var(--font-bangla)", "'Noto Sans Bengali'", "system-ui", "sans-serif"]
+        // Editorial English serif with Bengali serif fallback.
+        heading: [
+          "var(--font-heading)",
+          "var(--font-bangla-heading)",
+          "'Noto Serif Bengali'",
+          "Georgia",
+          "serif",
+        ],
+
+        // English body/UI font with Bengali sans-serif fallback.
+        sans: [
+          "var(--font-sans)",
+          "var(--font-bangla)",
+          "'Noto Sans Bengali'",
+          "system-ui",
+          "sans-serif",
+        ],
+
+        // Explicit Bengali body font.
+        bangla: ["var(--font-bangla)", "'Noto Sans Bengali'", "sans-serif"],
+
+        // Explicit Bengali heading font.
+        "bangla-heading": [
+          "var(--font-bangla-heading)",
+          "'Noto Serif Bengali'",
+          "'Noto Sans Bengali'",
+          "serif",
+        ],
       },
+
       maxWidth: {
-        content: "80rem"
-      }
-    }
+        content: "80rem",
+      },
+    },
   },
-  plugins: []
+
+  plugins: [],
 };
 
 export default config;

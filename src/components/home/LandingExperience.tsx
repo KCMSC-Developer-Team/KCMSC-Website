@@ -35,7 +35,7 @@ const copy = {
     academicsLink: "Explore academics",
     lifeLink: "See student life",
     campusLink: "View facilities",
-    missionKicker: "MISSION & VISION",
+    missionKicker: "MISSION",
     mission:
       "To help students discover and develop their physical, mental and spiritual potential while growing into responsible global citizens.",
     vision:

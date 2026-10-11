@@ -1,6 +1,6 @@
 {
   "site": {
-    "name": "K C Model School and College",
+    "name": "K C Model School & College",
     "shortName": "KCMSC",
     "tagline": "Knowledge · Discipline · Morality"
   },
@@ -20,13 +20,13 @@
   "hero": {
     "eyebrow": "Established 2014 · Dakshinkhan, Uttara, Dhaka",
     "heading": "A ten-storied campus, one mission: capable citizens for the 21st century.",
-    "subheading": "From Play Group to Grade Twelve, in Bangla and English, K C Model School and College has grown from 2,200 students in 2015 to 2,336 today.",
+    "subheading": "From Play Group to Grade Twelve, in Bangla and English, K C Model School & College has grown from 2,200 students in 2015 to 2,336 today.",
     "ctaPrimary": "Explore Admissions",
     "ctaSecondary": "About the Institution"
   },
   "about": {
     "heading": "Background & Heritage",
-    "body": "K C Model School and College (KCMSC) was founded in 2014 by Al-Hajj Md. Khashru Chowdhury (CIP), founder of Nipa Group, near Uttara at 275 Prembagan, Dakshinkhan, Dhaka-1230. Housed in a ten-storied building, KCMSC began its journey on 1 January 2015 with 2,200 students and now offers both Bangla and English Versions of the National Curriculum from Play Group through Grade Twelve.",
+    "body": "K C Model School & College (KCMSC) was founded in 2014 by Al-Hajj Md. Khashru Chowdhury (CIP), founder of Nipa Group, near Uttara at 275 Prembagan, Dakshinkhan, Dhaka-1230. Housed in a ten-storied building, KCMSC began its journey on 1 January 2015 with 2,200 students and now offers both Bangla and English Versions of the National Curriculum from Play Group through Grade Twelve.",
     "mission": "KCMSC empowers students from Play Group to Grade Twelve to discover and maximize their physical, mental, and spiritual potential through rigorous national curricula, innovative teaching, and guidance from expert faculty.",
     "vision": "To be the premier institution in Bangladesh, realizing our founder's dream of nurturing capable, responsible global citizens equipped to excel in the 21st century.",
     "messagesHeading": "Messages from Leadership",
@@ -392,7 +392,7 @@
   },
   "contactPage": {
     "heading": "Contact",
-    "intro": "Reach K C Model School and College directly using the details below.",
+    "intro": "Reach K C Model School & College directly using the details below.",
     "mapLabel": "View on Google Maps",
     "mapUrl": "https://maps.app.goo.gl/M44EP9Q8Xt2tCtjV8"
   },
