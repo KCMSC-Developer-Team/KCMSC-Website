@@ -6,8 +6,6 @@ import { prisma } from "@/lib/db";
 import { getCycleById } from "@/lib/admissions";
 import type { Locale } from "@/i18n/config";
 import { createApplicationDownloadToken } from "@/lib/admission-download";
-import { mkdir, writeFile } from "node:fs/promises";
-import path from "node:path";
 
 const phonePattern = /^\+880-1\d-\d{4}-\d{4}$/;
 
@@ -359,15 +357,6 @@ export async function createApplicationAction(
     };
   }
 
-  const extension =
-    certificate.type === "application/pdf"
-      ? "pdf"
-      : certificate.type === "image/png"
-        ? "png"
-        : "jpg";
-
-  const uploadDirectory = path.join(process.cwd(), "storage", "admissions");
-
   let app: { id: string } | undefined;
 
   try {
@@ -382,7 +371,9 @@ export async function createApplicationAction(
         applyingClass: data.applyingClass,
         previousInstitution: data.previousInstitution ?? "",
         birthRegistrationNo: data.birthRegistrationNo,
-        certificateData: null,
+        // Persist the certificate in PostgreSQL. Vercel's deployment filesystem
+        // is not durable writable storage, so don't write uploads to process.cwd().
+        certificateData: buffer,
         certificateName: certificate.name,
         certificateMimeType: certificate.type,
         fatherName: data.fatherName,
@@ -406,32 +397,8 @@ export async function createApplicationAction(
       },
     });
 
-    await mkdir(uploadDirectory, { recursive: true });
-
-    await writeFile(
-      path.join(uploadDirectory, `${app.id}.${extension}`),
-      buffer,
-    );
   } catch (error) {
     console.error("Admission application submission failed", error);
-
-    if (app?.id) {
-      await prisma.admissionApplication
-        .delete({
-          where: { id: app.id },
-        })
-        .catch((deleteError) => {
-          console.error(
-            "Failed to roll back incomplete admission application",
-            deleteError,
-          );
-        });
-
-      return {
-        ok: false,
-        message: errorMessage(locale, "storage"),
-      };
-    }
 
     return {
       ok: false,
