@@ -163,8 +163,6 @@ const copy = {
     allAchievements: "All achievement records",
 
     studentLife: "Student life",
-
-    pageIntro: "Academics & achievement",
   },
 
   bn: {
@@ -261,8 +259,6 @@ const copy = {
     allAchievements: "সব অর্জনের তথ্য",
 
     studentLife: "শিক্ষাজীবন",
-
-    pageIntro: "শিক্ষাব্যবস্থা ও অর্জন",
   },
 } as const;
 
