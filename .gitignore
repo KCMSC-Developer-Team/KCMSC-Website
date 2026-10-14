@@ -9,5 +9,4 @@ out/
 # Uploaded admission certificates
 storage/admissions/*
 !storage/admissions/.gitkeep
-KCMSC.zip
-KCMSC - Website.zip
+
