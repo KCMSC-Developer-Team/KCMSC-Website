@@ -1,46 +1,24 @@
-// K C Model School and College — database schema
-//
-// Phase 1 scope: foundation models only (auth/RBAC, navigation, generic
-// content section, media, audit log). Content-type models named in the
-// brief (Notice, Achievement, Club, Facility, AdmissionApplication, etc.)
-// are stubbed with enough shape to provide a stable contract.
-
-// ---------------------------------------------------------------------
-// Database
-// ---------------------------------------------------------------------
-
-datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
-}
-
 generator client {
   provider = "prisma-client-js"
 }
 
-// ---------------------------------------------------------------------
-// Authentication / RBAC
-// ---------------------------------------------------------------------
-
-enum Role {
-  ADMIN
-  ADMISSION_OFFICER
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-  id           String   @id @default(cuid())
-  email        String   @unique
-  name         String
-  passwordHash String
-  role         Role
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
+  id                   String                 @id @default(cuid())
+  email                String                 @unique
+  name                 String
+  passwordHash         String
+  role                 Role
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @updatedAt
+  invitationsIssued    AccountInvitation[]    @relation("InvitationIssuedBy")
   assignedApplications AdmissionApplication[] @relation("AssignedOfficer")
   reviews              AdmissionReview[]
-
-  auditLogs         AuditLog[]
-  invitationsIssued AccountInvitation[] @relation("InvitationIssuedBy")
+  auditLogs            AuditLog[]
 }
 
 model AccountInvitation {
@@ -51,13 +29,9 @@ model AccountInvitation {
   expiresAt   DateTime
   acceptedAt  DateTime?
   createdById String?
-  createdBy   User?     @relation("InvitationIssuedBy", fields: [createdById], references: [id], onDelete: SetNull)
   createdAt   DateTime  @default(now())
+  createdBy   User?     @relation("InvitationIssuedBy", fields: [createdById], references: [id])
 }
-
-// ---------------------------------------------------------------------
-// Public Content
-// ---------------------------------------------------------------------
 
 model Notice {
   id          String    @id @default(cuid())
@@ -113,11 +87,7 @@ model AlumniMessage {
   nameBn         String
   messageEn      String
   messageBn      String
-  previewEn      String?
-  previewBn      String?
   graduationYear Int?
-  sscBatch       String?
-  hscBatch       String?
   roleEn         String?
   roleBn         String?
   organizationEn String?
@@ -128,50 +98,131 @@ model AlumniMessage {
   sortOrder      Int      @default(0)
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
+  previewEn      String?
+  previewBn      String?
+  sscBatch       String?
+  hscBatch       String?
 }
 
-// ---------------------------------------------------------------------
-// Careers
-// ---------------------------------------------------------------------
-
 model Career {
-  id            String    @id @default(cuid())
+  id            String              @id @default(cuid())
   titleEn       String
   titleBn       String
   descriptionEn String
   descriptionBn String
   deadline      DateTime?
-  isPublished   Boolean   @default(false)
-
-  applications CareerApplication[] @relation("CareerApplications")
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  isPublished   Boolean             @default(false)
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime            @updatedAt
+  applications  CareerApplication[] @relation("CareerApplications")
 }
 
 model CareerApplication {
-  id String @id @default(cuid())
-
-  careerId String
-  career   Career @relation("CareerApplications", fields: [careerId], references: [id], onDelete: Cascade)
-
-  fullName String
-  email    String
-  phone    String
-
+  id            String   @id @default(cuid())
+  careerId      String
+  fullName      String
+  email         String
+  phone         String
   qualification String?
   experience    String?
   coverLetter   String?
-
-  createdAt DateTime @default(now())
+  createdAt     DateTime @default(now())
+  career        Career   @relation("CareerApplications", fields: [careerId], references: [id], onDelete: Cascade)
 
   @@index([careerId])
   @@index([createdAt])
 }
 
-// ---------------------------------------------------------------------
-// Admissions
-// ---------------------------------------------------------------------
+model AdmissionCycle {
+  id           String                 @id @default(cuid())
+  nameEn       String
+  nameBn       String
+  opensAt      DateTime
+  closesAt     DateTime
+  updatedAt    DateTime               @updatedAt
+  createdAt    DateTime               @default(now())
+  applications AdmissionApplication[]
+}
+
+model AdmissionApplication {
+  id                  String              @id @default(cuid())
+  cycleId             String
+  status              ApplicationStatus   @default(UNASSIGNED)
+  fullName            String
+  dateOfBirth         DateTime
+  gender              String
+  applyingClass       String
+  previousInstitution String
+  presentAddress      String
+  permanentAddress    String
+  assignedOfficerId   String?
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+  nationality         String
+  medium              String
+  birthRegistrationNo String
+  certificateName     String?
+  certificateMimeType String?
+  certificateData     Bytes?
+  fatherName          String
+  fatherNidNumber     String
+  fatherContactNumber String
+  fatherOccupation    String
+  fatherNationality   String
+  fatherIsAlive       Boolean
+  motherName          String
+  motherNidNumber     String
+  motherContactNumber String
+  motherOccupation    String
+  motherNationality   String
+  motherIsAlive       Boolean
+  assignedOfficer     User?               @relation("AssignedOfficer", fields: [assignedOfficerId], references: [id])
+  cycle               AdmissionCycle      @relation(fields: [cycleId], references: [id])
+  guardians           AdmissionGuardian[]
+  reviews             AdmissionReview[]
+}
+
+model AdmissionGuardian {
+  id            String               @id @default(cuid())
+  applicationId String
+  name          String
+  relationship  String
+  nidNumber     String
+  contactNumber String
+  occupation    String
+  nationality   String
+  isAlive       Boolean
+  createdAt     DateTime             @default(now())
+  application   AdmissionApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+}
+
+model AdmissionReview {
+  id               String               @id @default(cuid())
+  applicationId    String
+  officerId        String?
+  internalNote     String
+  applicantMessage String?
+  statusAtReview   ApplicationStatus
+  createdAt        DateTime             @default(now())
+  application      AdmissionApplication @relation(fields: [applicationId], references: [id])
+  officer          User?                @relation(fields: [officerId], references: [id])
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String?
+  actorLabel String
+  action     String
+  targetType String
+  targetId   String
+  createdAt  DateTime @default(now())
+  user       User?    @relation(fields: [userId], references: [id])
+}
+
+enum Role {
+  ADMIN
+  ADMISSION_OFFICER
+}
 
 enum ApplicationStatus {
   UNASSIGNED
@@ -183,121 +234,4 @@ enum ApplicationStatus {
   EXAM_ELIGIBLE
   EXAM_COMPLETED
   FINAL_DECISION
-}
-
-model AdmissionCycle {
-  id       String   @id @default(cuid())
-  nameEn   String
-  nameBn   String
-  opensAt  DateTime
-  closesAt DateTime
-
-  applications AdmissionApplication[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model AdmissionApplication {
-  id String @id @default(cuid())
-
-  cycleId String
-  cycle   AdmissionCycle @relation(fields: [cycleId], references: [id])
-
-  status ApplicationStatus @default(UNASSIGNED)
-
-  // Student information
-  fullName            String
-  dateOfBirth         DateTime
-  gender              String
-  nationality         String
-  medium              String
-  applyingClass       String
-  previousInstitution String
-  birthRegistrationNo String
-
-  certificateData     Bytes?
-  certificateName     String?
-  certificateMimeType String?
-
-  // Father
-  fatherName          String
-  fatherNidNumber     String
-  fatherContactNumber String
-  fatherOccupation    String
-  fatherNationality   String
-  fatherIsAlive       Boolean
-
-  // Mother
-  motherName          String
-  motherNidNumber     String
-  motherContactNumber String
-  motherOccupation    String
-  motherNationality   String
-  motherIsAlive       Boolean
-
-  // Addresses
-  presentAddress   String
-  permanentAddress String
-
-  // Assigned admission officer
-  assignedOfficerId String?
-  assignedOfficer   User?   @relation("AssignedOfficer", fields: [assignedOfficerId], references: [id], onDelete: SetNull)
-
-  guardians AdmissionGuardian[]
-  reviews   AdmissionReview[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model AdmissionGuardian {
-  id String @id @default(cuid())
-
-  applicationId String
-  application   AdmissionApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
-
-  name          String
-  relationship  String
-  nidNumber     String
-  contactNumber String
-  occupation    String
-  nationality   String
-  isAlive       Boolean
-
-  createdAt DateTime @default(now())
-}
-
-model AdmissionReview {
-  id String @id @default(cuid())
-
-  applicationId String
-  application   AdmissionApplication @relation(fields: [applicationId], references: [id])
-
-  officerId String?
-  officer   User?   @relation(fields: [officerId], references: [id], onDelete: SetNull)
-
-  internalNote     String
-  applicantMessage String?
-  statusAtReview   ApplicationStatus
-
-  createdAt DateTime @default(now())
-}
-
-// ---------------------------------------------------------------------
-// Audit
-// ---------------------------------------------------------------------
-
-model AuditLog {
-  id String @id @default(cuid())
-
-  userId String?
-  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
-
-  actorLabel String
-  action     String
-  targetType String
-  targetId   String
-
-  createdAt DateTime @default(now())
 }
