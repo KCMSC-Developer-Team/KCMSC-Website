@@ -426,7 +426,15 @@ export function Navbar({ locale }: { locale: Locale }) {
                 ))}
               </div>
             </div>
-            <div className="mt-8 rounded-xl border border-[#d9d8cf] bg-[#fffdf8] p-5">
+            <Link
+              href={`/${locale}/admissions`}
+              onClick={closeMobile}
+              className="mt-7 flex min-h-12 items-center justify-between rounded-full bg-[#176b45] px-5 text-sm font-semibold text-white transition hover:bg-[#124c36]"
+            >
+              <span>{locale === "bn" ? "ভর্তি আবেদন ও তথ্য" : dict.nav.admissions}</span>
+              <span aria-hidden="true">↗</span>
+            </Link>
+            <div className="mt-5 rounded-xl border border-[#d9d8cf] bg-[#fffdf8] p-5">
               <p className="text-sm leading-6 text-[#69716b]">
                 {text(
                   "Find admission information, school notices and contact details in one place.",
