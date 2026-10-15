@@ -41,6 +41,8 @@ export function Navbar({ locale }: { locale: Locale }) {
             "আমরা কারা, আমাদের লক্ষ্য কী।",
           ),
         },
+        { href: "why-kcmsc", label: text("Why Choose KCMSC", "কেন KCMSC"), description: text("What shapes the KCMSC learning journey.", "KCMSC-এর শিক্ষাযাত্রার বৈশিষ্ট্য।") },
+        { href: "teachers", label: text("Teachers & Staff", "শিক্ষক ও কর্মচারী"), description: text("Meet the people who support learning.", "শিক্ষা কার্যক্রমে যুক্ত মানুষদের জানুন।") },
         {
           href: "leadership-messages",
           label: text("Leadership Messages", "নেতৃত্বের বার্তা"),
@@ -85,6 +87,9 @@ export function Navbar({ locale }: { locale: Locale }) {
             "একাডেমিক ফলাফল ও শিক্ষার্থীদের সাফল্য।",
           ),
         },
+        { href: "scholarships", label: text("Scholarships", "বৃত্তি"), description: text("Scholarship information and verified announcements.", "বৃত্তির তথ্য ও যাচাইকৃত ঘোষণা।") },
+        { href: "calendar", label: text("Academic Calendar", "একাডেমিক ক্যালেন্ডার"), description: text("Important dates and school events.", "গুরুত্বপূর্ণ তারিখ ও বিদ্যালয়ের অনুষ্ঠান।") },
+        { href: "class-routine", label: text("Class Routine", "ক্লাস রুটিন"), description: text("Find routine updates and schedule information.", "রুটিন ও সময়সূচির আপডেট দেখুন।") },
       ],
     },
     {
@@ -113,6 +118,8 @@ export function Navbar({ locale }: { locale: Locale }) {
             "নিজের আগ্রহ খুঁজে নাও, অংশ নাও।",
           ),
         },
+        { href: "downloads", label: text("Downloads & Resources", "ডাউনলোড ও রিসোর্স"), description: text("Find forms and useful school documents.", "ফর্ম ও প্রয়োজনীয় নথি খুঁজুন।") },
+        { href: "virtual-campus", label: text("Virtual Campus", "ভার্চুয়াল ক্যাম্পাস"), description: text("Explore campus spaces and facilities.", "ক্যাম্পাস ও সুবিধাগুলো ঘুরে দেখুন।") },
         {
           href: "facilities",
           label: text("Campus & Facilities", "ক্যাম্পাস ও সুবিধা"),

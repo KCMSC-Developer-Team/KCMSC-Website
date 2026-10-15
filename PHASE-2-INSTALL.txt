@@ -1,0 +1,11 @@
+KCMSC PHASE 2: CONTENT PAGES
+
+Included: seven bilingual public pages and updated existing mega-menu link lists. Existing navbar layout/classes and current routes are preserved. No Prisma schema or database changes.
+
+New routes (English and Bangla):
+/en/teachers, /en/scholarships, /en/calendar, /en/class-routine, /en/downloads, /en/why-kcmsc, /en/virtual-campus
+Equivalent /bn/... routes are supported.
+
+Install by merging the src folder into the project. Back up or commit first. Do not overwrite your .env or database. Then run npm run dev and check both locales.
+
+Important: these are content landing pages with verified-neutral copy and links. Dynamic uploads/admin management, staff database, scholarship results, routine file uploads, calendar events, download library, and a 360-degree virtual tour are not implemented in this phase. The pages explicitly avoid inventing those records.
