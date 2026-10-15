@@ -177,6 +177,14 @@ export function Navbar({ locale }: { locale: Locale }) {
             "ঠিকানা ও যোগাযোগের মাধ্যম।",
           ),
         },
+        {
+          href: "help",
+          label: text("Help Center", "সহায়তা কেন্দ্র"),
+          description: text(
+            "Answers to common questions about KCMSC.",
+            "KCMSC সম্পর্কে সাধারণ প্রশ্নের উত্তর।",
+          ),
+        },
       ],
     },
   ];

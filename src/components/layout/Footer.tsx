@@ -77,6 +77,7 @@ export function Footer({ locale }: { locale: Locale }) {
       links: [
         [locale === "bn" ? "ফলাফল ও অর্জন" : "Results & achievements", "academics"],
         [locale === "bn" ? "যোগাযোগ" : "Contact", "contact"],
+        [locale === "bn" ? "সহায়তা কেন্দ্র" : "Help Center", "help"],
       ] as const,
     },
   ];

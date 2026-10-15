@@ -240,3 +240,23 @@ enum ApplicationStatus {
   EXAM_COMPLETED
   FINAL_DECISION
 }
+
+
+model HelpArticle {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  questionEn  String
+  questionBn  String
+  answerEn    String   @db.Text
+  answerBn    String   @db.Text
+  categoryEn  String
+  categoryBn  String
+  isPublished Boolean  @default(false)
+  isFeatured  Boolean  @default(false)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([isPublished, sortOrder])
+  @@index([categoryEn])
+}
