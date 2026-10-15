@@ -355,7 +355,7 @@ export default function AcademicCalendar({ locale }: { locale: Locale }) {
                   key={dayKey(day)}
                   onClick={() => setSelected(dayKey(day))}
                   aria-pressed={selected === dayKey(day)}
-                  aria-label={`${dayKey(day)}${byDate[dayKey(day)]?.length ? `, ${byDate[dayKey(day)].length} events` : ""}`}
+                  aria-label={`${dayKey(day)}${(byDate[dayKey(day)]?.length ?? 0) > 0 ? `, ${byDate[dayKey(day)]?.length ?? 0} events` : ""}`}
                   className={`min-h-[66px] border-b border-r border-[#EDF1F5] p-1 text-left transition sm:min-h-[88px] sm:p-2 ${selected === dayKey(day) ? "bg-[#EAF4EE] ring-2 ring-inset ring-[#176b45]" : "hover:bg-[#F8FAFC]"} ${dayKey(day) === today ? "font-semibold" : ""}`}
                 >
                   <span
@@ -470,7 +470,19 @@ export default function AcademicCalendar({ locale }: { locale: Locale }) {
                     <button
                       type="button"
                       onClick={() => {
-                        const [year, month] = event.date.split("-").map(Number);
+                        const parts = event.date.split("-");
+                        const year = Number(parts[0]);
+                        const month = Number(parts[1]);
+
+                        if (
+                          !Number.isInteger(year) ||
+                          !Number.isInteger(month) ||
+                          month < 1 ||
+                          month > 12
+                        ) {
+                          return;
+                        }
+
                         setView({ year, month: month - 1 });
                         setSelected(event.date);
                       }}
