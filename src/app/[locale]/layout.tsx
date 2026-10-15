@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { Noto_Sans_Bengali, Noto_Serif_Bengali } from "next/font/google";
 import { prisma } from "@/lib/db";
 import { SiteNotification } from "@/components/layout/SiteNotification";
+import { KnowledgeQuiz } from "@/components/engagement/KnowledgeQuiz";
 
 const banglaSans = Noto_Sans_Bengali({
   subsets: ["bengali"],
@@ -78,6 +79,7 @@ export default async function LocaleLayout({
       <Navbar locale={locale} />
       <main>{children}</main>
       <Footer locale={locale} />
+      <KnowledgeQuiz locale={locale} />
     </div>
   );
 }
