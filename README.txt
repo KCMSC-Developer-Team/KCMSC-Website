@@ -1,21 +1,23 @@
-KCMSC Careers Page Redesign
-===========================
+KCMSC MEGA MENU NAVIGATION PATCH
 
-Included:
-- src/app/[locale]/careers/page.tsx
+Files:
+- src/components/layout/Navbar.tsx
+- src/app/globals.css
 
-Installation:
-1. Back up your existing src/app/[locale]/careers/page.tsx.
-2. Copy this replacement file into the same path in your project.
-3. Keep src/app/[locale]/careers/actions.ts unchanged.
-4. Run npm run dev and test /en/careers and /bn/careers.
+How to apply:
+1. Make a backup of your current two files.
+2. Replace the matching files in your KCMSC Next.js project with these files.
+3. From the project folder, run:
+   npm install
+   npm run dev
+4. Open the local site and hover over About, Academics, Student Life, Community, or News & Notices on desktop.
 
-Logic intentionally preserved:
-- Locale validation and dictionary usage
-- Published careers fetched from Prisma, newest first
-- Existing application server action
-- Existing hidden careerId and locale fields
-- Existing field names consumed by the server action
-- Success, closed, and invalid query-state messages
-- Deadline calculation and closed-application behavior
-- Empty-state dictionary message
+Design changes:
+- Full-width deep-green mega menu opens on hover and keyboard focus.
+- Three-column layout with section introduction, related pages, and campus image feature.
+- Links reorganized under meaningful section names.
+- Mobile navigation remains a drawer with nested page links.
+- Escape closes any open menu; reduced-motion preferences are respected.
+
+IMPORTANT SOURCE ARCHIVE NOTE:
+The uploaded "KCMSC - Website(1).zip" could not be fully recovered. Its ZIP headers are damaged; 84 files fail to read, including public image assets and Prisma files. This patch contains the complete updated source for the two files it changes, but it is not a full runnable project archive. Re-export/re-zip the original project from your computer to create a complete replacement project ZIP.
