@@ -18,6 +18,9 @@ model User {
   invitationsIssued    AccountInvitation[]    @relation("InvitationIssuedBy")
   assignedApplications AdmissionApplication[] @relation("AssignedOfficer")
   reviews              AdmissionReview[]
+  bloggerProfile       BloggerProfile?
+  reviewedBlogApplications BlogApplication[] @relation("BlogApplicationReviewer")
+  reviewedNameChanges  BloggerNameChange[] @relation("NameChangeReviewer")
   auditLogs            AuditLog[]
 }
 
@@ -227,6 +230,7 @@ model AuditLog {
 enum Role {
   ADMIN
   ADMISSION_OFFICER
+  BLOGGER
 }
 
 enum ApplicationStatus {
@@ -259,4 +263,107 @@ model HelpArticle {
 
   @@index([isPublished, sortOrder])
   @@index([categoryEn])
+}
+
+
+enum BloggerType {
+  STUDENT
+  TEACHER
+}
+
+enum BlogApplicationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum BlogArticleStatus {
+  DRAFT
+  PUBLISHED
+  HIDDEN
+}
+
+enum BloggerNameChangeStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model BlogApplication {
+  id                    String @id @default(cuid())
+  type                  BloggerType
+  status                BlogApplicationStatus @default(PENDING)
+  fullName              String
+  email                 String
+  schoolId              String
+  phone                 String?
+  className             String?
+  section               String?
+  rollNumber            String?
+  guardianName          String?
+  guardianRelationship  String?
+  guardianPhone         String?
+  formTeacher           String?
+  subject               String?
+  reviewedById          String?
+  reviewer              User? @relation("BlogApplicationReviewer", fields: [reviewedById], references: [id])
+  reviewNote            String? @db.Text
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  @@index([status, createdAt])
+  @@index([schoolId, type])
+}
+
+model BloggerProfile {
+  id             String @id @default(cuid())
+  userId         String @unique
+  type           BloggerType
+  schoolId       String @unique
+  phone          String?
+  className      String?
+  section        String?
+  rollNumber     String?
+  guardianName   String?
+  guardianRelationship String?
+  guardianPhone  String?
+  formTeacher    String?
+  subject        String?
+  displayName    String
+  user            User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  articles        BlogArticle[]
+  nameChanges     BloggerNameChange[]
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model BlogArticle {
+  id             String @id @default(cuid())
+  authorId       String
+  title          String
+  slug           String @unique
+  excerpt        String? @db.Text
+  content        String @db.Text
+  featuredImage  String? @db.Text
+  status         BlogArticleStatus @default(DRAFT)
+  publishedAt    DateTime?
+  viewCount      Int @default(0)
+  author         BloggerProfile @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  @@index([status, publishedAt])
+  @@index([authorId, status])
+}
+
+model BloggerNameChange {
+  id           String @id @default(cuid())
+  profileId    String
+  requestedName String
+  status       BloggerNameChangeStatus @default(PENDING)
+  reviewedById String?
+  reviewNote   String? @db.Text
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  profile      BloggerProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  reviewer     User? @relation("NameChangeReviewer", fields: [reviewedById], references: [id])
+  @@index([status, createdAt])
 }

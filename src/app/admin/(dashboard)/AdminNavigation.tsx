@@ -15,6 +15,7 @@ import {
   FiMessageSquare,
   FiBell,
   FiHelpCircle,
+  FiBookOpen,
 } from "react-icons/fi";
 import { SignOutButton } from "./SignOutButton";
 
@@ -69,6 +70,7 @@ const NAV_GROUPS = [
         label: "Help Center",
         icon: FiHelpCircle,
       },
+      { href: "/admin/blog/applications", label: "Blogger applications", icon: FiBookOpen },
     ],
   },
 

@@ -8,19 +8,19 @@ declare module "next-auth" {
       id: string;
       email: string;
       name: string;
-      role: "ADMIN" | "ADMISSION_OFFICER";
+      role: "ADMIN" | "ADMISSION_OFFICER" | "BLOGGER";
     } & DefaultSession["user"];
   }
 
   interface User {
     id: string;
-    role: "ADMIN" | "ADMISSION_OFFICER";
+    role: "ADMIN" | "ADMISSION_OFFICER" | "BLOGGER";
   }
 }
 
 declare module "next-auth/jwt" {
   interface JWT {
     id: string;
-    role: "ADMIN" | "ADMISSION_OFFICER";
+    role: "ADMIN" | "ADMISSION_OFFICER" | "BLOGGER";
   }
 }

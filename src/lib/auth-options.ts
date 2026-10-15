@@ -68,7 +68,11 @@ export const authOptions: AuthOptions = {
           throw new Error("TooManyAttempts");
         }
 
-        const user = await prisma.user.findUnique({ where: { email } });
+        const user = await prisma.user.findFirst({
+          where: { OR: [{ email }, { bloggerProfile: { is: { schoolId: email } } }] },
+          include: { bloggerProfile: true },
+        });
+        if (user?.role === "BLOGGER" && !user.bloggerProfile) return null;
         if (!user) {
           recordFailedAttempt(email);
           return null;

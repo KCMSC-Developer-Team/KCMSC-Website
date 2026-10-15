@@ -102,6 +102,7 @@ export function Navbar({ locale }: { locale: Locale }) {
         "শিক্ষার্থীদের অভিজ্ঞতা, আগ্রহ ও ক্যাম্পাস জীবনের নানা দিক।",
       ),
       links: [
+        { href: "blog", label: text("KCMSC Blog", "KCMSC ব্লগ"), description: text("Ideas and articles from students and teachers.", "শিক্ষার্থী ও শিক্ষকদের লেখা ও ভাবনা।") },
         {
           href: "student-life",
           label: text("Life at KCMSC", "KCMSC-এ শিক্ষাজীবন"),

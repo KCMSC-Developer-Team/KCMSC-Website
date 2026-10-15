@@ -1,0 +1,5 @@
+import Link from "next/link";
+import { isLocale } from "@/i18n/config";
+import { notFound } from "next/navigation";
+import ApplicationForm from "./ApplicationForm";
+export default function BlogApplyPage({params}:{params:{locale:string}}){if(!isLocale(params.locale))notFound();const bn=params.locale==="bn";return <div className="mx-auto max-w-4xl px-5 py-14 sm:py-20"><Link href={`/${params.locale}/blog`} className="text-sm font-semibold text-[#176b45]">← {bn?"ব্লগে ফিরে যান":"Back to the blog"}</Link><p className="mt-8 text-xs font-bold uppercase tracking-[.18em] text-[#176b45]">KCMSC · {bn?"লেখক আবেদন":"Contributor programme"}</p><h1 className="mt-3 font-serif text-4xl font-medium tracking-tight sm:text-5xl">{bn?"ব্লগার হিসেবে আবেদন করুন":"Apply to become a blogger"}</h1><p className="mt-4 max-w-2xl leading-7 text-[#667066]">{bn?"শিক্ষার্থী ও শিক্ষকরা আবেদন করতে পারবেন। সব আবেদন প্রশাসনিক পর্যালোচনার মধ্য দিয়ে যাবে।":"Students and teachers are welcome to apply. Applications are reviewed by the school administration before accounts are activated."}</p><div className="mt-8"><ApplicationForm locale={params.locale}/></div></div>}
