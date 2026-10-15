@@ -3,20 +3,540 @@ import { notFound } from "next/navigation";
 import { isLocale, type Locale } from "@/i18n/config";
 
 type Item = { title: string; body: string; href?: string; label?: string };
-type PageContent = { kicker: string; title: string; intro: string; note: string; sections: { title: string; body: string; items: Item[] }[] };
-const content: Record<string, Record<Locale, PageContent>> = {
-teachers: {
- en: { kicker:"Our people", title:"Meet the people behind the learning.", intro:"A school is shaped by the people who teach, guide and support its students. This section is designed to introduce KCMSC’s teaching team and their professional backgrounds.", note:"Staff profiles will be published as verified information is approved by the school.", sections:[{title:"Teaching at KCMSC",body:"Explore the people and academic teams supporting learning across the Junior and Senior Wings.",items:[{title:"Junior Wing",body:"Teaching and learning across the early and primary years."},{title:"Senior Wing",body:"Subject teaching and academic support across secondary and higher secondary levels."},{title:"Professional profiles",body:"Qualifications, subject areas and profile photographs will be shown when verified and approved."}]}]},
- bn: { kicker:"আমাদের মানুষ", title:"শেখার পেছনের মানুষদের সঙ্গে পরিচিত হোন।", intro:"যাঁরা পাঠদান করেন, দিকনির্দেশনা দেন এবং শিক্ষার্থীদের সহায়তা করেন, তাঁদের নিয়েই একটি শিক্ষাপ্রতিষ্ঠান গড়ে ওঠে। এই বিভাগে KCMSC-এর শিক্ষক ও তাঁদের পেশাগত পরিচিতি তুলে ধরা হবে।", note:"প্রতিষ্ঠান কর্তৃক যাচাইকৃত ও অনুমোদিত তথ্য পাওয়া গেলে শিক্ষক-প্রোফাইল প্রকাশ করা হবে।", sections:[{title:"KCMSC-তে পাঠদান",body:"জুনিয়র ও সিনিয়র উইংয়ের শিক্ষা কার্যক্রমে যুক্ত শিক্ষক দল সম্পর্কে জানুন।",items:[{title:"জুনিয়র উইং",body:"প্রাক-প্রাথমিক ও প্রাথমিক পর্যায়ের পাঠদান ও শিক্ষা কার্যক্রম।"},{title:"সিনিয়র উইং",body:"মাধ্যমিক ও উচ্চমাধ্যমিক পর্যায়ে বিষয়ভিত্তিক পাঠদান ও একাডেমিক সহায়তা।"},{title:"পেশাগত পরিচিতি",body:"যাচাই ও অনুমোদনের পর যোগ্যতা, বিষয় ও ছবি প্রকাশ করা হবে।"}]}]}
-},
- scholarships: { en:{kicker:"Scholarships & recognition",title:"Celebrating effort, progress and achievement.",intro:"KCMSC’s scholarship information can bring together scholarship examination updates, recipient announcements and recognition of student achievement.",note:"Specific dates, recipient names and results should be published only after official confirmation.",sections:[{title:"Scholarship information",body:"Use these resources to find academic results and official announcements. New scholarship lists can be added here as verified content becomes available.",items:[{title:"Class 5 & 8 scholarship",body:"Scholarship examination results and award ceremony updates.",href:"/achievements",label:"View academic achievements"},{title:"Nipa Group scholarship",body:"Annual recipient lists and related announcements, after verification.",href:"/notices",label:"View official notices"},{title:"Results & achievements",body:"Academic results and student accomplishments published by KCMSC.",href:"/academics",label:"Explore academics"}]}]}, bn:{kicker:"বৃত্তি ও স্বীকৃতি",title:"পরিশ্রম, অগ্রগতি ও সাফল্যের স্বীকৃতি।",intro:"KCMSC-এর বৃত্তি-সংক্রান্ত তথ্যের মধ্যে বৃত্তি পরীক্ষার আপডেট, নির্বাচিত শিক্ষার্থীদের তালিকা এবং শিক্ষার্থীদের সাফল্যের স্বীকৃতি একত্রে রাখা যেতে পারে।",note:"নির্দিষ্ট তারিখ, প্রাপকের নাম ও ফলাফল কেবল আনুষ্ঠানিকভাবে নিশ্চিত হওয়ার পর প্রকাশ করা উচিত।",sections:[{title:"বৃত্তি-সংক্রান্ত তথ্য",body:"যাচাইকৃত তথ্য যুক্ত হওয়ার সঙ্গে সঙ্গে এই বিভাগে বৃত্তি ও ফলাফলের তথ্য প্রকাশ করা যাবে।",items:[{title:"পঞ্চম ও অষ্টম শ্রেণির বৃত্তি",body:"বৃত্তি পরীক্ষার ফলাফল ও পুরস্কার বিতরণীর আপডেট।",href:"/achievements",label:"একাডেমিক সাফল্য দেখুন"},{title:"নিপা গ্রুপ বৃত্তি",body:"যাচাইয়ের পর বার্ষিক বৃত্তিপ্রাপ্তদের তালিকা ও ঘোষণা।",href:"/notices",label:"অফিশিয়াল নোটিশ দেখুন"},{title:"ফলাফল ও অর্জন",body:"KCMSC কর্তৃক প্রকাশিত একাডেমিক ফলাফল ও শিক্ষার্থীদের সাফল্য।",href:"/academics",label:"একাডেমিক বিভাগ দেখুন"}]}]}},
- calendar: {en:{kicker:"Plan ahead",title:"The academic year, clearly laid out.",intro:"The academic calendar will bring important dates, school events, examinations and holidays into one place for students and families.",note:"Dates can change. Please follow official notices for the latest confirmed information.",sections:[{title:"Calendar & important dates",body:"The calendar is intended to be updated by the school team as dates are confirmed.",items:[{title:"Examinations",body:"Term, selection and board examination dates will be published when confirmed."},{title:"School events",body:"Assemblies, programmes, seminars and other school events."},{title:"Holidays & closures",body:"Official holidays and any school closure notices.",href:"/notices",label:"Check official notices"}]}]},bn:{kicker:"আগাম পরিকল্পনা",title:"এক নজরে শিক্ষাবর্ষের গুরুত্বপূর্ণ তারিখ।",intro:"শিক্ষাবর্ষের ক্যালেন্ডারে গুরুত্বপূর্ণ তারিখ, বিদ্যালয়ের অনুষ্ঠান, পরীক্ষা ও ছুটির তথ্য শিক্ষার্থী ও পরিবারের জন্য এক জায়গায় রাখা হবে।",note:"তারিখ পরিবর্তিত হতে পারে। সর্বশেষ নিশ্চিত তথ্যের জন্য অফিসিয়াল নোটিশ অনুসরণ করুন।",sections:[{title:"ক্যালেন্ডার ও গুরুত্বপূর্ণ তারিখ",body:"তারিখ নিশ্চিত হওয়ার সঙ্গে সঙ্গে বিদ্যালয় কর্তৃপক্ষ এই ক্যালেন্ডার হালনাগাদ করবে।",items:[{title:"পরীক্ষা",body:"টার্ম, নির্বাচনী ও বোর্ড পরীক্ষার তারিখ নিশ্চিত হলে প্রকাশ করা হবে।"},{title:"বিদ্যালয়ের অনুষ্ঠান",body:"সমাবেশ, অনুষ্ঠান, সেমিনার ও অন্যান্য কার্যক্রম।"},{title:"ছুটি ও বন্ধ",body:"সরকারি ছুটি এবং বিদ্যালয় বন্ধের বিজ্ঞপ্তি।",href:"/notices",label:"অফিশিয়াল নোটিশ দেখুন"}]}}]},
- routine: {en:{kicker:"Everyday learning",title:"Class routines and daily schedules.",intro:"Find class routine updates in one place. Because schedules can change, always check the publication date and follow the latest notice from the school.",note:"The current routine should be uploaded by the school office. No unverified timetable is displayed here.",sections:[{title:"Routine information",body:"This page is prepared to host approved routine files for each wing, class or version.",items:[{title:"Junior Wing",body:"Routine files for relevant junior classes can be listed here when uploaded."},{title:"Senior Wing",body:"Routine files for secondary and higher secondary classes can be listed here when uploaded."},{title:"Routine changes",body:"Changes and temporary adjustments should be communicated through official notices.",href:"/notices",label:"Read notices"}]}]},bn:{kicker:"দৈনন্দিন শিক্ষা",title:"শ্রেণির রুটিন ও দৈনিক সময়সূচি।",intro:"শ্রেণির রুটিন-সংক্রান্ত আপডেট এক জায়গায় দেখুন। সময়সূচি পরিবর্তিত হতে পারে, তাই প্রকাশের তারিখ দেখে সর্বশেষ নোটিশ অনুসরণ করুন।",note:"বিদ্যালয় অফিস কর্তৃক বর্তমান রুটিন আপলোড করা হলে এখানে দেখানো হবে। যাচাই না করা কোনো সময়সূচি এখানে দেওয়া হয়নি।",sections:[{title:"রুটিন-সংক্রান্ত তথ্য",body:"অনুমোদিত রুটিন ফাইল উইং, শ্রেণি বা ভার্সন অনুযায়ী প্রকাশের জন্য এই পৃষ্ঠা প্রস্তুত করা হয়েছে।",items:[{title:"জুনিয়র উইং",body:"আপলোড করা হলে সংশ্লিষ্ট শ্রেণির রুটিন এখানে পাওয়া যাবে।"},{title:"সিনিয়র উইং",body:"আপলোড করা হলে মাধ্যমিক ও উচ্চমাধ্যমিক শ্রেণির রুটিন এখানে পাওয়া যাবে।"},{title:"রুটিন পরিবর্তন",body:"পরিবর্তন বা সাময়িক সমন্বয় অফিসিয়াল নোটিশে জানানো উচিত।",href:"/notices",label:"নোটিশ দেখুন"}]}]}},
- downloads: {en:{kicker:"Resources",title:"Useful documents, in one place.",intro:"The downloads library is intended to make approved forms, notices, academic documents and other school resources easier to find.",note:"Only documents approved for public distribution should be uploaded. Each file should include a clear title and update date.",sections:[{title:"Browse resources",body:"Resources can be grouped by purpose as the school publishes approved files.",items:[{title:"Admission forms & documents",body:"Admission-related forms and instructions.",href:"/admissions",label:"Admission information"},{title:"Notices & circulars",body:"Official announcements and downloadable circulars.",href:"/notices",label:"Browse notices"},{title:"Academic resources",body:"Class routines, calendars and other academic documents when available.",href:"/academics",label:"Academic information"}]}]},bn:{kicker:"রিসোর্স",title:"প্রয়োজনীয় নথি, এক জায়গায়।",intro:"অনুমোদিত ফর্ম, নোটিশ, একাডেমিক নথি ও অন্যান্য প্রয়োজনীয় উপকরণ সহজে খুঁজে পেতে এই ডাউনলোড বিভাগ তৈরি করা হয়েছে।",note:"শুধু জনসাধারণের জন্য অনুমোদিত নথি আপলোড করা উচিত। প্রতিটি ফাইলে স্পষ্ট শিরোনাম ও হালনাগাদের তারিখ থাকতে হবে।",sections:[{title:"রিসোর্স দেখুন",body:"অনুমোদিত ফাইল প্রকাশের সঙ্গে সঙ্গে প্রয়োজন অনুযায়ী বিভাগভিত্তিক সাজানো যাবে।",items:[{title:"ভর্তি ফর্ম ও নথি",body:"ভর্তি-সংক্রান্ত ফর্ম ও নির্দেশনা।",href:"/admissions",label:"ভর্তির তথ্য"},{title:"নোটিশ ও বিজ্ঞপ্তি",body:"অফিশিয়াল ঘোষণা ও ডাউনলোডযোগ্য বিজ্ঞপ্তি।",href:"/notices",label:"নোটিশ দেখুন"},{title:"একাডেমিক রিসোর্স",body:"রুটিন, ক্যালেন্ডার ও অন্যান্য একাডেমিক নথি পাওয়া গেলে এখানে যুক্ত হবে।",href:"/academics",label:"একাডেমিক তথ্য"}]}]}},
- why: {en:{kicker:"Why KCMSC",title:"A connected journey from the first classroom to Grade XII.",intro:"KCMSC serves students from Play Group through Grade Twelve in Bangla and English Versions of the National Curriculum. Our aim is to make each stage of the learning journey clear and connected.",note:"This page presents the school’s existing educational scope and links to further information; it does not make unsupported rankings or performance claims.",sections:[{title:"What families can explore",body:"Learn about the academic structure, campus environment and student experiences through the school’s existing pages.",items:[{title:"A connected academic journey",body:"Explore the stages from early learning through higher secondary education.",href:"/academics",label:"Explore academics"},{title:"Spaces for learning",body:"Learn about campus facilities and the spaces used by students.",href:"/facilities",label:"Explore facilities"},{title:"Life beyond lessons",body:"Discover clubs, activities and student experiences.",href:"/student-life",label:"Explore student life"}]}]},bn:{kicker:"কেন KCMSC",title:"প্রথম শ্রেণিকক্ষ থেকে দ্বাদশ শ্রেণি পর্যন্ত সংযুক্ত শিক্ষাযাত্রা।",intro:"KCMSC বাংলা ও ইংরেজি ভার্সনে জাতীয় শিক্ষাক্রম অনুসরণ করে প্লে গ্রুপ থেকে দ্বাদশ শ্রেণি পর্যন্ত শিক্ষা কার্যক্রম পরিচালনা করে। প্রতিটি ধাপকে স্পষ্ট ও সংযুক্ত রাখা আমাদের লক্ষ্য।",note:"এই পৃষ্ঠায় প্রতিষ্ঠানের বিদ্যমান শিক্ষার পরিসর ও সংশ্লিষ্ট পৃষ্ঠার লিংক দেওয়া হয়েছে; যাচাইবিহীন র‍্যাঙ্কিং বা ফলাফলের দাবি করা হয়নি।",sections:[{title:"পরিবারগুলো যা জানতে পারবেন",body:"প্রতিষ্ঠানের বিদ্যমান পৃষ্ঠাগুলো থেকে একাডেমিক কাঠামো, ক্যাম্পাস ও শিক্ষার্থীদের অভিজ্ঞতা সম্পর্কে জানুন।",items:[{title:"সংযুক্ত একাডেমিক যাত্রা",body:"প্রাথমিক পর্যায় থেকে উচ্চমাধ্যমিক পর্যন্ত শিক্ষার ধাপগুলো দেখুন।",href:"/academics",label:"একাডেমিক বিভাগ"},{title:"শেখার পরিবেশ",body:"ক্যাম্পাসের সুবিধা ও শিক্ষার্থীদের ব্যবহৃত স্থান সম্পর্কে জানুন।",href:"/facilities",label:"সুবিধাগুলো দেখুন"},{title:"পাঠ্যক্রমের বাইরের জীবন",body:"ক্লাব, কার্যক্রম ও শিক্ষার্থীদের অভিজ্ঞতা আবিষ্কার করুন।",href:"/student-life",label:"শিক্ষাজীবন দেখুন"}]}]}},
- virtual: {en:{kicker:"Explore the campus",title:"A closer look at the KCMSC campus.",intro:"This page is prepared to host a virtual campus experience using school-approved photographs, video or a guided tour.",note:"An interactive 360-degree tour is not yet connected. Until approved media is added, explore the existing campus and facilities information.",sections:[{title:"Explore campus spaces",body:"Start with the facilities page while a dedicated virtual tour is being prepared.",items:[{title:"Campus & Facilities",body:"Read about facilities and learning spaces already described on the website.",href:"/facilities",label:"Explore facilities"},{title:"Student Life",body:"See the wider student experience and campus activities.",href:"/student-life",label:"Explore student life"},{title:"Contact the school",body:"Contact KCMSC for further information about the campus.",href:"/contact",label:"Contact KCMSC"}]}]},bn:{kicker:"ক্যাম্পাস ঘুরে দেখুন",title:"KCMSC ক্যাম্পাসকে আরও কাছ থেকে জানুন।",intro:"বিদ্যালয়-অনুমোদিত ছবি, ভিডিও বা নির্দেশিত ট্যুরের মাধ্যমে ভার্চুয়াল ক্যাম্পাস অভিজ্ঞতা যুক্ত করার জন্য এই পৃষ্ঠা প্রস্তুত করা হয়েছে।",note:"ইন্টার‌্যাকটিভ ৩৬০-ডিগ্রি ট্যুর এখনো যুক্ত হয়নি। অনুমোদিত মিডিয়া যুক্ত হওয়ার আগ পর্যন্ত ক্যাম্পাস ও সুবিধা-সংক্রান্ত বিদ্যমান তথ্য দেখুন।",sections:[{title:"ক্যাম্পাসের বিভিন্ন স্থান",body:"ভার্চুয়াল ট্যুর প্রস্তুত হওয়ার সময় বিদ্যমান সুবিধা পৃষ্ঠা থেকে শুরু করুন।",items:[{title:"ক্যাম্পাস ও সুবিধা",body:"ওয়েবসাইটে বর্ণিত সুবিধা ও শিক্ষার স্থান সম্পর্কে জানুন।",href:"/facilities",label:"সুবিধা দেখুন"},{title:"শিক্ষাজীবন",body:"শিক্ষার্থীদের অভিজ্ঞতা ও ক্যাম্পাস কার্যক্রম দেখুন।",href:"/student-life",label:"শিক্ষাজীবন দেখুন"},{title:"যোগাযোগ",body:"ক্যাম্পাস সম্পর্কে আরও তথ্যের জন্য KCMSC-এর সঙ্গে যোগাযোগ করুন।",href:"/contact",label:"যোগাযোগ করুন"}]}]}}
+type PageContent = {
+  kicker: string;
+  title: string;
+  intro: string;
+  note: string;
+  sections: { title: string; body: string; items: Item[] }[];
 };
-export function InstitutionalLanding({ locale, page }: { locale: Locale; page: keyof typeof content }) {
- const data = content[page]?.[locale]; if (!data) notFound(); const bn = locale === "bn";
- return <main className="bg-[#F8FAFC] text-[#23352c]"><section className="border-b border-[#D9E2EC] bg-[#fffdf8]"><div className="mx-auto max-w-[1240px] px-6 pb-14 pt-16 sm:px-10 sm:pb-20 sm:pt-24"><span className="kc-classic-kicker">{data.kicker}</span><h1 className="mt-5 max-w-4xl font-heading text-[clamp(2.7rem,6vw,5.8rem)] leading-[.94] tracking-[-.05em] text-[#12324A]">{data.title}</h1><p className="mt-7 max-w-3xl text-[15px] leading-7 text-[#64748B] sm:text-base">{data.intro}</p><p className="mt-6 max-w-3xl border-l-2 border-[#d5bd75] pl-4 text-sm leading-6 text-[#707770]">{data.note}</p></div></section><section className="kc-classic-section"><div className="mx-auto max-w-[1240px] px-6 sm:px-10">{data.sections.map((section, i) => <div key={section.title} className="mb-14 last:mb-0"><div className="grid gap-6 border-b border-[#D9E2EC] pb-6 md:grid-cols-[.7fr_1.3fr]"><div><span className="kc-classic-kicker">{bn ? `বিভাগ ০${i+1}` : `SECTION 0${i+1}`}</span><h2 className="mt-3 font-heading text-3xl leading-tight tracking-[-.035em] text-[#12324A] sm:text-4xl">{section.title}</h2></div><p className="max-w-2xl self-end text-sm leading-7 text-[#64748B]">{section.body}</p></div><div className="grid gap-0 md:grid-cols-3">{section.items.map((item, j) => <article key={item.title} className="flex min-h-[205px] flex-col border-b border-[#D9E2EC] py-7 md:border-b-0 md:border-r md:px-6 md:first:pl-0 md:last:border-r-0 md:last:pr-0"><span className="text-[11px] font-semibold tracking-[.15em] text-[#9A854A]">{String(j+1).padStart(2,"0")}</span><h3 className="mt-4 font-heading text-xl text-[#12324A]">{item.title}</h3><p className="mt-3 text-sm leading-6 text-[#64748B]">{item.body}</p>{item.href && <Link href={`/${locale}${item.href}`} className="mt-auto inline-flex pt-5 text-xs font-semibold uppercase tracking-[.08em] text-[#176b45] hover:text-[#12324A]">{item.label || (bn ? "আরও জানুন" : "Learn more")} <span className="ml-2" aria-hidden="true">↗</span></Link>}</article>)}</div></div>)}</div></section></main>;
+const content: Record<string, Record<Locale, PageContent>> = {
+  teachers: {
+    en: {
+      kicker: "Our people",
+      title: "Meet the people behind the learning.",
+      intro:
+        "A school is shaped by the people who teach, guide and support its students. This section is designed to introduce KCMSC’s teaching team and their professional backgrounds.",
+      note: "Staff profiles will be published as verified information is approved by the school.",
+      sections: [
+        {
+          title: "Teaching at KCMSC",
+          body: "Explore the people and academic teams supporting learning across the Junior and Senior Wings.",
+          items: [
+            {
+              title: "Junior Wing",
+              body: "Teaching and learning across the early and primary years.",
+            },
+            {
+              title: "Senior Wing",
+              body: "Subject teaching and academic support across secondary and higher secondary levels.",
+            },
+            {
+              title: "Professional profiles",
+              body: "Qualifications, subject areas and profile photographs will be shown when verified and approved.",
+            },
+          ],
+        },
+      ],
+    },
+    bn: {
+      kicker: "আমাদের মানুষ",
+      title: "শেখার পেছনের মানুষদের সঙ্গে পরিচিত হোন।",
+      intro:
+        "যাঁরা পাঠদান করেন, দিকনির্দেশনা দেন এবং শিক্ষার্থীদের সহায়তা করেন, তাঁদের নিয়েই একটি শিক্ষাপ্রতিষ্ঠান গড়ে ওঠে। এই বিভাগে KCMSC-এর শিক্ষক ও তাঁদের পেশাগত পরিচিতি তুলে ধরা হবে।",
+      note: "প্রতিষ্ঠান কর্তৃক যাচাইকৃত ও অনুমোদিত তথ্য পাওয়া গেলে শিক্ষক-প্রোফাইল প্রকাশ করা হবে।",
+      sections: [
+        {
+          title: "KCMSC-তে পাঠদান",
+          body: "জুনিয়র ও সিনিয়র উইংয়ের শিক্ষা কার্যক্রমে যুক্ত শিক্ষক দল সম্পর্কে জানুন।",
+          items: [
+            {
+              title: "জুনিয়র উইং",
+              body: "প্রাক-প্রাথমিক ও প্রাথমিক পর্যায়ের পাঠদান ও শিক্ষা কার্যক্রম।",
+            },
+            {
+              title: "সিনিয়র উইং",
+              body: "মাধ্যমিক ও উচ্চমাধ্যমিক পর্যায়ে বিষয়ভিত্তিক পাঠদান ও একাডেমিক সহায়তা।",
+            },
+            {
+              title: "পেশাগত পরিচিতি",
+              body: "যাচাই ও অনুমোদনের পর যোগ্যতা, বিষয় ও ছবি প্রকাশ করা হবে।",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  scholarships: {
+    en: {
+      kicker: "Scholarships & recognition",
+      title: "Celebrating effort, progress and achievement.",
+      intro:
+        "KCMSC’s scholarship information can bring together scholarship examination updates, recipient announcements and recognition of student achievement.",
+      note: "Specific dates, recipient names and results should be published only after official confirmation.",
+      sections: [
+        {
+          title: "Scholarship information",
+          body: "Use these resources to find academic results and official announcements. New scholarship lists can be added here as verified content becomes available.",
+          items: [
+            {
+              title: "Class 5 & 8 scholarship",
+              body: "Scholarship examination results and award ceremony updates.",
+              href: "/achievements",
+              label: "View academic achievements",
+            },
+            {
+              title: "Nipa Group scholarship",
+              body: "Annual recipient lists and related announcements, after verification.",
+              href: "/notices",
+              label: "View official notices",
+            },
+            {
+              title: "Results & achievements",
+              body: "Academic results and student accomplishments published by KCMSC.",
+              href: "/academics",
+              label: "Explore academics",
+            },
+          ],
+        },
+      ],
+    },
+    bn: {
+      kicker: "বৃত্তি ও স্বীকৃতি",
+      title: "পরিশ্রম, অগ্রগতি ও সাফল্যের স্বীকৃতি।",
+      intro:
+        "KCMSC-এর বৃত্তি-সংক্রান্ত তথ্যের মধ্যে বৃত্তি পরীক্ষার আপডেট, নির্বাচিত শিক্ষার্থীদের তালিকা এবং শিক্ষার্থীদের সাফল্যের স্বীকৃতি একত্রে রাখা যেতে পারে।",
+      note: "নির্দিষ্ট তারিখ, প্রাপকের নাম ও ফলাফল কেবল আনুষ্ঠানিকভাবে নিশ্চিত হওয়ার পর প্রকাশ করা উচিত।",
+      sections: [
+        {
+          title: "বৃত্তি-সংক্রান্ত তথ্য",
+          body: "যাচাইকৃত তথ্য যুক্ত হওয়ার সঙ্গে সঙ্গে এই বিভাগে বৃত্তি ও ফলাফলের তথ্য প্রকাশ করা যাবে।",
+          items: [
+            {
+              title: "পঞ্চম ও অষ্টম শ্রেণির বৃত্তি",
+              body: "বৃত্তি পরীক্ষার ফলাফল ও পুরস্কার বিতরণীর আপডেট।",
+              href: "/achievements",
+              label: "একাডেমিক সাফল্য দেখুন",
+            },
+            {
+              title: "নিপা গ্রুপ বৃত্তি",
+              body: "যাচাইয়ের পর বার্ষিক বৃত্তিপ্রাপ্তদের তালিকা ও ঘোষণা।",
+              href: "/notices",
+              label: "অফিশিয়াল নোটিশ দেখুন",
+            },
+            {
+              title: "ফলাফল ও অর্জন",
+              body: "KCMSC কর্তৃক প্রকাশিত একাডেমিক ফলাফল ও শিক্ষার্থীদের সাফল্য।",
+              href: "/academics",
+              label: "একাডেমিক বিভাগ দেখুন",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  calendar: {
+    en: {
+      kicker: "Plan ahead",
+      title: "The academic year, clearly laid out.",
+      intro:
+        "The academic calendar will bring important dates, school events, examinations and holidays into one place for students and families.",
+      note: "Dates can change. Please follow official notices for the latest confirmed information.",
+      sections: [
+        {
+          title: "Calendar & important dates",
+          body: "The calendar is intended to be updated by the school team as dates are confirmed.",
+          items: [
+            {
+              title: "Examinations",
+              body: "Term, selection and board examination dates will be published when confirmed.",
+            },
+            {
+              title: "School events",
+              body: "Assemblies, programmes, seminars and other school events.",
+            },
+            {
+              title: "Holidays & closures",
+              body: "Official holidays and any school closure notices.",
+              href: "/notices",
+              label: "Check official notices",
+            },
+          ],
+        },
+      ],
+    },
+    bn: {
+      kicker: "আগাম পরিকল্পনা",
+      title: "এক নজরে শিক্ষাবর্ষের গুরুত্বপূর্ণ তারিখ।",
+      intro:
+        "শিক্ষাবর্ষের ক্যালেন্ডারে গুরুত্বপূর্ণ তারিখ, বিদ্যালয়ের অনুষ্ঠান, পরীক্ষা ও ছুটির তথ্য শিক্ষার্থী ও পরিবারের জন্য এক জায়গায় রাখা হবে।",
+      note: "তারিখ পরিবর্তিত হতে পারে। সর্বশেষ নিশ্চিত তথ্যের জন্য অফিসিয়াল নোটিশ অনুসরণ করুন।",
+      sections: [
+        {
+          title: "ক্যালেন্ডার ও গুরুত্বপূর্ণ তারিখ",
+          body: "তারিখ নিশ্চিত হওয়ার সঙ্গে সঙ্গে বিদ্যালয় কর্তৃপক্ষ এই ক্যালেন্ডার হালনাগাদ করবে।",
+          items: [
+            {
+              title: "পরীক্ষা",
+              body: "টার্ম, নির্বাচনী ও বোর্ড পরীক্ষার তারিখ নিশ্চিত হলে প্রকাশ করা হবে।",
+            },
+            {
+              title: "বিদ্যালয়ের অনুষ্ঠান",
+              body: "সমাবেশ, অনুষ্ঠান, সেমিনার ও অন্যান্য কার্যক্রম।",
+            },
+            {
+              title: "ছুটি ও বন্ধ",
+              body: "সরকারি ছুটি এবং বিদ্যালয় বন্ধের বিজ্ঞপ্তি।",
+              href: "/notices",
+              label: "অফিশিয়াল নোটিশ দেখুন",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  routine: {
+    en: {
+      kicker: "Everyday learning",
+      title: "Class routines and daily schedules.",
+      intro:
+        "Find class routine updates in one place. Because schedules can change, always check the publication date and follow the latest notice from the school.",
+      note: "The current routine should be uploaded by the school office. No unverified timetable is displayed here.",
+      sections: [
+        {
+          title: "Routine information",
+          body: "This page is prepared to host approved routine files for each wing, class or version.",
+          items: [
+            {
+              title: "Junior Wing",
+              body: "Routine files for relevant junior classes can be listed here when uploaded.",
+            },
+            {
+              title: "Senior Wing",
+              body: "Routine files for secondary and higher secondary classes can be listed here when uploaded.",
+            },
+            {
+              title: "Routine changes",
+              body: "Changes and temporary adjustments should be communicated through official notices.",
+              href: "/notices",
+              label: "Read notices",
+            },
+          ],
+        },
+      ],
+    },
+    bn: {
+      kicker: "দৈনন্দিন শিক্ষা",
+      title: "শ্রেণির রুটিন ও দৈনিক সময়সূচি।",
+      intro:
+        "শ্রেণির রুটিন-সংক্রান্ত আপডেট এক জায়গায় দেখুন। সময়সূচি পরিবর্তিত হতে পারে, তাই প্রকাশের তারিখ দেখে সর্বশেষ নোটিশ অনুসরণ করুন।",
+      note: "বিদ্যালয় অফিস কর্তৃক বর্তমান রুটিন আপলোড করা হলে এখানে দেখানো হবে। যাচাই না করা কোনো সময়সূচি এখানে দেওয়া হয়নি।",
+      sections: [
+        {
+          title: "রুটিন-সংক্রান্ত তথ্য",
+          body: "অনুমোদিত রুটিন ফাইল উইং, শ্রেণি বা ভার্সন অনুযায়ী প্রকাশের জন্য এই পৃষ্ঠা প্রস্তুত করা হয়েছে।",
+          items: [
+            {
+              title: "জুনিয়র উইং",
+              body: "আপলোড করা হলে সংশ্লিষ্ট শ্রেণির রুটিন এখানে পাওয়া যাবে।",
+            },
+            {
+              title: "সিনিয়র উইং",
+              body: "আপলোড করা হলে মাধ্যমিক ও উচ্চমাধ্যমিক শ্রেণির রুটিন এখানে পাওয়া যাবে।",
+            },
+            {
+              title: "রুটিন পরিবর্তন",
+              body: "পরিবর্তন বা সাময়িক সমন্বয় অফিসিয়াল নোটিশে জানানো উচিত।",
+              href: "/notices",
+              label: "নোটিশ দেখুন",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  downloads: {
+    en: {
+      kicker: "Resources",
+      title: "Useful documents, in one place.",
+      intro:
+        "The downloads library is intended to make approved forms, notices, academic documents and other school resources easier to find.",
+      note: "Only documents approved for public distribution should be uploaded. Each file should include a clear title and update date.",
+      sections: [
+        {
+          title: "Browse resources",
+          body: "Resources can be grouped by purpose as the school publishes approved files.",
+          items: [
+            {
+              title: "Admission forms & documents",
+              body: "Admission-related forms and instructions.",
+              href: "/admissions",
+              label: "Admission information",
+            },
+            {
+              title: "Notices & circulars",
+              body: "Official announcements and downloadable circulars.",
+              href: "/notices",
+              label: "Browse notices",
+            },
+            {
+              title: "Academic resources",
+              body: "Class routines, calendars and other academic documents when available.",
+              href: "/academics",
+              label: "Academic information",
+            },
+          ],
+        },
+      ],
+    },
+    bn: {
+      kicker: "রিসোর্স",
+      title: "প্রয়োজনীয় নথি, এক জায়গায়।",
+      intro:
+        "অনুমোদিত ফর্ম, নোটিশ, একাডেমিক নথি ও অন্যান্য প্রয়োজনীয় উপকরণ সহজে খুঁজে পেতে এই ডাউনলোড বিভাগ তৈরি করা হয়েছে।",
+      note: "শুধু জনসাধারণের জন্য অনুমোদিত নথি আপলোড করা উচিত। প্রতিটি ফাইলে স্পষ্ট শিরোনাম ও হালনাগাদের তারিখ থাকতে হবে।",
+      sections: [
+        {
+          title: "রিসোর্স দেখুন",
+          body: "অনুমোদিত ফাইল প্রকাশের সঙ্গে সঙ্গে প্রয়োজন অনুযায়ী বিভাগভিত্তিক সাজানো যাবে।",
+          items: [
+            {
+              title: "ভর্তি ফর্ম ও নথি",
+              body: "ভর্তি-সংক্রান্ত ফর্ম ও নির্দেশনা।",
+              href: "/admissions",
+              label: "ভর্তির তথ্য",
+            },
+            {
+              title: "নোটিশ ও বিজ্ঞপ্তি",
+              body: "অফিশিয়াল ঘোষণা ও ডাউনলোডযোগ্য বিজ্ঞপ্তি।",
+              href: "/notices",
+              label: "নোটিশ দেখুন",
+            },
+            {
+              title: "একাডেমিক রিসোর্স",
+              body: "রুটিন, ক্যালেন্ডার ও অন্যান্য একাডেমিক নথি পাওয়া গেলে এখানে যুক্ত হবে।",
+              href: "/academics",
+              label: "একাডেমিক তথ্য",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  why: {
+    en: {
+      kicker: "Why KCMSC",
+      title: "A connected journey from the first classroom to Grade XII.",
+      intro:
+        "KCMSC serves students from Play Group through Grade Twelve in Bangla and English Versions of the National Curriculum. Our aim is to make each stage of the learning journey clear and connected.",
+      note: "This page presents the school’s existing educational scope and links to further information; it does not make unsupported rankings or performance claims.",
+      sections: [
+        {
+          title: "What families can explore",
+          body: "Learn about the academic structure, campus environment and student experiences through the school’s existing pages.",
+          items: [
+            {
+              title: "A connected academic journey",
+              body: "Explore the stages from early learning through higher secondary education.",
+              href: "/academics",
+              label: "Explore academics",
+            },
+            {
+              title: "Spaces for learning",
+              body: "Learn about campus facilities and the spaces used by students.",
+              href: "/facilities",
+              label: "Explore facilities",
+            },
+            {
+              title: "Life beyond lessons",
+              body: "Discover clubs, activities and student experiences.",
+              href: "/student-life",
+              label: "Explore student life",
+            },
+          ],
+        },
+      ],
+    },
+    bn: {
+      kicker: "কেন KCMSC",
+      title:
+        "প্রথম শ্রেণিকক্ষ থেকে দ্বাদশ শ্রেণি পর্যন্ত সংযুক্ত শিক্ষাযাত্রা।",
+      intro:
+        "KCMSC বাংলা ও ইংরেজি ভার্সনে জাতীয় শিক্ষাক্রম অনুসরণ করে প্লে গ্রুপ থেকে দ্বাদশ শ্রেণি পর্যন্ত শিক্ষা কার্যক্রম পরিচালনা করে। প্রতিটি ধাপকে স্পষ্ট ও সংযুক্ত রাখা আমাদের লক্ষ্য।",
+      note: "এই পৃষ্ঠায় প্রতিষ্ঠানের বিদ্যমান শিক্ষার পরিসর ও সংশ্লিষ্ট পৃষ্ঠার লিংক দেওয়া হয়েছে; যাচাইবিহীন র‍্যাঙ্কিং বা ফলাফলের দাবি করা হয়নি।",
+      sections: [
+        {
+          title: "পরিবারগুলো যা জানতে পারবেন",
+          body: "প্রতিষ্ঠানের বিদ্যমান পৃষ্ঠাগুলো থেকে একাডেমিক কাঠামো, ক্যাম্পাস ও শিক্ষার্থীদের অভিজ্ঞতা সম্পর্কে জানুন।",
+          items: [
+            {
+              title: "সংযুক্ত একাডেমিক যাত্রা",
+              body: "প্রাথমিক পর্যায় থেকে উচ্চমাধ্যমিক পর্যন্ত শিক্ষার ধাপগুলো দেখুন।",
+              href: "/academics",
+              label: "একাডেমিক বিভাগ",
+            },
+            {
+              title: "শেখার পরিবেশ",
+              body: "ক্যাম্পাসের সুবিধা ও শিক্ষার্থীদের ব্যবহৃত স্থান সম্পর্কে জানুন।",
+              href: "/facilities",
+              label: "সুবিধাগুলো দেখুন",
+            },
+            {
+              title: "পাঠ্যক্রমের বাইরের জীবন",
+              body: "ক্লাব, কার্যক্রম ও শিক্ষার্থীদের অভিজ্ঞতা আবিষ্কার করুন।",
+              href: "/student-life",
+              label: "শিক্ষাজীবন দেখুন",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  virtual: {
+    en: {
+      kicker: "Explore the campus",
+      title: "A closer look at the KCMSC campus.",
+      intro:
+        "This page is prepared to host a virtual campus experience using school-approved photographs, video or a guided tour.",
+      note: "An interactive 360-degree tour is not yet connected. Until approved media is added, explore the existing campus and facilities information.",
+      sections: [
+        {
+          title: "Explore campus spaces",
+          body: "Start with the facilities page while a dedicated virtual tour is being prepared.",
+          items: [
+            {
+              title: "Campus & Facilities",
+              body: "Read about facilities and learning spaces already described on the website.",
+              href: "/facilities",
+              label: "Explore facilities",
+            },
+            {
+              title: "Student Life",
+              body: "See the wider student experience and campus activities.",
+              href: "/student-life",
+              label: "Explore student life",
+            },
+            {
+              title: "Contact the school",
+              body: "Contact KCMSC for further information about the campus.",
+              href: "/contact",
+              label: "Contact KCMSC",
+            },
+          ],
+        },
+      ],
+    },
+    bn: {
+      kicker: "ক্যাম্পাস ঘুরে দেখুন",
+      title: "KCMSC ক্যাম্পাসকে আরও কাছ থেকে জানুন।",
+      intro:
+        "বিদ্যালয়-অনুমোদিত ছবি, ভিডিও বা নির্দেশিত ট্যুরের মাধ্যমে ভার্চুয়াল ক্যাম্পাস অভিজ্ঞতা যুক্ত করার জন্য এই পৃষ্ঠা প্রস্তুত করা হয়েছে।",
+      note: "ইন্টার‌্যাকটিভ ৩৬০-ডিগ্রি ট্যুর এখনো যুক্ত হয়নি। অনুমোদিত মিডিয়া যুক্ত হওয়ার আগ পর্যন্ত ক্যাম্পাস ও সুবিধা-সংক্রান্ত বিদ্যমান তথ্য দেখুন।",
+      sections: [
+        {
+          title: "ক্যাম্পাসের বিভিন্ন স্থান",
+          body: "ভার্চুয়াল ট্যুর প্রস্তুত হওয়ার সময় বিদ্যমান সুবিধা পৃষ্ঠা থেকে শুরু করুন।",
+          items: [
+            {
+              title: "ক্যাম্পাস ও সুবিধা",
+              body: "ওয়েবসাইটে বর্ণিত সুবিধা ও শিক্ষার স্থান সম্পর্কে জানুন।",
+              href: "/facilities",
+              label: "সুবিধা দেখুন",
+            },
+            {
+              title: "শিক্ষাজীবন",
+              body: "শিক্ষার্থীদের অভিজ্ঞতা ও ক্যাম্পাস কার্যক্রম দেখুন।",
+              href: "/student-life",
+              label: "শিক্ষাজীবন দেখুন",
+            },
+            {
+              title: "যোগাযোগ",
+              body: "ক্যাম্পাস সম্পর্কে আরও তথ্যের জন্য KCMSC-এর সঙ্গে যোগাযোগ করুন।",
+              href: "/contact",
+              label: "যোগাযোগ করুন",
+            },
+          ],
+        },
+      ],
+    },
+  },
+};
+export function InstitutionalLanding({
+  locale,
+  page,
+}: {
+  locale: Locale;
+  page: keyof typeof content;
+}) {
+  const data = content[page]?.[locale];
+  if (!data) notFound();
+  const bn = locale === "bn";
+  return (
+    <main className="bg-[#F8FAFC] text-[#23352c]">
+      <section className="border-b border-[#D9E2EC] bg-[#fffdf8]">
+        <div className="mx-auto max-w-[1240px] px-6 pb-14 pt-16 sm:px-10 sm:pb-20 sm:pt-24">
+          <span className="kc-classic-kicker">{data.kicker}</span>
+          <h1 className="mt-5 max-w-4xl font-heading text-[clamp(2.7rem,6vw,5.8rem)] leading-[.94] tracking-[-.05em] text-[#12324A]">
+            {data.title}
+          </h1>
+          <p className="mt-7 max-w-3xl text-[15px] leading-7 text-[#64748B] sm:text-base">
+            {data.intro}
+          </p>
+          <p className="mt-6 max-w-3xl border-l-2 border-[#d5bd75] pl-4 text-sm leading-6 text-[#707770]">
+            {data.note}
+          </p>
+        </div>
+      </section>
+      <section className="kc-classic-section">
+        <div className="mx-auto max-w-[1240px] px-6 sm:px-10">
+          {data.sections.map((section, i) => (
+            <div key={section.title} className="mb-14 last:mb-0">
+              <div className="grid gap-6 border-b border-[#D9E2EC] pb-6 md:grid-cols-[.7fr_1.3fr]">
+                <div>
+                  <span className="kc-classic-kicker">
+                    {bn ? `বিভাগ ০${i + 1}` : `SECTION 0${i + 1}`}
+                  </span>
+                  <h2 className="mt-3 font-heading text-3xl leading-tight tracking-[-.035em] text-[#12324A] sm:text-4xl">
+                    {section.title}
+                  </h2>
+                </div>
+                <p className="max-w-2xl self-end text-sm leading-7 text-[#64748B]">
+                  {section.body}
+                </p>
+              </div>
+              <div className="grid gap-0 md:grid-cols-3">
+                {section.items.map((item, j) => (
+                  <article
+                    key={item.title}
+                    className="flex min-h-[205px] flex-col border-b border-[#D9E2EC] py-7 md:border-b-0 md:border-r md:px-6 md:first:pl-0 md:last:border-r-0 md:last:pr-0"
+                  >
+                    <span className="text-[11px] font-semibold tracking-[.15em] text-[#9A854A]">
+                      {String(j + 1).padStart(2, "0")}
+                    </span>
+                    <h3 className="mt-4 font-heading text-xl text-[#12324A]">
+                      {item.title}
+                    </h3>
+                    <p className="mt-3 text-sm leading-6 text-[#64748B]">
+                      {item.body}
+                    </p>
+                    {item.href && (
+                      <Link
+                        href={`/${locale}${item.href}`}
+                        className="mt-auto inline-flex pt-5 text-xs font-semibold uppercase tracking-[.08em] text-[#176b45] hover:text-[#12324A]"
+                      >
+                        {item.label || (bn ? "আরও জানুন" : "Learn more")}{" "}
+                        <span className="ml-2" aria-hidden="true">
+                          ↗
+                        </span>
+                      </Link>
+                    )}
+                  </article>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    </main>
+  );
 }
