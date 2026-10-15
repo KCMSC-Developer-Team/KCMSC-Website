@@ -778,3 +778,16 @@ main [class~="text-[#F8FAFC]"] {
   .kc-career-modal-layer,
   .kc-career-modal { animation: none; }
 }
+
+/* Rich text content used in the Careers role-details overlay. */
+.kc-career-rich-content > * + * { margin-top: 0.85rem; }
+.kc-career-rich-content p { margin: 0.65rem 0; }
+.kc-career-rich-content h3 { margin: 1.25rem 0 0.5rem; color: #124c36; font-family: var(--font-heading, Georgia, serif); font-size: 1.25rem; line-height: 1.35; }
+.kc-career-rich-content ul { margin: 0.85rem 0; list-style: disc; padding-left: 1.5rem; }
+.kc-career-rich-content ol { margin: 0.85rem 0; list-style: decimal; padding-left: 1.5rem; }
+.kc-career-rich-content li { padding-left: 0.2rem; margin: 0.3rem 0; }
+.kc-career-rich-content strong, .kc-career-rich-content b { font-weight: 700; color: #35463a; }
+.kc-career-rich-content em, .kc-career-rich-content i { font-style: italic; }
+.kc-career-rich-content u { text-decoration: underline; text-underline-offset: 3px; }
+.kc-career-rich-content blockquote { margin: 1rem 0; border-left: 3px solid #b7a56b; padding: 0.25rem 0 0.25rem 1rem; color: #536458; }
+.kc-career-rich-content a { color: #176b45; text-decoration: underline; text-underline-offset: 3px; }

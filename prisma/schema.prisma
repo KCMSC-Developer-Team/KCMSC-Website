@@ -109,7 +109,12 @@ model Career {
   titleEn       String
   titleBn       String
   descriptionEn String
-  descriptionBn String
+  descriptionBn String              @db.Text
+  summaryEn     String?             @db.Text
+  summaryBn     String?             @db.Text
+  categoryEn    String?
+  categoryBn    String?
+  imageData     String?             @db.Text
   deadline      DateTime?
   isPublished   Boolean             @default(false)
   createdAt     DateTime            @default(now())

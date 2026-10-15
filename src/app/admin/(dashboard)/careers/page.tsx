@@ -86,7 +86,9 @@ export default async function CareersListPage() {
               className="overflow-hidden rounded-xl border border-border bg-white"
             >
               <div className="flex flex-col gap-4 border-b border-border p-5 sm:flex-row sm:items-start sm:justify-between">
-                <div className="min-w-0">
+                <div className="flex min-w-0 items-start gap-4">
+                  {career.imageData ? <img src={career.imageData} alt="" className="h-16 w-24 shrink-0 rounded-lg object-cover" /> : <div className="flex h-16 w-24 shrink-0 items-center justify-center rounded-lg bg-[#efeee7] text-xs text-ink-muted">No image</div>}
+                  <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
                     <h2 className="font-medium text-ink">{career.titleEn}</h2>
 
@@ -110,6 +112,8 @@ export default async function CareersListPage() {
                       ? ` · Deadline ${career.deadline.toLocaleDateString()}`
                       : ""}
                   </p>
+                  <p className="mt-2 line-clamp-2 max-w-2xl text-xs leading-5 text-ink-muted">{career.summaryEn || career.descriptionEn.replace(/<[^>]*>/g, " ").trim()}</p>
+                  </div>
                 </div>
 
                 <div className="flex shrink-0 items-center gap-4">

@@ -2,6 +2,7 @@ import { getDictionary, isLocale, type Locale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/db";
 import CareerExplorer from "./CareerExplorer";
+import { sanitizeRichText } from "@/lib/rich-text";
 
 async function getPublishedCareers() {
   try {
@@ -14,6 +15,11 @@ async function getPublishedCareers() {
         titleBn: true,
         descriptionEn: true,
         descriptionBn: true,
+        summaryEn: true,
+        summaryBn: true,
+        categoryEn: true,
+        categoryBn: true,
+        imageData: true,
         deadline: true,
         createdAt: true,
       },
@@ -34,7 +40,11 @@ export default async function CareersPage({
 
   const locale: Locale = params.locale;
   const page = getDictionary(locale).careersPage;
-  const careers = await getPublishedCareers();
+  const careers = (await getPublishedCareers())?.map((career) => ({
+    ...career,
+    descriptionEn: sanitizeRichText(career.descriptionEn),
+    descriptionBn: sanitizeRichText(career.descriptionBn),
+  })) ?? null;
 
   return (
     <CareerExplorer

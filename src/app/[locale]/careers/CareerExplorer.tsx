@@ -9,6 +9,11 @@ type CareerItem = {
   titleBn: string;
   descriptionEn: string;
   descriptionBn: string;
+  summaryEn: string | null;
+  summaryBn: string | null;
+  categoryEn: string | null;
+  categoryBn: string | null;
+  imageData: string | null;
   deadline: Date | string | null;
   createdAt: Date | string;
 };
@@ -175,15 +180,18 @@ export default function CareerExplorer({ careers, locale, emptyMessage, applied,
             <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
               {careers.map((career, index) => {
                 const title = isBn ? career.titleBn : career.titleEn;
-                const description = isBn ? career.descriptionBn : career.descriptionEn;
+                const fullDescription = isBn ? career.descriptionBn : career.descriptionEn;
+                const description = (isBn ? career.summaryBn : career.summaryEn) || fullDescription.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
                 const visual = roleVisual(career.titleEn);
+                const cardImage = career.imageData || visual.image;
+                const cardCategory = (isBn ? career.categoryBn : career.categoryEn) || visual.category;
                 const closed = hasDeadlinePassed(career.deadline);
                 return (
                   <article key={career.id} className="kc-job-card group flex min-w-0 flex-col overflow-hidden rounded-2xl border border-[#d9d8cf] bg-[#fffdf8] transition duration-300 hover:-translate-y-1 hover:border-[#b7c6b8] hover:shadow-[0_22px_55px_rgba(18,76,54,0.10)]">
                     <button type="button" onClick={() => setSelectedId(career.id)} aria-label={`${isBn ? "বিস্তারিত দেখুন" : "View details for"} ${title}`} className="kc-job-thumb relative block h-48 w-full overflow-hidden text-left sm:h-52">
-                      <img src={visual.image} alt="" className="h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy" />
+                      <img src={cardImage} alt="" className="h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy" />
                       <span className="absolute inset-0 bg-gradient-to-t from-[#0b3024]/80 via-[#0b3024]/10 to-[#0b3024]/5" />
-                      <span className="absolute left-5 top-5 rounded-full border border-white/40 bg-black/15 px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.16em] text-white backdrop-blur-sm">{visual.category}</span>
+                      <span className="absolute left-5 top-5 rounded-full border border-white/40 bg-black/15 px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.16em] text-white backdrop-blur-sm">{cardCategory}</span>
                       <span className="absolute right-5 top-5 flex h-9 w-9 items-center justify-center rounded-full border border-white/50 text-xs text-white backdrop-blur-sm">{String(index + 1).padStart(2, "0")}</span>
                       <span className="absolute bottom-5 left-5 right-5 font-heading text-2xl leading-tight text-white sm:text-3xl">{title}</span>
                     </button>
@@ -222,11 +230,11 @@ export default function CareerExplorer({ careers, locale, emptyMessage, applied,
         <div className="kc-career-modal-layer" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setSelectedId(null); }}>
           <section role="dialog" aria-modal="true" aria-labelledby="kc-career-modal-title" className="kc-career-modal">
             <div className="kc-career-modal-cover">
-              <img src={roleVisual(selected.titleEn).image} alt="" className="h-full w-full object-cover" />
+              <img src={selected.imageData || roleVisual(selected.titleEn).image} alt="" className="h-full w-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#092e22]/90 via-[#092e22]/25 to-[#092e22]/10" />
               <button type="button" onClick={() => setSelectedId(null)} aria-label={isBn ? "বন্ধ করুন" : "Close details"} className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full border border-white/60 bg-black/20 text-xl text-white backdrop-blur-sm transition hover:bg-white hover:text-[#124c36]">×</button>
               <div className="absolute bottom-6 left-6 right-6 sm:bottom-8 sm:left-8">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#e0d09b]">{roleVisual(selected.titleEn).category}</p>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#e0d09b]">{(isBn ? selected.categoryBn : selected.categoryEn) || roleVisual(selected.titleEn).category}</p>
                 <h2 id="kc-career-modal-title" className="mt-3 max-w-3xl font-heading text-3xl leading-tight text-white sm:text-5xl">{selectedTitle}</h2>
                 <p className="mt-3 text-xs text-white/75">{isBn ? "আবেদনের শেষ তারিখ" : "Application deadline"}: {getDeadline(selected.deadline, locale)}</p>
               </div>
@@ -234,7 +242,7 @@ export default function CareerExplorer({ careers, locale, emptyMessage, applied,
             <div className="kc-career-modal-body">
               <div className="border-b border-[#e4e2d8] pb-6">
                 <p className="kc-section-label">{isBn ? "পদের বিবরণ" : "ABOUT THE ROLE"}</p>
-                <p className="mt-3 whitespace-pre-line text-sm leading-7 text-[#5f6c62]">{isBn ? selected.descriptionBn : selected.descriptionEn}</p>
+                <div className="kc-career-rich-content mt-3 text-sm leading-7 text-[#5f6c62]" dangerouslySetInnerHTML={{ __html: (isBn ? selected.descriptionBn : selected.descriptionEn) }} />
               </div>
               {hasDeadlinePassed(selected.deadline) ? (
                 <div className="mt-6 rounded-xl border border-[#ead6c8] bg-[#fff6ef] p-5 text-sm leading-6 text-[#9b4d28]">{isBn ? "এই পদের আবেদনের সময়সীমা শেষ হয়েছে।" : "Applications for this position have closed. Please explore other open roles."}</div>

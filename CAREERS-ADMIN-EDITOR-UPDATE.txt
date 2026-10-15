@@ -1,0 +1,34 @@
+KCMSC Careers Admin Editor update
+==================================
+
+New admin capabilities
+- Drag-and-drop or browse for a vacancy thumbnail, with a client-side preview and automatic WebP resize.
+- English and Bangla titles and category labels.
+- Separate short card summaries (what visitors see before clicking) and full rich-text descriptions (what visitors see in the role details overlay).
+- Rich text controls for bold, italic, underline, headings, bullet lists, numbered lists and block quotes.
+- Existing deadline and publish/draft behavior retained.
+- Existing application server action and field names retained.
+- Admin list shows the thumbnail, publication state and short summary.
+
+Files changed
+- prisma/schema.prisma
+- prisma/migrations/20261015130000_add_career_editor_fields/migration.sql
+- src/app/admin/(dashboard)/careers/CareerForm.tsx
+- src/app/admin/(dashboard)/careers/actions.ts
+- src/app/admin/(dashboard)/careers/page.tsx
+- src/app/[locale]/careers/page.tsx
+- src/app/[locale]/careers/CareerExplorer.tsx
+- src/app/globals.css
+
+Setup
+1. Back up your project and database.
+2. Apply the migration using your normal Prisma migration workflow (for example: npx prisma migrate deploy).
+3. Regenerate Prisma Client: npx prisma generate.
+4. Run npm run dev and test /admin/careers, create/edit a draft, upload a thumbnail, publish it, and check /en/careers and /bn/careers.
+5. Test one real application end-to-end before deployment.
+
+Image storage note
+Images are resized and stored as WebP data URLs in PostgreSQL, not the local filesystem. This makes the image travel with the vacancy across deployments and avoids ephemeral local upload directories. Each image is capped at about 1 MB after compression; for a very large number of vacancies, object storage/CDN would be more efficient.
+
+Security note
+The server action checks admin authorization and sanitizes the rich-text HTML to an allowlist of formatting tags before storing it.
