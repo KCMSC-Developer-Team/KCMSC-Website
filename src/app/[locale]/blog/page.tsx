@@ -30,7 +30,6 @@ export default async function BlogPage({
         eyebrow: "কে সি মডেল স্কুল অ্যান্ড কলেজের সাময়িকী",
         title: "ভাবনার শুরু এখানেই।",
         intro: "শিক্ষার্থী ও শিক্ষকদের লেখা, কবিতা, অভিজ্ঞতা এবং নতুন ভাবনার জন্য একটি জায়গা।",
-        login: "ব্লগার লগইন",
         apply: "লেখক হতে আবেদন করুন",
         noteLabel: "আমাদের বিশ্বাস",
         noteTitle: "প্রতিটি কৌতূহলী মনেরই বলার মতো গল্প আছে।",
@@ -53,7 +52,6 @@ export default async function BlogPage({
         eyebrow: "THE KCMSC JOURNAL",
         title: "Ideas begin here.",
         intro: "A home for student and teacher writing, poetry, discoveries and thoughtful perspectives.",
-        login: "Blogger sign in",
         apply: "Become a contributor",
         noteLabel: "OUR BELIEF",
         noteTitle: "Every curious mind has a story worth sharing.",
@@ -93,10 +91,7 @@ export default async function BlogPage({
             </h1>
             <p className="mt-6 max-w-xl text-base leading-7 text-white/90 sm:text-lg sm:leading-8">{copy.intro}</p>
             <div className="mt-8 flex flex-col gap-3 min-[420px]:flex-row">
-              <Link href="/blogger/login" className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#176b45] px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[#124c36] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
-                {copy.login}
-              </Link>
-              <Link href={`/${locale}/blog/apply`} className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/70 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white hover:text-[#124c36] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
+              <Link href={`/${locale}/blog/apply`} className="inline-flex min-h-12 items-center justify-center border border-[#e4d39a] bg-[#e4d39a] px-6 py-3 text-sm font-semibold text-[#17382b] transition-colors hover:bg-[#f0e3b5] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
                 {copy.apply} <span aria-hidden="true" className="ml-2">↗</span>
               </Link>
             </div>
@@ -111,7 +106,10 @@ export default async function BlogPage({
         <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#b59a4a]" />
       </section>
 
-      <section className="mx-auto max-w-[1280px] px-5 py-14 sm:px-8 sm:py-16 lg:px-10 lg:py-[4.5rem]">
+      <section className="relative isolate overflow-hidden bg-[#f0f2eb] px-5 py-14 sm:px-8 sm:py-16 lg:px-10 lg:py-[4.5rem]">
+        <div aria-hidden="true" className="pointer-events-none absolute right-[-5rem] top-[-7rem] -z-10 h-80 w-80 rounded-full border border-[#d5dfd1]" />
+        <div aria-hidden="true" className="pointer-events-none absolute right-[-1rem] top-[-3rem] -z-10 h-64 w-64 rounded-full border border-[#d5dfd1]" />
+        <div className="mx-auto max-w-[1280px]">
         <div className="flex flex-col gap-4 border-b border-[#deded5] pb-6 sm:flex-row sm:items-end sm:justify-between sm:gap-8">
           <div className="max-w-2xl">
             <p className="text-[10px] font-bold uppercase tracking-[.22em] text-[#176b45] sm:text-xs">{copy.sectionEyebrow}</p>
@@ -131,7 +129,7 @@ export default async function BlogPage({
                 { day: "numeric", month: "short", year: "numeric" },
               );
               return (
-                <article key={post.id} className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#e2e2d9] bg-white transition duration-300 hover:-translate-y-1 hover:border-[#c7d5c9] hover:shadow-[0_18px_45px_rgba(30,54,39,.10)]">
+                <article key={post.id} className="group flex h-full flex-col overflow-hidden border border-[#d5ddd2] border-t-2 border-t-[#b59a4a] bg-[#fffdf8] transition-colors hover:border-[#176b45] hover:bg-white">
                   {post.featuredImage ? (
                     <Link href={`/${locale}/blog/${post.slug}`} className="relative block aspect-[16/9] overflow-hidden bg-[#e8e9df]" aria-label={`${copy.read}: ${post.title}`}>
                       <img src={post.featuredImage} alt="" className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.035]" />
@@ -170,6 +168,7 @@ export default async function BlogPage({
             </div>
           </div>
         )}
+        </div>
       </section>
 
       <section className="border-y border-[#e3e2d9] bg-[#f1f0e8]">

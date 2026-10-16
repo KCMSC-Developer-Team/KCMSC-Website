@@ -263,6 +263,12 @@ export function Navbar({ locale }: { locale: Locale }) {
           <div className="kc-navbar-actions ml-auto flex shrink-0 items-center gap-1.5 sm:ml-4 sm:gap-2">
             <LanguageSwitcher current={locale} />
             <Link
+              href={`/${locale}/login`}
+              className="hidden rounded-full border border-[#176b45] bg-[#176b45] px-4 py-2 text-[10px] font-semibold uppercase tracking-[.08em] text-white transition hover:bg-[#124c36] sm:inline-flex"
+            >
+              {text("Login", "লগইন")}
+            </Link>
+            <Link
               href={`/${locale}/admissions`}
               className="hidden rounded-full border border-[#176b45] px-4 py-2 text-[10px] font-medium uppercase tracking-[.08em] text-[#176b45] transition hover:bg-[#176b45] hover:text-white sm:inline-flex"
             >
@@ -427,9 +433,17 @@ export function Navbar({ locale }: { locale: Locale }) {
               </div>
             </div>
             <Link
+              href={`/${locale}/login`}
+              onClick={closeMobile}
+              className="mt-7 flex min-h-12 items-center justify-between border border-[#176b45] px-5 text-sm font-semibold text-[#176b45] transition hover:bg-[#176b45] hover:text-white"
+            >
+              <span>{text("Login portal", "লগইন পোর্টাল")}</span>
+              <span aria-hidden="true">↗</span>
+            </Link>
+            <Link
               href={`/${locale}/admissions`}
               onClick={closeMobile}
-              className="mt-7 flex min-h-12 items-center justify-between rounded-full bg-[#176b45] px-5 text-sm font-semibold text-white transition hover:bg-[#124c36]"
+              className="mt-3 flex min-h-12 items-center justify-between bg-[#176b45] px-5 text-sm font-semibold text-white transition hover:bg-[#124c36]"
             >
               <span>{locale === "bn" ? "ভর্তি আবেদন ও তথ্য" : dict.nav.admissions}</span>
               <span aria-hidden="true">↗</span>
