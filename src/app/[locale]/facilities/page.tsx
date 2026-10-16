@@ -141,7 +141,7 @@ export default async function FacilitiesPage({ params }: { params: Promise<{ loc
   return (
     <main className="bg-[#F8FAFC] text-[#183e30]">
       {/* Opening image: let the campus photograph do the work. */}
-      <section className="relative min-h-[78svh] overflow-hidden bg-[#12382b] text-[#f7f1e6]">
+      <section className="kc-feature-hero relative min-h-[78svh] overflow-hidden bg-[#12382b] text-[#f7f1e6]">
         <Image
           src="/kcmsc/media/kcmsc3.jpg"
           alt="Interior of K C Model School & College"

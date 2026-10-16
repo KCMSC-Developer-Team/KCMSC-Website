@@ -15,13 +15,6 @@ export default function CalendarLandingHero({ locale, kicker, title, intro, note
 
   return (
     <section className="relative overflow-hidden border-b border-[#D9E2EC] bg-[#fffdf8]">
-      <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 hidden w-[42%] lg:block">
-        <div className="absolute right-[-5rem] top-[-7rem] h-[26rem] w-[26rem] rounded-full border border-[#176b45]/10" />
-        <div className="absolute right-[-1rem] top-[-3rem] h-[18rem] w-[18rem] rounded-full border border-[#176b45]/10" />
-        <div className="absolute right-[4.5rem] top-[2.5rem] h-[9rem] w-[9rem] rounded-full bg-[#176b45]/[0.035]" />
-        <div className="absolute bottom-[-5rem] right-[8rem] h-[13rem] w-[13rem] rounded-full border border-[#d5bd75]/30" />
-      </div>
-
       <div className="relative mx-auto grid max-w-[1240px] gap-10 px-6 pb-12 pt-12 sm:px-10 sm:pb-16 sm:pt-16 lg:grid-cols-[minmax(0,1fr)_280px] lg:items-end lg:gap-16 lg:pb-[4.5rem] lg:pt-[4.5rem]">
         <div>
           <div className="flex flex-wrap items-center gap-3">

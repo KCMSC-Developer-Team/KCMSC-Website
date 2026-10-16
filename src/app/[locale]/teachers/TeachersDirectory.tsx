@@ -59,7 +59,7 @@ export default function TeachersDirectory({ locale, teachers }: { locale: Locale
 
   return (
     <main className="min-h-screen bg-[#edf1ed] text-[#17352a]">
-      <section className="relative isolate min-h-[390px] overflow-hidden border-b border-[#b59a4a] bg-[#102f24] text-white sm:min-h-[450px] lg:min-h-[490px]">
+      <section className="kc-feature-hero relative isolate min-h-[390px] overflow-hidden border-b border-[#b59a4a] bg-[#102f24] text-white sm:min-h-[450px] lg:min-h-[490px]">
         <div
           aria-hidden="true"
           className="absolute inset-0 -z-20 bg-cover bg-center"
@@ -73,8 +73,7 @@ export default function TeachersDirectory({ locale, teachers }: { locale: Locale
               "linear-gradient(90deg, rgba(8,31,23,.94) 0%, rgba(13,48,35,.86) 48%, rgba(13,48,35,.54) 100%), linear-gradient(0deg, rgba(8,31,23,.35), transparent 55%)",
           }}
         />
-        <div aria-hidden="true" className="absolute inset-0 -z-10 opacity-[.16]" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,.15) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.15) 1px, transparent 1px)", backgroundSize: "72px 72px" }} />
-        <div className="mx-auto flex min-h-[390px] max-w-[1240px] items-center px-5 py-16 sm:min-h-[450px] sm:px-10 sm:py-20 lg:min-h-[490px]">
+        <div className="kc-feature-hero mx-auto flex min-h-[390px] max-w-[1240px] items-center px-5 py-16 sm:min-h-[450px] sm:px-10 sm:py-20 lg:min-h-[490px]">
           <div className="max-w-[780px]">
             <div className="flex items-center gap-3">
               <span className="h-px w-10 bg-[#d7bd68]" />

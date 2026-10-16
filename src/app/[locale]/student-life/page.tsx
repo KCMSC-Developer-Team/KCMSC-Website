@@ -113,7 +113,7 @@ export default async function StudentLifePage({ params }: { params: Promise<{ lo
     <main className="bg-[#F7F9FC] text-[#1c3d30]">
       {/* Hero: one photograph, one clear introduction. */}
       <section className="relative overflow-hidden border-b border-[#D9E2EC]">
-        <div className="relative h-[62vh] min-h-[420px] lg:min-h-[520px] w-full">
+        <div className="kc-feature-hero__visual relative h-[62vh] min-h-[420px] lg:min-h-[520px] w-full">
           <Image
             src={photos.hero}
             alt="KCMSC students taking part in school life"

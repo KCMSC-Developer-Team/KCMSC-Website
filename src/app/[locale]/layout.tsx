@@ -77,7 +77,7 @@ export default async function LocaleLayout({
     >
       <SiteNotification locale={locale} notification={notification} />
       <Navbar locale={locale} />
-      <main>{children}</main>
+      <main className="kc-public-layout">{children}</main>
       <Footer locale={locale} />
       <KnowledgeQuiz locale={locale} />
     </div>

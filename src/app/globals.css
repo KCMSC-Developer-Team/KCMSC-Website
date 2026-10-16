@@ -365,44 +365,44 @@ summary {
 /*
  * Public pages: keep the editorial system quiet and light.
  */
-main h1,
-main h2,
-main h3,
-main h4 {
+.kc-public-layout:not(:has(.kc-homepage)) h1,
+.kc-public-layout:not(:has(.kc-homepage)) h2,
+.kc-public-layout:not(:has(.kc-homepage)) h3,
+.kc-public-layout:not(:has(.kc-homepage)) h4 {
   font-weight: 400 !important;
 }
 
-main .font-bold,
-main .font-extrabold,
-main .font-black {
+.kc-public-layout:not(:has(.kc-homepage)) .font-bold,
+.kc-public-layout:not(:has(.kc-homepage)) .font-extrabold,
+.kc-public-layout:not(:has(.kc-homepage)) .font-black {
   font-weight: 500 !important;
 }
 
-main [class~="bg-[#12324A]"] {
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-[#12324A]"] {
   background-color: #176b45 !important;
 }
 
-main [class~="bg-[#0B2538]"] {
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-[#0B2538]"] {
   background-color: #124c36 !important;
 }
 
-main [class~="bg-[#EEF3F8]"] {
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-[#EEF3F8]"] {
   background-color: #efeee7 !important;
 }
 
-main [class~="text-[#12324A]"] {
+.kc-public-layout:not(:has(.kc-homepage)) [class~="text-[#12324A]"] {
   color: #124c36 !important;
 }
 
-main [class~="text-[#0B2538]"] {
+.kc-public-layout:not(:has(.kc-homepage)) [class~="text-[#0B2538]"] {
   color: #124c36 !important;
 }
 
-main [class~="text-[#FFFFFF]"] {
+.kc-public-layout:not(:has(.kc-homepage)) [class~="text-[#FFFFFF]"] {
   color: #fffdf8 !important;
 }
 
-main [class~="text-[#F8FAFC]"] {
+.kc-public-layout:not(:has(.kc-homepage)) [class~="text-[#F8FAFC]"] {
   color: #fffdf8 !important;
 }
 
@@ -857,4 +857,289 @@ body { overflow-x: clip; }
 }
 @media (prefers-reduced-motion: reduce) {
   .kc-home-hero-slide, .kc-home-hero-copy, .kc-home-hero-dots button, .kc-home-hero-arrows button { animation: none !important; transition: none !important; }
+}
+
+
+/* --------------------------------------------------------------------------
+   KCMSC public-site design system
+   A restrained, consistent treatment for public pages. This is deliberately
+   visual-only: route structure, content, data, links and interaction stay intact.
+   -------------------------------------------------------------------------- */
+/* Public content treatment; exclude the approved homepage and its descendants. */
+.kc-public-layout:not(:has(.kc-homepage)) article,
+.kc-public-layout:not(:has(.kc-homepage)) [class*="rounded-"] {
+  border-radius: 2px !important;
+}
+
+.kc-public-layout:not(:has(.kc-homepage)) article,
+.kc-public-layout:not(:has(.kc-homepage)) [class*="shadow-"] {
+  box-shadow: none !important;
+}
+
+.kc-public-layout:not(:has(.kc-homepage)) img[class*="rounded-full"] {
+  border-radius: 50% !important;
+}
+
+/* Bring legacy public-page utilities into the existing KCMSC palette. */
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-white"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-[#FFFFFF]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-[#FFFCF5]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-[#FFFEFA]"] {
+  background-color: var(--kc-paper);
+}
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-[#F8FAFC]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-[#F7F9FC]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-[#EEF3F8]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-[#fbfaf6]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-[#edf1ed]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-[#F8FAF7]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-[#f9fbf8]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-[#f0f2eb]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-[#F3F6F5]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class*="bg-[#F8FAFC]/"],
+.kc-public-layout:not(:has(.kc-homepage)) [class*="bg-[#F7F9FC]/"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-slate-50"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-blue-50"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-indigo-50"] {
+  background-color: var(--kc-cream) !important;
+}
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-[#ebe7dc]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-[#e9e5da]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-[#eee9df]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-[#D9E2EC]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-[#EAF1E8]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-[#E1E4D8]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-slate-100"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-blue-100"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-indigo-100"] {
+  background-color: var(--kc-soft) !important;
+}
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-[#12324A]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-[#0B2538]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-[#08664D]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class*="bg-[#12324A]/"],
+.kc-public-layout:not(:has(.kc-homepage)) [class*="bg-[#0B2538]/"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-blue-700"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-indigo-700"] {
+  background-color: var(--kc-green-dark) !important;
+}
+.kc-public-layout:not(:has(.kc-homepage)) [class~="border-[#D9E2EC]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="border-[#CBD5E1]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="border-gray-100"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="border-gray-200"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="border-slate-100"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="border-slate-200"] {
+  border-color: var(--kc-line);
+}
+.kc-public-layout:not(:has(.kc-homepage)) [class~="text-[#12324A]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="text-[#0B2538]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class*="text-[#12324A]/"],
+.kc-public-layout:not(:has(.kc-homepage)) [class*="text-[#0B2538]/"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="text-[#104B3B]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="text-[#123B32]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="text-[#173F35]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="text-[#105b3b]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="text-[#08664D]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="text-[#0B7657]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="text-[#126440]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="text-green-700"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="text-blue-700"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="text-indigo-700"] {
+  color: var(--kc-green-dark) !important;
+}
+.kc-public-layout:not(:has(.kc-homepage)) [class~="text-[#252a25]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="text-[#17352a]"] {
+  color: var(--kc-ink) !important;
+}
+.kc-public-layout:not(:has(.kc-homepage)) [class~="text-[#64748B]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="text-gray-500"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="text-gray-600"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="text-slate-500"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="text-slate-600"] {
+  color: var(--kc-muted);
+}
+
+.kc-public-layout:not(:has(.kc-homepage)) [class~="text-[#C27A05]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="text-[#9A854A]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="text-[#B07A17]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="text-[#b07a17]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="text-[#1D4ED8]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="text-[#FBBF24]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="text-amber-500"] {
+  color: var(--kc-brass) !important;
+}
+
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-[#B07A17]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-[#b07a17]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-[#C27A05]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-[#1D4ED8]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-[#FBBF24]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class*="hover:bg-[#FBBF24]"] {
+  background-color: var(--kc-brass) !important;
+}
+.kc-public-layout:not(:has(.kc-homepage)) [class*="hover:text-[#1D4ED8]"] {
+  color: var(--kc-green) !important;
+}
+
+.kc-public-layout:not(:has(.kc-homepage)) [class~="border-[#D9E2DA]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="border-[#DDE4DC]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="border-[#E1E4D8]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="border-[#D9E2EC]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="border-[#CBD5E1]"] {
+  border-color: var(--kc-line) !important;
+}
+
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-[#F8FAFC]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-[#F7F9FC]"],
+.kc-public-layout:not(:has(.kc-homepage)) [class~="bg-[#F3F6F5]"] {
+  color: var(--kc-ink);
+}
+
+.kc-page-intro__eyebrow {
+  color: var(--kc-green);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.kc-page-intro__title {
+  color: var(--kc-green-dark);
+  font-size: clamp(2.25rem, 5vw, 3.75rem);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+  text-wrap: balance;
+}
+
+.kc-page-intro__body {
+  color: var(--kc-muted);
+  font-size: 1rem;
+  line-height: 1.8;
+  text-wrap: pretty;
+}
+
+.kc-public-layout:not(:has(.kc-homepage)) h1 {
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+.kc-public-layout:not(:has(.kc-homepage)) h2 {
+  font-size: clamp(1.55rem, 3vw, 2.5rem);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.kc-public-layout:not(:has(.kc-homepage)) h3 {
+  font-size: clamp(1.2rem, 2.2vw, 1.65rem);
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+  text-wrap: balance;
+}
+
+.kc-public-layout:not(:has(.kc-homepage)) .kc-feature-hero {
+  min-height: clamp(24rem, 36vw, 31rem) !important;
+}
+
+.kc-public-layout:not(:has(.kc-homepage)) .kc-feature-hero__visual {
+  height: clamp(24rem, 36vw, 31rem) !important;
+  min-height: 0 !important;
+}
+
+.kc-public-layout:not(:has(.kc-homepage)) .kc-careers-hero > .mx-auto {
+  min-height: clamp(27rem, 38vw, 32rem) !important;
+}
+
+.kc-public-layout:not(:has(.kc-homepage)) .kc-careers-hero-note {
+  border-radius: 2px;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.kc-public-layout:not(:has(.kc-homepage)) .kc-careers-hero-note::after {
+  display: none;
+}
+
+.kc-public-layout:not(:has(.kc-homepage)) .kc-career-modal {
+  border-radius: 2px;
+  box-shadow: none;
+}
+
+.kc-public-layout:not(:has(.kc-homepage)) [class*="hover:scale-"],
+.kc-public-layout:not(:has(.kc-homepage)) [class*="group-hover:scale-"] {
+  transform: none !important;
+}
+
+.kc-public-layout:not(:has(.kc-homepage)) [class*="backdrop-blur"] {
+  backdrop-filter: none !important;
+}
+
+.kc-public-layout:not(:has(.kc-homepage)) [class*="hover:-translate-y"] {
+  transform: none !important;
+}
+.kc-public-layout:not(:has(.kc-homepage)) article,
+.kc-public-layout:not(:has(.kc-homepage)) [class~="transition-all"] {
+  transition-property: color, background-color, border-color !important;
+  transition-duration: 160ms !important;
+}
+
+/* Consistent form controls across public pages. */
+.kc-public-layout:not(:has(.kc-homepage)) input:not([type="checkbox"]):not([type="radio"]),
+.kc-public-layout:not(:has(.kc-homepage)) select,
+.kc-public-layout:not(:has(.kc-homepage)) textarea {
+  border-radius: 2px;
+  border-color: var(--kc-line);
+  box-shadow: none;
+}
+.kc-public-layout:not(:has(.kc-homepage)) input:not([type="checkbox"]):not([type="radio"]),
+.kc-public-layout:not(:has(.kc-homepage)) select {
+  min-height: 2.75rem;
+}
+.kc-public-layout:not(:has(.kc-homepage)) input:not([type="checkbox"]):not([type="radio"]):focus,
+.kc-public-layout:not(:has(.kc-homepage)) select:focus,
+.kc-public-layout:not(:has(.kc-homepage)) textarea:focus {
+  border-color: var(--kc-green);
+  outline-color: var(--kc-green);
+  box-shadow: none;
+}
+
+.kc-public-layout:not(:has(.kc-homepage)) button,
+.kc-public-layout:not(:has(.kc-homepage)) [role="button"] {
+  border-radius: 2px;
+  box-shadow: none;
+}
+
+.kc-public-layout:not(:has(.kc-homepage)) .kc-classic-button {
+  border-radius: 2px;
+}
+.kc-public-layout:not(:has(.kc-homepage)) .kc-classic-button:hover {
+  transform: none;
+}
+
+/* Keep editorial reading measure and image treatment consistent. */
+.kc-public-layout:not(:has(.kc-homepage)) article p,
+.kc-public-layout:not(:has(.kc-homepage)) section p {
+  text-wrap: pretty;
+}
+.kc-public-layout:not(:has(.kc-homepage)) article h2,
+.kc-public-layout:not(:has(.kc-homepage)) article h3 {
+  text-wrap: balance;
+}
+.kc-public-layout:not(:has(.kc-homepage)) article img,
+.kc-public-layout:not(:has(.kc-homepage)) section img {
+  border-radius: 2px;
+}
+
+@media (max-width: 767px) {
+  .kc-public-layout:not(:has(.kc-homepage)) article,
+  .kc-public-layout:not(:has(.kc-homepage)) [class*="rounded-"] {
+    border-radius: 2px !important;
+  }
 }

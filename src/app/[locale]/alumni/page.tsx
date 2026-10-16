@@ -15,7 +15,7 @@ export default async function AlumniPage({ params }: { params: { locale: string 
 
   return (
     <main className="bg-[#f7f5ef] text-[#242824]">
-      <section className="relative isolate flex min-h-[390px] items-center overflow-hidden border-b border-[#d9d8cf] bg-[#124c36] sm:min-h-[430px] lg:min-h-[490px]">
+      <section className="kc-feature-hero relative isolate flex min-h-[390px] items-center overflow-hidden border-b border-[#d9d8cf] bg-[#124c36] sm:min-h-[430px] lg:min-h-[490px]">
         <div
           aria-hidden="true"
           className="absolute inset-0 -z-20 bg-cover bg-center"

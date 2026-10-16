@@ -73,7 +73,7 @@ export default async function BlogPage({
 
   return (
     <main className="kc-journal-page bg-[#fbfaf6] text-[#252a25]">
-      <section className="kc-journal-hero relative isolate flex min-h-[500px] items-end overflow-hidden sm:min-h-[560px] lg:min-h-[610px]">
+      <section className="kc-journal-hero kc-feature-hero relative isolate flex min-h-[500px] items-end overflow-hidden sm:min-h-[560px] lg:min-h-[610px]">
         <div
           className="absolute inset-0 -z-20 bg-cover bg-center"
           style={{ backgroundImage: `url('${BOOKFAIR_IMAGE}')` }}
@@ -107,8 +107,6 @@ export default async function BlogPage({
       </section>
 
       <section className="relative isolate overflow-hidden bg-[#f0f2eb] px-5 py-14 sm:px-8 sm:py-16 lg:px-10 lg:py-[4.5rem]">
-        <div aria-hidden="true" className="pointer-events-none absolute right-[-5rem] top-[-7rem] -z-10 h-80 w-80 rounded-full border border-[#d5dfd1]" />
-        <div aria-hidden="true" className="pointer-events-none absolute right-[-1rem] top-[-3rem] -z-10 h-64 w-64 rounded-full border border-[#d5dfd1]" />
         <div className="mx-auto max-w-[1280px]">
         <div className="flex flex-col gap-4 border-b border-[#deded5] pb-6 sm:flex-row sm:items-end sm:justify-between sm:gap-8">
           <div className="max-w-2xl">
@@ -186,9 +184,6 @@ export default async function BlogPage({
       <style>{`
         .kc-journal-page { overflow-wrap: anywhere; }
         .kc-journal-page a { -webkit-tap-highlight-color: transparent; }
-        @media (max-width: 639px) {
-          .kc-journal-hero { min-height: 570px; }
-        }
       `}</style>
     </main>
   );

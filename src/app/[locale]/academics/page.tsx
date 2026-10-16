@@ -355,11 +355,9 @@ export default async function AcademicsPage({
           HERO
       ===================================================== */}
 
-      <section className="border-b border-[#d9d8cf] bg-[#12324A] text-white">
-        <div className="mx-auto grid min-h-[610px] max-w-[1440px] lg:grid-cols-[1.18fr_.82fr]">
+      <section className="kc-feature-hero border-b border-[#d9d8cf] bg-[#12324A] text-white">
+        <div className="kc-feature-hero mx-auto grid min-h-[610px] max-w-[1440px] lg:grid-cols-[1.18fr_.82fr]">
           <div className="relative flex flex-col justify-center px-6 py-20 sm:px-10 lg:px-16 lg:py-24">
-            <div className="pointer-events-none absolute -left-20 top-16 h-64 w-64 rounded-full border border-white/10" />
-
             <div className="relative z-10 max-w-3xl">
               <p className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-[.28em] text-[#FBBF24]">
                 <span className="h-px w-9 bg-[#FBBF24]" />
@@ -377,7 +375,7 @@ export default async function AcademicsPage({
               <div className="mt-9 flex flex-wrap gap-3">
                 <a
                   href="#results"
-                  className="inline-flex items-center bg-white px-5 py-3 text-[10px] font-bold uppercase tracking-[.16em] text-[#12324A] transition hover:bg-[#f4c64d]"
+                  className="inline-flex items-center bg-white px-5 py-3 text-[10px] font-bold uppercase tracking-[.16em] text-[#12324A] transition hover:bg-[#b59a4a]"
                 >
                   {t.explore}
                 </a>
@@ -398,7 +396,7 @@ export default async function AcademicsPage({
               alt={t.heroAlt}
               priority
               sizes="(min-width: 1024px) 50vw, 100vw"
-              className="object-cover object-center transition duration-700 hover:scale-[1.02]"
+              className="object-cover object-center"
             />
 
             <div className="absolute inset-0 bg-gradient-to-t from-[#082b20]/85 via-[#082b20]/10 to-transparent" />
@@ -518,7 +516,7 @@ export default async function AcademicsPage({
                     src={wing.image}
                     alt={wing.alt}
                     sizes="(min-width: 1024px) 50vw, 100vw"
-                    className="object-cover object-center transition duration-700 group-hover:scale-[1.035]"
+                    className="object-cover object-center"
                   />
 
                   <div className="absolute inset-0 bg-gradient-to-t from-[#082b20]/55 via-transparent to-transparent" />
@@ -952,7 +950,7 @@ export default async function AcademicsPage({
                     : "KCMSC student receiving an award"
                 }
                 sizes="(min-width: 1024px) 60vw, 100vw"
-                className="object-cover object-center transition duration-700 hover:scale-[1.02]"
+                className="object-cover object-center"
               />
 
               <div className="absolute inset-0 bg-gradient-to-r from-[#12324A]/55 via-transparent to-transparent" />

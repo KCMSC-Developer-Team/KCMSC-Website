@@ -35,16 +35,22 @@ export default function LoginPortalPage({ params }: { params: { locale: string }
   const bn = locale === "bn";
 
   return (
-    <main className="min-h-[calc(100vh-140px)] bg-[#f1f2ec] text-[#17382b]">
-      <section className="border-b border-[#d8ded5] bg-[#fffdf8]">
+    <main
+      className="kc-login-portal relative isolate min-h-[calc(100vh-140px)] bg-cover bg-center text-[#17382b]"
+      style={{
+        backgroundImage:
+          "linear-gradient(rgba(10, 45, 31, 0.78), rgba(10, 45, 31, 0.68)), url('/kcmsc/student-life/students_at_bookfair.jpg')",
+      }}
+    >
+      <section className="border-b border-white/20 bg-transparent">
         <div className="mx-auto max-w-[1120px] px-5 py-12 sm:px-8 sm:py-16">
-          <p className="text-[10px] font-semibold uppercase tracking-[.22em] text-[#927a37]">
+          <p className="text-[10px] font-semibold uppercase tracking-[.22em] text-[#d9c47e]">
             {bn ? "কে সি মডেল স্কুল অ্যান্ড কলেজ" : "K C MODEL SCHOOL & COLLEGE"}
           </p>
-          <h1 className="mt-4 max-w-2xl font-heading text-4xl font-normal leading-tight tracking-[-.04em] text-[#124c36] sm:text-5xl">
+          <h1 className="mt-4 max-w-2xl font-heading text-4xl font-normal leading-tight tracking-[-.04em] text-white sm:text-5xl">
             {bn ? "আপনার পোর্টাল নির্বাচন করুন" : "Choose your sign-in portal."}
           </h1>
-          <p className="mt-4 max-w-2xl text-sm leading-7 text-[#647168] sm:text-base">
+          <p className="mt-4 max-w-2xl text-sm leading-7 text-white/85 sm:text-base">
             {bn
               ? "আপনার দায়িত্ব অনুযায়ী পোর্টাল নির্বাচন করে নিরাপদে লগইন করুন।"
               : "Select the portal that matches your role at KCMSC. Each portal provides access to the tools and information relevant to your work."}
@@ -77,8 +83,8 @@ export default function LoginPortalPage({ params }: { params: { locale: string }
             </Link>
           ))}
         </div>
-        <div className="mt-8 border-t border-[#d5ddd4] pt-5">
-          <Link href={`/${locale}`} className="inline-flex items-center gap-2 text-xs font-medium text-[#5f7064] transition hover:text-[#176b45]">
+        <div className="mt-8 border-t border-white/25 pt-5">
+          <Link href={`/${locale}`} className="inline-flex items-center gap-2 text-xs font-medium text-white/85 transition hover:text-white">
             <span aria-hidden="true">←</span> {bn ? "মূল ওয়েবসাইটে ফিরে যান" : "Return to the main website"}
           </Link>
         </div>

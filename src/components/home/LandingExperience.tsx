@@ -161,7 +161,7 @@ export function LandingExperience({
   ];
 
   return (
-    <div className="bg-[#f7f5ef] text-[#242824]">
+    <div className="kc-homepage bg-[#f7f5ef] text-[#242824]">
       <HeroSlideshow locale={locale} />
 
       <section className="border-b border-[#d9d8cf] bg-[#fffdf8]">
