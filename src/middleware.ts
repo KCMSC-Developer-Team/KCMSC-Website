@@ -15,6 +15,20 @@ const PROTECTED_PREFIXES = ["/admin", "/officer", "/blogger/dashboard", "/blogge
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // --- Teacher portal auth gate -----------------------------------------
+  if (pathname === "/teacher/login" || pathname.startsWith("/teacher/login/")) {
+    return NextResponse.next();
+  }
+  if (pathname === "/teacher/dashboard" || pathname.startsWith("/teacher/dashboard/")) {
+    const token = await getToken({ req: request, secret: process.env.AUTH_SECRET });
+    if (!token || token.role !== "TEACHER") {
+      const loginUrl = request.nextUrl.clone();
+      loginUrl.pathname = "/teacher/login";
+      return NextResponse.redirect(loginUrl);
+    }
+    return NextResponse.next();
+  }
+
   // --- Admin/officer auth gate ------------------------------------------
   if (
     PROTECTED_PREFIXES.some(
@@ -58,6 +72,7 @@ export async function middleware(request: NextRequest) {
       "/admin/careers",
       "/admin/help",
       "/admin/blog",
+      "/admin/teachers",
     ];
 
     if (

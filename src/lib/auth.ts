@@ -2,6 +2,7 @@ export const ROLES = {
   ADMIN: "ADMIN",
   ADMISSION_OFFICER: "ADMISSION_OFFICER",
   BLOGGER: "BLOGGER",
+  TEACHER: "TEACHER",
 } as const;
 
 export type Role = (typeof ROLES)[keyof typeof ROLES];
@@ -25,6 +26,10 @@ export function isAdmissionOfficer(
 
 export function isBlogger(user: SessionUser | null | undefined): boolean {
   return user?.role === ROLES.BLOGGER;
+}
+
+export function isTeacher(user: SessionUser | null | undefined): boolean {
+  return user?.role === ROLES.TEACHER;
 }
 
 export function canDeleteAccount(

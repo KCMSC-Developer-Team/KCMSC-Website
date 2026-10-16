@@ -69,10 +69,11 @@ export const authOptions: AuthOptions = {
         }
 
         const user = await prisma.user.findFirst({
-          where: { OR: [{ email }, { bloggerProfile: { is: { schoolId: email } } }] },
-          include: { bloggerProfile: true },
+          where: { OR: [{ email }, { bloggerProfile: { is: { schoolId: email } } }, { teacherProfile: { is: { staffId: email } } }] },
+          include: { bloggerProfile: true, teacherProfile: true },
         });
         if (user?.role === "BLOGGER" && !user.bloggerProfile) return null;
+        if (user?.role === "TEACHER" && (!user.teacherProfile || !user.teacherProfile.isActive)) return null;
         if (!user) {
           recordFailedAttempt(email);
           return null;
@@ -102,7 +103,7 @@ export const authOptions: AuthOptions = {
         session.user.id = token.id as string;
         session.user.email = token.email as string;
         session.user.name = (token.name as string) ?? "";
-        session.user.role = token.role as "ADMIN" | "ADMISSION_OFFICER";
+        session.user.role = token.role as "ADMIN" | "ADMISSION_OFFICER" | "BLOGGER" | "TEACHER";
       }
       return session;
     }

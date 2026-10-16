@@ -16,6 +16,7 @@ import {
   FiBell,
   FiHelpCircle,
   FiBookOpen,
+  FiUserCheck,
 } from "react-icons/fi";
 import { SignOutButton } from "./SignOutButton";
 
@@ -44,6 +45,13 @@ const NAV_GROUPS = [
         label: "Admission Officers",
         icon: FiUsers,
       },
+    ],
+  },
+
+  {
+    label: "People",
+    items: [
+      { href: "/admin/teachers", label: "Teachers & faculty", icon: FiUserCheck },
     ],
   },
 
