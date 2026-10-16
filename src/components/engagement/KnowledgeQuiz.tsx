@@ -642,6 +642,24 @@ export function KnowledgeQuiz({ locale }: { locale: Locale }) {
           font-weight: 700;
           white-space: nowrap;
         }
+        @media (max-width: 640px) {
+          .kq-teaser {
+            bottom: max(10px, env(safe-area-inset-bottom));
+            width: min(390px, calc(100vw - 24px));
+            gap: 9px;
+            padding: 9px 10px;
+            border-radius: 15px;
+          }
+          .kq-teaser-icon { flex-basis: 32px; height: 32px; }
+          .kq-teaser-copy strong { font-size: 11px; }
+          .kq-teaser-copy small { font-size: 10px; }
+          .kq-teaser-cta { font-size: 10px; }
+        }
+        @media (max-width: 370px) {
+          .kq-teaser { width: calc(100vw - 20px); gap: 7px; }
+          .kq-teaser-copy small { display: none; }
+          .kq-teaser-cta { font-size: 9px; }
+        }
         .kq-overlay {
           position: fixed;
           inset: 0;

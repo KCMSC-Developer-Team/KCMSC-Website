@@ -165,16 +165,16 @@ export function LandingExperience({
       <HeroSlideshow locale={locale} />
 
       <section className="border-b border-[#d9d8cf] bg-[#fffdf8]">
-        <div className="mx-auto grid max-w-[1180px] sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mx-auto grid w-full max-w-[1180px] grid-cols-2 lg:grid-cols-4">
           {stats.map(([label, value], index) => (
             <div
               key={label}
-              className={`px-5 py-6 sm:px-7 lg:px-8 lg:py-7 ${index ? "border-t border-[#d9d8cf] sm:border-l sm:border-t-0" : ""}`}
+              className={`min-w-0 px-4 py-5 sm:px-7 lg:px-8 lg:py-7 ${index % 2 ? "border-l border-[#d9d8cf]" : ""} ${index > 1 ? "border-t border-[#d9d8cf]" : ""} lg:border-t-0 ${index ? "lg:border-l" : "lg:border-l-0"}`}
             >
-              <p className="text-[9px] uppercase tracking-[.16em] text-[#7b817b]">
+              <p className="text-[9px] uppercase tracking-[.13em] text-[#7b817b]">
                 {label}
               </p>
-              <p className="mt-2 font-heading text-[21px] font-normal leading-tight text-[#176b45]">
+              <p className="mt-2 break-words font-heading text-[18px] font-normal leading-snug text-[#176b45] sm:text-[21px]">
                 {value}
               </p>
             </div>
@@ -292,7 +292,7 @@ export function LandingExperience({
 
           <div className="mt-10 grid border-y border-[#d9d8cf] sm:grid-cols-2">
             <div className="py-7 sm:pr-10">
-              <p className="text-[9px] uppercase tracking-[.16em] text-[#7b817b]">
+              <p className="text-[9px] uppercase tracking-[.13em] text-[#7b817b]">
                 {t.ssc}
               </p>
               <div className="mt-3 flex items-baseline gap-3">
@@ -305,7 +305,7 @@ export function LandingExperience({
               </p>
             </div>
             <div className="border-t border-[#d9d8cf] py-7 sm:border-l sm:border-t-0 sm:pl-10">
-              <p className="text-[9px] uppercase tracking-[.16em] text-[#7b817b]">
+              <p className="text-[9px] uppercase tracking-[.13em] text-[#7b817b]">
                 {t.hsc}
               </p>
               <div className="mt-3 flex items-baseline gap-3">

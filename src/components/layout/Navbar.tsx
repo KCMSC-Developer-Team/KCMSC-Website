@@ -216,23 +216,23 @@ export function Navbar({ locale }: { locale: Locale }) {
         className="kc-site-header sticky top-0 z-50 border-b border-[#d9d8cf] bg-[#fffdf8]/95 backdrop-blur"
         onMouseLeave={() => setActiveMenu(null)}
       >
-        <div className="mx-auto flex h-[66px] max-w-[1280px] items-center px-4 sm:px-7 lg:h-[72px] lg:px-10">
+        <div className="kc-navbar-inner mx-auto flex h-[66px] w-full max-w-[1280px] items-center px-3 sm:px-6 lg:h-[72px] lg:px-10">
           <Link
             href={`/${locale}`}
-            className="flex shrink-0 items-center gap-3"
+            className="kc-navbar-brand flex min-w-0 shrink items-center gap-2 sm:gap-3"
             onClick={() => {
               setOpen(false);
               setActiveMenu(null);
             }}
           >
-            <span className="relative flex h-11 w-10 shrink-0 items-center justify-center overflow-visible">
+            <span className="relative flex h-10 w-9 shrink-0 items-center justify-center overflow-visible sm:h-11 sm:w-10">
               <img
                 src="/kcmsc/kcmsc-logo.png"
                 alt="K C Model School & College logo"
                 className="block h-full w-full object-contain"
               />
             </span>
-            <span className="block whitespace-nowrap font-heading text-[16px] font-normal leading-none text-[#124c36] sm:text-[17px]">
+            <span className="kc-navbar-title block min-w-0 font-heading text-[14px] font-normal leading-tight text-[#124c36] sm:whitespace-nowrap sm:text-[17px]">
               K C Model School & College
             </span>
           </Link>
@@ -260,7 +260,7 @@ export function Navbar({ locale }: { locale: Locale }) {
             ))}
           </nav>
 
-          <div className="ml-3 flex shrink-0 items-center gap-2 sm:ml-4">
+          <div className="kc-navbar-actions ml-auto flex shrink-0 items-center gap-1.5 sm:ml-4 sm:gap-2">
             <LanguageSwitcher current={locale} />
             <Link
               href={`/${locale}/admissions`}
@@ -273,7 +273,7 @@ export function Navbar({ locale }: { locale: Locale }) {
               aria-expanded={open}
               aria-controls="site-menu"
               onClick={() => setOpen((value) => !value)}
-              className="rounded-full border border-[#d9d8cf] px-4 py-2 text-[10px] font-medium uppercase tracking-[.08em] text-[#3f4741] transition hover:border-[#176b45] hover:text-[#176b45] lg:hidden"
+              className="kc-navbar-menu rounded-full border border-[#d9d8cf] px-3 py-2 text-[10px] font-medium uppercase tracking-[.08em] text-[#3f4741] transition hover:border-[#176b45] hover:text-[#176b45] lg:hidden sm:px-4"
             >
               {open ? text("Close", "বন্ধ") : text("Menu", "মেনু")}
             </button>

@@ -791,3 +791,70 @@ main [class~="text-[#F8FAFC]"] {
 .kc-career-rich-content u { text-decoration: underline; text-underline-offset: 3px; }
 .kc-career-rich-content blockquote { margin: 1rem 0; border-left: 3px solid #b7a56b; padding: 0.25rem 0 0.25rem 1rem; color: #536458; }
 .kc-career-rich-content a { color: #176b45; text-decoration: underline; text-underline-offset: 3px; }
+
+
+/* --------------------------------------------------------------------------
+   Mobile layout repair: homepage hero, header sizing and overflow safeguards
+   -------------------------------------------------------------------------- */
+html, body { width: 100%; max-width: 100%; }
+body { overflow-x: clip; }
+*, *::before, *::after { box-sizing: border-box; }
+.kc-site-header { width: 100%; max-width: 100%; }
+.kc-navbar-inner { min-width: 0; }
+.kc-navbar-brand { min-width: 0; }
+.kc-navbar-title { overflow-wrap: anywhere; }
+.kc-navbar-actions { gap: 6px; }
+
+.kc-home-hero { width: 100%; background: #f7f5ef; padding: 16px clamp(12px, 3vw, 28px) 22px; }
+.kc-home-hero-frame { position: relative; isolation: isolate; width: 100%; min-height: 570px; height: min(690px, 72svh); overflow: hidden; border-radius: 22px; background: #173d2d; color: #fffdf8; }
+.kc-home-hero-slide { position: absolute; inset: 0; z-index: -2; opacity: 0; transition: opacity 650ms ease; }
+.kc-home-hero-slide.is-active { opacity: 1; }
+.kc-home-hero-shade { position: absolute; z-index: -1; inset: 0; background: linear-gradient(90deg, rgba(6, 28, 20, .70) 0%, rgba(6, 28, 20, .24) 100%), linear-gradient(0deg, rgba(5, 22, 16, .82) 0%, rgba(5, 22, 16, .10) 72%); }
+.kc-home-hero-content { display: flex; min-height: inherit; height: 100%; flex-direction: column; justify-content: flex-end; padding: clamp(22px, 4vw, 58px); }
+.kc-home-hero-copy { max-width: 680px; animation: kc-home-copy-in 450ms ease both; }
+.kc-home-hero-kicker { display: flex; align-items: center; gap: 12px; margin: 0; color: rgba(255,253,248,.82); font-size: 10px; font-weight: 600; letter-spacing: .17em; line-height: 1.5; text-transform: uppercase; }
+.kc-home-hero-kicker i { display: block; width: 32px; height: 1px; background: rgba(255,253,248,.58); }
+.kc-home-hero-copy h1 { max-width: 650px; margin: 20px 0 0; color: #fffdf8; font-family: var(--font-heading), Georgia, serif; font-size: clamp(42px, 6vw, 82px); font-weight: 400; letter-spacing: -.045em; line-height: .98; text-wrap: balance; }
+.kc-home-hero-description { max-width: 490px; margin: 22px 0 0; color: rgba(255,253,248,.82); font-size: 15px; line-height: 1.8; }
+.kc-home-hero-controls { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 30px; }
+.kc-home-hero-dots { display: flex; align-items: center; gap: 9px; }
+.kc-home-hero-dots button { width: 8px; height: 8px; padding: 0; border: 0; border-radius: 99px; background: rgba(255,255,255,.55); cursor: pointer; transition: width .2s ease, background .2s ease; }
+.kc-home-hero-dots button.is-active { width: 32px; background: #fffdf8; }
+.kc-home-hero-arrows { display: flex; gap: 8px; }
+.kc-home-hero-arrows button { display: grid; width: 44px; height: 44px; place-items: center; border: 1px solid rgba(255,255,255,.48); border-radius: 50%; background: rgba(0,0,0,.12); color: #fff; font-size: 20px; cursor: pointer; transition: background .2s ease; }
+.kc-home-hero-arrows button:hover { background: rgba(255,255,255,.17); }
+@keyframes kc-home-copy-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 640px) {
+  .kc-navbar-inner { height: 64px; padding-right: 10px; padding-left: 10px; }
+  .kc-navbar-brand { gap: 7px; flex: 1 1 auto; }
+  .kc-navbar-title { max-width: 42vw; font-size: 13px !important; line-height: 1.15 !important; white-space: normal !important; }
+  .kc-navbar-actions { margin-left: 8px; gap: 6px; }
+  .kc-navbar-menu { padding: 9px 11px !important; font-size: 9px !important; }
+  .kc-navbar-actions a[href$="/admissions"] { display: none !important; }
+  .kc-home-hero { padding: 10px 10px 18px; }
+  .kc-home-hero-frame { height: auto; min-height: 0; aspect-ratio: auto; border-radius: 18px; }
+  .kc-home-hero-content { min-height: 570px; padding: 24px 22px 22px; }
+  .kc-home-hero-copy h1 { max-width: 100%; margin-top: 17px; font-size: clamp(39px, 10vw, 58px); line-height: .99; }
+  .kc-home-hero-description { margin-top: 18px; font-size: 14px; line-height: 1.7; }
+  .kc-home-hero-controls { margin-top: 27px; }
+  .kc-home-hero-arrows button { width: 40px; height: 40px; }
+  .kc-home-hero-dots { gap: 7px; }
+  .kc-home-hero-dots button.is-active { width: 27px; }
+  .kc-home-hero-shade { background: linear-gradient(90deg, rgba(6, 28, 20, .58), rgba(6, 28, 20, .20)), linear-gradient(0deg, rgba(5, 22, 16, .88) 0%, rgba(5, 22, 16, .12) 82%); }
+}
+@media (max-width: 380px) {
+  .kc-navbar-title { max-width: 36vw; font-size: 12px !important; }
+  .kc-navbar-inner img { max-width: 32px; }
+  .kc-home-hero-content { min-height: 535px; padding: 20px 17px 18px; }
+  .kc-home-hero-copy h1 { font-size: 38px; }
+  .kc-home-hero-description { font-size: 13px; }
+}
+@media (min-width: 641px) and (max-width: 900px) {
+  .kc-home-hero-frame { height: 650px; min-height: 0; }
+  .kc-home-hero-content { padding: 38px; }
+  .kc-home-hero-copy h1 { font-size: clamp(48px, 7vw, 66px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .kc-home-hero-slide, .kc-home-hero-copy, .kc-home-hero-dots button, .kc-home-hero-arrows button { animation: none !important; transition: none !important; }
+}
