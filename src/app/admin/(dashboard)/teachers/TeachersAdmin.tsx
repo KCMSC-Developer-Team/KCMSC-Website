@@ -21,7 +21,15 @@ type Teacher = {
   isActive: boolean;
 };
 
-type ImportField = "ignore" | "staffId" | "name" | "designation" | "wing" | "subjects" | "highestDegree" | "university";
+type ImportField =
+  | "ignore"
+  | "staffId"
+  | "name"
+  | "designation"
+  | "wing"
+  | "subjects"
+  | "highestDegree"
+  | "university";
 type ImportPreview = { headers: string[]; rows: string[][]; fileName: string };
 
 type ImportRow = {
@@ -73,7 +81,7 @@ const initialForm: TeacherForm = {
 };
 
 const basicFields = [
-  { title: "Staff ID", key: "staffId" },
+  { title: "Employee ID", key: "staffId" },
   { title: "Full name", key: "name" },
   { title: "Designation", key: "designation" },
   { title: "Subjects (comma separated)", key: "subjects" },
@@ -109,12 +117,23 @@ export default function TeachersAdmin({
   const [message, setMessage] = useState("");
   const [editId, setEditId] = useState<string | null>(null);
   const [form, setForm] = useState<TeacherForm>({ ...initialForm });
-  const [importPreview, setImportPreview] = useState<ImportPreview | null>(null);
-  const [columnMapping, setColumnMapping] = useState<Record<string, ImportField>>({});
+  const [importPreview, setImportPreview] = useState<ImportPreview | null>(
+    null,
+  );
+  const [columnMapping, setColumnMapping] = useState<
+    Record<string, ImportField>
+  >({});
   const [selectedTeacherIds, setSelectedTeacherIds] = useState<string[]>([]);
   const [deleting, setDeleting] = useState(false);
   const [publishing, setPublishing] = useState(false);
-  const [importProgress, setImportProgress] = useState<{ total: number; processed: number; created: number; updated: number; skipped: number; status: string } | null>(null);
+  const [importProgress, setImportProgress] = useState<{
+    total: number;
+    processed: number;
+    created: number;
+    updated: number;
+    skipped: number;
+    status: string;
+  } | null>(null);
 
   function resetForm() {
     setEditId(null);
@@ -149,7 +168,7 @@ export default function TeachersAdmin({
         ...current.filter((teacher) => teacher.id !== data.teacher.id),
       ]);
       setMessage(
-        `${editId ? "Updated" : "Saved"} ${data.teacher.name}. Initial password is the staff ID; the teacher must change it at first login.`,
+        `${editId ? "Updated" : "Saved"} ${data.teacher.name}. Initial password is the Employee ID; the teacher must change it at first login.`,
       );
       resetForm();
     } catch (error) {
@@ -163,7 +182,7 @@ export default function TeachersAdmin({
 
   const importFields: { value: ImportField; label: string }[] = [
     { value: "ignore", label: "Ignore this column" },
-    { value: "staffId", label: "Staff ID / ID No. (required)" },
+    { value: "staffId", label: "Employee ID / ID No. (required)" },
     { value: "name", label: "Teacher name (required)" },
     { value: "designation", label: "Designation" },
     { value: "wing", label: "Wing" },
@@ -173,14 +192,47 @@ export default function TeachersAdmin({
   ];
 
   function guessField(header: string): ImportField {
-    const normalized = header.trim().toLowerCase().replace(/[^a-z0-9]/g, "");
-    if (["id", "idno", "staffid", "idnumber", "employeeid", "teacherid"].includes(normalized)) return "staffId";
-    if (["name", "teachername", "fullname", "staffname", "employeename"].includes(normalized)) return "name";
-    if (["designation", "position", "title", "jobtitle"].includes(normalized)) return "designation";
-    if (["wing", "section", "schoolwing", "campus"].includes(normalized)) return "wing";
-    if (["subject", "subjects", "teachingsubject", "teachingsubjects"].includes(normalized)) return "subjects";
-    if (["degree", "highestdegree", "qualification", "academicdegree"].includes(normalized)) return "highestDegree";
-    if (["university", "graduateduniversity", "institution", "universityname"].includes(normalized)) return "university";
+    const normalized = header
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9]/g, "");
+    if (
+      ["id", "idno", "staffid", "idnumber", "employeeid", "teacherid"].includes(
+        normalized,
+      )
+    )
+      return "staffId";
+    if (
+      ["name", "teachername", "fullname", "staffname", "employeename"].includes(
+        normalized,
+      )
+    )
+      return "name";
+    if (["designation", "position", "title", "jobtitle"].includes(normalized))
+      return "designation";
+    if (["wing", "section", "schoolwing", "campus"].includes(normalized))
+      return "wing";
+    if (
+      ["subject", "subjects", "teachingsubject", "teachingsubjects"].includes(
+        normalized,
+      )
+    )
+      return "subjects";
+    if (
+      ["degree", "highestdegree", "qualification", "academicdegree"].includes(
+        normalized,
+      )
+    )
+      return "highestDegree";
+    if (
+      [
+        "university",
+        "graduateduniversity",
+        "institution",
+        "universityname",
+      ].includes(normalized)
+    )
+      return "university";
     return "ignore";
   }
 
@@ -191,23 +243,40 @@ export default function TeachersAdmin({
       const buffer = await file.arrayBuffer();
       const workbook = XLSX.read(buffer, { type: "array", cellDates: false });
       const firstSheetName = workbook.SheetNames[0];
-      if (!firstSheetName) throw new Error("The workbook contains no worksheets.");
+      if (!firstSheetName)
+        throw new Error("The workbook contains no worksheets.");
       const worksheet = workbook.Sheets[firstSheetName];
       if (!worksheet) throw new Error("Could not read the first worksheet.");
-      const matrix = XLSX.utils.sheet_to_json<unknown[]>(worksheet, { header: 1, defval: "", raw: false });
-      const headerIndex = matrix.findIndex((row) => row.some((cell) => String(cell ?? "").trim() !== ""));
+      const matrix = XLSX.utils.sheet_to_json<unknown[]>(worksheet, {
+        header: 1,
+        defval: "",
+        raw: false,
+      });
+      const headerIndex = matrix.findIndex((row) =>
+        row.some((cell) => String(cell ?? "").trim() !== ""),
+      );
       if (headerIndex < 0) throw new Error("The selected worksheet is empty.");
-      const headers = (matrix[headerIndex] || []).map((cell, index) => String(cell ?? "").trim() || `Column ${index + 1}`);
-      const rows = matrix.slice(headerIndex + 1)
+      const headers = (matrix[headerIndex] || []).map(
+        (cell, index) => String(cell ?? "").trim() || `Column ${index + 1}`,
+      );
+      const rows = matrix
+        .slice(headerIndex + 1)
         .filter((row) => row.some((cell) => String(cell ?? "").trim() !== ""))
-        .map((row) => headers.map((_, index) => String(row[index] ?? "").trim()));
-      if (headers.length === 0 || rows.length === 0) throw new Error("No data rows were found below the header row.");
+        .map((row) =>
+          headers.map((_, index) => String(row[index] ?? "").trim()),
+        );
+      if (headers.length === 0 || rows.length === 0)
+        throw new Error("No data rows were found below the header row.");
       const initialMapping: Record<string, ImportField> = {};
-      headers.forEach((header, index) => { initialMapping[`${index}:${header}`] = guessField(header); });
+      headers.forEach((header, index) => {
+        initialMapping[`${index}:${header}`] = guessField(header);
+      });
       setImportPreview({ headers, rows, fileName: file.name });
       setColumnMapping(initialMapping);
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Could not read workbook.");
+      setMessage(
+        error instanceof Error ? error.message : "Could not read workbook.",
+      );
     } finally {
       setBusy(false);
     }
@@ -215,19 +284,27 @@ export default function TeachersAdmin({
 
   async function confirmImport() {
     if (!importPreview) return;
-    const selected = importPreview.headers.map((header, index) => ({
-      header,
-      field: columnMapping[`${index}:${header}`] || "ignore",
-      index,
-    })).filter((item) => item.field !== "ignore");
+    const selected = importPreview.headers
+      .map((header, index) => ({
+        header,
+        field: columnMapping[`${index}:${header}`] || "ignore",
+        index,
+      }))
+      .filter((item) => item.field !== "ignore");
     const mappedFields = selected.map((item) => item.field);
     if (!mappedFields.includes("staffId") || !mappedFields.includes("name")) {
-      setMessage("Map one column to Staff ID / ID No. and another to Teacher name before importing.");
+      setMessage(
+        "Map one column to Employee ID / ID No. and another to Teacher name before importing.",
+      );
       return;
     }
-    const duplicateTargets = mappedFields.filter((field, index) => mappedFields.indexOf(field) !== index);
+    const duplicateTargets = mappedFields.filter(
+      (field, index) => mappedFields.indexOf(field) !== index,
+    );
     if (duplicateTargets.length) {
-      setMessage("Each target field can be mapped to only one source column. Fix the duplicate mappings first.");
+      setMessage(
+        "Each target field can be mapped to only one source column. Fix the duplicate mappings first.",
+      );
       return;
     }
     const rows: ImportRow[] = importPreview.rows.map((cells) => {
@@ -240,31 +317,47 @@ export default function TeachersAdmin({
         name: value("name"),
         designation: value("designation") || "Teacher",
         wing: value("wing") || "Unassigned",
-        subjects: value("subjects").split(/[,;|]/).map((subject) => subject.trim()).filter(Boolean),
+        subjects: value("subjects")
+          .split(/[,;|]/)
+          .map((subject) => subject.trim())
+          .filter(Boolean),
         highestDegree: value("highestDegree") || undefined,
         university: value("university") || undefined,
       };
     });
     const validRows = rows.filter((row) => row.staffId && row.name);
     if (validRows.length === 0) {
-      setMessage("No valid rows found. Check that the mapped Staff ID and Teacher name columns contain values.");
+      setMessage(
+        "No valid rows found. Check that the mapped Employee ID and Teacher name columns contain values.",
+      );
       return;
     }
     setBusy(true);
     setMessage("");
-    const batchSize = 25;
+    const batchSize = 5;
     const total = validRows.length;
     let processed = 0;
     let created = 0;
     let updated = 0;
     let skipped = rows.length - validRows.length;
     const importErrors: string[] = [];
-    setImportProgress({ total, processed: 0, created: 0, updated: 0, skipped, status: "Preparing import…" });
+    setImportProgress({
+      total,
+      processed: 0,
+      created: 0,
+      updated: 0,
+      skipped,
+      status: "Preparing import…",
+    });
     try {
       for (let start = 0; start < total; start += batchSize) {
         const batch = validRows.slice(start, start + batchSize);
         setImportProgress({
-          total, processed, created, updated, skipped,
+          total,
+          processed,
+          created,
+          updated,
+          skipped,
           status: `Importing rows ${start + 1}–${Math.min(start + batch.length, total)} of ${total}…`,
         });
         const response = await fetch("/api/admin/teachers", {
@@ -273,23 +366,37 @@ export default function TeachersAdmin({
           body: JSON.stringify({ rows: batch }),
         });
         const data = await response.json();
-        if (!response.ok) throw new Error(data.error || `Import failed at row ${start + 1}.`);
+        if (!response.ok)
+          throw new Error(data.error || `Import failed at row ${start + 1}.`);
         created += Number(data.created || 0);
         updated += Number(data.updated || 0);
         skipped += Number(data.skipped || 0);
-        if (Array.isArray(data.errors)) importErrors.push(...data.errors.map(String));
+        if (Array.isArray(data.errors))
+          importErrors.push(...data.errors.map(String));
         processed += batch.length;
         setImportProgress({
-          total, processed, created, updated, skipped,
-          status: processed >= total ? "Finishing up…" : `Processed ${processed} of ${total} rows`,
+          total,
+          processed,
+          created,
+          updated,
+          skipped,
+          status:
+            processed >= total
+              ? "Finishing up…"
+              : `Processed ${processed} of ${total} rows`,
         });
-        if (Array.isArray(data.teachers)) setTeachers(data.teachers as Teacher[]);
+        if (Array.isArray(data.teachers))
+          setTeachers(data.teachers as Teacher[]);
       }
-      setMessage(`Import finished: ${created} created, ${updated} updated, ${skipped} skipped. ${rows.length - validRows.length} rows missing staff ID or name were excluded.${importErrors.length ? ` Issues: ${importErrors.slice(0, 5).join("; ")}` : ""}`);
+      setMessage(
+        `Import finished: ${created} created, ${updated} updated, ${skipped} skipped. ${rows.length - validRows.length} rows missing Employee ID or name were excluded.${importErrors.length ? ` Issues: ${importErrors.slice(0, 5).join("; ")}` : ""}`,
+      );
       setImportPreview(null);
       setColumnMapping({});
     } catch (error) {
-      setMessage(`${error instanceof Error ? error.message : "Import failed."} ${processed} of ${total} valid rows were processed before the error.`);
+      setMessage(
+        `${error instanceof Error ? error.message : "Import failed."} ${processed} of ${total} valid rows were processed before the error.`,
+      );
     } finally {
       setBusy(false);
       setImportProgress(null);
@@ -323,23 +430,44 @@ export default function TeachersAdmin({
   }
 
   function toggleSelectedTeacher(id: string) {
-    setSelectedTeacherIds((current) => current.includes(id) ? current.filter((item) => item !== id) : [...current, id]);
+    setSelectedTeacherIds((current) =>
+      current.includes(id)
+        ? current.filter((item) => item !== id)
+        : [...current, id],
+    );
   }
 
   function toggleSelectAllTeachers() {
-    setSelectedTeacherIds((current) => current.length === teachers.length ? [] : teachers.map((teacher) => teacher.id));
+    setSelectedTeacherIds((current) =>
+      current.length === teachers.length
+        ? []
+        : teachers.map((teacher) => teacher.id),
+    );
   }
 
   async function setSelectedPublished(isPublished: boolean) {
     if (!selectedTeacherIds.length || publishing) return;
-    const selected = teachers.filter((teacher) => selectedTeacherIds.includes(teacher.id));
-    const eligible = selected.filter((teacher) => teacher.isPublished !== isPublished);
+    const selected = teachers.filter((teacher) =>
+      selectedTeacherIds.includes(teacher.id),
+    );
+    const eligible = selected.filter(
+      (teacher) => teacher.isPublished !== isPublished,
+    );
     if (!eligible.length) {
-      setMessage(isPublished ? "All selected teachers are already published." : "All selected teachers are already unpublished.");
+      setMessage(
+        isPublished
+          ? "All selected teachers are already published."
+          : "All selected teachers are already unpublished.",
+      );
       return;
     }
     const action = isPublished ? "publish" : "unpublish";
-    if (!window.confirm(`${action.charAt(0).toUpperCase() + action.slice(1)} ${eligible.length} selected teacher profile(s)?`)) return;
+    if (
+      !window.confirm(
+        `${action.charAt(0).toUpperCase() + action.slice(1)} ${eligible.length} selected teacher profile(s)?`,
+      )
+    )
+      return;
     setPublishing(true);
     setMessage("");
     try {
@@ -350,12 +478,21 @@ export default function TeachersAdmin({
         body: JSON.stringify({ ids, isPublished }),
       });
       const data = await response.json();
-      if (!response.ok) throw new Error(data.error || `Could not ${action} selected teachers.`);
+      if (!response.ok)
+        throw new Error(data.error || `Could not ${action} selected teachers.`);
       const changed = new Set<string>(ids);
-      setTeachers((current) => current.map((teacher) => changed.has(teacher.id) ? { ...teacher, isPublished } : teacher));
-      setMessage(`${action.charAt(0).toUpperCase() + action.slice(1)} ${data.updated ?? ids.length} teacher profile(s).`);
+      setTeachers((current) =>
+        current.map((teacher) =>
+          changed.has(teacher.id) ? { ...teacher, isPublished } : teacher,
+        ),
+      );
+      setMessage(
+        `${action.charAt(0).toUpperCase() + action.slice(1)} ${data.updated ?? ids.length} teacher profile(s).`,
+      );
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : `Bulk ${action} failed.`);
+      setMessage(
+        error instanceof Error ? error.message : `Bulk ${action} failed.`,
+      );
     } finally {
       setPublishing(false);
     }
@@ -363,8 +500,12 @@ export default function TeachersAdmin({
 
   async function deleteSelectedTeachers() {
     if (!selectedTeacherIds.length || deleting) return;
-    const selected = teachers.filter((teacher) => selectedTeacherIds.includes(teacher.id));
-    const confirmed = window.confirm(`Permanently delete ${selected.length} selected teacher record(s) and their login accounts? This cannot be undone.`);
+    const selected = teachers.filter((teacher) =>
+      selectedTeacherIds.includes(teacher.id),
+    );
+    const confirmed = window.confirm(
+      `Permanently delete ${selected.length} selected teacher record(s) and their login accounts? This cannot be undone.`,
+    );
     if (!confirmed) return;
     setDeleting(true);
     setMessage("");
@@ -375,14 +516,21 @@ export default function TeachersAdmin({
         body: JSON.stringify({ ids: selectedTeacherIds }),
       });
       const data = await response.json();
-      if (!response.ok) throw new Error(data.error || "Could not delete selected teachers.");
+      if (!response.ok)
+        throw new Error(data.error || "Could not delete selected teachers.");
       const deletedIds = new Set<string>(data.deletedIds || selectedTeacherIds);
-      setTeachers((current) => current.filter((teacher) => !deletedIds.has(teacher.id)));
+      setTeachers((current) =>
+        current.filter((teacher) => !deletedIds.has(teacher.id)),
+      );
       setSelectedTeacherIds([]);
       if (editId && deletedIds.has(editId)) resetForm();
-      setMessage(`Deleted ${deletedIds.size} teacher record(s) and their login accounts.`);
+      setMessage(
+        `Deleted ${deletedIds.size} teacher record(s) and their login accounts.`,
+      );
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Bulk delete failed.");
+      setMessage(
+        error instanceof Error ? error.message : "Bulk delete failed.",
+      );
     } finally {
       setDeleting(false);
     }
@@ -420,7 +568,8 @@ export default function TeachersAdmin({
             Teachers &amp; faculty
           </h1>
           <p className="mt-2 text-sm text-[#69716b]">
-            Manage staff records, subject assignments, accounts and public profiles.
+            Manage staff records, subject assignments, accounts and public
+            profiles.
           </p>
         </div>
         <span className="rounded-full bg-[#efeee7] px-3 py-1.5 text-xs text-[#176b45]">
@@ -460,7 +609,8 @@ export default function TeachersAdmin({
             {editId ? "Edit teacher" : "New teacher account"}
           </h2>
           <p className="mt-1 text-xs leading-5 text-[#69716b]">
-            Account is created automatically. Initial password equals the staff ID and must be changed after first login.
+            Account is created automatically. Initial password equals the
+            Employee ID and must be changed after first login.
           </p>
 
           <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -468,7 +618,9 @@ export default function TeachersAdmin({
               <label key={key}>
                 <span className={labelClass}>{title}</span>
                 <input
-                  required={key === "staffId" || key === "name" || key === "designation"}
+                  required={
+                    key === "staffId" || key === "name" || key === "designation"
+                  }
                   disabled={Boolean(editId) && key === "staffId"}
                   className={inputClass}
                   value={form[key]}
@@ -488,7 +640,10 @@ export default function TeachersAdmin({
                 className={inputClass}
                 value={form.wing}
                 onChange={(event) =>
-                  setForm((current) => ({ ...current, wing: event.target.value }))
+                  setForm((current) => ({
+                    ...current,
+                    wing: event.target.value,
+                  }))
                 }
               >
                 {wings.map((wing) => (
@@ -556,7 +711,10 @@ export default function TeachersAdmin({
             Import teacher spreadsheet
           </h2>
           <p className="mt-2 max-w-3xl text-sm leading-6 text-[#69716b]">
-            Upload the existing workbook. The importer recognises ID No., Name and Designation. Wing and subject columns are optional; missing values remain unassigned. Existing staff IDs are updated instead of duplicated.
+            Upload the existing workbook. The importer recognises ID No., Name
+            and Designation. Wing and subject columns are optional; missing
+            values remain unassigned. Existing Employee IDs are updated instead
+            of duplicated.
           </p>
           <label className="mt-5 block max-w-xl">
             <span className={labelClass}>Excel workbook or CSV</span>
@@ -576,7 +734,9 @@ export default function TeachersAdmin({
             <p className="mt-4 text-sm text-[#176b45]">Reading workbook…</p>
           )}
           <p className="mt-4 text-xs leading-5 text-[#69716b]">
-            Imported accounts use each staff ID as the initial password. They will be required to change it at first login. Newly imported profiles remain unpublished until you publish them.
+            Imported accounts use each Employee ID as the initial password. They
+            will be required to change it at first login. Newly imported
+            profiles remain unpublished until you publish them.
           </p>
         </div>
       )}
@@ -584,20 +744,42 @@ export default function TeachersAdmin({
       <section className="mt-8 overflow-hidden rounded-xl border border-[#d9d8cf] bg-[#fffdf8]">
         <div className="flex flex-col gap-3 border-b border-[#d9d8cf] px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h2 className="font-heading text-xl text-[#124c36]">Teacher records</h2>
+            <h2 className="font-heading text-xl text-[#124c36]">
+              Teacher records
+            </h2>
             <p className="mt-1 text-xs text-[#69716b]">
-              Publish controls what appears in the public directory. Inactive accounts cannot log in.
+              Publish controls what appears in the public directory. Inactive
+              accounts cannot log in.
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <button type="button" onClick={() => void setSelectedPublished(true)} disabled={!selectedTeacherIds.length || publishing || deleting} className="rounded-lg bg-[#176b45] px-4 py-2.5 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-40">
-              {publishing ? "Updating…" : `Publish selected (${selectedTeacherIds.length})`}
+            <button
+              type="button"
+              onClick={() => void setSelectedPublished(true)}
+              disabled={!selectedTeacherIds.length || publishing || deleting}
+              className="rounded-lg bg-[#176b45] px-4 py-2.5 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              {publishing
+                ? "Updating…"
+                : `Publish selected (${selectedTeacherIds.length})`}
             </button>
-            <button type="button" onClick={() => void setSelectedPublished(false)} disabled={!selectedTeacherIds.length || publishing || deleting} className="rounded-lg border border-[#d9d8cf] bg-white px-4 py-2.5 text-sm font-medium text-[#425047] disabled:cursor-not-allowed disabled:opacity-40">
+            <button
+              type="button"
+              onClick={() => void setSelectedPublished(false)}
+              disabled={!selectedTeacherIds.length || publishing || deleting}
+              className="rounded-lg border border-[#d9d8cf] bg-white px-4 py-2.5 text-sm font-medium text-[#425047] disabled:cursor-not-allowed disabled:opacity-40"
+            >
               Unpublish selected
             </button>
-            <button type="button" onClick={() => void deleteSelectedTeachers()} disabled={!selectedTeacherIds.length || deleting || publishing} className="rounded-lg border border-[#b84436] bg-white px-4 py-2.5 text-sm font-medium text-[#a43f32] disabled:cursor-not-allowed disabled:opacity-40">
-              {deleting ? "Deleting…" : `Delete selected (${selectedTeacherIds.length})`}
+            <button
+              type="button"
+              onClick={() => void deleteSelectedTeachers()}
+              disabled={!selectedTeacherIds.length || deleting || publishing}
+              className="rounded-lg border border-[#b84436] bg-white px-4 py-2.5 text-sm font-medium text-[#a43f32] disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              {deleting
+                ? "Deleting…"
+                : `Delete selected (${selectedTeacherIds.length})`}
             </button>
           </div>
         </div>
@@ -606,16 +788,50 @@ export default function TeachersAdmin({
           <table className="w-full min-w-[850px] text-left text-sm">
             <thead className="bg-[#efeee7] text-[10px] uppercase tracking-wider text-[#69716b]">
               <tr>
-                <th className="px-4 py-3"><input aria-label="Select all teachers" type="checkbox" checked={teachers.length > 0 && selectedTeacherIds.length === teachers.length} onChange={toggleSelectAllTeachers} /></th>
-                {["Teacher", "Staff ID", "Wing / subjects", "Designation", "Account", "Public profile", "Edit"].map((heading) => (
-                  <th key={heading} className="px-4 py-3 font-medium">{heading}</th>
+                <th className="px-4 py-3">
+                  <input
+                    aria-label="Select all teachers"
+                    type="checkbox"
+                    checked={
+                      teachers.length > 0 &&
+                      selectedTeacherIds.length === teachers.length
+                    }
+                    onChange={toggleSelectAllTeachers}
+                  />
+                </th>
+                {[
+                  "Teacher",
+                  "Employee ID",
+                  "Wing / subjects",
+                  "Designation",
+                  "Account",
+                  "Public profile",
+                  "Edit",
+                ].map((heading) => (
+                  <th key={heading} className="px-4 py-3 font-medium">
+                    {heading}
+                  </th>
                 ))}
               </tr>
             </thead>
             <tbody className="divide-y divide-[#e4e2d9]">
               {teachers.map((teacher) => (
-                <tr key={teacher.id} className={selectedTeacherIds.includes(teacher.id) ? "bg-[#fff5f2]" : ""}>
-                  <td className="px-4 py-3"><input aria-label={`Select ${teacher.name}`} type="checkbox" checked={selectedTeacherIds.includes(teacher.id)} onChange={() => toggleSelectedTeacher(teacher.id)} /></td>
+                <tr
+                  key={teacher.id}
+                  className={
+                    selectedTeacherIds.includes(teacher.id)
+                      ? "bg-[#fff5f2]"
+                      : ""
+                  }
+                >
+                  <td className="px-4 py-3">
+                    <input
+                      aria-label={`Select ${teacher.name}`}
+                      type="checkbox"
+                      checked={selectedTeacherIds.includes(teacher.id)}
+                      onChange={() => toggleSelectedTeacher(teacher.id)}
+                    />
+                  </td>
                   <td className="px-4 py-3">
                     <p className="font-medium text-[#242824]">{teacher.name}</p>
                     <p className="mt-1 text-xs text-[#69716b]">
@@ -623,7 +839,9 @@ export default function TeachersAdmin({
                       {teacher.university ? ` · ${teacher.university}` : ""}
                     </p>
                   </td>
-                  <td className="px-4 py-3 font-mono text-xs">{teacher.staffId}</td>
+                  <td className="px-4 py-3 font-mono text-xs">
+                    {teacher.staffId}
+                  </td>
                   <td className="px-4 py-3 text-xs">
                     {teacher.wing}
                     <p className="mt-1 text-[#69716b]">
@@ -662,7 +880,10 @@ export default function TeachersAdmin({
               ))}
               {teachers.length === 0 && (
                 <tr>
-                  <td colSpan={8} className="px-4 py-10 text-center text-sm text-[#69716b]">
+                  <td
+                    colSpan={8}
+                    className="px-4 py-10 text-center text-sm text-[#69716b]"
+                  >
                     No teacher records yet.
                   </td>
                 </tr>
@@ -673,64 +894,256 @@ export default function TeachersAdmin({
       </section>
 
       {importPreview && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#17251e]/60 p-3 sm:p-6" role="dialog" aria-modal="true" aria-labelledby="column-mapping-title">
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-[#17251e]/60 p-3 sm:p-6"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="column-mapping-title"
+        >
           <div className="flex max-h-[92vh] w-full max-w-6xl flex-col overflow-hidden rounded-2xl border border-[#d9d8cf] bg-[#fffdf8] shadow-2xl">
             <div className="flex items-start justify-between gap-4 border-b border-[#e4e2d9] px-5 py-4 sm:px-7">
               <div>
-                <p className="text-[10px] font-semibold uppercase tracking-[.18em] text-[#176b45]">Step 1 of 2 · Configure import</p>
-                <h2 id="column-mapping-title" className="mt-1 font-heading text-2xl text-[#124c36]">Match spreadsheet columns</h2>
-                <p className="mt-1 text-sm text-[#69716b]">{importPreview.fileName} · {importPreview.rows.length} data rows detected. Review the automatic matches before importing.</p>
+                <p className="text-[10px] font-semibold uppercase tracking-[.18em] text-[#176b45]">
+                  Step 1 of 2 · Configure import
+                </p>
+                <h2
+                  id="column-mapping-title"
+                  className="mt-1 font-heading text-2xl text-[#124c36]"
+                >
+                  Match spreadsheet columns
+                </h2>
+                <p className="mt-1 text-sm text-[#69716b]">
+                  {importPreview.fileName} · {importPreview.rows.length} data
+                  rows detected. Review the automatic matches before importing.
+                </p>
               </div>
-              <button type="button" disabled={busy} onClick={() => { setImportPreview(null); setColumnMapping({}); }} className="rounded-lg border border-[#d9d8cf] px-3 py-2 text-sm text-[#59615b] disabled:opacity-50">Cancel</button>
+              <button
+                type="button"
+                disabled={busy}
+                onClick={() => {
+                  setImportPreview(null);
+                  setColumnMapping({});
+                }}
+                className="rounded-lg border border-[#d9d8cf] px-3 py-2 text-sm text-[#59615b] disabled:opacity-50"
+              >
+                Cancel
+              </button>
             </div>
             <div className="overflow-auto px-5 py-4 sm:px-7">
               {busy && importProgress && (
-                <section className="mb-4 rounded-xl border border-[#b8d8c4] bg-[#f0f8f2] p-4" aria-live="polite" aria-atomic="true">
+                <section
+                  className="mb-4 rounded-xl border border-[#b8d8c4] bg-[#f0f8f2] p-4"
+                  aria-live="polite"
+                  aria-atomic="true"
+                >
                   <div className="mb-2 flex items-center justify-between gap-3">
                     <div>
-                      <p className="text-sm font-semibold text-[#124c36]">Importing teachers</p>
-                      <p className="mt-1 text-xs text-[#596b60]">{importProgress.status}</p>
+                      <p className="text-sm font-semibold text-[#124c36]">
+                        Importing teachers
+                      </p>
+                      <p className="mt-1 text-xs text-[#596b60]">
+                        {importProgress.status}
+                      </p>
                     </div>
-                    <span className="shrink-0 text-lg font-semibold tabular-nums text-[#176b45]">{Math.round((importProgress.processed / Math.max(importProgress.total, 1)) * 100)}%</span>
+                    <span className="shrink-0 text-lg font-semibold tabular-nums text-[#176b45]">
+                      {Math.round(
+                        (importProgress.processed /
+                          Math.max(importProgress.total, 1)) *
+                          100,
+                      )}
+                      %
+                    </span>
                   </div>
-                  <div className="h-3 w-full overflow-hidden rounded-full bg-[#dce8df]" role="progressbar" aria-label="Teacher import progress" aria-valuemin={0} aria-valuemax={importProgress.total} aria-valuenow={importProgress.processed}>
-                    <div className="h-full rounded-full bg-[#176b45] transition-all duration-300 ease-out" style={{ width: `${Math.min(100, (importProgress.processed / Math.max(importProgress.total, 1)) * 100)}%` }} />
+                  <div
+                    className="h-3 w-full overflow-hidden rounded-full bg-[#dce8df]"
+                    role="progressbar"
+                    aria-label="Teacher import progress"
+                    aria-valuemin={0}
+                    aria-valuemax={importProgress.total}
+                    aria-valuenow={importProgress.processed}
+                  >
+                    <div
+                      className="h-full rounded-full bg-[#176b45] transition-all duration-300 ease-out"
+                      style={{
+                        width: `${Math.min(100, (importProgress.processed / Math.max(importProgress.total, 1)) * 100)}%`,
+                      }}
+                    />
                   </div>
                   <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-xs text-[#596b60]">
-                    <span><strong className="text-[#242824]">{importProgress.processed}</strong> / {importProgress.total} processed</span>
-                    <span><strong className="text-[#176b45]">{importProgress.created}</strong> created</span>
-                    <span><strong className="text-[#176b45]">{importProgress.updated}</strong> updated</span>
-                    <span><strong className="text-[#a43f32]">{importProgress.skipped}</strong> skipped</span>
+                    <span>
+                      <strong className="text-[#242824]">
+                        {importProgress.processed}
+                      </strong>{" "}
+                      / {importProgress.total} processed
+                    </span>
+                    <span>
+                      <strong className="text-[#176b45]">
+                        {importProgress.created}
+                      </strong>{" "}
+                      created
+                    </span>
+                    <span>
+                      <strong className="text-[#176b45]">
+                        {importProgress.updated}
+                      </strong>{" "}
+                      updated
+                    </span>
+                    <span>
+                      <strong className="text-[#a43f32]">
+                        {importProgress.skipped}
+                      </strong>{" "}
+                      skipped
+                    </span>
                   </div>
                 </section>
               )}
-              <div className="mb-4 rounded-lg border border-[#e6d9ad] bg-[#fff8e4] p-3 text-sm text-[#6e5a24]">Required: map a source column to <strong>Staff ID / ID No.</strong> and another to <strong>Teacher name</strong>. Columns you don't need can be ignored.</div>
+              <div className="mb-4 rounded-lg border border-[#e6d9ad] bg-[#fff8e4] p-3 text-sm text-[#6e5a24]">
+                Required: map a source column to{" "}
+                <strong>Employee ID / ID No.</strong> and another to{" "}
+                <strong>Teacher name</strong>. Columns you don't need can be
+                ignored.
+              </div>
               <div className="overflow-x-auto rounded-lg border border-[#e4e2d9]">
                 <table className="w-full min-w-[760px] text-left text-sm">
-                  <thead className="bg-[#efeee7] text-[10px] uppercase tracking-wider text-[#69716b]"><tr><th className="px-4 py-3">Source column in your file</th><th className="px-4 py-3">Assign this column to</th><th className="px-4 py-3">Sample values</th></tr></thead>
+                  <thead className="bg-[#efeee7] text-[10px] uppercase tracking-wider text-[#69716b]">
+                    <tr>
+                      <th className="px-4 py-3">Source column in your file</th>
+                      <th className="px-4 py-3">Assign this column to</th>
+                      <th className="px-4 py-3">Sample values</th>
+                    </tr>
+                  </thead>
                   <tbody className="divide-y divide-[#e4e2d9]">
                     {importPreview.headers.map((header, index) => {
                       const key = `${index}:${header}`;
-                      const samples = importPreview.rows.slice(0, 3).map((row) => row[index]).filter(Boolean);
-                      return <tr key={key}>
-                        <td className="px-4 py-3 font-medium text-[#242824]">{header}</td>
-                        <td className="px-4 py-3"><select className={`${inputClass} min-w-[250px]`} value={columnMapping[key] || "ignore"} onChange={(event) => setColumnMapping((current) => ({ ...current, [key]: event.target.value as ImportField }))}>{importFields.map((field) => <option key={field.value} value={field.value}>{field.label}</option>)}</select></td>
-                        <td className="max-w-[300px] px-4 py-3 text-xs text-[#69716b]">{samples.length ? samples.join(" · ") : <span className="italic">No sample values</span>}</td>
-                      </tr>;
+                      const samples = importPreview.rows
+                        .slice(0, 3)
+                        .map((row) => row[index])
+                        .filter(Boolean);
+                      return (
+                        <tr key={key}>
+                          <td className="px-4 py-3 font-medium text-[#242824]">
+                            {header}
+                          </td>
+                          <td className="px-4 py-3">
+                            <select
+                              className={`${inputClass} min-w-[250px]`}
+                              value={columnMapping[key] || "ignore"}
+                              onChange={(event) =>
+                                setColumnMapping((current) => ({
+                                  ...current,
+                                  [key]: event.target.value as ImportField,
+                                }))
+                              }
+                            >
+                              {importFields.map((field) => (
+                                <option key={field.value} value={field.value}>
+                                  {field.label}
+                                </option>
+                              ))}
+                            </select>
+                          </td>
+                          <td className="max-w-[300px] px-4 py-3 text-xs text-[#69716b]">
+                            {samples.length ? (
+                              samples.join(" · ")
+                            ) : (
+                              <span className="italic">No sample values</span>
+                            )}
+                          </td>
+                        </tr>
+                      );
                     })}
                   </tbody>
                 </table>
               </div>
               <div className="mt-5">
-                <h3 className="text-sm font-semibold text-[#124c36]">Preview · first 5 rows after mapping</h3>
+                <h3 className="text-sm font-semibold text-[#124c36]">
+                  Preview · first 5 rows after mapping
+                </h3>
                 <div className="mt-2 overflow-x-auto rounded-lg border border-[#e4e2d9]">
-                  <table className="w-full min-w-[700px] text-left text-xs"><thead className="bg-[#f5f4ed] text-[#69716b]"><tr>{["Staff ID", "Name", "Designation", "Wing", "Subjects"].map((heading) => <th key={heading} className="px-3 py-2">{heading}</th>)}</tr></thead><tbody className="divide-y divide-[#e4e2d9]">{importPreview.rows.slice(0, 5).map((cells, rowIndex) => { const val = (field: ImportField) => { const columnIndex = importPreview.headers.findIndex((header, index) => columnMapping[`${index}:${header}`] === field); return columnIndex >= 0 ? cells[columnIndex] || "" : ""; }; return <tr key={rowIndex}><td className="px-3 py-2">{val("staffId") || <span className="text-[#a43f32]">Missing</span>}</td><td className="px-3 py-2">{val("name") || <span className="text-[#a43f32]">Missing</span>}</td><td className="px-3 py-2">{val("designation") || "Teacher (default)"}</td><td className="px-3 py-2">{val("wing") || "Unassigned"}</td><td className="px-3 py-2">{val("subjects") || "Unassigned"}</td></tr>; })}</tbody></table>
+                  <table className="w-full min-w-[700px] text-left text-xs">
+                    <thead className="bg-[#f5f4ed] text-[#69716b]">
+                      <tr>
+                        {[
+                          "Employee ID",
+                          "Name",
+                          "Designation",
+                          "Wing",
+                          "Subjects",
+                        ].map((heading) => (
+                          <th key={heading} className="px-3 py-2">
+                            {heading}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-[#e4e2d9]">
+                      {importPreview.rows.slice(0, 5).map((cells, rowIndex) => {
+                        const val = (field: ImportField) => {
+                          const columnIndex = importPreview.headers.findIndex(
+                            (header, index) =>
+                              columnMapping[`${index}:${header}`] === field,
+                          );
+                          return columnIndex >= 0
+                            ? cells[columnIndex] || ""
+                            : "";
+                        };
+                        return (
+                          <tr key={rowIndex}>
+                            <td className="px-3 py-2">
+                              {val("staffId") || (
+                                <span className="text-[#a43f32]">Missing</span>
+                              )}
+                            </td>
+                            <td className="px-3 py-2">
+                              {val("name") || (
+                                <span className="text-[#a43f32]">Missing</span>
+                              )}
+                            </td>
+                            <td className="px-3 py-2">
+                              {val("designation") || "Teacher (default)"}
+                            </td>
+                            <td className="px-3 py-2">
+                              {val("wing") || "Unassigned"}
+                            </td>
+                            <td className="px-3 py-2">
+                              {val("subjects") || "Unassigned"}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
             <div className="flex flex-col-reverse gap-2 border-t border-[#e4e2d9] bg-[#f8f7f1] px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-7">
-              <p className="text-xs text-[#69716b]">Existing staff IDs will be updated, not duplicated. New profiles remain unpublished.</p>
-              <div className="flex gap-2"><button type="button" disabled={busy} onClick={() => { setImportPreview(null); setColumnMapping({}); }} className="rounded-lg border border-[#d9d8cf] bg-white px-4 py-2.5 text-sm disabled:opacity-50">Cancel</button><button type="button" disabled={busy} onClick={() => void confirmImport()} className="rounded-lg bg-[#176b45] px-5 py-2.5 text-sm font-medium text-white disabled:opacity-60">{busy ? "Importing…" : `Confirm mapping & import ${importPreview.rows.length} rows`}</button></div>
+              <p className="text-xs text-[#69716b]">
+                Existing Employee IDs will be updated, not duplicated. New
+                profiles remain unpublished.
+              </p>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  disabled={busy}
+                  onClick={() => {
+                    setImportPreview(null);
+                    setColumnMapping({});
+                  }}
+                  className="rounded-lg border border-[#d9d8cf] bg-white px-4 py-2.5 text-sm disabled:opacity-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  disabled={busy}
+                  onClick={() => void confirmImport()}
+                  className="rounded-lg bg-[#176b45] px-5 py-2.5 text-sm font-medium text-white disabled:opacity-60"
+                >
+                  {busy
+                    ? "Importing…"
+                    : `Confirm mapping & import ${importPreview.rows.length} rows`}
+                </button>
+              </div>
             </div>
           </div>
         </div>

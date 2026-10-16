@@ -2,4 +2,89 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-export default function TeacherLoginPage(){const [staffId,setStaffId]=useState("");const [password,setPassword]=useState("");const [error,setError]=useState("");const [busy,setBusy]=useState(false);const router=useRouter();async function submit(e:React.FormEvent){e.preventDefault();setBusy(true);setError("");const r=await signIn("credentials",{email:staffId.trim(),password,redirect:false});if(r?.error){setError("Invalid staff ID or password, or the account is inactive.");setBusy(false);return}router.push("/teacher/dashboard");router.refresh()}return <main className="grid min-h-screen place-items-center bg-[#f7f5ef] px-4 py-10"><form onSubmit={submit} className="w-full max-w-md rounded-2xl border border-[#d9d8cf] bg-[#fffdf8] p-7 shadow-sm sm:p-9"><img src="/kcmsc/kcmsc-logo.png" alt="KCMSC" className="h-14 w-14 object-contain"/><p className="mt-6 text-[10px] font-semibold uppercase tracking-[.2em] text-[#176b45]">K C Model School & College</p><h1 className="mt-2 font-heading text-3xl text-[#124c36]">Teacher portal</h1><p className="mt-2 text-sm leading-6 text-[#69716b]">Sign in with your staff ID. Your initial password is also your staff ID.</p>{error&&<p className="mt-4 rounded-lg bg-[#f6e7e3] p-3 text-sm text-[#8d3b2e]">{error}</p>}<label className="mt-6 block text-xs font-medium text-[#59615b]">Staff ID<input required autoComplete="username" value={staffId} onChange={e=>setStaffId(e.target.value)} className="mt-1.5 w-full rounded-lg border border-[#d9d8cf] bg-white px-3 py-3 text-sm outline-none focus:border-[#176b45]"/></label><label className="mt-4 block text-xs font-medium text-[#59615b]">Password<input required type="password" autoComplete="current-password" value={password} onChange={e=>setPassword(e.target.value)} className="mt-1.5 w-full rounded-lg border border-[#d9d8cf] bg-white px-3 py-3 text-sm outline-none focus:border-[#176b45]"/></label><button disabled={busy} className="mt-6 w-full rounded-lg bg-[#176b45] px-4 py-3 text-sm font-medium text-white disabled:opacity-50">{busy?"Signing in…":"Sign in"}</button><a href="/en/teachers" className="mt-5 block text-center text-xs text-[#176b45] hover:underline">View public teacher directory</a></form></main>}
+export default function TeacherLoginPage() {
+  const [staffId, setStaffId] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
+  const router = useRouter();
+  async function submit(e: React.FormEvent) {
+    e.preventDefault();
+    setBusy(true);
+    setError("");
+    const r = await signIn("credentials", {
+      email: staffId.trim(),
+      password,
+      redirect: false,
+    });
+    if (r?.error) {
+      setError("Invalid Employee ID or password, or the account is inactive.");
+      setBusy(false);
+      return;
+    }
+    router.push("/teacher/dashboard");
+    router.refresh();
+  }
+  return (
+    <main className="grid min-h-screen place-items-center bg-[#f7f5ef] px-4 py-10">
+      <form
+        onSubmit={submit}
+        className="w-full max-w-md rounded-2xl border border-[#d9d8cf] bg-[#fffdf8] p-7 shadow-sm sm:p-9"
+      >
+        <img
+          src="/kcmsc/kcmsc-logo.png"
+          alt="KCMSC"
+          className="h-14 w-14 object-contain"
+        />
+        <p className="mt-6 text-[10px] font-semibold uppercase tracking-[.2em] text-[#176b45]">
+          K C Model School & College
+        </p>
+        <h1 className="mt-2 font-heading text-3xl text-[#124c36]">
+          Teacher portal
+        </h1>
+        <p className="mt-2 text-sm leading-6 text-[#69716b]">
+          Sign in with your Employee ID. Your initial password is also your
+          Employee ID.
+        </p>
+        {error && (
+          <p className="mt-4 rounded-lg bg-[#f6e7e3] p-3 text-sm text-[#8d3b2e]">
+            {error}
+          </p>
+        )}
+        <label className="mt-6 block text-xs font-medium text-[#59615b]">
+          Employee ID
+          <input
+            required
+            autoComplete="username"
+            value={staffId}
+            onChange={(e) => setStaffId(e.target.value)}
+            className="mt-1.5 w-full rounded-lg border border-[#d9d8cf] bg-white px-3 py-3 text-sm outline-none focus:border-[#176b45]"
+          />
+        </label>
+        <label className="mt-4 block text-xs font-medium text-[#59615b]">
+          Password
+          <input
+            required
+            type="password"
+            autoComplete="current-password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="mt-1.5 w-full rounded-lg border border-[#d9d8cf] bg-white px-3 py-3 text-sm outline-none focus:border-[#176b45]"
+          />
+        </label>
+        <button
+          disabled={busy}
+          className="mt-6 w-full rounded-lg bg-[#176b45] px-4 py-3 text-sm font-medium text-white disabled:opacity-50"
+        >
+          {busy ? "Signing in…" : "Sign in"}
+        </button>
+        <a
+          href="/en/teachers"
+          className="mt-5 block text-center text-xs text-[#176b45] hover:underline"
+        >
+          View public teacher directory
+        </a>
+      </form>
+    </main>
+  );
+}
