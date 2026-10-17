@@ -5,10 +5,10 @@ export default async function DashboardLayout({ children }: { children: React.Re
   const user = await requireAdmin();
 
   return (
-    <div className="min-h-screen bg-[#f7f5ef] text-[#242824]">
+    <div className="kc-admin min-h-screen bg-[#f7f5ef] text-[#242824]">
       <AdminNavigation email={user.email} />
       <main className="min-h-screen lg:pl-[258px]">
-        <div className="mx-auto w-full max-w-[1500px] px-5 py-20 sm:px-8 lg:px-10 lg:py-10">
+        <div className="w-full px-4 pb-10 pt-20 sm:px-6 sm:pt-24 lg:px-8 lg:py-8 xl:px-10">
           {children}
         </div>
       </main>

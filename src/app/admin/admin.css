@@ -1,0 +1,52 @@
+/* KCMSC administration: institutional, restrained, consistent.
+   Scoped to the admin interface. No data, routes, or auth logic is changed. */
+.kc-admin {
+  --admin-paper: #fffdf8;
+  --admin-canvas: #f5f4ee;
+  --admin-ink: #242824;
+  --admin-green: #176b45;
+  --admin-green-dark: #124c36;
+  --admin-muted: #69716b;
+  --admin-line: #d9d8cf;
+  background: var(--admin-canvas);
+  color: var(--admin-ink);
+}
+
+/* Remove the visual noise common to generic dashboard templates. */
+.kc-admin [class*="rounded-"] { border-radius: 2px !important; }
+.kc-admin [class*="shadow-"] { box-shadow: none !important; }
+.kc-admin [class*="backdrop-blur"] { backdrop-filter: none !important; }
+.kc-admin [class*="hover:-translate"],
+.kc-admin [class*="group-hover:translate"],
+.kc-admin [class*="group-hover:-translate"] { transform: none !important; }
+.kc-admin [class*="transition-all"] { transition-property: color, background-color, border-color !important; }
+.kc-admin a, .kc-admin button { -webkit-tap-highlight-color: transparent; }
+
+/* Borders, tables and controls should read like administrative records. */
+.kc-admin [class*="border-[#d9d8cf]"],
+.kc-admin [class*="border-[#e4e2da]"] { border-color: var(--admin-line) !important; }
+.kc-admin input:not([type="checkbox"]):not([type="radio"]),
+.kc-admin select, .kc-admin textarea {
+  border-radius: 2px !important;
+  box-shadow: none !important;
+}
+.kc-admin table { width: 100%; border-collapse: collapse; }
+.kc-admin th { font-weight: 600; text-transform: uppercase; letter-spacing: .07em; }
+.kc-admin tr { border-color: var(--admin-line); }
+.kc-admin button:focus-visible, .kc-admin a:focus-visible,
+.kc-admin input:focus-visible, .kc-admin select:focus-visible,
+.kc-admin textarea:focus-visible { outline: 2px solid var(--admin-green); outline-offset: 2px; }
+
+/* A quiet, rectangular active state for the sidebar. */
+.kc-admin aside nav a { border-radius: 2px !important; box-shadow: none !important; }
+.kc-admin aside nav a[aria-current="page"] { border-left: 3px solid var(--admin-green-dark); }
+
+/* Keep the welcome panel's translucent green surfaces intact. In particular,
+   do not globally rewrite bg-white or bg-white/10 utilities: those are used
+   for intentional contrast within the hero and were the cause of the blank card. */
+.kc-admin main section { min-width: 0; }
+.kc-admin main h1, .kc-admin main h2, .kc-admin main h3 { text-wrap: balance; }
+
+@media (max-width: 767px) {
+  .kc-admin main > div { padding-left: 1rem; padding-right: 1rem; }
+}

@@ -1,0 +1,103 @@
+/*
+ * KCMSC Admin: restrained institutional visual system.
+ * Scoped to the admin dashboard only; no application logic is changed.
+ */
+.kc-admin {
+  --admin-paper: #fffdf8;
+  --admin-canvas: #f5f4ee;
+  --admin-ink: #242824;
+  --admin-green: #176b45;
+  --admin-green-dark: #124c36;
+  --admin-muted: #68716b;
+  --admin-line: #d8d8ce;
+  background: var(--admin-canvas) !important;
+  color: var(--admin-ink);
+}
+
+/* Remove decorative circles and gratuitous motion from the admin interface. */
+.kc-admin .pointer-events-none {
+  display: none !important;
+}
+.kc-admin [class*="hover:-translate"],
+.kc-admin [class*="group-hover:translate"],
+.kc-admin [class*="group-hover:-translate"] {
+  transform: none !important;
+}
+.kc-admin [class*="shadow-"],
+.kc-admin [class*="hover:shadow-"] {
+  box-shadow: none !important;
+}
+
+/* Consistent, nearly square corners across cards, controls and navigation. */
+.kc-admin [class*="rounded-"] {
+  border-radius: 2px !important;
+}
+
+/* Use a quiet paper-and-rule system instead of floating app-like cards. */
+.kc-admin [class*="border-[#d9d8cf]"],
+.kc-admin [class*="border-[#d8d8ce]"] {
+  border-color: var(--admin-line) !important;
+}
+.kc-admin [class*="bg-[#fffdf8]"],
+.kc-admin [class*="bg-white"] {
+  background-color: var(--admin-paper) !important;
+}
+.kc-admin [class*="bg-[#f7f5ef]"] {
+  background-color: var(--admin-canvas) !important;
+}
+
+/* Flatten the overview banner into a formal institutional header. */
+.kc-admin main > div > div > section:first-child {
+  border-radius: 2px !important;
+  box-shadow: none !important;
+}
+.kc-admin main > div > div > section:first-child h1 {
+  letter-spacing: -0.025em !important;
+}
+
+/* Navigation: clean rectangular selection, no pill-like buttons. */
+.kc-admin nav a,
+.kc-admin nav button {
+  border-radius: 2px !important;
+  box-shadow: none !important;
+}
+.kc-admin nav a[class*="bg-[#176b45]"],
+.kc-admin nav a[aria-current="page"] {
+  border-left: 3px solid var(--admin-green-dark) !important;
+}
+
+/* Tables and repeated records should read as administrative data. */
+.kc-admin table {
+  border-collapse: collapse;
+  width: 100%;
+}
+.kc-admin th {
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.kc-admin tr {
+  border-color: var(--admin-line);
+}
+.kc-admin input,
+.kc-admin select,
+.kc-admin textarea {
+  border-radius: 2px !important;
+  box-shadow: none !important;
+}
+.kc-admin button:focus-visible,
+.kc-admin a:focus-visible,
+.kc-admin input:focus-visible,
+.kc-admin select:focus-visible,
+.kc-admin textarea:focus-visible {
+  outline: 2px solid var(--admin-green);
+  outline-offset: 2px;
+}
+
+/* Keep responsive behavior intact while reducing excess spacing on small screens. */
+@media (max-width: 767px) {
+  .kc-admin main > div {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+}
