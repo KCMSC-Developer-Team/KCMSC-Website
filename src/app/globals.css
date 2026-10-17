@@ -1143,3 +1143,52 @@ body { overflow-x: clip; }
     border-radius: 2px !important;
   }
 }
+
+
+/* Why KCMSC: pinned-video elevator transition. The page content rises over the
+   fixed-feeling hero; modern browsers also add a subtle scroll-linked camera move. */
+.kc-why-scroll-stage {
+  isolation: isolate;
+  position: relative;
+}
+.kc-why-hero {
+  z-index: 0;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+.kc-why-hero-video {
+  transform: scale(1.035) translateZ(-1px);
+  will-change: transform;
+}
+.kc-why-intro {
+  box-shadow: 0 -24px 70px rgba(7, 34, 25, 0.12);
+}
+@supports (animation-timeline: scroll()) {
+  .kc-why-hero-video {
+    animation: kc-why-camera-pull linear both;
+    animation-timeline: scroll(root block);
+    animation-range: 0px 85vh;
+  }
+  @keyframes kc-why-camera-pull {
+    from { transform: scale(1.035) translate3d(0, 0, -1px); }
+    to { transform: scale(1.14) translate3d(0, 2.5%, -1px); }
+  }
+}
+@media (max-width: 767px) {
+  .kc-why-scroll-stage {
+    height: 125svh;
+    margin-bottom: -25svh;
+  }
+  .kc-why-hero {
+    min-height: 620px;
+  }
+  .kc-why-intro {
+    box-shadow: 0 -14px 40px rgba(7, 34, 25, 0.1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .kc-why-hero-video {
+    animation: none !important;
+    transform: none;
+  }
+}

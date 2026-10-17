@@ -554,6 +554,84 @@ export function InstitutionalLanding({
     );
   };
 
+  if (page === "why") {
+    const journey = bn
+      ? [
+          { n: "01", title: "শুরুর বছরগুলো", body: "Play Group থেকে প্রাথমিক পর্যায়: কৌতূহল, ভাষা, সংখ্যা ও শেখার অভ্যাস গড়ে তোলার ভিত্তি।", href: "/academics", link: "একাডেমিক কাঠামো দেখুন" },
+          { n: "02", title: "মাধ্যমিক পর্যায়", body: "বিষয়ভিত্তিক শেখা, নিয়মিত অনুশীলন এবং শিক্ষার্থীদের আগ্রহ ও সক্ষমতা বিকাশের সময়।", href: "/academics", link: "শিক্ষার ধাপগুলো জানুন" },
+          { n: "03", title: "উচ্চমাধ্যমিক পর্যায়", body: "Grade XI–XII-তে উচ্চশিক্ষা ও পরবর্তী পথের জন্য বিষয়ভিত্তিক প্রস্তুতি।", href: "/admissions", link: "ভর্তি-সংক্রান্ত তথ্য" },
+        ]
+      : [
+          { n: "01", title: "The early years", body: "From Play Group through primary learning, children begin building language, numeracy, curiosity and the habits that support future learning.", href: "/academics", link: "Explore the academic structure" },
+          { n: "02", title: "The secondary years", body: "Subject-based learning, regular practice and room for students to develop their interests and capabilities.", href: "/academics", link: "Understand the learning stages" },
+          { n: "03", title: "Higher secondary", body: "Grades XI–XII offer the next stage of subject-focused study and preparation for further education.", href: "/admissions", link: "Find admission information" },
+        ];
+    const pathways = bn
+      ? [
+          { n: "A", title: "শেখার জন্য উপযোগী স্থান", body: "শ্রেণিকক্ষ, বিজ্ঞান ও কম্পিউটার ল্যাব এবং লাইব্রেরি প্রতিদিনের শেখার বিভিন্ন প্রয়োজনকে সহায়তা করে।", href: "/facilities", link: "ক্যাম্পাস ও সুবিধা" },
+          { n: "B", title: "শ্রেণিকক্ষের বাইরেও শেখা", body: "ক্লাব, সহশিক্ষা কার্যক্রম ও শিক্ষার্থীদের উদ্যোগ আগ্রহকে কাজে লাগানোর সুযোগ তৈরি করে।", href: "/student-life", link: "শিক্ষাজীবন আবিষ্কার করুন" },
+          { n: "C", title: "মানুষ ও দিকনির্দেশনা", body: "শিক্ষক, নেতৃত্ব ও স্কুলের সহায়ক পরিবেশ শিক্ষার্থীদের দৈনন্দিন অভিজ্ঞতার গুরুত্বপূর্ণ অংশ।", href: "/leadership-messages", link: "প্রতিষ্ঠানের নেতৃত্ব সম্পর্কে জানুন" },
+        ]
+      : [
+          { n: "A", title: "Spaces made for learning", body: "Classrooms, science and computer laboratories, and library facilities support different needs throughout the school day.", href: "/facilities", link: "Explore campus and facilities" },
+          { n: "B", title: "Learning beyond lessons", body: "Clubs, co-curricular activities and student initiatives give interests a place to grow beyond the timetable.", href: "/student-life", link: "Discover student life" },
+          { n: "C", title: "People and guidance", body: "Teachers, school leadership and a supportive environment are important parts of a student’s everyday experience.", href: "/leadership-messages", link: "Meet the school’s leadership" },
+        ];
+    return (
+      <main className="kc-why-journey bg-[#f8f7f1] text-[#173f32]">
+        {/* The tall stage keeps the video pinned while the next section rises over it. */}
+        <div className="kc-why-scroll-stage relative h-[140svh] -mb-[40svh]">
+        <section className="kc-why-hero sticky top-0 isolate flex h-[100svh] min-h-[600px] overflow-hidden bg-[#102f25] text-[#fffdf7]">
+          <video className="kc-why-hero-video absolute inset-0 -z-20 h-full w-full object-cover" autoPlay muted loop playsInline preload="metadata" poster="/kcmsc/hero/kcmsc-building.jpg" aria-hidden="true">
+            <source src="/videos/kcmsc-campus.mp4" type="video/mp4" />
+          </video>
+          <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(7,34,25,.91)_0%,rgba(7,34,25,.76)_42%,rgba(7,34,25,.35)_100%)]" />
+          <div className="absolute inset-0 -z-10 bg-[linear-gradient(0deg,rgba(7,34,25,.74)_0%,transparent_55%)]" />
+          <div className="mx-auto flex w-full max-w-[1440px] flex-col justify-between px-6 pb-8 pt-20 sm:px-10 sm:pb-10 sm:pt-24 lg:px-14 lg:pb-12 lg:pt-28">
+            <div className="max-w-4xl">
+              <p className="kc-light-kicker">{bn ? "কেন KCMSC · আমাদের শিক্ষাযাত্রা" : "WHY KCMSC · OUR LEARNING JOURNEY"}</p>
+              <h1 className="mt-6 max-w-5xl font-heading text-[clamp(3.15rem,8vw,7.8rem)] leading-[.88] tracking-[-.06em]">{bn ? "শেখার প্রতিটি ধাপে, সম্ভাবনার আরও কাছে।" : "A school journey shaped by learning, discovery and possibility."}</h1>
+              <p className="mt-7 max-w-2xl text-base leading-7 text-white/85 sm:text-lg sm:leading-8">{bn ? "প্লে গ্রুপ থেকে দ্বাদশ শ্রেণি পর্যন্ত বাংলা ও ইংরেজি ভার্সনে জাতীয় শিক্ষাক্রম অনুসরণ করে KCMSC শিক্ষার্থীদের শেখার ধারাবাহিক যাত্রায় সঙ্গী হয়।" : "From Play Group to Grade XII, KCMSC serves learners through Bangla and English Versions of the National Curriculum, connecting each stage of school life to the next."}</p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Link href={`/${locale}/academics`} className="inline-flex min-h-12 items-center gap-3 border border-[#e6d69a] bg-[#e6d69a] px-5 text-sm font-semibold text-[#173f32] transition hover:bg-[#f3e7bd]">{bn ? "একাডেমিক কাঠামো দেখুন" : "Explore academics"}<span aria-hidden="true">↗</span></Link>
+                <Link href={`/${locale}/admissions`} className="inline-flex min-h-12 items-center gap-3 border border-white/55 px-5 text-sm font-semibold text-white transition hover:bg-white/10">{bn ? "ভর্তি তথ্য" : "Admissions information"}<span aria-hidden="true">↗</span></Link>
+              </div>
+            </div>
+            <div className="mt-16 grid gap-5 border-t border-white/30 pt-5 sm:grid-cols-3 sm:gap-8">
+              <div><p className="text-[10px] font-semibold uppercase tracking-[.2em] text-[#e6d69a]">{bn ? "শিক্ষার পরিসর" : "LEARNING SPAN"}</p><p className="mt-2 font-heading text-2xl sm:text-3xl">{bn ? "প্লে গ্রুপ – দ্বাদশ" : "Play Group – Grade XII"}</p></div>
+              <div><p className="text-[10px] font-semibold uppercase tracking-[.2em] text-[#e6d69a]">{bn ? "পাঠ্যক্রম" : "CURRICULUM"}</p><p className="mt-2 font-heading text-2xl sm:text-3xl">{bn ? "বাংলা ও ইংরেজি ভার্সন" : "Bangla & English Versions"}</p></div>
+              <div><p className="text-[10px] font-semibold uppercase tracking-[.2em] text-[#e6d69a]">{bn ? "অবস্থান" : "LOCATION"}</p><p className="mt-2 font-heading text-2xl sm:text-3xl">{bn ? "দক্ষিণখান, ঢাকা" : "Dakshinkhan, Dhaka"}</p></div>
+            </div>
+          </div>
+        </section>
+        </div>
+
+        <section className="kc-why-intro relative z-10 border-b border-[#deddd3] bg-[#fffdf7]">
+          <div className="mx-auto grid max-w-[1240px] gap-8 px-6 py-16 sm:px-10 sm:py-20 lg:grid-cols-[.72fr_1.28fr] lg:px-12 lg:py-24">
+            <div><p className="kc-classic-kicker">{bn ? "আমাদের দৃষ্টিভঙ্গি" : "THE KCMSC APPROACH"}</p><p className="mt-5 max-w-sm font-heading text-3xl leading-tight sm:text-4xl">{bn ? "শুধু একটি শ্রেণি নয়, শিক্ষার ধারাবাহিক পথ।" : "Not just the next class. A connected path through school."}</p></div>
+            <div><h2 className="max-w-3xl font-heading text-[clamp(2rem,4.4vw,4.4rem)] leading-[.96] tracking-[-.045em]">{bn ? "প্রতিটি পর্যায়ের নিজস্ব প্রয়োজন আছে।" : "Every stage brings a different kind of growth."}</h2><p className="mt-6 max-w-3xl text-[15px] leading-8 text-[#5f6d64] sm:text-base">{bn ? "শিশুরা বড় হওয়ার সঙ্গে সঙ্গে তাদের শেখার ধরন, বিষয় ও দায়িত্ব বদলায়। তাই পরিবারগুলোর জন্য একাডেমিক ধাপ, ক্যাম্পাসের পরিবেশ এবং শিক্ষাজীবনের সুযোগগুলো একসঙ্গে বোঝা গুরুত্বপূর্ণ।" : "As students grow, their learning needs, subjects and responsibilities change. Families should be able to understand the academic stages alongside the spaces, people and experiences that shape school life."}</p><p className="mt-4 max-w-3xl text-[15px] leading-8 text-[#5f6d64] sm:text-base">{bn ? "এই পৃষ্ঠাটি KCMSC-এর বিদ্যমান বিভাগগুলোর সঙ্গে পরিচয় করিয়ে দেয়, যাতে প্রয়োজনীয় তথ্যের জন্য আলাদা আলাদা জায়গায় খুঁজতে না হয়।" : "This guide brings together the school’s existing information so families can move naturally from an overview to the details that matter to them."}</p></div>
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-[1240px] px-6 py-16 sm:px-10 sm:py-20 lg:px-12 lg:py-24">
+          <div className="mb-10 grid gap-5 sm:grid-cols-[.8fr_1.2fr] sm:items-end"><div><p className="kc-classic-kicker">{bn ? "০১ · শিক্ষার ধাপ" : "01 · THE LEARNING JOURNEY"}</p><h2 className="mt-4 max-w-lg font-heading text-4xl leading-[.98] tracking-[-.04em] sm:text-5xl">{bn ? "শুরু থেকে পরবর্তী গন্তব্য।" : "From first steps to what comes next."}</h2></div><p className="max-w-xl text-sm leading-7 text-[#65736a] sm:justify-self-end sm:text-base">{bn ? "প্রতিটি পর্যায় সম্পর্কে বিস্তারিত জানতে একাডেমিক পৃষ্ঠায় যান।" : "Explore the stages of learning in more detail on the academics page."} <Link className="font-semibold text-[#08664d] underline decoration-[#c8ad56] underline-offset-4" href={`/${locale}/academics`}>{bn ? "একাডেমিক বিভাগ" : "Academics"} ↗</Link></p></div>
+          <div className="grid border-y border-[#d8d8cd] md:grid-cols-3">{journey.map((item) => <article key={item.n} className="flex min-h-[255px] flex-col border-b border-[#d8d8cd] py-7 md:border-b-0 md:px-6 md:py-8 md:first:pl-0 md:last:pr-0 md:not(:first-child):border-l"><p className="text-xs font-semibold tracking-[.16em] text-[#b18620]">{item.n}</p><h3 className="mt-5 font-heading text-2xl leading-tight">{item.title}</h3><p className="mt-3 text-sm leading-7 text-[#647168]">{item.body}</p><Link className="mt-auto inline-flex items-center gap-2 pt-6 text-xs font-bold uppercase tracking-[.08em] text-[#08664d] hover:text-[#173f32]" href={`/${locale}${item.href}`}>{item.link}<span aria-hidden="true">↗</span></Link></article>)}</div>
+        </section>
+
+        <section className="bg-[#efeee6]">
+          <div className="mx-auto max-w-[1240px] px-6 py-16 sm:px-10 sm:py-20 lg:px-12 lg:py-24">
+            <div className="mb-10 grid gap-5 sm:grid-cols-[.8fr_1.2fr] sm:items-end"><div><p className="kc-classic-kicker">{bn ? "০২ · স্কুলজীবনের পরিসর" : "02 · THE WIDER SCHOOL EXPERIENCE"}</p><h2 className="mt-4 max-w-lg font-heading text-4xl leading-[.98] tracking-[-.04em] sm:text-5xl">{bn ? "শেখা শ্রেণিকক্ষেই শেষ হয় না।" : "Learning happens beyond the classroom."}</h2></div><p className="max-w-xl text-sm leading-7 text-[#65736a] sm:justify-self-end sm:text-base">{bn ? "ক্যাম্পাসের স্থান, সহশিক্ষা কার্যক্রম এবং মানুষের সঙ্গে পরিচিত হোন।" : "The campus, co-curricular activities and school community all contribute to a student’s experience."}</p></div>
+            <div className="grid border-y border-[#d3d3c8] md:grid-cols-3">{pathways.map((item) => <article key={item.n} className="flex min-h-[270px] flex-col border-b border-[#d3d3c8] py-7 md:border-b-0 md:px-6 md:py-8 md:first:pl-0 md:last:pr-0 md:not(:first-child):border-l"><p className="text-xs font-semibold tracking-[.16em] text-[#b18620]">{item.n}</p><h3 className="mt-5 font-heading text-2xl leading-tight">{item.title}</h3><p className="mt-3 text-sm leading-7 text-[#647168]">{item.body}</p><Link className="mt-auto inline-flex items-center gap-2 pt-6 text-xs font-bold uppercase tracking-[.08em] text-[#08664d] hover:text-[#173f32]" href={`/${locale}${item.href}`}>{item.link}<span aria-hidden="true">↗</span></Link></article>)}</div>
+          </div>
+        </section>
+
+        <section className="bg-[#fffdf7]">
+          <div className="mx-auto grid max-w-[1240px] gap-8 px-6 py-16 sm:px-10 sm:py-20 lg:grid-cols-[1fr_auto] lg:items-center lg:px-12 lg:py-20"><div><p className="kc-classic-kicker">{bn ? "পরিবারের জন্য পরবর্তী ধাপ" : "FOR FAMILIES"}</p><h2 className="mt-4 max-w-3xl font-heading text-4xl leading-[.98] tracking-[-.04em] sm:text-5xl">{bn ? "আপনার প্রয়োজনীয় তথ্য এখান থেকেই খুঁজে নিন।" : "Find the information you need to take the next step."}</h2><p className="mt-5 max-w-2xl text-sm leading-7 text-[#65736a] sm:text-base">{bn ? "ভর্তি, স্কুলের সঙ্গে যোগাযোগ এবং সাম্প্রতিক ঘোষণার জন্য সংশ্লিষ্ট বিভাগে যান।" : "Continue to admissions, contact the school, or check official notices for current information."}</p></div><div className="flex flex-wrap gap-3 lg:justify-end"><Link href={`/${locale}/admissions`} className="inline-flex min-h-12 items-center gap-3 bg-[#08664d] px-5 text-sm font-semibold text-white transition hover:bg-[#064f3c]">{bn ? "ভর্তি" : "Admissions"} ↗</Link><Link href={`/${locale}/notices`} className="inline-flex min-h-12 items-center gap-3 border border-[#b8c4ba] px-5 text-sm font-semibold text-[#173f32] transition hover:bg-[#f1f0e8]">{bn ? "নোটিশ" : "Official notices"} ↗</Link><Link href={`/${locale}/contact`} className="inline-flex min-h-12 items-center gap-3 border border-[#b8c4ba] px-5 text-sm font-semibold text-[#173f32] transition hover:bg-[#f1f0e8]">{bn ? "যোগাযোগ" : "Contact"} ↗</Link></div></div>
+        </section>
+      </main>
+    );
+  }
+
   if (page === "downloads") {
     const categories = data.sections[0];
     if (!categories) {
