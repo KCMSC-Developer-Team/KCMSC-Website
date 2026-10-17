@@ -37,22 +37,34 @@ export function Navbar({ locale }: { locale: Locale }) {
         {
           href: "about",
           label: text("Our Story", "আমাদের গল্প"),
-          description: text("Our background, mission and values.", "আমাদের পরিচয়, লক্ষ্য ও মূল্যবোধ।"),
+          description: text(
+            "Our background, mission and values.",
+            "আমাদের পরিচয়, লক্ষ্য ও মূল্যবোধ।",
+          ),
         },
         {
           href: "why-kcmsc",
           label: text("Why Choose KCMSC", "কেন KCMSC"),
-          description: text("What makes the KCMSC learning experience distinctive.", "KCMSC-এর শিক্ষার অভিজ্ঞতার বিশেষ দিকগুলো।"),
+          description: text(
+            "What makes the KCMSC learning experience distinctive.",
+            "KCMSC-এর শিক্ষার অভিজ্ঞতার বিশেষ দিকগুলো।",
+          ),
         },
         {
           href: "leadership-messages",
           label: text("Leadership Messages", "নেতৃত্বের বার্তা"),
-          description: text("Perspectives from the people guiding the school.", "বিদ্যালয়ের নেতৃত্বের বার্তা।"),
+          description: text(
+            "Perspectives from the people guiding the school.",
+            "বিদ্যালয়ের নেতৃত্বের বার্তা।",
+          ),
         },
         {
           href: "teachers",
           label: text("Teachers & Staff", "শিক্ষক ও কর্মচারী"),
-          description: text("Meet the people who support our students.", "শিক্ষার্থীদের পাশে থাকা মানুষদের জানুন।"),
+          description: text(
+            "Meet the people who support our students.",
+            "শিক্ষার্থীদের পাশে থাকা মানুষদের জানুন।",
+          ),
         },
       ],
     },
@@ -69,27 +81,42 @@ export function Navbar({ locale }: { locale: Locale }) {
         {
           href: "academics",
           label: text("Academic Programmes", "একাডেমিক কার্যক্রম"),
-          description: text("Explore classes, subjects and learning programmes.", "শ্রেণি, বিষয় ও শিক্ষা কার্যক্রম সম্পর্কে জানুন।"),
+          description: text(
+            "Explore classes, subjects and learning programmes.",
+            "শ্রেণি, বিষয় ও শিক্ষা কার্যক্রম সম্পর্কে জানুন।",
+          ),
         },
         {
           href: "class-routine",
           label: text("Class Routine", "ক্লাস রুটিন"),
-          description: text("Check class schedules and routine updates.", "ক্লাসের সময়সূচি ও রুটিনের আপডেট দেখুন।"),
+          description: text(
+            "Check class schedules and routine updates.",
+            "ক্লাসের সময়সূচি ও রুটিনের আপডেট দেখুন।",
+          ),
         },
         {
           href: "calendar",
           label: text("Academic Calendar", "একাডেমিক ক্যালেন্ডার"),
-          description: text("Keep track of important academic dates.", "গুরুত্বপূর্ণ একাডেমিক তারিখ জেনে রাখুন।"),
+          description: text(
+            "Keep track of important academic dates.",
+            "গুরুত্বপূর্ণ একাডেমিক তারিখ জেনে রাখুন।",
+          ),
         },
         {
           href: "achievements",
           label: text("Results & Achievements", "ফলাফল ও অর্জন"),
-          description: text("Celebrate academic results and student accomplishments.", "একাডেমিক ফলাফল ও শিক্ষার্থীদের অর্জন।"),
+          description: text(
+            "Celebrate academic results and student accomplishments.",
+            "একাডেমিক ফলাফল ও শিক্ষার্থীদের অর্জন।",
+          ),
         },
         {
           href: "scholarships",
           label: text("Scholarships", "বৃত্তি"),
-          description: text("Find scholarship information and announcements.", "বৃত্তির তথ্য ও ঘোষণা দেখুন।"),
+          description: text(
+            "Find scholarship information and announcements.",
+            "বৃত্তির তথ্য ও ঘোষণা দেখুন।",
+          ),
         },
       ],
     },
@@ -106,17 +133,26 @@ export function Navbar({ locale }: { locale: Locale }) {
         {
           href: "student-life",
           label: text("Life at KCMSC", "KCMSC-এ শিক্ষাজীবন"),
-          description: text("Discover student experiences and campus life.", "শিক্ষার্থীদের অভিজ্ঞতা ও ক্যাম্পাস জীবন।"),
+          description: text(
+            "Discover student experiences and campus life.",
+            "শিক্ষার্থীদের অভিজ্ঞতা ও ক্যাম্পাস জীবন।",
+          ),
         },
         {
           href: "clubs",
           label: text("Clubs & Activities", "ক্লাব ও কার্যক্রম"),
-          description: text("Explore interests, clubs and extracurricular activities.", "ক্লাব, আগ্রহ ও সহশিক্ষা কার্যক্রম।"),
+          description: text(
+            "Explore interests, clubs and extracurricular activities.",
+            "ক্লাব, আগ্রহ ও সহশিক্ষা কার্যক্রম।",
+          ),
         },
         {
           href: "facilities",
           label: text("Campus & Facilities", "ক্যাম্পাস ও সুবিধা"),
-          description: text("Explore the spaces and facilities around the school.", "বিদ্যালয়ের ক্যাম্পাস ও সুযোগ-সুবিধা।"),
+          description: text(
+            "Explore the spaces and facilities around the school.",
+            "বিদ্যালয়ের ক্যাম্পাস ও সুযোগ-সুবিধা।",
+          ),
         },
       ],
     },
@@ -132,8 +168,14 @@ export function Navbar({ locale }: { locale: Locale }) {
       links: [
         {
           href: "alumni",
-          label: text("Alumni Stories & Network", "প্রাক্তন শিক্ষার্থীদের গল্প ও নেটওয়ার্ক"),
-          description: text("Read alumni messages and stay connected with the school.", "প্রাক্তন শিক্ষার্থীদের বার্তা পড়ুন এবং বিদ্যালয়ের সঙ্গে যুক্ত থাকুন।"),
+          label: text(
+            "Alumni Stories & Network",
+            "প্রাক্তন শিক্ষার্থীদের গল্প ও নেটওয়ার্ক",
+          ),
+          description: text(
+            "Read alumni messages and stay connected with the school.",
+            "প্রাক্তন শিক্ষার্থীদের বার্তা পড়ুন এবং বিদ্যালয়ের সঙ্গে যুক্ত থাকুন।",
+          ),
         },
       ],
     },
@@ -149,8 +191,14 @@ export function Navbar({ locale }: { locale: Locale }) {
       links: [
         {
           href: "careers",
-          label: text("Job Circulars & Open Positions", "নিয়োগ বিজ্ঞপ্তি ও শূন্য পদ"),
-          description: text("View current vacancies and application information.", "বর্তমান শূন্য পদ ও আবেদনের তথ্য দেখুন।"),
+          label: text(
+            "Job Circulars & Open Positions",
+            "নিয়োগ বিজ্ঞপ্তি ও শূন্য পদ",
+          ),
+          description: text(
+            "View current vacancies and application information.",
+            "বর্তমান শূন্য পদ ও আবেদনের তথ্য দেখুন।",
+          ),
         },
       ],
     },
@@ -158,7 +206,10 @@ export function Navbar({ locale }: { locale: Locale }) {
       id: "news-resources",
       href: "notices",
       label: text("News & Resources", "খবর ও রিসোর্স"),
-      eyebrow: text("Updates, ideas and useful information", "আপডেট, ভাবনা ও প্রয়োজনীয় তথ্য"),
+      eyebrow: text(
+        "Updates, ideas and useful information",
+        "আপডেট, ভাবনা ও প্রয়োজনীয় তথ্য",
+      ),
       description: text(
         "Stay informed with official notices, articles and practical school resources.",
         "প্রাতিষ্ঠানিক নোটিশ, লেখা ও প্রয়োজনীয় স্কুল রিসোর্সের সঙ্গে আপডেট থাকুন।",
@@ -167,27 +218,42 @@ export function Navbar({ locale }: { locale: Locale }) {
         {
           href: "notices",
           label: text("Latest Notices", "সাম্প্রতিক নোটিশ"),
-          description: text("Announcements, updates and important dates.", "ঘোষণা, আপডেট ও গুরুত্বপূর্ণ তারিখ।"),
+          description: text(
+            "Announcements, updates and important dates.",
+            "ঘোষণা, আপডেট ও গুরুত্বপূর্ণ তারিখ।",
+          ),
         },
         {
           href: "blog",
           label: text("KCMSC Blog", "KCMSC ব্লগ"),
-          description: text("Articles, ideas and perspectives from students and teachers.", "শিক্ষার্থী ও শিক্ষকদের লেখা, ভাবনা ও অভিজ্ঞতা।"),
+          description: text(
+            "Articles, ideas and perspectives from students and teachers.",
+            "শিক্ষার্থী ও শিক্ষকদের লেখা, ভাবনা ও অভিজ্ঞতা।",
+          ),
         },
         {
           href: "downloads",
           label: text("Downloads & Resources", "ডাউনলোড ও রিসোর্স"),
-          description: text("Find useful forms and school documents.", "প্রয়োজনীয় ফর্ম ও স্কুলের নথি খুঁজুন।"),
+          description: text(
+            "Find useful forms and school documents.",
+            "প্রয়োজনীয় ফর্ম ও স্কুলের নথি খুঁজুন।",
+          ),
         },
         {
           href: "help",
           label: text("Help Center / FAQs", "সহায়তা কেন্দ্র / সাধারণ প্রশ্ন"),
-          description: text("Answers to common questions about KCMSC.", "KCMSC সম্পর্কে সাধারণ প্রশ্নের উত্তর।"),
+          description: text(
+            "Answers to common questions about KCMSC.",
+            "KCMSC সম্পর্কে সাধারণ প্রশ্নের উত্তর।",
+          ),
         },
         {
           href: "contact",
           label: text("Contact the School", "যোগাযোগ করুন"),
-          description: text("Find contact details and ways to reach the school.", "যোগাযোগের তথ্য ও বিদ্যালয়ে পৌঁছানোর উপায়।"),
+          description: text(
+            "Find contact details and ways to reach the school.",
+            "যোগাযোগের তথ্য ও বিদ্যালয়ে পৌঁছানোর উপায়।",
+          ),
         },
       ],
     },
@@ -338,8 +404,29 @@ export function Navbar({ locale }: { locale: Locale }) {
                       onClick={() => setActiveMenu(null)}
                     >
                       <img
-                        src="/kcmsc/hero/kcmsc-building.jpg"
-                        alt="K C Model School & College campus"
+                        src={
+                          group.id === "academics"
+                            ? "/kcmsc/facilities/chemistry-lab.png"
+                            : group.id === "student-life"
+                              ? "/kcmsc/student-life/class-party.jpg"
+                              : "/kcmsc/hero/kcmsc-building.jpg"
+                        }
+                        alt={
+                          group.id === "academics"
+                            ? text(
+                                "KCMSC chemistry laboratory",
+                                "KCMSC-এর রসায়ন ল্যাবরেটরি",
+                              )
+                            : group.id === "student-life"
+                              ? text(
+                                  "KCMSC students celebrating a class party",
+                                  "KCMSC শিক্ষার্থীদের ক্লাস পার্টি",
+                                )
+                              : text(
+                                  "K C Model School & College campus",
+                                  "কে সি মডেল স্কুল অ্যান্ড কলেজ ক্যাম্পাস",
+                                )
+                        }
                       />
                       <span className="kc-mega-feature-shade" />
                       <span className="kc-mega-feature-copy">
@@ -445,7 +532,9 @@ export function Navbar({ locale }: { locale: Locale }) {
               onClick={closeMobile}
               className="mt-3 flex min-h-12 items-center justify-between bg-[#176b45] px-5 text-sm font-semibold text-white transition hover:bg-[#124c36]"
             >
-              <span>{locale === "bn" ? "ভর্তি আবেদন ও তথ্য" : dict.nav.admissions}</span>
+              <span>
+                {locale === "bn" ? "ভর্তি আবেদন ও তথ্য" : dict.nav.admissions}
+              </span>
               <span aria-hidden="true">↗</span>
             </Link>
             <div className="mt-5 rounded-xl border border-[#d9d8cf] bg-[#fffdf8] p-5">
