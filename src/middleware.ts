@@ -15,6 +15,14 @@ const PROTECTED_PREFIXES = ["/admin", "/officer", "/blogger/dashboard", "/blogge
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // Admin routes are deliberately not localized. Recover gracefully if a
+  // locale-prefixed admin URL is entered or linked accidentally.
+  if (/^\/(en|bn)\/admin(?:\/|$)/.test(pathname)) {
+    const url = request.nextUrl.clone();
+    url.pathname = pathname.replace(/^\/(en|bn)(?=\/admin(?:\/|$))/, "");
+    return NextResponse.redirect(url);
+  }
+
   // --- Teacher portal auth gate -----------------------------------------
   if (pathname === "/teacher/login" || pathname.startsWith("/teacher/login/")) {
     return NextResponse.next();
@@ -73,6 +81,7 @@ export async function middleware(request: NextRequest) {
       "/admin/help",
       "/admin/blog",
       "/admin/teachers",
+      "/admin/events",
     ];
 
     if (

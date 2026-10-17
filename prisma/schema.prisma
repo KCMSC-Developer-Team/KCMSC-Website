@@ -50,6 +50,28 @@ model Notice {
   updatedAt   DateTime  @updatedAt
 }
 
+model Event {
+  id             String   @id @default(cuid())
+  titleEn        String
+  titleBn        String
+  summaryEn      String
+  summaryBn      String
+  descriptionEn  String   @db.Text
+  descriptionBn  String   @db.Text
+  coverImage     String?  @db.Text
+  photoUrls      String?  @db.Text
+  venueEn        String?
+  venueBn        String?
+  startAt        DateTime
+  endAt          DateTime?
+  isPublished    Boolean  @default(false)
+  isFeatured     Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([isPublished, startAt])
+}
+
 model Achievement {
   id            String   @id @default(cuid())
   titleEn       String

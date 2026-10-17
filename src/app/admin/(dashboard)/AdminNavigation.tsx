@@ -17,6 +17,7 @@ import {
   FiHelpCircle,
   FiBookOpen,
   FiUserCheck,
+  FiCalendar,
 } from "react-icons/fi";
 import { SignOutButton } from "./SignOutButton";
 
@@ -63,6 +64,7 @@ const NAV_GROUPS = [
         label: "Notices & notifications",
         icon: FiBell,
       },
+      { href: "/admin/events", label: "Events & activities", icon: FiCalendar },
       {
         href: "/admin/alumni",
         label: "Alumni messages",

@@ -48,6 +48,10 @@ export default async function StudentLifePage({ params }: { params: Promise<{ lo
   if (!isLocale(locale)) notFound();
   const clubEntries = await getClubEntries(locale);
   const bn = locale === "bn";
+  let events: Awaited<ReturnType<typeof prisma.event.findMany>> = [];
+  try {
+    events = await prisma.event.findMany({ where: { isPublished: true }, orderBy: [{ isFeatured: "desc" }, { startAt: "asc" }], take: 12 });
+  } catch { events = []; }
 
   const copy = bn
     ? {
@@ -233,6 +237,45 @@ export default async function StudentLifePage({ params }: { params: Promise<{ lo
           </div>
         </div>
       </section>
+
+      {/* Events: managed from the administration panel, and only published events appear here. */}
+      {events.length > 0 ? (
+        <section id="events" className="border-y border-[#D9E2EC] bg-[#F7F9FC]">
+          <div className="mx-auto max-w-[1240px] px-6 py-16 sm:px-10 sm:py-20 lg:px-12 lg:py-24">
+            <div className="grid gap-8 lg:grid-cols-[.72fr_1.28fr] lg:gap-14">
+              <div>
+                <p className="kc-classic-kicker">{bn ? "স্কুলের আয়োজন" : "WHAT'S HAPPENING AT KCMSC"}</p>
+                <h2 className="mt-5 max-w-lg font-heading text-[clamp(2.4rem,4.5vw,4.6rem)] leading-[.97] tracking-[-.035em] text-[#12324A]">{bn ? "অনুষ্ঠান, স্মৃতি ও একসঙ্গে থাকার মুহূর্ত" : "Events, shared moments and school memories."}</h2>
+                <p className="mt-5 max-w-md text-sm leading-7 text-[#64748B]">{bn ? "স্কুলের আসন্ন আয়োজন ও সাম্প্রতিক অনুষ্ঠানগুলোর খবর এখানে দেখুন।" : "Discover upcoming events and moments from the life of our school."}</p>
+              </div>
+              <div className="border-t border-[#CBD5E1]">
+                {events.map((event, index) => {
+                  let gallery: string[] = [];
+                  try { gallery = JSON.parse(event.photoUrls || "[]").filter((url: unknown): url is string => typeof url === "string"); } catch { gallery = []; }
+                  const title = bn ? event.titleBn : event.titleEn;
+                  const summary = bn ? event.summaryBn : event.summaryEn;
+                  const description = bn ? event.descriptionBn : event.descriptionEn;
+                  const venue = bn ? (event.venueBn || event.venueEn) : (event.venueEn || event.venueBn);
+                  return <article key={event.id} className="grid gap-5 border-b border-[#CBD5E1] py-6 sm:grid-cols-[minmax(0,.9fr)_minmax(0,1.1fr)] sm:gap-7 sm:py-8">
+                    <div className="relative aspect-[4/3] overflow-hidden bg-[#E2E6E2]">
+                      {event.coverImage || gallery[0] ? <img src={event.coverImage || gallery[0]} alt={title} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 hover:scale-[1.03]" /> : <div className="flex h-full items-end bg-[#0B5A40] p-5 text-white"><span className="font-heading text-4xl">{String(index + 1).padStart(2,"0")}</span></div>}
+                      {event.isFeatured ? <span className="absolute left-3 top-3 bg-[#E6C77A] px-2.5 py-1 text-[9px] font-bold uppercase tracking-[.16em] text-[#12324A]">{bn ? "বিশেষ আয়োজন" : "Featured event"}</span> : null}
+                    </div>
+                    <div className="flex flex-col items-start">
+                      <p className="kc-classic-kicker">{new Intl.DateTimeFormat(bn ? "bn-BD" : "en-GB", { day: "2-digit", month: "long", year: "numeric" }).format(event.startAt)}</p>
+                      <h3 className="mt-3 font-heading text-2xl leading-tight text-[#12324A] sm:text-3xl">{title}</h3>
+                      <p className="mt-3 text-sm font-medium leading-6 text-[#3F5D50]">{summary}</p>
+                      <p className="mt-3 line-clamp-4 whitespace-pre-line text-sm leading-6 text-[#64748B]">{description}</p>
+                      {venue ? <p className="mt-4 text-xs font-semibold uppercase tracking-[.1em] text-[#0B5A40]">{bn ? "স্থান" : "VENUE"} · {venue}</p> : null}
+                      {gallery.length > 1 ? <div className="mt-4 grid w-full grid-cols-3 gap-2">{gallery.slice(0,3).map((url,i)=><img key={`${event.id}-${url}-${i}`} src={url} alt={`${title} ${i+1}`} loading="lazy" className="aspect-[4/3] w-full object-cover" />)}</div> : null}
+                    </div>
+                  </article>;
+                })}
+              </div>
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       {/* One campus photograph, used only for the garden story. */}
       <section className="bg-[#12324A] text-white">

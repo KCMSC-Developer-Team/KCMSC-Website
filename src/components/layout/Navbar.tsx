@@ -157,6 +157,26 @@ export function Navbar({ locale }: { locale: Locale }) {
       ],
     },
     {
+      id: "events",
+      href: "events",
+      label: text("Events", "অনুষ্ঠান"),
+      eyebrow: text("School life, together", "একসঙ্গে স্কুলজীবন"),
+      description: text(
+        "Explore upcoming events, school celebrations and moments from the KCMSC community.",
+        "KCMSC-এর আসন্ন অনুষ্ঠান, উদ্‌যাপন ও স্কুল কমিউনিটির স্মরণীয় মুহূর্তগুলো দেখুন।",
+      ),
+      links: [
+        {
+          href: "events",
+          label: text("Events & Celebrations", "অনুষ্ঠান ও উদ্‌যাপন"),
+          description: text(
+            "Browse upcoming events and highlights from past school activities.",
+            "আসন্ন অনুষ্ঠান ও স্কুলের সাম্প্রতিক কার্যক্রমের ঝলক দেখুন।",
+          ),
+        },
+      ],
+    },
+    {
       id: "alumni",
       href: "alumni",
       label: text("Alumni", "প্রাক্তন শিক্ষার্থী"),
