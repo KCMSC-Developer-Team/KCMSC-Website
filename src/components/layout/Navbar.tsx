@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getDictionary } from "@/i18n/config";
 import type { Locale } from "@/i18n/config";
@@ -18,9 +19,11 @@ type MenuGroup = {
 
 export function Navbar({ locale }: { locale: Locale }) {
   const dict = getDictionary(locale);
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const text = (en: string, bn: string) => (locale === "bn" ? bn : en);
+  const currentRoute = pathname.split("/").slice(2).join("/");
 
   // Navigation is grouped by visitor intent. Careers is a dedicated top-level section, separate from About.
   const groups: MenuGroup[] = [
@@ -154,18 +157,6 @@ export function Navbar({ locale }: { locale: Locale }) {
             "বিদ্যালয়ের ক্যাম্পাস ও সুযোগ-সুবিধা।",
           ),
         },
-      ],
-    },
-    {
-      id: "events",
-      href: "events",
-      label: text("Events", "অনুষ্ঠান"),
-      eyebrow: text("School life, together", "একসঙ্গে স্কুলজীবন"),
-      description: text(
-        "Explore upcoming events, school celebrations and moments from the KCMSC community.",
-        "KCMSC-এর আসন্ন অনুষ্ঠান, উদ্‌যাপন ও স্কুল কমিউনিটির স্মরণীয় মুহূর্তগুলো দেখুন।",
-      ),
-      links: [
         {
           href: "events",
           label: text("Events & Celebrations", "অনুষ্ঠান ও উদ্‌যাপন"),
@@ -335,10 +326,15 @@ export function Navbar({ locale }: { locale: Locale }) {
               >
                 <Link
                   href={`/${locale}/${group.href}`}
-                  className={`kc-nav-link !rounded-none !px-[10px] 2xl:!px-3 ${activeMenu === group.id ? "is-active" : ""}`}
+                  className={`kc-nav-link !rounded-none !px-[10px] 2xl:!px-3 ${activeMenu === group.id || (group.id === "student-life" && currentRoute === "events") ? "is-active" : ""}`}
                   aria-haspopup="true"
                   aria-expanded={activeMenu === group.id}
                   onFocus={() => setActiveMenu(group.id)}
+                  aria-current={
+                    group.id === "student-life" && currentRoute === "events"
+                      ? "location"
+                      : undefined
+                  }
                 >
                   {group.label}
                 </Link>
@@ -403,6 +399,9 @@ export function Navbar({ locale }: { locale: Locale }) {
                           key={`${group.id}-${item.href}-${index}`}
                           href={`/${locale}/${item.href}`}
                           className="kc-mega-link"
+                          aria-current={
+                            currentRoute === item.href ? "page" : undefined
+                          }
                           onClick={() => setActiveMenu(null)}
                         >
                           <span className="kc-mega-number">0{index + 1}</span>
@@ -522,13 +521,18 @@ export function Navbar({ locale }: { locale: Locale }) {
                         .filter(
                           (item, itemIndex, arr) =>
                             arr.findIndex((x) => x.href === item.href) ===
-                              itemIndex && item.href !== group.href,
+                              itemIndex &&
+                            (item.href !== group.href ||
+                              group.id === "student-life"),
                         )
                         .map((item) => (
                           <Link
                             key={`${group.id}-${item.href}`}
                             href={`/${locale}/${item.href}`}
                             onClick={closeMobile}
+                            aria-current={
+                              currentRoute === item.href ? "page" : undefined
+                            }
                             className="py-2 text-sm text-[#646b64] hover:text-[#176b45]"
                           >
                             {item.label}
