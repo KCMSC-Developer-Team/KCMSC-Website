@@ -353,6 +353,7 @@ model BloggerProfile {
   formTeacher    String?
   subject        String?
   displayName    String
+  photoUrl       String?
   user            User @relation(fields: [userId], references: [id], onDelete: Cascade)
   articles        BlogArticle[]
   nameChanges     BloggerNameChange[]

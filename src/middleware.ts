@@ -10,7 +10,12 @@ function getLocaleFromPath(pathname: string) {
 
 // Admin/officer auth routes are NOT localized.
 const PUBLIC_ADMIN_PATHS = ["/admin/login"];
-const PROTECTED_PREFIXES = ["/admin", "/officer", "/blogger/dashboard", "/blogger/articles"]
+const PROTECTED_PREFIXES = ["/admin", "/officer"];
+const BLOGGER_PROTECTED_PREFIXES = [
+  "/blogger/dashboard",
+  "/blogger/articles",
+  "/blogger/profile",
+];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -37,6 +42,29 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // --- Blogger workspace auth gate --------------------------------------
+  if (pathname === "/blogger/login" || pathname.startsWith("/blogger/login/")) {
+    return NextResponse.next();
+  }
+  if (
+    BLOGGER_PROTECTED_PREFIXES.some(
+      (p) => pathname === p || pathname.startsWith(p + "/"),
+    )
+  ) {
+    const token = await getToken({ req: request, secret: process.env.AUTH_SECRET });
+    if (!token) {
+      const loginUrl = request.nextUrl.clone();
+      loginUrl.pathname = "/blogger/login";
+      return NextResponse.redirect(loginUrl);
+    }
+    if (token.role !== "BLOGGER") {
+      const loginUrl = request.nextUrl.clone();
+      loginUrl.pathname = token.role === "ADMIN" ? "/admin" : "/blogger/login";
+      return NextResponse.redirect(loginUrl);
+    }
+    return NextResponse.next();
+  }
+
   // --- Admin/officer auth gate ------------------------------------------
   if (
     PROTECTED_PREFIXES.some(
@@ -58,12 +86,6 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(loginUrl);
     }
 
-    if (pathname.startsWith("/blogger/dashboard") || pathname.startsWith("/blogger/articles")) {
-      if (token.role !== "BLOGGER") {
-        const loginUrl = request.nextUrl.clone(); loginUrl.pathname = token.role === "ADMIN" ? "/admin" : "/blogger/login"; return NextResponse.redirect(loginUrl);
-      }
-      return NextResponse.next();
-    }
     if (pathname.startsWith("/admin") && token.role !== "ADMIN" && !PUBLIC_ADMIN_PATHS.some(p => pathname.startsWith(p))) {
       const adminUrl = request.nextUrl.clone(); adminUrl.pathname = token.role === "BLOGGER" ? "/blogger/dashboard" : "/officer"; return NextResponse.redirect(adminUrl);
     }
@@ -96,13 +118,6 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(adminUrl);
     }
 
-    return NextResponse.next();
-  }
-
-  if (pathname === "/blogger/login" || pathname.startsWith("/blogger/login/")) return NextResponse.next();
-  if (pathname === "/blogger/dashboard" || pathname.startsWith("/blogger/dashboard/") || pathname === "/blogger/articles/new" || pathname.startsWith("/blogger/articles/")) {
-    const token = await getToken({ req: request, secret: process.env.AUTH_SECRET });
-    if (!token || token.role !== "BLOGGER") { const url=request.nextUrl.clone(); url.pathname="/blogger/login"; return NextResponse.redirect(url); }
     return NextResponse.next();
   }
 

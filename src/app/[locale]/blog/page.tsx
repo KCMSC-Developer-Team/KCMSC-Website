@@ -2,6 +2,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/db";
 import { isLocale } from "@/i18n/config";
 import { notFound } from "next/navigation";
+import BloggerAvatar from "@/components/blog/BloggerAvatar";
 
 export const dynamic = "force-dynamic";
 
@@ -21,7 +22,9 @@ export default async function BlogPage({
       where: { status: "PUBLISHED" },
       orderBy: { publishedAt: "desc" },
       take: 30,
-      include: { author: { select: { displayName: true, type: true } } },
+      include: {
+        author: { select: { displayName: true, type: true, photoUrl: true } },
+      },
     })
     .catch(() => []);
 
@@ -147,7 +150,14 @@ export default async function BlogPage({
                     </h3>
                     {post.excerpt ? <p className="mt-3 line-clamp-3 text-sm leading-6 text-[#69716b]">{post.excerpt}</p> : <p className="mt-3 text-sm leading-6 text-[#69716b]">{copy.noteBody}</p>}
                     <div className="mt-auto flex items-center justify-between gap-3 border-t border-[#edede7] pt-5 mt-6">
-                      <span className="min-w-0 truncate text-xs font-medium text-[#525d53]">{post.author.displayName}</span>
+                      <span className="flex min-w-0 items-center gap-2 truncate text-xs font-medium text-[#525d53]">
+                        <BloggerAvatar
+                          name={post.author.displayName}
+                          photoUrl={post.author.photoUrl}
+                          className="grid h-8 w-8 shrink-0 place-items-center overflow-hidden rounded-full bg-[#e7efe5] font-semibold text-[#176b45]"
+                        />
+                        <span className="truncate">{post.author.displayName}</span>
+                      </span>
                       <Link href={`/${locale}/blog/${post.slug}`} className="inline-flex shrink-0 items-center gap-2 text-xs font-semibold text-[#176b45] hover:text-[#124c36]">{copy.read}<span aria-hidden="true">↗</span></Link>
                     </div>
                   </div>
