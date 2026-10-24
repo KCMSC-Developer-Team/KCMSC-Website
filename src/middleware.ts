@@ -9,7 +9,7 @@ function getLocaleFromPath(pathname: string) {
 }
 
 // Admin/officer auth routes are NOT localized.
-const PUBLIC_ADMIN_PATHS = ["/admin/login"];
+const PUBLIC_ADMIN_PATHS = ["/admin/login", "/admin/accept-invite"];
 const PROTECTED_PREFIXES = ["/admin", "/officer"];
 const BLOGGER_PROTECTED_PREFIXES = [
   "/blogger/dashboard",

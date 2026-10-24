@@ -1,11 +1,19 @@
-import { lookupInvitation, type InvitationLookupResult } from "@/lib/invitation";
+import type { Metadata } from "next";
+import {
+  lookupInvitation,
+  type InvitationLookupResult
+} from "@/lib/invitation";
 import { AcceptInviteForm } from "./AcceptInviteForm";
 import { acceptInviteAction } from "./actions";
+
+export const metadata: Metadata = { referrer: "no-referrer" };
 
 const ERROR_MESSAGES: Record<string, string> = {
   missing_fields: "Please fill in every field.",
   password_mismatch: "Passwords do not match.",
   password_too_short: "Password must be at least 10 characters.",
+  password_too_long: "Password must be no longer than 100 characters.",
+  school_id_password: "Your school ID cannot be used as your password.",
   invalid_invitation: "This invitation is invalid, expired, or already used."
 };
 
@@ -42,7 +50,7 @@ export default async function AcceptInvitePage({
     <>
       <h1 className="mb-2 text-center text-xl font-medium text-ink">Set Up Your Account</h1>
       <p className="mb-6 text-center text-sm text-ink-muted">
-        Creating a {lookup.role === "ADMIN" ? "administrator" : "admission officer"} account for{" "}
+        Creating a {lookup.role === "ADMIN" ? "administrator" : lookup.role === "BLOGGER" ? "blogger" : "admission officer"} account for{" "}
         <span className="font-medium text-ink">{lookup.email}</span>
       </p>
       {errorMessage ? <p className="mb-4 text-center text-sm text-brick">{errorMessage}</p> : null}

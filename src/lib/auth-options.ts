@@ -74,6 +74,14 @@ export const authOptions: AuthOptions = {
         });
         if (user?.role === "BLOGGER" && !user.bloggerProfile) return null;
         if (user?.role === "TEACHER" && (!user.teacherProfile || !user.teacherProfile.isActive)) return null;
+        if (
+          user?.role === "BLOGGER" &&
+          user.bloggerProfile &&
+          credentials.password === user.bloggerProfile.schoolId
+        ) {
+          recordFailedAttempt(email);
+          return null;
+        }
         if (!user) {
           recordFailedAttempt(email);
           return null;
