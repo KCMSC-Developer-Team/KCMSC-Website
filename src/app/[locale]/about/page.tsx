@@ -76,11 +76,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
           <div className="relative min-h-[360px] overflow-hidden border-l border-[#D9E2EC] lg:min-h-[560px]">
             <Image
               src="/kcmsc/media/20250722_090917.jpg"
-              alt={
-                bn
-                  ? "KC Model School and College campus"
-                  : "KC Model School and College campus"
-              }
+              alt="KC Model School and College campus"
               fill
               priority
               sizes="(min-width: 1024px) 48vw, 100vw"
@@ -185,11 +181,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
             <div className="relative min-h-[300px] lg:min-h-[560px]">
               <Image
                 src="/kcmsc/media/20230123_124320.jpg"
-                alt={
-                  bn
-                    ? "KCMSC leadership and school community gathering"
-                    : "KCMSC leadership and school community gathering"
-                }
+                alt="KCMSC leadership and school community gathering"
                 fill
                 sizes="(min-width: 1024px) 58vw, 100vw"
                 className="object-cover object-center"
@@ -308,6 +300,56 @@ export default async function AboutPage({ params }: AboutPageProps) {
               ))}
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Institutional information */}
+      <section className="border-t border-[#D9E2EC] bg-[#F8FAFC] py-14 sm:py-16">
+        <div className="mx-auto max-w-[1240px] px-6 sm:px-10">
+          <div className="max-w-2xl">
+            <span className="kc-classic-kicker">
+              {bn ? "প্রাতিষ্ঠানিক পরিচিতি" : "Official identification"}
+            </span>
+
+            <h2 className="mt-4 font-heading text-3xl leading-tight tracking-[-.03em] text-[#12324A] sm:text-4xl">
+              {bn ? "প্রাতিষ্ঠানিক তথ্য" : "Institutional information"}
+            </h2>
+
+            <p className="mt-3 text-sm leading-6 text-[#747b74]">
+              {bn
+                ? "প্রতিষ্ঠানটির পরিচিতিমূলক তথ্য ও কোড।"
+                : "Official identification details for K C Model School & College."}
+            </p>
+          </div>
+
+          <dl className="mt-8 grid overflow-hidden border-y border-[#D9E2EC] sm:grid-cols-3">
+            <div className="py-5 sm:py-7 sm:pr-6">
+              <dt className="text-[10px] uppercase tracking-[.16em] text-[#747b74]">
+                EIIN
+              </dt>
+              <dd className="mt-2 font-heading text-3xl text-[#176b45] sm:text-4xl">
+                137368
+              </dd>
+            </div>
+
+            <div className="border-t border-[#D9E2EC] py-5 sm:border-l sm:border-t-0 sm:px-6 sm:py-7">
+              <dt className="text-[10px] uppercase tracking-[.16em] text-[#747b74]">
+                {bn ? "স্কুল কোড" : "School Code"}
+              </dt>
+              <dd className="mt-2 font-heading text-3xl text-[#176b45] sm:text-4xl">
+                1417
+              </dd>
+            </div>
+
+            <div className="border-t border-[#D9E2EC] py-5 sm:border-l sm:border-t-0 sm:pl-6 sm:py-7">
+              <dt className="text-[10px] uppercase tracking-[.16em] text-[#747b74]">
+                {bn ? "কলেজ কোড" : "College Code"}
+              </dt>
+              <dd className="mt-2 font-heading text-3xl text-[#176b45] sm:text-4xl">
+                1290
+              </dd>
+            </div>
+          </dl>
         </div>
       </section>
 

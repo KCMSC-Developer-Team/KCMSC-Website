@@ -52,48 +52,48 @@ const socialLinks = [
 
 export function Footer({ locale }: { locale: Locale }) {
   const dict = getDictionary(locale);
+  const isBangla = locale === "bn";
 
   const groups = [
     {
-      title: locale === "bn" ? "পরিচিতি" : "ABOUT",
+      title: isBangla ? "পরিচিতি" : "ABOUT",
       links: [
-        [locale === "bn" ? "আমাদের গল্প" : "Our story", "about"],
+        [isBangla ? "আমাদের গল্প" : "Our story", "about"],
         [
-          locale === "bn" ? "নেতৃত্বের বার্তা" : "Leadership messages",
+          isBangla ? "নেতৃত্বের বার্তা" : "Leadership messages",
           "leadership-messages",
         ],
-        [locale === "bn" ? "একাডেমিক" : "Academics", "academics"],
+        [isBangla ? "একাডেমিক" : "Academics", "academics"],
       ] as const,
     },
     {
-      title: locale === "bn" ? "ক্যাম্পাস" : "CAMPUS",
+      title: isBangla ? "ক্যাম্পাস" : "CAMPUS",
       links: [
-        [locale === "bn" ? "শিক্ষাজীবন" : "Student life", "student-life"],
-        [locale === "bn" ? "সুযোগ-সুবিধা" : "Facilities", "facilities"],
+        [isBangla ? "শিক্ষাজীবন" : "Student life", "student-life"],
+        [isBangla ? "সুযোগ-সুবিধা" : "Facilities", "facilities"],
       ] as const,
     },
     {
-      title: locale === "bn" ? "তথ্য" : "INFORMATION",
+      title: isBangla ? "তথ্য" : "INFORMATION",
       links: [
-        [locale === "bn" ? "ফলাফল ও অর্জন" : "Results & achievements", "academics"],
-        [locale === "bn" ? "যোগাযোগ" : "Contact", "contact"],
-        [locale === "bn" ? "সহায়তা কেন্দ্র" : "Help Center", "help"],
+        [isBangla ? "ফলাফল ও অর্জন" : "Results & achievements", "achievements"],
+        [isBangla ? "যোগাযোগ" : "Contact", "contact"],
+        [isBangla ? "সহায়তা কেন্দ্র" : "Help Center", "help"],
       ] as const,
     },
   ];
 
   return (
     <footer className="border-t border-[#d9d8cf] bg-[#efeee7] text-[#69716b]">
-      <div className="mx-auto max-w-[1180px] px-5 py-12 sm:px-8 lg:px-10 lg:py-14">
+      <div className="mx-auto max-w-[1180px] px-5 py-10 sm:px-8 sm:py-12 lg:px-10 lg:py-14">
         {/* Main Footer */}
-        <div className="grid gap-10 border-b border-[#d9d8cf] pb-10 lg:grid-cols-[1.3fr_1fr] lg:gap-20">
+        <div className="grid gap-10 border-b border-[#d9d8cf] pb-9 sm:pb-10 lg:grid-cols-[1.3fr_1fr] lg:gap-20">
           {/* School Information */}
           <div>
             <Link
               href={`/${locale}`}
               className="inline-flex items-center gap-3 text-[#124c36]"
             >
-              {/* FIXED LOGO */}
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[2px] bg-[#fffdf8]">
                 <img
                   src="/kcmsc/kcmsc-logo.png"
@@ -108,10 +108,44 @@ export function Footer({ locale }: { locale: Locale }) {
             </Link>
 
             <p className="mt-4 max-w-md text-[13px] leading-6">
-              {locale === "bn"
+              {isBangla
                 ? "প্লে গ্রুপ থেকে দ্বাদশ শ্রেণি পর্যন্ত বাংলা ও ইংরেজি ভার্সনে শিক্ষা।"
                 : "Education from Play Group to Grade Twelve in Bangla and English Versions."}
             </p>
+
+            {/* Institutional Information */}
+            <div className="mt-5 max-w-md border-t border-[#d9d8cf] pt-4">
+              <p className="text-[9px] uppercase tracking-[.16em] text-[#176b45]">
+                {isBangla ? "প্রাতিষ্ঠানিক তথ্য" : "INSTITUTIONAL INFORMATION"}
+              </p>
+
+              <dl className="mt-3 grid grid-cols-3 gap-2">
+                <div className="min-w-0">
+                  <dt className="text-[10px] leading-4 text-[#858b84]">EIIN</dt>
+                  <dd className="mt-1 text-[13px] font-medium tabular-nums text-[#124c36]">
+                    137368
+                  </dd>
+                </div>
+
+                <div className="min-w-0 border-l border-[#d9d8cf] pl-3">
+                  <dt className="text-[10px] leading-4 text-[#858b84]">
+                    {isBangla ? "স্কুল কোড" : "School Code"}
+                  </dt>
+                  <dd className="mt-1 text-[13px] font-medium tabular-nums text-[#124c36]">
+                    1417
+                  </dd>
+                </div>
+
+                <div className="min-w-0 border-l border-[#d9d8cf] pl-3">
+                  <dt className="text-[10px] leading-4 text-[#858b84]">
+                    {isBangla ? "কলেজ কোড" : "College Code"}
+                  </dt>
+                  <dd className="mt-1 text-[13px] font-medium tabular-nums text-[#124c36]">
+                    1290
+                  </dd>
+                </div>
+              </dl>
+            </div>
 
             {/* Social Media */}
             <div className="mt-6 flex flex-wrap items-center gap-2.5">
@@ -173,8 +207,6 @@ export function Footer({ locale }: { locale: Locale }) {
                       {label}
                     </Link>
                   ))}
-
-
                 </div>
               </div>
             ))}
