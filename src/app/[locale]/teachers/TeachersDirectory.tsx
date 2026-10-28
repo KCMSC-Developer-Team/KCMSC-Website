@@ -19,10 +19,10 @@ type Teacher = {
 const wingOrder = ["College Wing", "Senior Wing", "Junior Wing", "Primary Wing", "Administration", "Unassigned"];
 const PAGE_SIZE = 24;
 
-export default function TeachersDirectory({ locale, teachers }: { locale: Locale; teachers: Teacher[] }) {
+export default function TeachersDirectory({ locale, teachers, initialWing = "all" }: { locale: Locale; teachers: Teacher[]; initialWing?: string }) {
   const bn = locale === "bn";
   const [search, setSearch] = useState("");
-  const [wing, setWing] = useState("all");
+  const [wing, setWing] = useState(initialWing);
   const [subject, setSubject] = useState("all");
   const [page, setPage] = useState(1);
 
