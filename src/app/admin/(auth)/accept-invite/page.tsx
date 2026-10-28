@@ -20,10 +20,11 @@ const ERROR_MESSAGES: Record<string, string> = {
 export default async function AcceptInvitePage({
   searchParams
 }: {
-  searchParams: { token?: string; error?: string };
+  searchParams: Promise<{ token?: string; error?: string }>;
 }) {
-  const token = searchParams.token ?? "";
-  const errorMessage = searchParams.error ? ERROR_MESSAGES[searchParams.error] : null;
+  const { token: rawToken, error } = await searchParams;
+  const token = rawToken ?? "";
+  const errorMessage = error ? ERROR_MESSAGES[error] : null;
 
   const lookup: InvitationLookupResult = token
     ? await lookupInvitation(token)

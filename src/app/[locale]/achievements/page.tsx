@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
 
-export default function AchievementsPage({ params }: { params: { locale: string } }) {
-  redirect(`/${params.locale}/academics`);
+export default async function AchievementsPage({ params }: { params: Promise<{ locale: string }> }) {
+  redirect(`/${(await params).locale}/academics`);
 }

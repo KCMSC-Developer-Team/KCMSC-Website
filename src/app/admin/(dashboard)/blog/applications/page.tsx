@@ -6,15 +6,16 @@ export const dynamic="force-dynamic";
 export default async function BlogApplicationsPage({
   searchParams
 }: {
-  searchParams: { invitation?: string };
+  searchParams: Promise<{ invitation?: string }>;
 }) {
   await requireAdmin();
   const apps = await prisma.blogApplication.findMany({
     orderBy: { createdAt: "desc" },
     take: 100
   });
-  const inviteUrl = searchParams.invitation
-    ? `/admin/accept-invite?token=${encodeURIComponent(searchParams.invitation)}`
+  const { invitation } = await searchParams;
+  const inviteUrl = invitation
+    ? `/admin/accept-invite?token=${encodeURIComponent(invitation)}`
     : null;
 
   return (

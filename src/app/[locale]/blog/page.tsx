@@ -11,11 +11,11 @@ const BOOKFAIR_IMAGE = "/kcmsc/student-life/students_at_bookfair.jpg";
 export default async function BlogPage({
   params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
-  if (!isLocale(params.locale)) notFound();
+  if (!isLocale((await params).locale)) notFound();
 
-  const locale = params.locale;
+  const locale = (await params).locale;
   const bn = locale === "bn";
   const posts = await prisma.blogArticle
     .findMany({

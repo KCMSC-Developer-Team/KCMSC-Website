@@ -3,8 +3,8 @@ import { prisma } from "@/lib/db";
 import { CareerForm } from "../../CareerForm";
 import { updateCareerAction } from "../../actions";
 
-export default async function EditCareerPage({ params }: { params: { id: string } }) {
-  const career = await prisma.career.findUnique({ where: { id: params.id } });
+export default async function EditCareerPage({ params }: { params: Promise<{ id: string }> }) {
+  const career = await prisma.career.findUnique({ where: { id: (await params).id } });
   if (!career) notFound();
 
   const boundAction = updateCareerAction.bind(null, career.id);

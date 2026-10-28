@@ -9,17 +9,17 @@ export const dynamic = "force-dynamic";
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const admin = await getCurrentAdmissionsStaff();
   const token = new URL(request.url).searchParams.get("token");
 
-  if (!admin && (!token || !verifyApplicationDownloadToken(params.id, token))) {
+  if (!admin && (!token || !verifyApplicationDownloadToken((await params).id, token))) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
 
   const application = await prisma.admissionApplication.findUnique({
-    where: { id: params.id },
+    where: { id: (await params).id },
     include: { cycle: true, guardians: true },
   });
 

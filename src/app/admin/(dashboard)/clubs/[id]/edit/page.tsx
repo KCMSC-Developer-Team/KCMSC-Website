@@ -3,8 +3,8 @@ import { prisma } from "@/lib/db";
 import { ClubForm } from "../../ClubForm";
 import { updateClubAction } from "../../actions";
 
-export default async function EditClubPage({ params }: { params: { id: string } }) {
-  const club = await prisma.club.findUnique({ where: { id: params.id } });
+export default async function EditClubPage({ params }: { params: Promise<{ id: string }> }) {
+  const club = await prisma.club.findUnique({ where: { id: (await params).id } });
   if (!club) notFound();
 
   const boundAction = updateClubAction.bind(null, club.id);

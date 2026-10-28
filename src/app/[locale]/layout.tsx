@@ -27,9 +27,10 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const locale = isLocale(params.locale) ? params.locale : defaultLocale;
+  const { locale: rawLocale } = await params;
+  const locale = isLocale(rawLocale) ? rawLocale : defaultLocale;
   const dict = getDictionary(locale);
   return {
     title: dict.site.name,
@@ -61,10 +62,11 @@ export default async function LocaleLayout({
   params
 }: {
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
-  if (!isLocale(params.locale)) notFound();
-  const locale: Locale = params.locale;
+  const { locale: rawLocale } = await params;
+  if (!isLocale(rawLocale)) notFound();
+  const locale: Locale = rawLocale;
   const rawNotification = await getActiveNotification();
   const notification = rawNotification
     ? { ...rawNotification, updatedAt: rawNotification.updatedAt.toISOString() }

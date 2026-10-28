@@ -65,11 +65,11 @@ function cycleState(opensAt: Date, closesAt: Date) {
 export default async function OfficerCyclesPage({
   searchParams,
 }: {
-  searchParams: {
+  searchParams: Promise<{
     error?: string;
     edit?: string;
     deleted?: string;
-  };
+  }>;
 }) {
   await requireOfficer();
 
@@ -86,9 +86,11 @@ export default async function OfficerCyclesPage({
     },
   });
 
-  const editing = searchParams.edit
-    ? cycles.find((cycle: typeof cycles[number]) => cycle.id === searchParams.edit)
+  const editId = (await searchParams).edit;
+  const editing = editId
+    ? cycles.find((cycle: typeof cycles[number]) => cycle.id === editId)
     : null;
+  const { error, deleted } = await searchParams;
 
   return (
     <div className="max-w-[1200px]">
@@ -117,13 +119,13 @@ export default async function OfficerCyclesPage({
         </div>
       </header>
 
-      {searchParams.error ? (
+      {error ? (
         <div className="mt-5 rounded-[14px] border border-[#a64b3c]/20 bg-[#a64b3c]/5 p-4 text-sm text-[#a64b3c]">
-          {ERRORS[searchParams.error] ?? "Something went wrong."}
+          {ERRORS[error] ?? "Something went wrong."}
         </div>
       ) : null}
 
-      {searchParams.deleted ? (
+      {deleted ? (
         <div className="mt-5 rounded-[14px] border border-[#176b45]/20 bg-[#176b45]/5 p-4 text-sm text-[#176b45]">
           Admission cycle deleted successfully.
         </div>

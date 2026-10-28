@@ -9,12 +9,12 @@ export const dynamic = "force-dynamic";
 export default async function BlogArticlePage({
   params,
 }: {
-  params: { locale: string; slug: string };
+  params: Promise<{ locale: string; slug: string }>;
 }) {
-  if (!isLocale(params.locale)) notFound();
+  if (!isLocale((await params).locale)) notFound();
 
   const article = await prisma.blogArticle.findFirst({
-    where: { slug: params.slug, status: "PUBLISHED" },
+    where: { slug: (await params).slug, status: "PUBLISHED" },
     include: {
       author: {
         select: { displayName: true, type: true, photoUrl: true },
@@ -56,7 +56,7 @@ export default async function BlogArticlePage({
           <p className="text-sm font-semibold">{article.author.displayName}</p>
           <p className="mt-1 text-xs text-[#69716b]">
             {article.publishedAt?.toLocaleDateString(
-              params.locale === "bn" ? "bn-BD" : "en-GB",
+              (await params).locale === "bn" ? "bn-BD" : "en-GB",
               { dateStyle: "long" },
             )}
           </p>

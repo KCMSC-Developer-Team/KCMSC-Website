@@ -2,14 +2,14 @@ import { getDictionary, isLocale, type Locale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/ui/PageHeader";
 
-export default function ContactPage({
+export default async function ContactPage({
   params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
-  if (!isLocale(params.locale)) notFound();
+  if (!isLocale((await params).locale)) notFound();
 
-  const locale: Locale = params.locale;
+  const locale: Locale = (await params).locale as Locale;
   const dict = getDictionary(locale);
   const page = dict.contactPage;
 

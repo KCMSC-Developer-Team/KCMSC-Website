@@ -7,21 +7,22 @@ const ERRORS: Record<string, string> = {
   weak_password: "Password must be at least 8 characters and contain a letter and a number.", password_mismatch: "The passwords do not match.", not_found: "The requested officer was not found."
 };
 
-export default async function OfficersPage({ searchParams }: { searchParams: { error?: string; created?: string; reset?: string; removed?: string } }) {
+export default async function OfficersPage({ searchParams }: { searchParams: Promise<{ error?: string; created?: string; reset?: string; removed?: string }> }) {
   await requireAdmin();
   const officers = await prisma.user.findMany({
     where: { role: "ADMISSION_OFFICER" }, orderBy: { createdAt: "asc" },
     select: { id: true, name: true, email: true, createdAt: true, _count: { select: { reviews: true } } }
   });
-  const error = searchParams.error ? ERRORS[searchParams.error] : null;
+  const errorCode = (await searchParams).error;
+  const error = errorCode ? ERRORS[errorCode] : null;
 
   return (
     <div className="max-w-[1200px]">
       <header className="border-b border-[#d9d8cf] pb-7"><p className="text-[9px] font-medium uppercase tracking-[0.2em] text-[#176b45]">Admissions</p><h1 className="mt-2 font-heading text-3xl font-normal tracking-tight text-[#124c36]">Admission Officers</h1><p className="mt-2 max-w-2xl text-sm leading-6 text-[#69716b]">Create officer accounts directly. Every submitted application is available to active admission officers; administrators can reset credentials when needed.</p></header>
       {error ? <div className="mt-6 rounded-[12px] border border-[#b14d3b]/25 bg-[#b14d3b]/5 px-4 py-3 text-sm text-[#8f392b]">{error}</div> : null}
-      {searchParams.created ? <div className="mt-6 rounded-[12px] border border-[#176b45]/20 bg-[#176b45]/5 px-4 py-3 text-sm text-[#176b45]">Officer account created. Give the new officer the credentials you entered.</div> : null}
-      {searchParams.reset ? <div className="mt-6 rounded-[12px] border border-[#176b45]/20 bg-[#176b45]/5 px-4 py-3 text-sm text-[#176b45]">Password reset successfully. Give the new temporary password to the officer.</div> : null}
-      {searchParams.removed ? <div className="mt-6 rounded-[12px] border border-[#176b45]/20 bg-[#176b45]/5 px-4 py-3 text-sm text-[#176b45]">Officer account removed. Application and review records were preserved.</div> : null}
+      {(await searchParams).created ? <div className="mt-6 rounded-[12px] border border-[#176b45]/20 bg-[#176b45]/5 px-4 py-3 text-sm text-[#176b45]">Officer account created. Give the new officer the credentials you entered.</div> : null}
+      {(await searchParams).reset ? <div className="mt-6 rounded-[12px] border border-[#176b45]/20 bg-[#176b45]/5 px-4 py-3 text-sm text-[#176b45]">Password reset successfully. Give the new temporary password to the officer.</div> : null}
+      {(await searchParams).removed ? <div className="mt-6 rounded-[12px] border border-[#176b45]/20 bg-[#176b45]/5 px-4 py-3 text-sm text-[#176b45]">Officer account removed. Application and review records were preserved.</div> : null}
 
       <section className="mt-7 rounded-[14px] border border-[#d9d8cf] bg-[#fffdf8] p-6">
         <p className="text-[9px] font-medium uppercase tracking-[0.16em] text-[#176b45]">Create account</p><h2 className="mt-1 font-heading text-xl text-[#124c36]">New admission officer</h2>

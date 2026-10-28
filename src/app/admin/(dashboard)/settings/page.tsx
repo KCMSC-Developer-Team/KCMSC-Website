@@ -8,9 +8,10 @@ const ERRORS: Record<string, string> = {
   not_found: "Your account could not be found."
 };
 
-export default async function AdminSettingsPage({ searchParams }: { searchParams: { error?: string; changed?: string } }) {
+export default async function AdminSettingsPage({ searchParams }: { searchParams: Promise<{ error?: string; changed?: string }> }) {
   const admin = await requireAdmin();
-  const error = searchParams.error ? ERRORS[searchParams.error] : null;
+  const errorCode = (await searchParams).error;
+  const error = errorCode ? ERRORS[errorCode] : null;
 
   return (
     <div className="max-w-[900px]">
@@ -21,7 +22,7 @@ export default async function AdminSettingsPage({ searchParams }: { searchParams
       </header>
 
       {error ? <div className="mt-6 rounded-[12px] border border-[#b14d3b]/25 bg-[#b14d3b]/5 px-4 py-3 text-sm text-[#8f392b]">{error}</div> : null}
-      {searchParams.changed ? <div className="mt-6 rounded-[12px] border border-[#176b45]/20 bg-[#176b45]/5 px-4 py-3 text-sm text-[#176b45]">Password changed successfully.</div> : null}
+      {(await searchParams).changed ? <div className="mt-6 rounded-[12px] border border-[#176b45]/20 bg-[#176b45]/5 px-4 py-3 text-sm text-[#176b45]">Password changed successfully.</div> : null}
 
       <section className="mt-7 rounded-[14px] border border-[#d9d8cf] bg-[#fffdf8] p-6">
         <p className="text-[9px] font-medium uppercase tracking-[0.16em] text-[#8a918b]">Signed in account</p>

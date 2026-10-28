@@ -3,10 +3,10 @@ import { prisma } from "@/lib/db";
 import { requireOfficer } from "@/lib/session";
 import { APPLICATION_STATUSES, APPLICATION_STATUS_LABELS } from "@/lib/admissions";
 
-export default async function OfficerApplicationsPage({ searchParams }: { searchParams: { status?: string; q?: string } }) {
+export default async function OfficerApplicationsPage({ searchParams }: { searchParams: Promise<{ status?: string; q?: string }> }) {
   const officer = await requireOfficer();
-  const status = searchParams.status;
-  const q = (searchParams.q ?? "").trim();
+  const status = (await searchParams).status;
+  const q = ((await searchParams).q ?? "").trim();
   const where: any = {};
   if (status && (APPLICATION_STATUSES as readonly string[]).includes(status) && status !== "UNASSIGNED") where.status = status;
   if (q) {

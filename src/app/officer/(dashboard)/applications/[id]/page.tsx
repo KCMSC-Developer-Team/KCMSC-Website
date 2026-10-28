@@ -69,17 +69,17 @@ export default async function OfficerApplicationPage({
   params,
   searchParams,
 }: {
-  params: { id: string };
-  searchParams: {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{
     error?: string;
     saved?: string;
-  };
+  }>;
 }) {
   await requireOfficer();
 
   const app = await prisma.admissionApplication.findUnique({
     where: {
-      id: params.id,
+      id: (await params).id,
     },
     include: {
       cycle: {
@@ -108,9 +108,10 @@ export default async function OfficerApplicationPage({
     notFound();
   }
 
-  const banner = searchParams.error
-    ? MESSAGES[searchParams.error]
-    : searchParams.saved
+  const { error, saved } = await searchParams;
+  const banner = error
+    ? MESSAGES[error]
+    : saved
       ? MESSAGES.saved
       : null;
 

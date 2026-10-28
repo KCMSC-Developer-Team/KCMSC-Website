@@ -4,9 +4,9 @@ import { isLocale, type Locale } from "@/i18n/config";
 import { prisma } from "@/lib/db";
 import AlumniExperienceDialog from "./AlumniExperienceDialog";
 
-export default async function AlumniPage({ params }: { params: { locale: string } }) {
-  if (!isLocale(params.locale)) notFound();
-  const locale: Locale = params.locale;
+export default async function AlumniPage({ params }: { params: Promise<{ locale: string }> }) {
+  if (!isLocale((await params).locale)) notFound();
+  const locale: Locale = (await params).locale as Locale;
   const bn = locale === "bn";
   const messages = await prisma.alumniMessage.findMany({ where: { isPublished: true }, orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }] });
   const copy = bn

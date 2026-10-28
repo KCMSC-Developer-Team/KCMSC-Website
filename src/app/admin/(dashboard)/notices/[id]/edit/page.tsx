@@ -3,8 +3,8 @@ import { prisma } from "@/lib/db";
 import { NoticeForm } from "../../NoticeForm";
 import { updateNoticeAction } from "../../actions";
 
-export default async function EditNoticePage({ params }: { params: { id: string } }) {
-  const notice = await prisma.notice.findUnique({ where: { id: params.id } });
+export default async function EditNoticePage({ params }: { params: Promise<{ id: string }> }) {
+  const notice = await prisma.notice.findUnique({ where: { id: (await params).id } });
   if (!notice) notFound();
 
   const boundAction = updateNoticeAction.bind(null, notice.id);

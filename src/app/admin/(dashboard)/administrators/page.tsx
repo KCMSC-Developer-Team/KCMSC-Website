@@ -7,17 +7,18 @@ const ERRORS: Record<string, string> = {
   not_found: "The requested account was not found.", last_admin: "The last administrator account cannot be deleted."
 };
 
-export default async function AdministratorsPage({ searchParams }: { searchParams: { error?: string; created?: string; reset?: string } }) {
+export default async function AdministratorsPage({ searchParams }: { searchParams: Promise<{ error?: string; created?: string; reset?: string }> }) {
   await requireAdmin();
   const { currentAdmin, admins } = await getAdministratorsData();
-  const error = searchParams.error ? ERRORS[searchParams.error] : null;
+  const errorCode = (await searchParams).error;
+  const error = errorCode ? ERRORS[errorCode] : null;
 
   return (
     <div className="max-w-[1200px]">
       <header className="border-b border-[#d9d8cf] pb-7"><p className="text-[9px] font-medium uppercase tracking-[0.2em] text-[#176b45]">Administration</p><h1 className="mt-2 font-heading text-3xl font-normal tracking-tight text-[#124c36]">Administrators</h1><p className="mt-2 max-w-2xl text-sm leading-6 text-[#69716b]">Create staff accounts directly. Give the credentials to the person, then they can change their own password from My Account.</p></header>
       {error ? <div className="mt-6 rounded-[12px] border border-[#b14d3b]/25 bg-[#b14d3b]/5 px-4 py-3 text-sm text-[#8f392b]">{error}</div> : null}
-      {searchParams.created ? <div className="mt-6 rounded-[12px] border border-[#176b45]/20 bg-[#176b45]/5 px-4 py-3 text-sm text-[#176b45]">Administrator account created. Give the new staff member the credentials you entered.</div> : null}
-      {searchParams.reset ? <div className="mt-6 rounded-[12px] border border-[#176b45]/20 bg-[#176b45]/5 px-4 py-3 text-sm text-[#176b45]">Password reset successfully. Give the new temporary password to the administrator.</div> : null}
+      {(await searchParams).created ? <div className="mt-6 rounded-[12px] border border-[#176b45]/20 bg-[#176b45]/5 px-4 py-3 text-sm text-[#176b45]">Administrator account created. Give the new staff member the credentials you entered.</div> : null}
+      {(await searchParams).reset ? <div className="mt-6 rounded-[12px] border border-[#176b45]/20 bg-[#176b45]/5 px-4 py-3 text-sm text-[#176b45]">Password reset successfully. Give the new temporary password to the administrator.</div> : null}
 
       <section className="mt-7 rounded-[14px] border border-[#d9d8cf] bg-[#fffdf8] p-6">
         <p className="text-[9px] font-medium uppercase tracking-[0.16em] text-[#176b45]">Create account</p><h2 className="mt-1 font-heading text-xl text-[#124c36]">New administrator</h2>

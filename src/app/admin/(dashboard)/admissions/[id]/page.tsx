@@ -4,10 +4,10 @@ import { prisma } from "@/lib/db";
 import { requireAdmin } from "@/lib/session";
 import { ApplicationDetail } from "@/components/admin/ApplicationDetail";
 
-export default async function AdminApplicationPage({ params }: { params: { id: string } }) {
+export default async function AdminApplicationPage({ params }: { params: Promise<{ id: string }> }) {
   await requireAdmin();
   const app = await prisma.admissionApplication.findUnique({
-    where: { id: params.id },
+    where: { id: (await params).id },
     include: {
       cycle: { select: { nameEn: true } },
       guardians: true,

@@ -18,14 +18,14 @@ export default async function ApplyCyclePage({
   params,
   searchParams
 }: {
-  params: { locale: string; cycleId: string };
-  searchParams: { error?: string };
+  params: Promise<{ locale: string; cycleId: string }>;
+  searchParams: Promise<{ error?: string }>;
 }) {
-  if (!isLocale(params.locale)) notFound();
-  const locale: Locale = params.locale;
+  if (!isLocale((await params).locale)) notFound();
+  const locale: Locale = (await params).locale as Locale;
   const dict = getDictionary(locale);
   const page = dict.admissionsApplyPage;
-  const cycle = await getCycleByIdSafe(params.cycleId);
+  const cycle = await getCycleByIdSafe((await params).cycleId);
 
   if (!cycle) notFound();
 
@@ -77,7 +77,7 @@ export default async function ApplyCyclePage({
             </div>
           </div>
 
-          {searchParams.error === "invalid" ? (
+          {(await searchParams).error === "invalid" ? (
             <p className="mb-6 border border-[#a7473b]/30 bg-[#a7473b]/5 px-4 py-3 text-sm text-[#8c3c32]">
               {locale === "bn"
                 ? "আগের আবেদনটি সম্পন্ন হয়নি। ফর্মে নির্দিষ্ট সমস্যাগুলো এখন দেখানো হবে। আপনার তথ্য আবার পূরণ করে জমা দিন; সার্ভারে আবেদন সংরক্ষিত হয়েছে বলে ধরে নেবেন না।"

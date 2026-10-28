@@ -3,8 +3,8 @@ import { prisma } from "@/lib/db";
 import { AlumniForm } from "../../AlumniForm";
 import { updateAlumniAction } from "../../actions";
 
-export default async function EditAlumniPage({ params }: { params: { id: string } }) {
-  const alumni = await prisma.alumniMessage.findUnique({ where: { id: params.id } });
+export default async function EditAlumniPage({ params }: { params: Promise<{ id: string }> }) {
+  const alumni = await prisma.alumniMessage.findUnique({ where: { id: (await params).id } });
   if (!alumni) notFound();
 
   const action = updateAlumniAction.bind(null, alumni.id);

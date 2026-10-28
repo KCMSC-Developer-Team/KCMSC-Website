@@ -2,18 +2,19 @@ import { getDictionary, isLocale, type Locale } from "@/i18n/config";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/ui/PageHeader";
 
-export default function ApplicationSuccessPage({
+export default async function ApplicationSuccessPage({
   params,
   searchParams,
 }: {
-  params: { locale: string };
-  searchParams: { application?: string; download?: string };
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<{ application?: string; download?: string }>;
 }) {
-  if (!isLocale(params.locale)) notFound();
-  const locale: Locale = params.locale;
+  if (!isLocale((await params).locale)) notFound();
+  const locale: Locale = (await params).locale as Locale;
   const page = getDictionary(locale).admissionsSuccessPage;
-  const downloadUrl = searchParams.application && searchParams.download
-    ? `/api/admissions/${encodeURIComponent(searchParams.application)}/form?token=${encodeURIComponent(searchParams.download)}`
+  const { application, download } = await searchParams;
+  const downloadUrl = application && download
+    ? `/api/admissions/${encodeURIComponent(application)}/form?token=${encodeURIComponent(download)}`
     : null;
 
   return (

@@ -334,11 +334,11 @@ function PassRate({ rate }: { rate: number }) {
 export default async function AcademicsPage({
   params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
-  if (!isLocale(params.locale)) notFound();
+  if (!isLocale((await params).locale)) notFound();
 
-  const locale: Locale = params.locale;
+  const locale: Locale = (await params).locale as Locale;
   const t = copy[locale];
   const dict = getDictionary(locale);
 

@@ -6,12 +6,12 @@ import path from "node:path";
 
 export const runtime = "nodejs";
 
-export async function GET(_: Request, { params }: { params: { id: string } }) {
+export async function GET(_: Request, { params }: { params: Promise<{ id: string }> }) {
   const admin = await getCurrentAdmin();
   if (!admin) return new NextResponse("Unauthorized", { status: 401 });
 
   const app = await prisma.admissionApplication.findUnique({
-    where: { id: params.id },
+    where: { id: (await params).id },
     select: { certificateData: true, certificateName: true, certificateMimeType: true },
   });
   if (!app) return new NextResponse("Not found", { status: 404 });
@@ -20,7 +20,7 @@ export async function GET(_: Request, { params }: { params: { id: string } }) {
   if (!bytes) {
     const extension = app.certificateMimeType === "application/pdf" ? "pdf" : app.certificateMimeType === "image/png" ? "png" : "jpg";
     try {
-      bytes = new Uint8Array(await readFile(path.join(process.cwd(), "storage", "admissions", `${params.id}.${extension}`)));
+      bytes = new Uint8Array(await readFile(path.join(process.cwd(), "storage", "admissions", `${(await params).id}.${extension}`)));
     } catch {
       return new NextResponse("Not found", { status: 404 });
     }

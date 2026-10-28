@@ -5,20 +5,20 @@ import { prisma } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
-type Props = { params: { locale: string; id: string } };
+type Props = { params: Promise<{ locale: string; id: string }> };
 
 function initials(name: string) {
   return name.trim().split(/\s+/).slice(0, 2).map((part) => part[0] ?? "").join("").toUpperCase();
 }
 
 export default async function TeacherDetail({ params }: Props) {
-  if (!isLocale(params.locale)) notFound();
+  if (!isLocale((await params).locale)) notFound();
   const teacher = await prisma.teacherProfile.findFirst({
-    where: { id: params.id, isActive: true, isPublished: true },
+    where: { id: (await params).id, isActive: true, isPublished: true },
   });
   if (!teacher) notFound();
 
-  const bn = params.locale === "bn";
+  const bn = (await params).locale === "bn";
   const qualifications = (teacher.qualifications || "").split("\n").map((item) => item.trim()).filter(Boolean);
   const hasAcademicDetails = Boolean(teacher.highestDegree || teacher.university || qualifications.length);
 
@@ -26,7 +26,7 @@ export default async function TeacherDetail({ params }: Props) {
     <main className="min-h-screen bg-[#f2f7f2] text-[#18382b]">
       <div className="border-b border-[#d5e5d9] bg-[#e4f0e7]">
         <div className="w-full px-5 py-4 sm:px-8 lg:px-12 xl:px-16">
-          <Link href={`/${params.locale}/teachers`} className="inline-flex items-center gap-2 text-sm font-semibold text-[#126440] transition hover:text-[#0a422b]">
+          <Link href={`/${(await params).locale}/teachers`} className="inline-flex items-center gap-2 text-sm font-semibold text-[#126440] transition hover:text-[#0a422b]">
             <span aria-hidden="true">←</span> {bn ? "শিক্ষক তালিকায় ফিরুন" : "Back to all teachers"}
           </Link>
           <div className="mt-5 flex items-center gap-2 text-[10px] font-bold uppercase tracking-[.22em] text-[#347653]">
@@ -134,7 +134,7 @@ export default async function TeacherDetail({ params }: Props) {
                   <p className="text-xs font-semibold text-[#205d3b]">{bn ? "K C Model School & College" : "K C Model School & College"}</p>
                   <p className="mt-2 text-xs leading-6 text-[#5d7966]">{bn ? "শিক্ষা, অনুসন্ধিৎসা ও সম্ভাবনার বিকাশে প্রতিশ্রুতিবদ্ধ।" : "Committed to learning, curiosity and the growth of every learner."}</p>
                 </div>
-                <Link href={`/${params.locale}/teachers`} className="mt-5 flex w-full items-center justify-center gap-2 border border-[#a9cdb4] bg-white px-4 py-3 text-sm font-semibold text-[#126440] transition hover:border-[#126440] hover:bg-[#edf6ef]">{bn ? "সব শিক্ষক দেখুন" : "Explore all teachers"} <span aria-hidden="true">↗</span></Link>
+                <Link href={`/${(await params).locale}/teachers`} className="mt-5 flex w-full items-center justify-center gap-2 border border-[#a9cdb4] bg-white px-4 py-3 text-sm font-semibold text-[#126440] transition hover:border-[#126440] hover:bg-[#edf6ef]">{bn ? "সব শিক্ষক দেখুন" : "Explore all teachers"} <span aria-hidden="true">↗</span></Link>
               </div>
             </aside>
           </div>
@@ -142,7 +142,7 @@ export default async function TeacherDetail({ params }: Props) {
 
         <div className="mt-0 flex flex-col justify-between gap-3 border-t border-[#cbded0] bg-[#e7f1e9] px-5 py-4 text-xs leading-6 text-[#587461] sm:flex-row sm:items-center sm:px-6">
           <span>{bn ? "এই পরিচিতির তথ্য শিক্ষক ও স্কুল প্রশাসনের অনুমোদিত তথ্যের ভিত্তিতে প্রকাশিত।" : "Profile information is published in accordance with school-approved records."}</span>
-          <Link href={`/${params.locale}/teachers`} className="shrink-0 font-semibold text-[#126440] hover:underline">{bn ? "শিক্ষক তালিকায় ফিরুন" : "Return to faculty directory"} →</Link>
+          <Link href={`/${(await params).locale}/teachers`} className="shrink-0 font-semibold text-[#126440] hover:underline">{bn ? "শিক্ষক তালিকায় ফিরুন" : "Return to faculty directory"} →</Link>
         </div>
       </div>
     </main>

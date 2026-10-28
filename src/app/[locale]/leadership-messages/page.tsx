@@ -89,14 +89,14 @@ const messages: Message[] = [
   },
 ];
 
-export default function LeadershipMessagesPage({
+export default async function LeadershipMessagesPage({
   params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
-  if (!isLocale(params.locale)) notFound();
+  if (!isLocale((await params).locale)) notFound();
 
-  const locale: Locale = params.locale;
+  const locale: Locale = (await params).locale as Locale;
   const bn = locale === "bn";
 
   getDictionary(locale);

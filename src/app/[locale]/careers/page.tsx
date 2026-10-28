@@ -33,12 +33,12 @@ export default async function CareersPage({
   params,
   searchParams,
 }: {
-  params: { locale: string };
-  searchParams?: { applied?: string; error?: string };
+  params: Promise<{ locale: string }>;
+  searchParams?: Promise<{ applied?: string; error?: string }>;
 }) {
-  if (!isLocale(params.locale)) notFound();
+  if (!isLocale((await params).locale)) notFound();
 
-  const locale: Locale = params.locale;
+  const locale: Locale = (await params).locale as Locale;
   const page = getDictionary(locale).careersPage;
   const careers = (await getPublishedCareers())?.map((career) => ({
     ...career,
@@ -51,8 +51,8 @@ export default async function CareersPage({
       careers={careers}
       locale={locale}
       emptyMessage={page.empty}
-      applied={searchParams?.applied}
-      error={searchParams?.error}
+      applied={(await searchParams)?.applied}
+      error={(await searchParams)?.error}
     />
   );
 }

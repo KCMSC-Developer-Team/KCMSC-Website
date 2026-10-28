@@ -3,8 +3,8 @@ import { prisma } from "@/lib/db";
 import { AchievementForm } from "../../AchievementForm";
 import { updateAchievementAction } from "../../actions";
 
-export default async function EditAchievementPage({ params }: { params: { id: string } }) {
-  const achievement = await prisma.achievement.findUnique({ where: { id: params.id } });
+export default async function EditAchievementPage({ params }: { params: Promise<{ id: string }> }) {
+  const achievement = await prisma.achievement.findUnique({ where: { id: (await params).id } });
   if (!achievement) notFound();
 
   const boundAction = updateAchievementAction.bind(null, achievement.id);

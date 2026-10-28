@@ -18,9 +18,9 @@ async function getPublishedNotices() {
   }
 }
 
-export default async function NoticesPage({ params }: { params: { locale: string } }) {
-  if (!isLocale(params.locale)) notFound();
-  const locale: Locale = params.locale;
+export default async function NoticesPage({ params }: { params: Promise<{ locale: string }> }) {
+  if (!isLocale((await params).locale)) notFound();
+  const locale: Locale = (await params).locale as Locale;
   const dict = getDictionary(locale);
   const page = dict.noticesPage;
   const notices = await getPublishedNotices();

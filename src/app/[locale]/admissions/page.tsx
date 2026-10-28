@@ -9,11 +9,11 @@ export const dynamic = "force-dynamic";
 export default async function AdmissionsPage({
   params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
-  if (!isLocale(params.locale)) notFound();
+  if (!isLocale((await params).locale)) notFound();
 
-  const locale: Locale = params.locale;
+  const locale: Locale = (await params).locale as Locale;
   const dict = getDictionary(locale);
   const page = dict.admissionsPage;
   const cycle = await getActiveCycleSafe();
