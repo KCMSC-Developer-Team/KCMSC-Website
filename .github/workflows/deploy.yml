@@ -1,4 +1,3 @@
-
 name: Deploy KCMSC Website
 
 on:
@@ -44,11 +43,26 @@ jobs:
       - name: Package release
         run: |
           set -euo pipefail
+
           mkdir -p release/.next
+
+          # Copy the standalone server and its required dependencies.
           cp -a .next/standalone/. release/
+
+          # Copy static assets required by Next.js.
           cp -a .next/static release/.next/static
+
+          # Replace standalone's public directory with repository assets.
+          rm -rf release/public
+          mkdir -p release
           cp -a public release/public
+
+          # Fail early if the expected image is missing from the package.
+          test -f release/public/kcmsc/media/IMG-20260113-WA0005.jpg
+
+          # Verify the image is at the correct archive path.
           tar -czf release.tar.gz -C release .
+          tar -tzf release.tar.gz | grep -Fx './public/kcmsc/media/IMG-20260113-WA0005.jpg'
 
       - name: Upload release artifact
         uses: actions/upload-artifact@v4
@@ -74,20 +88,22 @@ jobs:
           VPS_SSH_KEY_B64: ${{ secrets.VPS_SSH_KEY_B64 }}
         run: |
           set -euo pipefail
+
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
 
-          # Normalize Windows line endings without printing the secret.
-          printf '%s' "$VPS_SSH_KEY_B64" | base64 --decode > ~/.ssh/deploy_key
+          # Decode the Base64-encoded private key without printing it.
+          printf '%s' "$VPS_SSH_KEY_B64" |
+            base64 --decode > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
 
-          # Validate that the secret is a readable private key.
+          # Validate the private key before attempting SSH.
           if ! ssh-keygen -y -f ~/.ssh/deploy_key > /dev/null 2>&1; then
-            echo "::error::VPS_SSH_KEY is not a valid readable private key."
+            echo "::error::VPS_SSH_KEY_B64 is not a valid private key."
             exit 1
           fi
 
-          # Pin and verify the VPS host key.
+          # Verify the VPS host fingerprint before connecting.
           ssh-keyscan -T 10 -t ed25519 \
             -p "$VPS_PORT" "$VPS_HOST" > ~/.ssh/known_hosts
 
@@ -172,11 +188,13 @@ jobs:
           mkdir -p "$RELEASES" "$NEW" "$APP_DIR/shared/uploads"
 
           tar -xzf "$APP_DIR/release.tar.gz" -C "$NEW"
+
           test -f "$NEW/server.js"
           test -d "$NEW/.next/static"
+          test -f "$NEW/public/kcmsc/media/IMG-20260113-WA0005.jpg"
           test -f /etc/kcmsc-website.env
 
-          # Preserve existing and newly packaged uploads.
+          # Preserve uploads from the previous release and new package.
           if [ -d "$CURRENT/public/uploads" ]; then
             cp -an "$CURRENT/public/uploads/." "$APP_DIR/shared/uploads/"
           fi
@@ -188,7 +206,7 @@ jobs:
           rm -rf "$NEW/public/uploads"
           ln -s "$APP_DIR/shared/uploads" "$NEW/public/uploads"
 
-          # Activate the new release.
+          # Atomically activate the release.
           ln -sfn "$NEW" "$APP_DIR/current.next"
           mv -Tf "$APP_DIR/current.next" "$CURRENT"
 
@@ -207,11 +225,16 @@ jobs:
           curl --fail --silent --show-error \
             http://127.0.0.1:3000/ -o /dev/null
 
+          # Verify the image is served directly by the running application.
+          curl --fail --silent --show-error \
+            http://127.0.0.1:3000/kcmsc/media/IMG-20260113-WA0005.jpg \
+            -o /dev/null
+
           pm2 save
           rm -f "$APP_DIR/release.tar.gz"
 
           trap - ERR
-          echo "Deployment and HTTP health check succeeded."
+          echo "Deployment and image health checks succeeded."
           REMOTE
 
       - name: Remove temporary SSH key
