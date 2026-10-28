@@ -1,9 +1,14 @@
+
 import Link from "next/link";
 import { prisma } from "@/lib/db";
 import { deleteNoticeAction } from "./actions";
 
+export const dynamic = "force-dynamic";
+
 export default async function NoticesListPage() {
-  const notices = await prisma.notice.findMany({ orderBy: { createdAt: "desc" } });
+  const notices = await prisma.notice.findMany({
+    orderBy: { createdAt: "desc" },
+  });
 
   return (
     <div>
@@ -24,23 +29,38 @@ export default async function NoticesListPage() {
       ) : (
         <ul className="mt-6 divide-y divide-border rounded-lg border border-border bg-white">
           {notices.map((n) => (
-            <li key={n.id} className="flex items-center justify-between gap-4 p-4">
+            <li
+              key={n.id}
+              className="flex items-center justify-between gap-4 p-4"
+            >
               <div className="min-w-0">
                 <p className="truncate font-medium text-ink">{n.titleEn}</p>
                 <p className="mt-1 flex gap-2 text-xs">
-                  <span className={n.isPublished ? "text-primary" : "text-ink-muted"}>
+                  <span
+                    className={
+                      n.isPublished ? "text-primary" : "text-ink-muted"
+                    }
+                  >
                     {n.isPublished ? "Published" : "Draft"}
                   </span>
-                  {n.isImportant ? <span className="text-brick">Top notification</span> : null}
+                  {n.isImportant ? (
+                    <span className="text-brick">Top notification</span>
+                  ) : null}
                 </p>
               </div>
               <div className="flex shrink-0 items-center gap-4">
-                <Link href={`/admin/notices/${n.id}/edit`} className="text-sm text-primary hover:underline">
+                <Link
+                  href={`/admin/notices/${n.id}/edit`}
+                  className="text-sm text-primary hover:underline"
+                >
                   Edit
                 </Link>
                 <form action={deleteNoticeAction}>
                   <input type="hidden" name="id" value={n.id} />
-                  <button type="submit" className="text-sm text-brick hover:underline">
+                  <button
+                    type="submit"
+                    className="text-sm text-brick hover:underline"
+                  >
                     Delete
                   </button>
                 </form>

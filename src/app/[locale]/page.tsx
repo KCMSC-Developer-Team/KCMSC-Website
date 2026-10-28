@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/db";
 import { LandingExperience } from "@/components/home/LandingExperience";
 
+export const dynamic = "force-dynamic";
+
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   if (!isLocale((await params).locale)) notFound();
   const locale: Locale = (await params).locale as Locale;
