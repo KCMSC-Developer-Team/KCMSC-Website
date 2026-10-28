@@ -12,3 +12,7 @@ storage/admissions/*
 KCMSC.zip
 KCMSC - Website.zip
 KCMSC - Website.rar
+
+# Environment files and deployment secrets
+.env*
+!.env.example
