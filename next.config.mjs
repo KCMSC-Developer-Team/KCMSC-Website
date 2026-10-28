@@ -1,6 +1,11 @@
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+
+  // Generate a minimal production server for VPS deployment.
+  output: "standalone",
+
   async redirects() {
     // Legacy public URLs that have a verified equivalent in the new site.
     // Keep these explicit. Do not redirect unrelated legacy content to the homepage.
@@ -72,17 +77,18 @@ const nextConfig = {
       },
     ];
   },
+
   experimental: {
     serverActions: {
       // The admission certificate validator allows files up to 5 MB.
       bodySizeLimit: "6mb",
     },
   },
+
   images: {
-    // Phase 1: no real media host configured yet. Add the eventual
-    // blob/CDN storage domain here in Phase 3 when media upload lands.
-    remotePatterns: []
-  }
+    // Add the eventual blob/CDN storage domain here when configured.
+    remotePatterns: [],
+  },
 };
 
 export default nextConfig;

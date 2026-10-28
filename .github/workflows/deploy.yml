@@ -1,0 +1,190 @@
+name: Deploy KCMSC Website
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kcmsc-production-deploy
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma Client
+        run: npx prisma generate
+
+      - name: Build standalone application
+        run: npm run build
+        env:
+          NODE_ENV: production
+          AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
+          FIRST_ADMIN_EMAIL: ${{ secrets.FIRST_ADMIN_EMAIL }}
+          NEXT_PUBLIC_APP_URL: ${{ secrets.NEXT_PUBLIC_APP_URL }}
+
+      - name: Package release
+        run: |
+          set -euo pipefail
+          mkdir -p release/.next
+          cp -a .next/standalone/. release/
+          cp -a .next/static release/.next/static
+          cp -a public release/public
+          tar -czf release.tar.gz -C release .
+
+      - name: Upload release artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: kcmsc-standalone-release
+          path: release.tar.gz
+          retention-days: 3
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download release artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: kcmsc-standalone-release
+
+      - name: Configure and verify SSH
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+        run: |
+          set -euo pipefail
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+
+          ssh-keyscan -T 10 -t ed25519 -p "$VPS_PORT" "$VPS_HOST" > ~/.ssh/known_hosts
+          ACTUAL=$(ssh-keygen -lf ~/.ssh/known_hosts -E sha256 | awk '{print $2}')
+          EXPECTED="SHA256:TdSssimBwfkHsBHYuoq1wyUP0nRijxv9FZENhna/Kak"
+
+          if [ "$ACTUAL" != "$EXPECTED" ]; then
+            echo "VPS host fingerprint mismatch. Aborting."
+            exit 1
+          fi
+
+      - name: Upload release
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+        run: |
+          set -euo pipefail
+          scp -i ~/.ssh/deploy_key \
+            -o IdentitiesOnly=yes \
+            -o StrictHostKeyChecking=yes \
+            -P "$VPS_PORT" \
+            release.tar.gz \
+            "$VPS_USER@$VPS_HOST:/var/www/kcmsc-website/release.tar.gz"
+
+      - name: Activate release with rollback
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_PORT: ${{ secrets.VPS_PORT }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+        run: |
+          set -euo pipefail
+          ssh -i ~/.ssh/deploy_key \
+            -o IdentitiesOnly=yes \
+            -o StrictHostKeyChecking=yes \
+            -p "$VPS_PORT" \
+            "$VPS_USER@$VPS_HOST" 'bash -s' <<'REMOTE'
+          set -Eeuo pipefail
+
+          APP_DIR=/var/www/kcmsc-website
+          RELEASES="$APP_DIR/releases"
+          CURRENT="$APP_DIR/current"
+          STAMP="$(date +%Y%m%d%H%M%S)"
+          NEW="$RELEASES/$STAMP"
+          OLD="$(readlink -f "$CURRENT" 2>/dev/null || true)"
+
+          rollback() {
+            status=$?
+            trap - ERR
+            if [ "$status" -eq 0 ]; then
+              return
+            fi
+
+            echo "Deployment failed; attempting rollback."
+            pm2 delete kcmsc-website >/dev/null 2>&1 || true
+
+            if [ -n "$OLD" ] && [ -f "$OLD/server.js" ]; then
+              ln -sfn "$OLD" "$APP_DIR/current.next"
+              mv -Tf "$APP_DIR/current.next" "$CURRENT"
+              set -a
+              source /etc/kcmsc-website.env
+              set +a
+              pm2 start "$CURRENT/server.js" --name kcmsc-website --cwd "$CURRENT" || true
+              pm2 save || true
+            else
+              rm -f "$CURRENT"
+              echo "No previous release existed; the new release was not retained as current."
+            fi
+
+            exit "$status"
+          }
+          trap 'rollback $?' ERR
+
+          mkdir -p "$RELEASES" "$NEW" "$APP_DIR/shared/uploads"
+          tar -xzf "$APP_DIR/release.tar.gz" -C "$NEW"
+          test -f "$NEW/server.js"
+          test -d "$NEW/.next/static"
+          test -f /etc/kcmsc-website.env
+
+          # Preserve uploads from both the previous release and this package.
+          if [ -d "$CURRENT/public/uploads" ]; then
+            cp -an "$CURRENT/public/uploads/." "$APP_DIR/shared/uploads/"
+          fi
+          if [ -d "$NEW/public/uploads" ]; then
+            cp -an "$NEW/public/uploads/." "$APP_DIR/shared/uploads/"
+          fi
+
+          rm -rf "$NEW/public/uploads"
+          ln -s "$APP_DIR/shared/uploads" "$NEW/public/uploads"
+
+          # Switch the release; the error trap restores OLD if startup fails.
+          ln -sfn "$NEW" "$APP_DIR/current.next"
+          mv -Tf "$APP_DIR/current.next" "$CURRENT"
+
+          set -a
+          source /etc/kcmsc-website.env
+          set +a
+
+          pm2 delete kcmsc-website >/dev/null 2>&1 || true
+          pm2 start "$CURRENT/server.js" --name kcmsc-website --cwd "$CURRENT"
+
+          sleep 5
+          curl --fail --silent --show-error \
+            http://127.0.0.1:3000/ -o /dev/null
+
+          pm2 save
+          rm -f "$APP_DIR/release.tar.gz"
+          trap - ERR
+          echo "Deployment and HTTP health check succeeded."
+          REMOTE
+
+      - name: Remove temporary SSH key
+        if: always()
+        run: rm -f ~/.ssh/deploy_key
