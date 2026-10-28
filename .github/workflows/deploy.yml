@@ -1,3 +1,4 @@
+
 name: Deploy KCMSC Website
 
 on:
@@ -15,6 +16,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -58,6 +60,7 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+
     steps:
       - name: Download release artifact
         uses: actions/download-artifact@v4
@@ -73,15 +76,26 @@ jobs:
           set -euo pipefail
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
-          printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/deploy_key
+
+          # Normalize Windows line endings without printing the secret.
+          printf '%s' "$VPS_SSH_KEY" | tr -d '\r' > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
 
-          ssh-keyscan -T 10 -t ed25519 -p "$VPS_PORT" "$VPS_HOST" > ~/.ssh/known_hosts
-          ACTUAL=$(ssh-keygen -lf ~/.ssh/known_hosts -E sha256 | awk '{print $2}')
+          # Validate that the secret is a readable private key.
+          if ! ssh-keygen -y -f ~/.ssh/deploy_key > /dev/null 2>&1; then
+            echo "::error::VPS_SSH_KEY is not a valid readable private key."
+            exit 1
+          fi
+
+          # Pin and verify the VPS host key.
+          ssh-keyscan -T 10 -t ed25519 \
+            -p "$VPS_PORT" "$VPS_HOST" > ~/.ssh/known_hosts
+
+          ACTUAL="$(ssh-keygen -lf ~/.ssh/known_hosts -E sha256 | awk '{print $2}')"
           EXPECTED="SHA256:TdSssimBwfkHsBHYuoq1wyUP0nRijxv9FZENhna/Kak"
 
           if [ "$ACTUAL" != "$EXPECTED" ]; then
-            echo "VPS host fingerprint mismatch. Aborting."
+            echo "::error::VPS host fingerprint mismatch. Aborting."
             exit 1
           fi
 
@@ -92,6 +106,7 @@ jobs:
           VPS_USER: ${{ secrets.VPS_USER }}
         run: |
           set -euo pipefail
+
           scp -i ~/.ssh/deploy_key \
             -o IdentitiesOnly=yes \
             -o StrictHostKeyChecking=yes \
@@ -106,6 +121,7 @@ jobs:
           VPS_USER: ${{ secrets.VPS_USER }}
         run: |
           set -euo pipefail
+
           ssh -i ~/.ssh/deploy_key \
             -o IdentitiesOnly=yes \
             -o StrictHostKeyChecking=yes \
@@ -123,6 +139,7 @@ jobs:
           rollback() {
             status=$?
             trap - ERR
+
             if [ "$status" -eq 0 ]; then
               return
             fi
@@ -133,30 +150,37 @@ jobs:
             if [ -n "$OLD" ] && [ -f "$OLD/server.js" ]; then
               ln -sfn "$OLD" "$APP_DIR/current.next"
               mv -Tf "$APP_DIR/current.next" "$CURRENT"
+
               set -a
               source /etc/kcmsc-website.env
               set +a
-              pm2 start "$CURRENT/server.js" --name kcmsc-website --cwd "$CURRENT" || true
+
+              pm2 start "$CURRENT/server.js" \
+                --name kcmsc-website \
+                --cwd "$CURRENT" || true
               pm2 save || true
             else
               rm -f "$CURRENT"
-              echo "No previous release existed; the new release was not retained as current."
+              echo "No previous release existed; current was not retained."
             fi
 
             exit "$status"
           }
+
           trap 'rollback $?' ERR
 
           mkdir -p "$RELEASES" "$NEW" "$APP_DIR/shared/uploads"
+
           tar -xzf "$APP_DIR/release.tar.gz" -C "$NEW"
           test -f "$NEW/server.js"
           test -d "$NEW/.next/static"
           test -f /etc/kcmsc-website.env
 
-          # Preserve uploads from both the previous release and this package.
+          # Preserve existing and newly packaged uploads.
           if [ -d "$CURRENT/public/uploads" ]; then
             cp -an "$CURRENT/public/uploads/." "$APP_DIR/shared/uploads/"
           fi
+
           if [ -d "$NEW/public/uploads" ]; then
             cp -an "$NEW/public/uploads/." "$APP_DIR/shared/uploads/"
           fi
@@ -164,7 +188,7 @@ jobs:
           rm -rf "$NEW/public/uploads"
           ln -s "$APP_DIR/shared/uploads" "$NEW/public/uploads"
 
-          # Switch the release; the error trap restores OLD if startup fails.
+          # Activate the new release.
           ln -sfn "$NEW" "$APP_DIR/current.next"
           mv -Tf "$APP_DIR/current.next" "$CURRENT"
 
@@ -173,14 +197,19 @@ jobs:
           set +a
 
           pm2 delete kcmsc-website >/dev/null 2>&1 || true
-          pm2 start "$CURRENT/server.js" --name kcmsc-website --cwd "$CURRENT"
+
+          pm2 start "$CURRENT/server.js" \
+            --name kcmsc-website \
+            --cwd "$CURRENT"
 
           sleep 5
+
           curl --fail --silent --show-error \
             http://127.0.0.1:3000/ -o /dev/null
 
           pm2 save
           rm -f "$APP_DIR/release.tar.gz"
+
           trap - ERR
           echo "Deployment and HTTP health check succeeded."
           REMOTE
