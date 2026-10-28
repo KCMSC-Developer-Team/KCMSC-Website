@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("public/kcmsc/hero/kcmsc-building.jpg"),
+  metadataBase: new URL("https://kcmsc.edu.bd"),
   title: "K C Model School & College",
   description:
     "Official website of K C Model School & College, Dakshinkhan, Dhaka.",
