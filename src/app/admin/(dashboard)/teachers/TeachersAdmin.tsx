@@ -1,6 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import Cropper, { type Area } from "react-easy-crop";
 import * as XLSX from "xlsx";
 
 type Teacher = {
@@ -87,7 +90,6 @@ const basicFields = [
   { title: "Subjects (comma separated)", key: "subjects" },
   { title: "Highest degree", key: "highestDegree" },
   { title: "University", key: "university" },
-  { title: "Profile photo URL", key: "photoUrl" },
 ] as const satisfies ReadonlyArray<{ title: string; key: TextFieldKey }>;
 
 const profileFields = [
@@ -106,17 +108,63 @@ const wings = [
   "Unassigned",
 ];
 
+function teacherPageHref(page: number, pageSize: number, query: string) {
+  const params = new URLSearchParams({ page: String(Math.max(1, page)), pageSize: String(pageSize) });
+  if (query) params.set("q", query);
+  return `/admin/teachers?${params.toString()}`;
+}
+
+async function makeCroppedPhoto(source: string, area: Area) {
+  const image = new Image();
+  image.src = source;
+  await image.decode();
+  const canvas = document.createElement("canvas");
+  canvas.width = 1000;
+  canvas.height = 1000;
+  const context = canvas.getContext("2d");
+  if (!context) throw new Error("Your browser could not prepare the cropped image.");
+  context.drawImage(image, area.x, area.y, area.width, area.height, 0, 0, 1000, 1000);
+  const blob = await new Promise<Blob>((resolve, reject) => canvas.toBlob((value) => value ? resolve(value) : reject(new Error("Could not create the cropped image.")), "image/jpeg", 0.92));
+  return new File([blob], "teacher-photo.jpg", { type: "image/jpeg" });
+}
+
 export default function TeachersAdmin({
   initialTeachers,
+  total,
+  page,
+  pageSize,
+  pageCount,
+  query,
 }: {
   initialTeachers: Teacher[];
+  total: number;
+  page: number;
+  pageSize: number;
+  pageCount: number;
+  query: string;
 }) {
+  const router = useRouter();
   const [teachers, setTeachers] = useState<Teacher[]>(initialTeachers);
   const [tab, setTab] = useState<"manual" | "import">("manual");
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
   const [editId, setEditId] = useState<string | null>(null);
   const [form, setForm] = useState<TeacherForm>({ ...initialForm });
+  const photoInput = useRef<HTMLInputElement>(null);
+  const [cropSource, setCropSource] = useState<string | null>(null);
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [cropPixels, setCropPixels] = useState<Area | null>(null);
+  const [croppedPhoto, setCroppedPhoto] = useState<File | null>(null);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+
+  useEffect(() => setTeachers(initialTeachers), [initialTeachers]);
+  useEffect(() => {
+    if (cropSource?.startsWith("blob:")) return () => URL.revokeObjectURL(cropSource);
+  }, [cropSource]);
+  useEffect(() => {
+    if (photoPreview?.startsWith("blob:")) return () => URL.revokeObjectURL(photoPreview);
+  }, [photoPreview]);
   const [importPreview, setImportPreview] = useState<ImportPreview | null>(
     null,
   );
@@ -138,6 +186,45 @@ export default function TeachersAdmin({
   function resetForm() {
     setEditId(null);
     setForm({ ...initialForm });
+    setCroppedPhoto(null);
+    setPhotoPreview(null);
+    setCropSource(null);
+  }
+
+  function choosePhoto(file?: File) {
+    if (!file) return;
+    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+      setMessage("Choose a JPG, PNG, or WebP image.");
+      if (photoInput.current) photoInput.current.value = "";
+      return;
+    }
+    if (file.size > 8 * 1024 * 1024) {
+      setMessage("The selected image must be 8 MB or smaller.");
+      if (photoInput.current) photoInput.current.value = "";
+      return;
+    }
+    setMessage("");
+    setCrop({ x: 0, y: 0 });
+    setZoom(1);
+    setCropSource(URL.createObjectURL(file));
+    if (photoInput.current) photoInput.current.value = "";
+  }
+
+  async function applyPhotoCrop() {
+    if (!cropSource || !cropPixels) return;
+    setBusy(true);
+    try {
+      const file = await makeCroppedPhoto(cropSource, cropPixels);
+      setCroppedPhoto(file);
+      setPhotoPreview(URL.createObjectURL(file));
+      setForm((current) => ({ ...current, photoUrl: "" }));
+      setCropSource(null);
+      setMessage("Crop ready. Save the teacher record to upload the new photo.");
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Could not crop the image.");
+    } finally {
+      setBusy(false);
+    }
   }
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
@@ -146,16 +233,20 @@ export default function TeachersAdmin({
     setMessage("");
 
     try {
+      const payload = {
+        ...form,
+        photoUrl: croppedPhoto ? "" : form.photoUrl,
+        subjects: form.subjects
+          .split(",")
+          .map((subject) => subject.trim())
+          .filter(Boolean),
+      };
+      const body = new FormData();
+      body.set("data", JSON.stringify(payload));
+      if (croppedPhoto) body.set("photo", croppedPhoto, "teacher-photo.jpg");
       const response = await fetch("/api/admin/teachers", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...form,
-          subjects: form.subjects
-            .split(",")
-            .map((subject) => subject.trim())
-            .filter(Boolean),
-        }),
+        body,
       });
       const data = await response.json();
 
@@ -168,9 +259,10 @@ export default function TeachersAdmin({
         ...current.filter((teacher) => teacher.id !== data.teacher.id),
       ]);
       setMessage(
-        `${editId ? "Updated" : "Saved"} ${data.teacher.name}. Initial password is the Employee ID; the teacher must change it at first login.`,
+        `${croppedPhoto ? "Photo uploaded. " : ""}${editId ? "Updated" : "Saved"} ${data.teacher.name}.${editId ? "" : " Initial password is the Employee ID; the teacher must change it at first login."}`,
       );
       resetForm();
+      router.refresh();
     } catch (error) {
       setMessage(
         error instanceof Error ? error.message : "Something went wrong.",
@@ -393,6 +485,7 @@ export default function TeachersAdmin({
       );
       setImportPreview(null);
       setColumnMapping({});
+      router.refresh();
     } catch (error) {
       setMessage(
         `${error instanceof Error ? error.message : "Import failed."} ${processed} of ${total} valid rows were processed before the error.`,
@@ -527,6 +620,7 @@ export default function TeachersAdmin({
       setMessage(
         `Deleted ${deletedIds.size} teacher record(s) and their login accounts.`,
       );
+      router.refresh();
     } catch (error) {
       setMessage(
         error instanceof Error ? error.message : "Bulk delete failed.",
@@ -539,6 +633,9 @@ export default function TeachersAdmin({
   function editTeacher(teacher: Teacher) {
     setTab("manual");
     setEditId(teacher.id);
+    setCroppedPhoto(null);
+    setPhotoPreview(null);
+    setCropSource(null);
     setForm({
       staffId: teacher.staffId,
       name: teacher.name,
@@ -573,7 +670,7 @@ export default function TeachersAdmin({
           </p>
         </div>
         <span className="rounded-full bg-[#efeee7] px-3 py-1.5 text-xs text-[#176b45]">
-          {teachers.length} records
+          {total} records
         </span>
       </header>
 
@@ -653,6 +750,33 @@ export default function TeachersAdmin({
                 ))}
               </select>
             </label>
+          </div>
+
+          <div className="mt-4 rounded-lg border border-[#d9d8cf] bg-white p-4 sm:max-w-xl">
+            <span className={labelClass}>Profile photo</span>
+            <input
+              ref={photoInput}
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              className="sr-only"
+              aria-label="Choose a teacher profile photo"
+              onChange={(event) => choosePhoto(event.target.files?.[0])}
+            />
+            <div className="flex flex-wrap items-center gap-4">
+              {photoPreview || form.photoUrl ? (
+                <img src={photoPreview || form.photoUrl} alt="Teacher photo preview" className="h-20 w-20 rounded-full border border-[#d9d8cf] object-cover" />
+              ) : (
+                <div className="grid h-20 w-20 place-items-center rounded-full bg-[#efeee7] text-center text-[10px] text-[#69716b]">No photo</div>
+              )}
+              <div className="flex flex-wrap items-center gap-2">
+                <button type="button" onClick={() => photoInput.current?.click()} className="rounded-lg border border-[#176b45] px-4 py-2 text-sm font-medium text-[#176b45] hover:bg-[#176b45]/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176b45]">
+                  {photoPreview || form.photoUrl ? "Change photo" : "Upload photo"}
+                </button>
+                {photoPreview || form.photoUrl ? <button type="button" onClick={() => { setCroppedPhoto(null); setPhotoPreview(null); setCropSource(null); setForm((current) => ({ ...current, photoUrl: "" })); setMessage("Photo will be removed when you save."); }} className="px-2 py-2 text-sm text-[#8d3b2e] underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176b45]">Remove photo</button> : null}
+                <span className="text-xs text-[#69716b]">JPG, PNG or WebP · max 8 MB</span>
+              </div>
+            </div>
+            {croppedPhoto ? <p role="status" className="mt-3 text-xs text-[#176b45]">Cropped photo ready to upload when you save.</p> : null}
           </div>
 
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
@@ -784,6 +908,18 @@ export default function TeachersAdmin({
           </div>
         </div>
 
+        <form action="/admin/teachers" method="get" className="flex flex-wrap items-end gap-3 border-b border-[#d9d8cf] px-5 py-4">
+          <label className="min-w-[190px] flex-1 text-xs font-medium text-[#59615b]">Search teachers
+            <input name="q" defaultValue={query} placeholder="Name, employee ID, designation, wing or exact subject" className="mt-1 block w-full rounded-lg border border-[#d9d8cf] bg-white px-3 py-2 text-sm text-[#242824] outline-none focus:border-[#176b45] focus-visible:ring-2 focus-visible:ring-[#176b45]" />
+          </label>
+          <label className="text-xs font-medium text-[#59615b]">Teachers per page
+            <select name="pageSize" defaultValue={pageSize} onChange={(event) => event.currentTarget.form?.requestSubmit()} className="mt-1 block rounded-lg border border-[#d9d8cf] bg-white px-3 py-2 text-sm text-[#242824] outline-none focus:border-[#176b45] focus-visible:ring-2 focus-visible:ring-[#176b45]">
+              {[10, 20, 50, 100].map((size) => <option key={size} value={size}>{size} teachers</option>)}
+            </select>
+          </label>
+          <button type="submit" className="rounded-lg border border-[#d9d8cf] bg-white px-4 py-2 text-sm font-medium text-[#425047] hover:bg-[#efeee7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176b45]">Search</button>
+        </form>
+
         <div className="overflow-x-auto">
           <table className="w-full min-w-[850px] text-left text-sm">
             <thead className="bg-[#efeee7] text-[10px] uppercase tracking-wider text-[#69716b]">
@@ -884,14 +1020,45 @@ export default function TeachersAdmin({
                     colSpan={8}
                     className="px-4 py-10 text-center text-sm text-[#69716b]"
                   >
-                    No teacher records yet.
+                    {query ? "No teacher records match this search." : "No teacher records yet."}
                   </td>
                 </tr>
               )}
             </tbody>
           </table>
         </div>
+        <div className="flex flex-col gap-3 border-t border-[#d9d8cf] px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-xs text-[#69716b]">Showing {total ? (page - 1) * pageSize + 1 : 0}–{Math.min(page * pageSize, total)} of {total} teachers</p>
+          <nav aria-label="Teacher list pagination" className="flex flex-wrap items-center gap-1.5">
+            <Link aria-disabled={page <= 1} tabIndex={page <= 1 ? -1 : undefined} href={teacherPageHref(page - 1, pageSize, query)} className={`rounded-lg border border-[#d9d8cf] px-3 py-2 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176b45] ${page <= 1 ? "pointer-events-none opacity-40" : "hover:bg-[#efeee7]"}`}>Previous</Link>
+            {Array.from({ length: Math.min(pageCount, 7) }, (_, index) => Math.max(1, Math.min(page - 3, pageCount - 6)) + index).map((number) => <Link key={number} href={teacherPageHref(number, pageSize, query)} aria-current={number === page ? "page" : undefined} className={`min-w-9 rounded-lg border px-3 py-2 text-center text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176b45] ${number === page ? "border-[#176b45] bg-[#176b45] text-white" : "border-[#d9d8cf] hover:bg-[#efeee7]"}`}>{number}</Link>)}
+            <span className="px-1 text-xs text-[#69716b]">Page {page} of {pageCount}</span>
+            <Link aria-disabled={page >= pageCount} tabIndex={page >= pageCount ? -1 : undefined} href={teacherPageHref(page + 1, pageSize, query)} className={`rounded-lg border border-[#d9d8cf] px-3 py-2 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176b45] ${page >= pageCount ? "pointer-events-none opacity-40" : "hover:bg-[#efeee7]"}`}>Next</Link>
+          </nav>
+        </div>
       </section>
+
+      {cropSource && (
+        <div className="fixed inset-0 z-[110] flex items-center justify-center bg-[#17251e]/65 p-3 sm:p-6" role="dialog" aria-modal="true" aria-labelledby="teacher-photo-crop-title">
+          <div className="w-full max-w-2xl rounded-xl border border-[#d9d8cf] bg-[#fffdf8] p-4 shadow-xl sm:p-6">
+            <h2 id="teacher-photo-crop-title" className="font-heading text-xl text-[#124c36]">Crop profile photo</h2>
+            <p className="mt-1 text-xs text-[#69716b]">Drag to reposition and adjust zoom. The saved image will be square.</p>
+            <div className="relative mt-4 h-[min(58vh,420px)] overflow-hidden rounded-lg bg-[#242824]">
+              <Cropper image={cropSource} crop={crop} zoom={zoom} aspect={1} showGrid={false} onCropChange={setCrop} onZoomChange={setZoom} onCropComplete={(_, pixels) => setCropPixels(pixels)} />
+            </div>
+            <label className="mt-4 block text-xs font-medium text-[#59615b]">Zoom
+              <input aria-label="Zoom crop" type="range" min={1} max={3} step={0.05} value={zoom} onChange={(event) => setZoom(Number(event.target.value))} className="mt-2 block w-full accent-[#176b45]" />
+            </label>
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+              <button type="button" onClick={() => photoInput.current?.click()} className="text-sm font-medium text-[#176b45] underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176b45]">Choose a different image</button>
+              <div className="flex gap-2">
+                <button type="button" onClick={() => setCropSource(null)} className="rounded-lg border border-[#d9d8cf] px-4 py-2.5 text-sm text-[#59615b] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176b45]">Cancel</button>
+                <button type="button" onClick={() => void applyPhotoCrop()} disabled={busy || !cropPixels} className="rounded-lg bg-[#176b45] px-4 py-2.5 text-sm font-medium text-white disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176b45]">{busy ? "Preparing…" : "Apply crop"}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {importPreview && (
         <div

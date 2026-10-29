@@ -3,7 +3,26 @@ import { getCurrentAdmin } from "@/lib/session";
 import { prisma } from "@/lib/db";
 import { hashPassword } from "@/lib/password";
 import { revalidatePath } from "next/cache";
+import { mkdir, unlink, writeFile } from "node:fs/promises";
+import { randomUUID } from "node:crypto";
+import path from "node:path";
 export const runtime = "nodejs";
+const uploadDir = path.join(process.cwd(), "public", "uploads", "teacher-photos");
+
+function validImageBytes(type: string, bytes: Buffer) {
+  if (type === "image/jpeg") return bytes.length >= 3 && bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff;
+  if (type === "image/png") return bytes.length >= 8 && bytes.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]));
+  if (type === "image/webp") return bytes.length >= 12 && bytes.toString("ascii", 0, 4) === "RIFF" && bytes.toString("ascii", 8, 12) === "WEBP";
+  return false;
+}
+
+function managedFilename(photoUrl: string | null) {
+  if (!photoUrl) return null;
+  try {
+    const filename = path.basename(new URL(photoUrl, "http://kcmsc.local").pathname);
+    return /^teacher-[a-f0-9-]+\.(jpg|png|webp)$/i.test(filename) ? filename : null;
+  } catch { return null; }
+}
 function clean(v: unknown) {
   return typeof v === "string" ? v.trim() : "";
 }
@@ -102,13 +121,55 @@ async function saveTeacher(row: any) {
 export async function POST(req: Request) {
   if (!(await getCurrentAdmin()))
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  let savedPhotoPath: string | null = null;
+  let photoCommitted = false;
   try {
-    const body = await req.json();
+    const contentLength = Number(req.headers.get("content-length") || 0);
+    if (contentLength > 9 * 1024 * 1024) return NextResponse.json({ error: "Image upload is too large." }, { status: 413 });
+    let body: any;
+    let photo: File | null = null;
+    if (req.headers.get("content-type")?.includes("multipart/form-data")) {
+      const form = await req.formData();
+      const data = form.get("data");
+      if (typeof data !== "string") return NextResponse.json({ error: "Teacher details are missing." }, { status: 400 });
+      body = JSON.parse(data);
+      const file = form.get("photo");
+      if (file instanceof File) photo = file;
+    } else {
+      body = await req.json();
+    }
+
+    let newPhotoUrl: string | null = null;
+    let imageBytes: Buffer | null = null;
+    let extension = "jpg";
+    if (photo) {
+      if (photo.size > 8 * 1024 * 1024) return NextResponse.json({ error: "Image must be 8 MB or smaller." }, { status: 400 });
+      if (!["image/jpeg", "image/png", "image/webp"].includes(photo.type)) return NextResponse.json({ error: "Only JPG, PNG, and WebP images are supported." }, { status: 400 });
+      extension = photo.type === "image/jpeg" ? "jpg" : photo.type === "image/png" ? "png" : "webp";
+      imageBytes = Buffer.from(await photo.arrayBuffer());
+      if (!validImageBytes(photo.type, imageBytes)) return NextResponse.json({ error: "The selected file is not a valid image." }, { status: 400 });
+      const filename = `teacher-${randomUUID()}.${extension}`;
+      await mkdir(uploadDir, { recursive: true });
+      savedPhotoPath = path.join(uploadDir, filename);
+      await writeFile(savedPhotoPath, imageBytes, { flag: "wx" });
+      newPhotoUrl = `/uploads/teacher-photos/${filename}`;
+      body.photoUrl = newPhotoUrl;
+    }
+
+    const oldTeacher = body.staffId ? await prisma.teacherProfile.findUnique({ where: { staffId: String(body.staffId).trim() }, select: { photoUrl: true } }) : null;
     const teacher = await saveTeacher(body);
+    photoCommitted = true;
+    if (savedPhotoPath && oldTeacher?.photoUrl && oldTeacher.photoUrl !== newPhotoUrl) {
+      const oldFilename = managedFilename(oldTeacher.photoUrl);
+      if (oldFilename) await unlink(path.join(uploadDir, oldFilename)).catch(() => undefined);
+    }
     revalidatePath("/en/teachers");
     revalidatePath("/bn/teachers");
+    revalidatePath(`/en/teachers/${teacher.id}`);
+    revalidatePath(`/bn/teachers/${teacher.id}`);
     return NextResponse.json({ teacher }, { status: 201 });
   } catch (e) {
+    if (savedPhotoPath && !photoCommitted) await unlink(savedPhotoPath).catch(() => undefined);
     return NextResponse.json(
       { error: e instanceof Error ? e.message : "Unable to create teacher" },
       { status: 400 },
@@ -146,12 +207,9 @@ export async function PUT(req: Request) {
           );
       }
     }
-    const teachers = await prisma.teacherProfile.findMany({
-      orderBy: [{ wing: "asc" }, { name: "asc" }],
-    });
     revalidatePath("/en/teachers");
     revalidatePath("/bn/teachers");
-    return NextResponse.json({ created, updated, skipped, errors, teachers });
+    return NextResponse.json({ created, updated, skipped, errors });
   } catch (e) {
     return NextResponse.json(
       { error: e instanceof Error ? e.message : "Import failed" },

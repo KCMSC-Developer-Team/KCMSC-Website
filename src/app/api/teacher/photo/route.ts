@@ -21,7 +21,7 @@ async function getTeacher() {
 function managedFilename(photoUrl: string | null) {
   if (!photoUrl) return null;
   try {
-    const url = new URL(photoUrl);
+    const url = new URL(photoUrl, "http://kcmsc.local");
     const filename = path.basename(url.pathname);
     return /^teacher-[a-f0-9-]+\.jpg$/i.test(filename) ? filename : null;
   } catch { return null; }
