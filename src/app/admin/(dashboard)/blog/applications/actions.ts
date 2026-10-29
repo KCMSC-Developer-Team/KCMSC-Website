@@ -4,6 +4,7 @@ import { requireAdmin } from "@/lib/session";
 import { createInvitation } from "@/lib/invitation";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { logAudit } from "@/lib/audit";
 
 export async function decideApplication(formData: FormData) {
   const admin = await requireAdmin();
@@ -111,4 +112,16 @@ export async function decideApplication(formData: FormData) {
   redirect(
     `/admin/blog/applications?invitation=${encodeURIComponent(invitation.rawToken)}`
   );
+}
+
+export async function deleteBlogApplication(formData: FormData) {
+  const admin = await requireAdmin();
+  const id = String(formData.get("id") || "");
+  if (!id || id.length > 100) redirect("/admin/blog/applications?error=invalid-id");
+  const result = await prisma.blogApplication.deleteMany({ where: { id } });
+  if (!result.count) redirect("/admin/blog/applications?error=not-found");
+  await logAudit({ userId: admin.id, actorLabel: admin.email, action: "DELETE_BLOG_APPLICATION", targetType: "BlogApplication", targetId: id });
+  revalidatePath("/admin");
+  revalidatePath("/admin/blog/applications");
+  redirect("/admin/blog/applications?deleted=1");
 }

@@ -94,8 +94,8 @@ export default async function DashboardOverviewPage() {
       title: "Blogger programme", description: "Student blogger onboarding and editorial content", icon: FiBookOpen,
       items: [
         { label: "Blogger applications", value: blogApplications, href: "/admin/blog/applications" },
-        { label: "Blogger profiles", value: bloggerProfiles, href: "/admin/blog/applications" },
-        { label: "Blog articles", value: blogArticles, href: "/admin/blog/applications" },
+        { label: "Blogger profiles", value: bloggerProfiles, href: "/admin/blog/profiles" },
+        { label: "Blog articles", value: blogArticles, href: "/admin/blog/articles" },
       ],
     },
   ];

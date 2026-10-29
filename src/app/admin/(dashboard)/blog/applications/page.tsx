@@ -1,12 +1,13 @@
 import { prisma } from "@/lib/db";
 import { requireAdmin } from "@/lib/session";
-import { decideApplication } from "./actions";
+import { decideApplication, deleteBlogApplication } from "./actions";
+import { ConfirmDeleteForm } from "@/components/admin/ConfirmDeleteForm";
 
 export const dynamic="force-dynamic";
 export default async function BlogApplicationsPage({
   searchParams
 }: {
-  searchParams: Promise<{ invitation?: string }>;
+  searchParams: Promise<{ invitation?: string; error?: string; deleted?: string }>;
 }) {
   await requireAdmin();
   const apps = await prisma.blogApplication.findMany({
@@ -14,6 +15,7 @@ export default async function BlogApplicationsPage({
     take: 100
   });
   const { invitation } = await searchParams;
+  const params = await searchParams;
   const inviteUrl = invitation
     ? `/admin/accept-invite?token=${encodeURIComponent(invitation)}`
     : null;
@@ -28,6 +30,8 @@ export default async function BlogApplicationsPage({
         Review identity and school details before approving access. Student guardian
         details are confidential.
       </p>
+      {params.error ? <p role="alert" className="mt-4 rounded-lg bg-red-50 p-3 text-sm text-red-800">{params.error === "not-found" ? "That application was already deleted or could not be found." : "Invalid application ID."}</p> : null}
+      {params.deleted ? <p role="status" className="mt-4 rounded-lg bg-green-50 p-3 text-sm text-green-800">Application deleted.</p> : null}
 
       {inviteUrl ? (
         <div className="mt-6 rounded-xl border border-green-200 bg-green-50 p-4">
@@ -139,6 +143,7 @@ export default async function BlogApplicationsPage({
                   </button>
                 </form>
               ) : null}
+              <ConfirmDeleteForm action={deleteBlogApplication} id={application.id} message={`Delete the application for ${application.fullName}? This does not delete a blogger account or articles.`} label="Delete application" />
             </article>
           ))
         ) : (

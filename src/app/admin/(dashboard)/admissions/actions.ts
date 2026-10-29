@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { prisma } from "@/lib/db";
-import { requireAdmissionsStaff } from "@/lib/session";
+import { requireAdmin, requireAdmissionsStaff } from "@/lib/session";
 import { logAudit } from "@/lib/audit";
 
 const cycleSchema = z.object({
@@ -175,7 +175,7 @@ export async function updateCycleAction(id: string, formData: FormData) {
 }
 
 export async function deleteCycleAction(id: string) {
-  const actor = await requireAdmissionsStaff();
+  const actor = await requireAdmin();
 
   const cycle = await prisma.admissionCycle.findUnique({
     where: {
@@ -198,11 +198,15 @@ export async function deleteCycleAction(id: string) {
     redirect(`${destination(actor.role)}&error=cycle_has_applications`);
   }
 
-  await prisma.admissionCycle.delete({
-    where: {
-      id,
-    },
-  });
+  if (cycle.closesAt.getTime() >= Date.now()) {
+    redirect(`${destination(actor.role)}&error=cycle_not_closed`);
+  }
+
+  try {
+    await prisma.admissionCycle.delete({ where: { id } });
+  } catch {
+    redirect(`${destination(actor.role)}&error=cycle_has_applications`);
+  }
 
   await logAudit({
     userId: actor.id,

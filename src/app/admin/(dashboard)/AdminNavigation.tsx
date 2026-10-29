@@ -81,6 +81,8 @@ const NAV_GROUPS = [
         icon: FiHelpCircle,
       },
       { href: "/admin/blog/applications", label: "Blogger applications", icon: FiBookOpen },
+      { href: "/admin/blog/profiles", label: "Blogger profiles", icon: FiUsers },
+      { href: "/admin/blog/articles", label: "Blog articles", icon: FiBookOpen },
     ],
   },
 
