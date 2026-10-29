@@ -1,7 +1,7 @@
 import { FaWhatsapp } from "react-icons/fa";
 
 const WHATSAPP_URL =
-  "https://wa.me/8801793560466?text=Hello%20K%20Model%20School%20%26%20College.%20I%20would%20like%20to%20enquire%20about%20admissions";
+  "https://wa.me/8801793560466?text=Hello%20K%20C%20Model%20School%20%26%20College.%20I%20would%20like%20to%20enquire%20about%20admissions.";
 
 export function FloatingWhatsAppButton() {
   return (
