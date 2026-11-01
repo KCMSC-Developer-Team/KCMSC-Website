@@ -73,9 +73,9 @@ const copy = {
     kicker: "Academics",
     heroTitle: "Learning has more than one measure.",
     heroBody:
-      "From the first classroom to board examinations, KC Model School & College gives students a structured academic path while leaving room for curiosity, competition and growth.",
+      "From the first classroom to board examinations, K C Model School & College gives students a structured academic path while leaving room for curiosity, competition and growth.",
     heroNote: "Play Group → Grade XII · Bangla & English Versions",
-    heroAlt: "Students learning in a KC Model School & College classroom",
+    heroAlt: "Students learning in a K C Model School & College classroom",
     explore: "Explore the academic journey",
     admissions: "Admissions",
 
@@ -169,7 +169,7 @@ const copy = {
     kicker: "শিক্ষাব্যবস্থা",
     heroTitle: "শেখার মাপ শুধু ফলাফলে নয়।",
     heroBody:
-      "প্রথম শ্রেণিকক্ষ থেকে বোর্ড পরীক্ষা পর্যন্ত KC Model School & College শিক্ষার্থীদের একটি সুসংগঠিত শিক্ষার পথ দেয়, যেখানে কৌতূহল, প্রতিযোগিতা ও বিকাশেরও জায়গা থাকে।",
+      "প্রথম শ্রেণিকক্ষ থেকে বোর্ড পরীক্ষা পর্যন্ত K C Model School & College শিক্ষার্থীদের একটি সুসংগঠিত শিক্ষার পথ দেয়, যেখানে কৌতূহল, প্রতিযোগিতা ও বিকাশেরও জায়গা থাকে।",
     heroNote: "প্লে গ্রুপ → দ্বাদশ শ্রেণি · বাংলা ও ইংরেজি ভার্সন",
     heroAlt: "কেসিএমএসসির শ্রেণিকক্ষে শিক্ষার্থীরা",
     explore: "শিক্ষাব্যবস্থা দেখুন",
@@ -957,7 +957,7 @@ export default async function AcademicsPage({
 
               <div className="absolute bottom-5 left-5 border border-white/20 bg-[#12324A]/60 px-4 py-2 backdrop-blur-sm">
                 <p className="text-[8px] font-bold uppercase tracking-[.18em] text-white/75">
-                  KC Model School & College
+                  K C Model School & College
                 </p>
               </div>
             </div>

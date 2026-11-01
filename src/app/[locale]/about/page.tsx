@@ -75,8 +75,8 @@ export default async function AboutPage({ params }: AboutPageProps) {
 
           <div className="relative min-h-[360px] overflow-hidden border-l border-[#D9E2EC] lg:min-h-[560px]">
             <Image
-              src="/kcmsc/media/20250722_090917.jpg"
-              alt="KC Model School and College campus"
+              src="/kcmsc/student-life/student_trip1.jpg"
+              alt="K C Model School and College campus"
               fill
               priority
               sizes="(min-width: 1024px) 48vw, 100vw"
@@ -85,14 +85,14 @@ export default async function AboutPage({ params }: AboutPageProps) {
             />
 
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#102e23]/80 via-[#102e23]/10 to-transparent p-7 sm:p-10">
-              <p className="text-[10px] font-bold uppercase tracking-[.18em] text-[#d5bd75]">
+              {/* <p className="text-[10px] font-bold uppercase tracking-[.18em] text-[#d5bd75]">
                 K C Model School & College
-              </p>
-              <p className="mt-2 font-heading text-2xl text-white">
+              </p> */}
+              {/* <p className="mt-2 font-heading text-2xl text-white">
                 {bn
                   ? "প্রেমবাগান · দক্ষিণখান · ঢাকা"
                   : "Prembagan · Dakshinkhan · Dhaka"}
-              </p>
+              </p> */}
             </div>
           </div>
         </div>
@@ -180,7 +180,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
           <div className="grid overflow-hidden border border-[#D9E2EC] bg-[#f7f4ec] lg:grid-cols-[1.18fr_.82fr]">
             <div className="relative min-h-[300px] lg:min-h-[560px]">
               <Image
-                src="/kcmsc/media/20230123_124320.jpg"
+                src="/kcmsc/about/leadership-gathering.jpg"
                 alt="KCMSC leadership and school community gathering"
                 fill
                 sizes="(min-width: 1024px) 58vw, 100vw"

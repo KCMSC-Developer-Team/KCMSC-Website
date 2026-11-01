@@ -19,7 +19,7 @@ const copy = {
     storyTitle:
       "A clear purpose, from the first classroom to higher secondary.",
     storyBody:
-      "Founded in 2014 and opened on 1 January 2015, KC Model School & College was established to help students develop their academic ability alongside discipline, values and responsibility.",
+      "Founded in 2014 and opened on 1 January 2015, K C Model School & College was established to help students develop their academic ability alongside discipline, values and responsibility.",
     storyLink: "Our story",
     focusKicker: "EXPLORE",
     focusTitle: "Three parts of school life, one shared direction.",
@@ -73,7 +73,7 @@ const copy = {
     storyTitle:
       "প্রথম শ্রেণিকক্ষ থেকে উচ্চমাধ্যমিক পর্যন্ত একটি স্পষ্ট শিক্ষাপথ।",
     storyBody:
-      "২০১৪ সালে প্রতিষ্ঠিত এবং ১ জানুয়ারি ২০১৫-তে যাত্রা শুরু করা KC Model School & College একাডেমিক শিক্ষার পাশাপাশি শৃঙ্খলা, মূল্যবোধ ও দায়িত্ববোধ গড়ে তোলার লক্ষ্য নিয়ে এগিয়ে চলে।",
+      "২০১৪ সালে প্রতিষ্ঠিত এবং ১ জানুয়ারি ২০১৫-তে যাত্রা শুরু করা K C Model School & College একাডেমিক শিক্ষার পাশাপাশি শৃঙ্খলা, মূল্যবোধ ও দায়িত্ববোধ গড়ে তোলার লক্ষ্য নিয়ে এগিয়ে চলে।",
     storyLink: "আমাদের গল্প",
     focusKicker: "দেখুন",
     focusTitle: "স্কুলজীবনের তিনটি দিক, একটি অভিন্ন লক্ষ্য।",
@@ -116,8 +116,8 @@ const copy = {
 const images = {
   story: "/kcmsc/media/IMG-20260113-WA0005.jpg",
   academics: "/kcmsc/media/teacher_taking_class.jpg",
-  life: "/kcmsc/media/vibrant_student_culture.jpg",
-  campus: "/kcmsc/media/IMG-20230807-WA0034.jpg",
+  life: "/kcmsc/facilities/students_at_library.jpg",
+  campus: "/kcmsc/kc/kcmsc1.jpg",
 } as const;
 
 export function LandingExperience({

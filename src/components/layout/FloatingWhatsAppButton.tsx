@@ -9,7 +9,7 @@ export function FloatingWhatsAppButton() {
       href={WHATSAPP_URL}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Chat with KC Model School on WhatsApp"
+      aria-label="Chat with K C Model School on WhatsApp"
       className="group fixed right-5 z-30 inline-flex h-[50px] w-[50px] items-center justify-center rounded-full bg-[#176b45] text-white shadow-[0_2px_10px_rgba(18,76,54,0.2)] transition-colors hover:bg-[#124c36] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#b59a4a] focus-visible:ring-offset-2"
       style={{ bottom: "calc(82px + env(safe-area-inset-bottom, 0px))" }}
     >

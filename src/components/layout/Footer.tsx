@@ -19,16 +19,6 @@ const socialLinks = [
     icon: <FaFacebookF />,
   },
   {
-    name: "X",
-    href: "https://x.com/kcmodelcollege",
-    icon: <FaXTwitter />,
-  },
-  {
-    name: "Pinterest",
-    href: "https://www.pinterest.com/kcmscofficial",
-    icon: <FaPinterestP />,
-  },
-  {
     name: "YouTube",
     href: "https://www.youtube.com/@kcmscofficial",
     icon: <FaYoutube />,
@@ -37,16 +27,6 @@ const socialLinks = [
     name: "Instagram",
     href: "https://www.instagram.com/kcmscofficial/",
     icon: <FaInstagram />,
-  },
-  {
-    name: "LinkedIn",
-    href: "https://www.linkedin.com/in/k-c-model-school-and-college-51251532b/?locale=en_US",
-    icon: <FaLinkedinIn />,
-  },
-  {
-    name: "Quora",
-    href: "https://bn.quora.com/profile/K-C-Model-School-and-College",
-    icon: <FaQuora />,
   },
 ];
 
@@ -234,7 +214,7 @@ export function Footer({ locale }: { locale: Locale }) {
 
           {/* Copyright */}
           <p className="lg:text-right">
-            © {new Date().getFullYear()} {dict.site.shortName}.{" "}
+            © 2014 – {new Date().getFullYear()} {dict.site.shortName}.{" "}
             {dict.footer.rights}
           </p>
         </div>
