@@ -318,28 +318,38 @@ export function Navbar({ locale }: { locale: Locale }) {
             className="ml-auto hidden h-full items-center gap-0 lg:flex"
             aria-label="Primary navigation"
           >
-            {groups.map((group) => (
-              <div
-                key={group.id}
-                className="kc-mega-trigger flex h-full items-center"
-                onMouseEnter={() => setActiveMenu(group.id)}
-              >
-                <Link
-                  href={`/${locale}/${group.href}`}
-                  className={`kc-nav-link !rounded-none !px-[10px] 2xl:!px-3 ${activeMenu === group.id || (group.id === "student-life" && currentRoute === "events") ? "is-active" : ""}`}
-                  aria-haspopup="true"
-                  aria-expanded={activeMenu === group.id}
-                  onFocus={() => setActiveMenu(group.id)}
-                  aria-current={
-                    group.id === "student-life" && currentRoute === "events"
-                      ? "location"
-                      : undefined
+            {groups.map((group) => {
+              // Alumni and Careers are direct links, not mega-menu triggers.
+              const hasMegaMenu =
+                group.id !== "alumni" && group.id !== "careers";
+
+              return (
+                <div
+                  key={group.id}
+                  className="kc-mega-trigger flex h-full items-center"
+                  onMouseEnter={() =>
+                    setActiveMenu(hasMegaMenu ? group.id : null)
                   }
                 >
-                  {group.label}
-                </Link>
-              </div>
-            ))}
+                  <Link
+                    href={`/${locale}/${group.href}`}
+                    className={`kc-nav-link !rounded-none !px-[10px] 2xl:!px-3 ${activeMenu === group.id || (group.id === "student-life" && currentRoute === "events") ? "is-active" : ""}`}
+                    aria-haspopup={hasMegaMenu ? "true" : undefined}
+                    aria-expanded={
+                      hasMegaMenu ? activeMenu === group.id : undefined
+                    }
+                    onFocus={() => setActiveMenu(hasMegaMenu ? group.id : null)}
+                    aria-current={
+                      group.id === "student-life" && currentRoute === "events"
+                        ? "location"
+                        : undefined
+                    }
+                  >
+                    {group.label}
+                  </Link>
+                </div>
+              );
+            })}
           </nav>
 
           <div className="kc-navbar-actions ml-auto flex shrink-0 items-center gap-1.5 sm:ml-4 sm:gap-2">
