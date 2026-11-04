@@ -1192,3 +1192,66 @@ body { overflow-x: clip; }
     transform: none;
   }
 }
+
+
+/* Homepage Mission & Vision: restrained artwork with scroll-linked depth. */
+.kc-mission-vision {
+  position: relative;
+  background: #f3f2ec;
+  isolation: isolate;
+}
+.kc-mission-vision-art {
+  position: absolute;
+  z-index: -2;
+  inset: -12% -2%;
+  pointer-events: none;
+  background-image: url("/kcmsc/Building%20Sketch.png");
+  background-repeat: no-repeat;
+  background-position: center 48%;
+  background-size: min(1120px, 86vw) auto;
+  opacity: .58;
+  mix-blend-mode: multiply;
+  transform: perspective(1100px) translate3d(0, 0, 28px) scale(1.055);
+  transform-origin: center center;
+  will-change: transform;
+}
+.kc-mission-vision-wash {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg,
+      rgba(243,242,236,.84) 0%,
+      rgba(243,242,236,.62) 23%,
+      rgba(243,242,236,.28) 43%,
+      rgba(243,242,236,.22) 57%,
+      rgba(243,242,236,.62) 77%,
+      rgba(243,242,236,.84) 100%),
+    linear-gradient(180deg, rgba(243,242,236,.38), transparent 24%, transparent 78%, rgba(243,242,236,.42));
+}
+.kc-mission-vision-panel {
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  text-shadow: 0 1px 1px rgba(255,253,248,.82);
+}
+@media (max-width: 767px) {
+  .kc-mission-vision-art {
+    inset: -4% -48%;
+    background-size: auto 92%;
+    background-position: center;
+    opacity: .42;
+  }
+  .kc-mission-vision-wash {
+    background:
+      linear-gradient(90deg, rgba(243,242,236,.88), rgba(243,242,236,.58) 50%, rgba(243,242,236,.88)),
+      linear-gradient(180deg, rgba(243,242,236,.4), transparent 25%, transparent 75%, rgba(243,242,236,.46));
+  }
+}
+/* The scroll-linked movement is intentionally controlled by MissionVisionParallax. */

@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { Locale } from "@/i18n/config";
 import type { AlumniMessage } from "@prisma/client";
 import { HeroSlideshow } from "./HeroSlideshow";
+import { MissionVisionParallax } from "./MissionVisionParallax";
 
 const copy = {
   en: {
@@ -255,15 +256,15 @@ export function LandingExperience({
         </div>
       </section>
 
-      <section className="bg-[#efeee7]">
-        <div className="mx-auto grid max-w-[1180px] gap-0 px-5 sm:px-8 lg:grid-cols-2 lg:px-10">
-          <div className="border-b border-[#d9d8cf] py-14 lg:border-b-0 lg:border-r lg:py-20 lg:pr-16">
+      <MissionVisionParallax>
+        <div className="relative z-10 mx-auto grid max-w-[1180px] gap-12 px-5 py-16 sm:px-8 sm:py-20 lg:grid-cols-2 lg:gap-20 lg:px-10 lg:py-28">
+          <div className="kc-mission-vision-panel">
             <p className="kc-classic-kicker">{t.missionKicker}</p>
             <p className="mt-5 max-w-xl font-heading text-[clamp(2rem,3.6vw,3.5rem)] font-normal leading-[1.03] tracking-[-.03em] text-[#124c36]">
               {t.mission}
             </p>
           </div>
-          <div className="py-14 lg:py-20 lg:pl-16">
+          <div className="kc-mission-vision-panel">
             <p className="kc-classic-kicker">
               {locale === "bn" ? "দৃষ্টিভঙ্গি" : "Vision"}
             </p>
@@ -272,7 +273,7 @@ export function LandingExperience({
             </p>
           </div>
         </div>
-      </section>
+      </MissionVisionParallax>
 
       <section className="kc-classic-section bg-[#f7f5ef]">
         <div className="mx-auto max-w-[1180px] px-5 sm:px-8 lg:px-10">
