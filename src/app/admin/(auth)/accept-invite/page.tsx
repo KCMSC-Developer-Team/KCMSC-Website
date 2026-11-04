@@ -51,7 +51,7 @@ export default async function AcceptInvitePage({
     <>
       <h1 className="mb-2 text-center text-xl font-medium text-ink">Set Up Your Account</h1>
       <p className="mb-6 text-center text-sm text-ink-muted">
-        Creating a {lookup.role === "ADMIN" ? "administrator" : lookup.role === "BLOGGER" ? "blogger" : "admission officer"} account for{" "}
+        Creating a {lookup.role === "ADMIN" ? "administrator" : lookup.role === "BLOGGER" ? "blogger" : "teacher"} account for{" "}
         <span className="font-medium text-ink">{lookup.email}</span>
       </p>
       {errorMessage ? <p className="mb-4 text-center text-sm text-brick">{errorMessage}</p> : null}

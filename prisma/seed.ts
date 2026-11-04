@@ -173,25 +173,6 @@ async function seedContent() {
   // contains no real notices or vacancies, and the brief is explicit
   // that these must never be fabricated (§16, §35).
 
-  // A first admission cycle IS worth seeding, unlike Notices/Careers:
-  // it's not fabricated content, just an empty container an admin must
-  // activate (via /admin/admissions) before the public form opens. Left
-  // inactive by default — nobody can apply until a human flips it on.
-  const cycleCount = await prisma.admissionCycle.count();
-  if (cycleCount === 0) {
-    const now = new Date();
-    const closesAt = new Date(now);
-    closesAt.setMonth(closesAt.getMonth() + 3);
-    await prisma.admissionCycle.create({
-      data: {
-        nameEn: `Admission ${now.getFullYear()}`,
-        nameBn: `ভর্তি ${now.getFullYear()}`,
-        opensAt: now,
-        closesAt
-      }
-    });
-    console.log("Seeded one inactive admission cycle — activate it at /admin/admissions when ready.");
-  }
 }
 
 async function main() {

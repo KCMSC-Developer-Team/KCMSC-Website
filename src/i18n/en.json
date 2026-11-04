@@ -373,13 +373,10 @@
     "heading": "Admissions",
     "intro": "KCMSC admits students from Play Group through Grade Twelve, in Bangla and English Versions.",
     "ageGroupsNote": "Class placement follows the age brackets shown on the Academics page — from Playgroup (3.5–4.5 years) through Class 5 (9.5–10.5 years) at the Junior Wing level, continuing through Secondary and Higher Secondary in the Senior Wing.",
-    "pendingHeading": "Admission Process — Details Coming Soon",
-    "pendingBody": "The step-by-step admission process, eligibility criteria, required documents, application fee, and important dates for the current academic cycle have not yet been provided by the institution.",
-    "onlinePortalNote": "Applications are submitted online. If you need help, contact the admission office directly.",
-    "contactCta": "Contact the Admission Office",
-    "applyCta": "Start Application",
-    "openBanner": "Applications are open",
-    "closedBanner": "Applications are not currently open"
+    "processHeading": "Admission Process",
+    "processBody": "Online applications are not accepted through this website. Please contact the admission office for information about the admission process.",
+    "contactNote": "For admission information and assistance, contact the admission office directly.",
+    "contactCta": "Contact the Admission Office"
   },
   "noticesPage": {
     "heading": "Notices",
@@ -403,28 +400,5 @@
     "website": "",
     "adminLogin": "Admin Login",
     "rights": "All rights reserved."
-  },
-  "admissionsApplyPage": {
-    "heading": "Admission Application",
-    "closedHeading": "Applications Are Not Currently Open",
-    "closedBody": "There is no active admission cycle at the moment. Please check back later or contact the admission office.",
-    "sections": {
-      "student": "Student Information",
-      "father": "Father's Information",
-      "mother": "Mother's Information",
-      "guardians": "Additional Guardians",
-      "address": "Address"
-    },
-    "fields": {},
-    "submit": "Submit Application",
-    "submitting": "Submitting…"
-  },
-  "admissionsSuccessPage": {
-    "heading": "Application Submitted",
-    "body": "Your application has been submitted successfully. Download and keep a copy of your application form."
-  },
-  "admissionsTrackPage": {
-    "heading": "Application Status",
-    "intro": "This admission system does not use tracking numbers or phone-based status lookup."
   }
 }

@@ -2,37 +2,17 @@ import Link from "next/link";
 import { prisma } from "@/lib/db";
 import { requireAdmin } from "@/lib/session";
 import {
-  FiArrowUpRight, FiBell, FiBookOpen, FiBriefcase, FiCalendar,
-  FiClipboard, FiFileText, FiGrid, FiHelpCircle, FiMessageSquare,
-  FiShield, FiUsers, FiUserCheck, FiAward, FiLayers, FiMapPin,
+  FiArrowUpRight, FiBell, FiBookOpen, FiBriefcase, FiGrid, FiHelpCircle,
+  FiMessageSquare, FiShield, FiUserCheck, FiAward, FiLayers, FiMapPin,
 } from "react-icons/fi";
-
-function cycleState(opensAt: Date, closesAt: Date) {
-  const now = Date.now();
-  if (now < opensAt.getTime()) return "Upcoming";
-  if (now <= closesAt.getTime()) return "Running";
-  return "Closed";
-}
-
-function statusText(status: string) {
-  return status.replaceAll("_", " ").replace(/(^|\s)\S/g, (c) => c.toUpperCase());
-}
 
 export default async function DashboardOverviewPage() {
   const user = await requireAdmin();
   const [
-    applications, cycles, officers, recent,
     teachers, notices, alumni, careers, careerApplications,
     helpArticles, blogApplications, administrators, clubs, facilities,
     achievements, bloggerProfiles, blogArticles,
   ] = await Promise.all([
-    prisma.admissionApplication.count(),
-    prisma.admissionCycle.findMany({ orderBy: { opensAt: "desc" }, include: { _count: { select: { applications: true } } } }),
-    prisma.user.count({ where: { role: "ADMISSION_OFFICER" } }),
-    prisma.admissionApplication.findMany({
-      orderBy: { createdAt: "desc" }, take: 6,
-      select: { id: true, fullName: true, applyingClass: true, status: true, createdAt: true, cycle: { select: { nameEn: true } } },
-    }),
     prisma.teacherProfile.count(),
     prisma.notice.count(),
     prisma.alumniMessage.count(),
@@ -48,18 +28,9 @@ export default async function DashboardOverviewPage() {
     prisma.blogArticle.count(),
   ]);
 
-  const running = cycles.find((c) => cycleState(c.opensAt, c.closesAt) === "Running");
   const firstName = user.name?.trim().split(/\s+/)[0] || user.email?.split("@")[0] || "Administrator";
 
   const summaryGroups = [
-    {
-      title: "Admissions", description: "Applications, admission windows and officer accounts", icon: FiClipboard,
-      items: [
-        { label: "Applications", value: applications, href: "/admin/admissions?view=applications" },
-        { label: "Admission cycles", value: cycles.length, href: "/admin/admissions?view=cycles" },
-        { label: "Admission officers", value: officers, href: "/admin/officers" },
-      ],
-    },
     {
       title: "People", description: "Faculty profiles and institutional personnel", icon: FiUserCheck,
       items: [
@@ -107,9 +78,9 @@ export default async function DashboardOverviewPage() {
           <p className="text-[9px] font-semibold uppercase tracking-[0.24em] text-[#d4c38c]">K C Model School & College · Administration</p>
           <div className="py-8 lg:py-10">
             <h1 className="font-heading text-5xl font-normal leading-[.98] tracking-[-0.045em] sm:text-6xl xl:text-7xl">Welcome back,<br /><span className="text-[#d4c38c]">{firstName}.</span></h1>
-            <p className="mt-6 max-w-2xl text-sm leading-7 text-white/75">Your administrative overview. Review admissions, maintain school content, manage staff and keep the institution’s digital services up to date.</p>
+            <p className="mt-6 max-w-2xl text-sm leading-7 text-white/75">Your administrative overview. Maintain school content, manage staff and keep the institution’s digital services up to date.</p>
             <div className="mt-7 flex flex-wrap gap-3">
-              <Link href="/admin/admissions?view=applications" className="inline-flex min-h-11 items-center gap-3 bg-[#fffdf8] px-5 text-[11px] font-semibold text-[#124c36] hover:bg-[#e9e5d8]">Review admissions <FiArrowUpRight className="h-4 w-4" /></Link>
+              <Link href="/admin/notices" className="inline-flex min-h-11 items-center gap-3 bg-[#fffdf8] px-5 text-[11px] font-semibold text-[#124c36] hover:bg-[#e9e5d8]">Manage notices <FiArrowUpRight className="h-4 w-4" /></Link>
               <Link href="/admin/settings" className="inline-flex min-h-11 items-center gap-3 border border-white/35 px-5 text-[11px] font-semibold text-white hover:bg-white/10">Account settings <FiArrowUpRight className="h-4 w-4" /></Link>
             </div>
           </div>
@@ -122,12 +93,12 @@ export default async function DashboardOverviewPage() {
           </div>
           <div className="grid grid-cols-2 gap-x-6 gap-y-5 py-6 sm:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3">
             {[
-              { label: "Applications", value: applications },
+              { label: "Administrators", value: administrators },
               { label: "Faculty", value: teachers },
               { label: "Notices", value: notices },
               { label: "Vacancies", value: careers },
               { label: "Content records", value: alumni + helpArticles + clubs + facilities + achievements },
-              { label: "Admin accounts", value: administrators + officers },
+              { label: "Admin accounts", value: administrators },
             ].map((item) => <div key={item.label}><p className="text-[9px] uppercase tracking-[0.16em] text-white/50">{item.label}</p><p className="mt-1 font-heading text-3xl sm:text-4xl">{item.value}</p></div>)}
           </div>
           <a href="/" target="_blank" rel="noreferrer" className="flex items-center justify-between gap-4 border-t border-white/20 pt-4 text-xs text-white/75 hover:text-white"><span>Open public website</span><FiArrowUpRight className="h-4 w-4" /></a>
@@ -156,23 +127,6 @@ export default async function DashboardOverviewPage() {
           })}
         </div>
       </section>
-
-      <div className="grid gap-5 2xl:grid-cols-[1.35fr_.8fr]">
-        <section className="min-w-0 overflow-hidden border border-[#d9d8cf] bg-[#fffdf8]">
-          <div className="flex items-end justify-between gap-4 border-b border-[#d9d8cf] px-5 py-4 sm:px-6"><div><p className="kc-section-label">Admissions</p><h2 className="mt-1 font-heading text-xl text-[#124c36]">Recent applications</h2></div><Link href="/admin/admissions?view=applications" className="shrink-0 text-xs font-medium text-[#176b45] hover:text-[#124c36]">View all ↗</Link></div>
-          <div className="divide-y divide-[#e4e2da]">
-            {recent.map((app) => <Link key={app.id} href={`/admin/admissions/${app.id}`} className="flex items-center justify-between gap-4 px-5 py-4 hover:bg-[#f5f4ee] sm:px-6"><div className="min-w-0"><p className="truncate text-sm font-medium text-[#242824]">{app.fullName}</p><p className="mt-1 text-xs text-[#69716b]">Class {app.applyingClass} · {app.cycle.nameEn} · {new Date(app.createdAt).toLocaleDateString("en-GB")}</p></div><span className="shrink-0 border border-[#d9d8cf] bg-[#f1f1e9] px-2.5 py-1.5 text-[9px] font-medium text-[#176b45]">{statusText(app.status)}</span></Link>)}
-            {!recent.length && <p className="px-6 py-10 text-center text-sm text-[#69716b]">No applications yet.</p>}
-          </div>
-        </section>
-        <section className="min-w-0 overflow-hidden border border-[#d9d8cf] bg-[#fffdf8]">
-          <div className="border-b border-[#d9d8cf] px-5 py-4 sm:px-6"><p className="kc-section-label">Admission windows</p><h2 className="mt-1 font-heading text-xl text-[#124c36]">Cycles</h2></div>
-          <div className="divide-y divide-[#e4e2da]">
-            {cycles.slice(0, 6).map((cycle) => { const state = cycleState(cycle.opensAt, cycle.closesAt); return <Link key={cycle.id} href="/admin/admissions?view=cycles" className="block px-5 py-4 hover:bg-[#f5f4ee] sm:px-6"><div className="flex items-center justify-between gap-3"><p className="truncate text-sm font-medium text-[#242824]">{cycle.nameEn}</p><span className="border border-[#d9d8cf] px-2.5 py-1 text-[9px] text-[#69716b]">{state}</span></div><p className="mt-2 text-xs text-[#69716b]">{cycle._count.applications} applications</p></Link>; })}
-            {!cycles.length && <p className="px-6 py-10 text-center text-sm text-[#69716b]">No admission cycles yet.</p>}
-          </div>
-        </section>
-      </div>
 
       <section className="border-t border-[#d9d8cf] pt-5">
         <div className="mb-3"><p className="kc-section-label">Common tasks</p><h2 className="mt-1 font-heading text-xl text-[#124c36]">Administration shortcuts</h2></div>

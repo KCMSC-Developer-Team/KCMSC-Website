@@ -6,7 +6,6 @@ import { useState } from "react";
 import {
   FiBriefcase,
   FiChevronRight,
-  FiClipboard,
   FiGrid,
   FiMenu,
   FiSettings,
@@ -29,22 +28,6 @@ const NAV_GROUPS = [
         href: "/admin",
         label: "Dashboard",
         icon: FiGrid,
-      },
-    ],
-  },
-
-  {
-    label: "Admissions",
-    items: [
-      {
-        href: "/admin/admissions",
-        label: "Admissions",
-        icon: FiClipboard,
-      },
-      {
-        href: "/admin/officers",
-        label: "Admission Officers",
-        icon: FiUsers,
       },
     ],
   },

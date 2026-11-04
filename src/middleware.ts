@@ -8,9 +8,9 @@ function getLocaleFromPath(pathname: string) {
   return locales.find((l) => l === segment);
 }
 
-// Admin/officer auth routes are NOT localized.
+// Admin auth routes are NOT localized.
 const PUBLIC_ADMIN_PATHS = ["/admin/login", "/admin/accept-invite"];
-const PROTECTED_PREFIXES = ["/admin", "/officer"];
+const PROTECTED_PREFIXES = ["/admin"];
 const BLOGGER_PROTECTED_PREFIXES = [
   "/blogger/dashboard",
   "/blogger/articles",
@@ -65,7 +65,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // --- Admin/officer auth gate ------------------------------------------
+  // --- Admin auth gate ---------------------------------------------------
   if (
     PROTECTED_PREFIXES.some(
       (p) => pathname === p || pathname.startsWith(p + "/"),
@@ -87,14 +87,19 @@ export async function middleware(request: NextRequest) {
     }
 
     if (pathname.startsWith("/admin") && token.role !== "ADMIN" && !PUBLIC_ADMIN_PATHS.some(p => pathname.startsWith(p))) {
-      const adminUrl = request.nextUrl.clone(); adminUrl.pathname = token.role === "BLOGGER" ? "/blogger/dashboard" : "/officer"; return NextResponse.redirect(adminUrl);
+      const adminUrl = request.nextUrl.clone();
+      adminUrl.pathname =
+        token.role === "BLOGGER"
+          ? "/blogger/dashboard"
+          : token.role === "TEACHER"
+            ? "/teacher/dashboard"
+            : "/admin/login";
+      return NextResponse.redirect(adminUrl);
     }
 
     // Allowed admin workspace routes.
     const allowedAdminPrefixes = [
       "/admin/login",
-      "/admin/admissions",
-      "/admin/officers",
       "/admin/administrators",
       "/admin/settings",
       "/admin/alumni",
@@ -113,7 +118,7 @@ export async function middleware(request: NextRequest) {
       )
     ) {
       const adminUrl = request.nextUrl.clone();
-      adminUrl.pathname = "/admin/admissions";
+      adminUrl.pathname = "/admin";
       adminUrl.search = "";
       return NextResponse.redirect(adminUrl);
     }

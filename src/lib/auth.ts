@@ -1,6 +1,5 @@
 export const ROLES = {
   ADMIN: "ADMIN",
-  ADMISSION_OFFICER: "ADMISSION_OFFICER",
   BLOGGER: "BLOGGER",
   TEACHER: "TEACHER",
 } as const;
@@ -16,12 +15,6 @@ export interface SessionUser {
 
 export function isAdmin(user: SessionUser | null | undefined): boolean {
   return user?.role === ROLES.ADMIN;
-}
-
-export function isAdmissionOfficer(
-  user: SessionUser | null | undefined,
-): boolean {
-  return user?.role === ROLES.ADMISSION_OFFICER;
 }
 
 export function isBlogger(user: SessionUser | null | undefined): boolean {

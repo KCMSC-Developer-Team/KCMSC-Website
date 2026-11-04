@@ -74,6 +74,7 @@ export const authOptions: AuthOptions = {
         });
         if (user?.role === "BLOGGER" && !user.bloggerProfile) return null;
         if (user?.role === "TEACHER" && (!user.teacherProfile || !user.teacherProfile.isActive)) return null;
+        if (user?.role === "ADMISSION_OFFICER") return null;
         if (
           user?.role === "BLOGGER" &&
           user.bloggerProfile &&
@@ -111,7 +112,7 @@ export const authOptions: AuthOptions = {
         session.user.id = token.id as string;
         session.user.email = token.email as string;
         session.user.name = (token.name as string) ?? "";
-        session.user.role = token.role as "ADMIN" | "ADMISSION_OFFICER" | "BLOGGER" | "TEACHER";
+        session.user.role = token.role as "ADMIN" | "BLOGGER" | "TEACHER";
       }
       return session;
     }

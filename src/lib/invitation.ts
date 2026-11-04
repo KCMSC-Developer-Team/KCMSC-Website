@@ -35,7 +35,7 @@ function hashToken(rawToken: string): string {
 export async function createInvitation(
   params: {
     email: string;
-    role: Role;
+    role: Exclude<Role, "ADMISSION_OFFICER">;
     createdById: string | null;
   },
   client: InvitationClient = prisma
@@ -72,6 +72,9 @@ export async function lookupInvitation(rawToken: string): Promise<InvitationLook
   const invitation = await prisma.accountInvitation.findUnique({ where: { tokenHash } });
 
   if (!invitation) return { valid: false, reason: "not_found" };
+  if (invitation.role === "ADMISSION_OFFICER") {
+    return { valid: false, reason: "not_found" };
+  }
   if (invitation.acceptedAt) return { valid: false, reason: "used" };
   if (invitation.expiresAt < new Date()) return { valid: false, reason: "expired" };
 
