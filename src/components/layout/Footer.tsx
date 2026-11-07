@@ -64,8 +64,14 @@ export function Footer({ locale }: { locale: Locale }) {
   ];
 
   return (
-    <footer className="border-t border-[#d9d8cf] bg-[#efeee7] text-[#69716b]">
-      <div className="mx-auto max-w-[1180px] px-5 py-10 sm:px-8 sm:py-12 lg:px-10 lg:py-14">
+    <footer className="relative isolate overflow-hidden border-t border-[#d9d8cf] bg-[#efeee7] text-[#69716b]">
+      <img
+        src="/kcmsc/footer-building-outline.png"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-0 right-[-9%] z-0 w-[min(112vw,620px)] max-w-none select-none object-contain opacity-75 sm:right-[-5%] sm:w-[min(68vw,760px)] lg:right-[-2%] lg:w-[min(58vw,760px)]"
+      />
+      <div className="relative z-10 mx-auto max-w-[1180px] px-5 py-10 sm:px-8 sm:py-12 lg:px-10 lg:py-14">
         {/* Main Footer */}
         <div className="grid gap-10 border-b border-[#d9d8cf] pb-9 sm:pb-10 lg:grid-cols-[1.3fr_1fr] lg:gap-20">
           {/* School Information */}

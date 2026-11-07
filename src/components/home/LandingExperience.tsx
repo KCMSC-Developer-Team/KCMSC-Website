@@ -178,11 +178,7 @@ export function LandingExperience({
                 {label}
               </p>
               <p className="mt-2 break-words font-heading text-xl font-normal leading-snug text-[#176b45] sm:text-2xl">
-                {index === 0 && value ? (
-                  <CountUp text={value} duration={1800} className="kc-home-stat-value" />
-                ) : (
-                  <span className="kc-home-stat-value">{value}</span>
-                )}
+                {index === 0 && value ? <CountUp text={value} duration={1800} /> : value}
               </p>
             </div>
           ))}
