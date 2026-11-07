@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { getDictionary } from "@/i18n/config";
 import type { Locale } from "@/i18n/config";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 
@@ -17,11 +16,26 @@ type MenuGroup = {
   links: MenuLink[];
 };
 
+type PortalIconName = "admin" | "faculty" | "writer";
+
+function PortalIcon({ name }: { name: PortalIconName }) {
+  const common = {
+    width: 14, height: 14, viewBox: "0 0 24 24", fill: "none",
+    stroke: "currentColor", strokeWidth: 1.8,
+    strokeLinecap: "round" as const, strokeLinejoin: "round" as const,
+    "aria-hidden": true as const,
+  };
+  if (name === "admin") return <svg {...common}><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z" /><path d="m9 12 2 2 4-4" /></svg>;
+  if (name === "faculty") return <svg {...common}><path d="m22 10-10-5L2 10l10 5 10-5Z" /><path d="M6 12v5c3.5 3 8.5 3 12 0v-5" /><path d="M22 10v6" /></svg>;
+  return <svg {...common}><path d="M12 20h9" /><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L8 18l-4 1 1-4Z" /></svg>;
+}
+
 export function Navbar({ locale }: { locale: Locale }) {
-  const dict = getDictionary(locale);
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
+  const [showTopbar, setShowTopbar] = useState(true);
+  const [showBackToTop, setShowBackToTop] = useState(false);
   const text = (en: string, bn: string) => (locale === "bn" ? bn : en);
   const currentRoute = pathname.split("/").slice(2).join("/");
 
@@ -271,6 +285,16 @@ export function Navbar({ locale }: { locale: Locale }) {
   ];
 
   useEffect(() => {
+    const updateScrollControls = () => {
+      setShowTopbar(window.scrollY <= 8);
+      setShowBackToTop(window.scrollY > 320);
+    };
+    updateScrollControls();
+    window.addEventListener("scroll", updateScrollControls, { passive: true });
+    return () => window.removeEventListener("scroll", updateScrollControls);
+  }, []);
+
+  useEffect(() => {
     const close = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setOpen(false);
@@ -293,6 +317,36 @@ export function Navbar({ locale }: { locale: Locale }) {
         className="kc-site-header sticky top-0 z-50 border-b border-[#d9d8cf] bg-[#fffdf8]/95 backdrop-blur"
         onMouseLeave={() => setActiveMenu(null)}
       >
+        <div
+          className={`kc-topbar overflow-hidden bg-[#176b45] text-white transition-[max-height,opacity,transform] duration-300 ease-in-out ${
+            showTopbar
+              ? "max-h-[100px] translate-y-0 opacity-100"
+              : "max-h-0 -translate-y-full opacity-0"
+          }`}
+          aria-hidden={!showTopbar}
+        >
+          <div className="mx-auto flex min-h-[38px] w-full max-w-[1280px] flex-wrap items-center justify-between gap-x-5 gap-y-1 px-3 py-2 text-[9px] leading-4 sm:px-6 sm:text-[10px] lg:px-10">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-white/90">
+              <span><strong className="font-semibold text-white">EIIN</strong> 137368</span>
+              <span><strong className="font-semibold text-white">School Code</strong> 1417</span>
+              <span><strong className="font-semibold text-white">College Code</strong> 1290</span>
+            </div>
+            <nav aria-label={text("Portal logins", "পোর্টাল লগইন")} className="flex flex-wrap items-center gap-x-4 gap-y-1">
+              <Link href="/admin/login" tabIndex={showTopbar ? 0 : -1} className="inline-flex items-center gap-1.5 font-semibold text-white transition hover:text-[#e5d8a7]">
+                <PortalIcon name="admin" />
+                {text("Admin Portal Login", "অ্যাডমিন পোর্টাল লগইন")}
+              </Link>
+              <Link href="/teacher/login" tabIndex={showTopbar ? 0 : -1} className="inline-flex items-center gap-1.5 font-semibold text-white transition hover:text-[#e5d8a7]">
+                <PortalIcon name="faculty" />
+                {text("Faculty Member Login", "শিক্ষক লগইন")}
+              </Link>
+              <Link href="/blogger/login" tabIndex={showTopbar ? 0 : -1} className="inline-flex items-center gap-1.5 font-semibold text-white transition hover:text-[#e5d8a7]">
+                <PortalIcon name="writer" />
+                {text("Writer Login", "লেখক লগইন")}
+              </Link>
+            </nav>
+          </div>
+        </div>
         <div className="kc-navbar-inner mx-auto flex h-[66px] w-full max-w-[1280px] items-center px-3 sm:px-6 lg:h-[72px] lg:px-10">
           <Link
             href={`/${locale}`}
@@ -354,18 +408,6 @@ export function Navbar({ locale }: { locale: Locale }) {
 
           <div className="kc-navbar-actions ml-auto flex shrink-0 items-center gap-1.5 sm:ml-4 sm:gap-2">
             <LanguageSwitcher current={locale} />
-            <Link
-              href={`/${locale}/login`}
-              className="hidden rounded-full border border-[#176b45] bg-[#176b45] px-4 py-2 text-[10px] font-semibold uppercase tracking-[.08em] text-white transition hover:bg-[#124c36] sm:inline-flex"
-            >
-              {text("Login", "লগইন")}
-            </Link>
-            <Link
-              href={`/${locale}/admissions`}
-              className="hidden rounded-full border border-[#176b45] px-4 py-2 text-[10px] font-medium uppercase tracking-[.08em] text-[#176b45] transition hover:bg-[#176b45] hover:text-white sm:inline-flex"
-            >
-              {locale === "bn" ? "ভর্তি" : dict.nav.admissions}
-            </Link>
             <button
               type="button"
               aria-expanded={open}
@@ -553,24 +595,6 @@ export function Navbar({ locale }: { locale: Locale }) {
                 ))}
               </div>
             </div>
-            <Link
-              href={`/${locale}/login`}
-              onClick={closeMobile}
-              className="mt-7 flex min-h-12 items-center justify-between border border-[#176b45] px-5 text-sm font-semibold text-[#176b45] transition hover:bg-[#176b45] hover:text-white"
-            >
-              <span>{text("Login portal", "লগইন পোর্টাল")}</span>
-              <span aria-hidden="true">↗</span>
-            </Link>
-            <Link
-              href={`/${locale}/admissions`}
-              onClick={closeMobile}
-              className="mt-3 flex min-h-12 items-center justify-between bg-[#176b45] px-5 text-sm font-semibold text-white transition hover:bg-[#124c36]"
-            >
-              <span>
-                {locale === "bn" ? "ভর্তি আবেদন ও তথ্য" : dict.nav.admissions}
-              </span>
-              <span aria-hidden="true">↗</span>
-            </Link>
             <div className="mt-5 rounded-xl border border-[#d9d8cf] bg-[#fffdf8] p-5">
               <p className="text-sm leading-6 text-[#69716b]">
                 {text(
@@ -590,6 +614,35 @@ export function Navbar({ locale }: { locale: Locale }) {
           </div>
         </div>
       )}
+
+      <button
+        type="button"
+        aria-label={text("Back to top", "উপরে ফিরে যান")}
+        title={text("Back to top", "উপরে ফিরে যান")}
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        tabIndex={showBackToTop ? 0 : -1}
+        aria-hidden={!showBackToTop}
+        className={`fixed bottom-6 right-6 z-[60] grid h-12 w-12 place-items-center rounded-full bg-[#176b45] text-white shadow-[0_8px_24px_rgba(0,0,0,0.18)] transition-all duration-300 hover:-translate-y-1 hover:bg-[#124c36] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d8b878] focus-visible:ring-offset-2 sm:bottom-8 sm:right-8 ${
+          showBackToTop
+            ? "translate-y-0 scale-100 opacity-100"
+            : "pointer-events-none translate-y-3 scale-90 opacity-0"
+        }`}
+      >
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <path d="m18 15-6-6-6 6" />
+          <path d="M12 9v12" />
+        </svg>
+      </button>
     </>
   );
 }

@@ -831,7 +831,6 @@ body { overflow-x: clip; }
   .kc-navbar-title { max-width: 42vw; font-size: 13px !important; line-height: 1.15 !important; white-space: normal !important; }
   .kc-navbar-actions { margin-left: 8px; gap: 6px; }
   .kc-navbar-menu { padding: 9px 11px !important; font-size: 9px !important; }
-  .kc-navbar-actions a[href$="/admissions"] { display: none !important; }
   .kc-home-hero { padding: 10px 10px 18px; }
   .kc-home-hero-frame { height: auto; min-height: 0; aspect-ratio: auto; border-radius: 18px; }
   .kc-home-hero-content { min-height: 570px; padding: 24px 22px 22px; }
