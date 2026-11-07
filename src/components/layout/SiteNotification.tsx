@@ -68,7 +68,7 @@ export function SiteNotification({
         </span>
 
         <div className="min-w-0 flex-1">
-          <p className="text-[9px] font-medium uppercase tracking-[0.18em] text-white/65">
+          <p className="text-[12px] font-medium uppercase tracking-[0.18em] text-white/65">
             {locale === "bn" ? "গুরুত্বপূর্ণ নোটিশ" : "Important notice"}
           </p>
 

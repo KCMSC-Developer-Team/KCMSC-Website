@@ -46,7 +46,7 @@ export default async function BloggerProfilePage() {
         </Link>
 
         <header className="mt-7">
-          <p className="text-[10px] font-bold uppercase tracking-[.16em] text-[#778078]">
+          <p className="text-[12px] font-bold uppercase tracking-[.16em] text-[#778078]">
             Blogger workspace
           </p>
           <h1 className="mt-2 font-serif text-3xl font-medium tracking-[-.03em] text-[#203a2c] sm:text-4xl">

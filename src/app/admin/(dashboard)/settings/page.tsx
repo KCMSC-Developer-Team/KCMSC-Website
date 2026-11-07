@@ -16,7 +16,7 @@ export default async function AdminSettingsPage({ searchParams }: { searchParams
   return (
     <div className="max-w-[900px]">
       <header className="border-b border-[#d9d8cf] pb-7">
-        <p className="text-[9px] font-medium uppercase tracking-[0.2em] text-[#176b45]">Account</p>
+        <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-[#176b45]">Account</p>
         <h1 className="mt-2 font-heading text-3xl font-normal tracking-tight text-[#124c36]">My Account</h1>
         <p className="mt-2 text-sm leading-6 text-[#69716b]">Manage your administrator credentials. Existing passwords are never displayed.</p>
       </header>
@@ -24,13 +24,13 @@ export default async function AdminSettingsPage({ searchParams }: { searchParams
       {error ? <div className="mt-6 rounded-[12px] border border-[#b14d3b]/25 bg-[#b14d3b]/5 px-4 py-3 text-sm text-[#8f392b]">{error}</div> : null}
       {(await searchParams).changed ? <div className="mt-6 rounded-[12px] border border-[#176b45]/20 bg-[#176b45]/5 px-4 py-3 text-sm text-[#176b45]">Password changed successfully.</div> : null}
 
-      <section className="mt-7 rounded-[14px] border border-[#d9d8cf] bg-[#fffdf8] p-6">
-        <p className="text-[9px] font-medium uppercase tracking-[0.16em] text-[#8a918b]">Signed in account</p>
+      <section className="mt-7 rounded-2xl border border-[#d9d8cf] bg-[#fffdf8] p-6">
+        <p className="text-[12px] font-medium uppercase tracking-[0.16em] text-[#8a918b]">Signed in account</p>
         <p className="mt-2 text-base font-medium text-[#242824]">{admin.name}</p>
         <p className="mt-1 text-sm text-[#69716b]">{admin.email}</p>
       </section>
 
-      <section className="mt-6 rounded-[14px] border border-[#d9d8cf] bg-[#fffdf8] p-6">
+      <section className="mt-6 rounded-2xl border border-[#d9d8cf] bg-[#fffdf8] p-6">
         <h2 className="font-heading text-xl text-[#124c36]">Change password</h2>
         <p className="mt-2 text-sm leading-6 text-[#69716b]">Use this whenever you want to change your own password.</p>
         <form action={changeOwnAdminPasswordAction} className="mt-6 grid gap-4 sm:grid-cols-2">

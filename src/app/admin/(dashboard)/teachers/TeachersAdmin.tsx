@@ -658,7 +658,7 @@ export default function TeachersAdmin({
     <div className="max-w-[1280px]">
       <header className="flex flex-col gap-3 border-b border-[#d9d8cf] pb-6 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="text-[9px] font-medium uppercase tracking-[.2em] text-[#176b45]">
+          <p className="text-[12px] font-medium uppercase tracking-[.2em] text-[#176b45]">
             People management
           </p>
           <h1 className="mt-2 font-heading text-3xl text-[#124c36]">
@@ -766,7 +766,7 @@ export default function TeachersAdmin({
               {photoPreview || form.photoUrl ? (
                 <img src={photoPreview || form.photoUrl} alt="Teacher photo preview" className="h-20 w-20 rounded-full border border-[#d9d8cf] object-cover" />
               ) : (
-                <div className="grid h-20 w-20 place-items-center rounded-full bg-[#efeee7] text-center text-[10px] text-[#69716b]">No photo</div>
+                <div className="grid h-20 w-20 place-items-center rounded-full bg-[#efeee7] text-center text-[12px] text-[#69716b]">No photo</div>
               )}
               <div className="flex flex-wrap items-center gap-2">
                 <button type="button" onClick={() => photoInput.current?.click()} className="rounded-lg border border-[#176b45] px-4 py-2 text-sm font-medium text-[#176b45] hover:bg-[#176b45]/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176b45]">
@@ -922,7 +922,7 @@ export default function TeachersAdmin({
 
         <div className="overflow-x-auto">
           <table className="w-full min-w-[850px] text-left text-sm">
-            <thead className="bg-[#efeee7] text-[10px] uppercase tracking-wider text-[#69716b]">
+            <thead className="bg-[#efeee7] text-[12px] uppercase tracking-wider text-[#69716b]">
               <tr>
                 <th className="px-4 py-3">
                   <input
@@ -1070,7 +1070,7 @@ export default function TeachersAdmin({
           <div className="flex max-h-[92vh] w-full max-w-6xl flex-col overflow-hidden rounded-2xl border border-[#d9d8cf] bg-[#fffdf8] shadow-2xl">
             <div className="flex items-start justify-between gap-4 border-b border-[#e4e2d9] px-5 py-4 sm:px-7">
               <div>
-                <p className="text-[10px] font-semibold uppercase tracking-[.18em] text-[#176b45]">
+                <p className="text-[12px] font-semibold uppercase tracking-[.18em] text-[#176b45]">
                   Step 1 of 2 · Configure import
                 </p>
                 <h2
@@ -1172,7 +1172,7 @@ export default function TeachersAdmin({
               </div>
               <div className="overflow-x-auto rounded-lg border border-[#e4e2d9]">
                 <table className="w-full min-w-[760px] text-left text-sm">
-                  <thead className="bg-[#efeee7] text-[10px] uppercase tracking-wider text-[#69716b]">
+                  <thead className="bg-[#efeee7] text-[12px] uppercase tracking-wider text-[#69716b]">
                     <tr>
                       <th className="px-4 py-3">Source column in your file</th>
                       <th className="px-4 py-3">Assign this column to</th>

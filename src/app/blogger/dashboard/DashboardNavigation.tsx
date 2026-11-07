@@ -30,7 +30,7 @@ const navigation = [
 export function BloggerSidebar() {
   return (
     <>
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col bg-[#123b2d] px-5 py-6 text-white lg:flex">
+      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col bg-gradient-to-b from-[#176b45] to-[#0e3b2a] px-5 py-6 text-white lg:flex">
         <Link href="/blogger/dashboard" className="flex items-center gap-3">
           <span className="grid h-11 w-11 shrink-0 place-items-center overflow-hidden rounded-xl bg-white p-1">
             <img
@@ -49,7 +49,7 @@ export function BloggerSidebar() {
           </span>
         </Link>
 
-        <p className="mb-3 mt-10 px-3 text-[10px] font-bold uppercase tracking-[.18em] text-white/45">
+        <p className="mb-3 mt-10 px-3 text-[12px] font-bold uppercase tracking-[.18em] text-white/45">
           Workspace
         </p>
         <nav aria-label="Blogger workspace" className="space-y-1">

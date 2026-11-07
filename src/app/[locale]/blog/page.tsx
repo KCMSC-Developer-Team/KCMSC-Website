@@ -88,7 +88,7 @@ export default async function BlogPage({
 
         <div className="mx-auto grid w-full max-w-[1280px] grid-cols-1 items-end gap-10 px-5 pb-12 pt-20 sm:px-8 sm:pb-16 lg:grid-cols-[minmax(0,1fr)_minmax(250px,360px)] lg:px-10 lg:pb-[4.5rem]">
           <div className="max-w-3xl">
-            <p className="text-[10px] font-bold uppercase tracking-[.24em] text-[#e4d39a] sm:text-xs">{copy.eyebrow}</p>
+            <p className="text-[12px] font-bold uppercase tracking-[.24em] text-[#e4d39a] sm:text-xs">{copy.eyebrow}</p>
             <h1 className="mt-5 max-w-3xl font-heading text-5xl font-normal leading-[.99] tracking-[-.045em] text-white sm:text-6xl md:text-7xl lg:text-[5.5rem]">
               {copy.title}
             </h1>
@@ -101,7 +101,7 @@ export default async function BlogPage({
           </div>
 
           <aside className="hidden border-l border-white/40 pl-6 text-white lg:block">
-            <p className="text-[10px] font-bold uppercase tracking-[.22em] text-[#e4d39a]">{copy.noteLabel}</p>
+            <p className="text-[12px] font-bold uppercase tracking-[.22em] text-[#e4d39a]">{copy.noteLabel}</p>
             <h2 className="mt-4 font-heading text-2xl leading-tight">{copy.noteTitle}</h2>
             <p className="mt-3 text-sm leading-6 text-white/80">{copy.noteBody}</p>
           </aside>
@@ -113,7 +113,7 @@ export default async function BlogPage({
         <div className="mx-auto max-w-[1280px]">
         <div className="flex flex-col gap-4 border-b border-[#deded5] pb-6 sm:flex-row sm:items-end sm:justify-between sm:gap-8">
           <div className="max-w-2xl">
-            <p className="text-[10px] font-bold uppercase tracking-[.22em] text-[#176b45] sm:text-xs">{copy.sectionEyebrow}</p>
+            <p className="text-[12px] font-bold uppercase tracking-[.22em] text-[#176b45] sm:text-xs">{copy.sectionEyebrow}</p>
             <h2 className="mt-3 font-heading text-3xl font-normal tracking-[-.03em] sm:text-4xl">{copy.latest}</h2>
             <p className="mt-3 max-w-xl text-sm leading-6 text-[#69716b] sm:text-base">{copy.sectionIntro}</p>
           </div>
@@ -135,7 +135,7 @@ export default async function BlogPage({
                     <Link href={`/${locale}/blog/${post.slug}`} className="relative block aspect-[16/9] overflow-hidden bg-[#e8e9df]" aria-label={`${copy.read}: ${post.title}`}>
                       <img src={post.featuredImage} alt="" className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.035]" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
-                      <span className="absolute bottom-4 left-4 rounded-full border border-white/35 bg-black/25 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[.15em] text-white backdrop-blur-sm">
+                      <span className="absolute bottom-4 left-4 rounded-full border border-white/35 bg-black/25 px-3 py-1.5 text-[12px] font-bold uppercase tracking-[.15em] text-white backdrop-blur-sm">
                         {post.author.type === "STUDENT" ? copy.student : copy.teacher}
                       </span>
                     </Link>
@@ -143,7 +143,7 @@ export default async function BlogPage({
                   <div className="flex flex-1 flex-col p-5 sm:p-6">
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <p className="text-xs text-[#777e75]">{date || "KCMSC Journal"}</p>
-                      <span className="text-[10px] font-bold uppercase tracking-[.15em] text-[#176b45]">{post.author.type === "STUDENT" ? copy.student : copy.teacher}</span>
+                      <span className="text-[12px] font-bold uppercase tracking-[.15em] text-[#176b45]">{post.author.type === "STUDENT" ? copy.student : copy.teacher}</span>
                     </div>
                     <h3 className="mt-3 font-heading text-[1.55rem] leading-[1.2] tracking-[-.02em] text-[#252a25] sm:text-[1.7rem]">
                       <Link href={`/${locale}/blog/${post.slug}`} className="decoration-[#b59a4a] decoration-2 underline-offset-4 group-hover:underline">{post.title}</Link>
@@ -169,7 +169,7 @@ export default async function BlogPage({
           <div className="mt-8 grid overflow-hidden rounded-2xl border border-[#e1e1d8] bg-white md:grid-cols-[minmax(0,.9fr)_minmax(0,1.1fr)]">
             <div className="min-h-56 bg-cover bg-center md:min-h-[330px]" style={{ backgroundImage: `url('${BOOKFAIR_IMAGE}')` }} role="img" aria-label={bn ? "বইমেলায় শিক্ষার্থীরা" : "Students at the KCMSC book fair"} />
             <div className="flex flex-col items-start justify-center p-7 sm:p-10 lg:p-12">
-              <p className="text-[10px] font-bold uppercase tracking-[.2em] text-[#176b45]">KCMSC JOURNAL</p>
+              <p className="text-[12px] font-bold uppercase tracking-[.2em] text-[#176b45]">KCMSC JOURNAL</p>
               <h3 className="mt-4 max-w-lg font-heading text-3xl leading-tight tracking-[-.03em] sm:text-4xl">{copy.emptyTitle}</h3>
               <p className="mt-4 max-w-lg text-sm leading-7 text-[#69716b]">{copy.emptyBody}</p>
               <Link href={`/${locale}/blog/apply`} className="mt-7 inline-flex min-h-11 items-center justify-center rounded-full bg-[#176b45] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#124c36]">{copy.emptyCta}<span aria-hidden="true" className="ml-2">↗</span></Link>

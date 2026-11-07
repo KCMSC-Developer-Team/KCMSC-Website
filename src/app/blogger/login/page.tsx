@@ -1,2 +1,32 @@
-import Link from "next/link";import LoginForm from "./LoginForm";
-export default function BloggerLoginPage(){return <main className="grid min-h-[75vh] place-items-center bg-[#f6f6ef] px-5 py-12"><section className="w-full max-w-md rounded-3xl border border-[#e0e3d9] bg-white p-7 shadow-sm sm:p-9"><p className="text-xs font-bold uppercase tracking-[.18em] text-[#176b45]">KCMSC Journal</p><h1 className="mt-3 font-serif text-4xl">Blogger sign in</h1><p className="mt-3 text-sm leading-6 text-[#687168]">Use the school ID and password provided when your blogger account was activated.</p><LoginForm/><p className="mt-6 text-center text-sm text-[#687168]">Not a blogger yet? <Link className="font-semibold text-[#176b45]" href="/en/blog/apply">Apply here</Link></p><p className="mt-3 text-center"><Link className="text-sm text-[#176b45]" href="/en/blog">← Back to blog</Link></p></section></main>}
+import Link from "next/link";
+import LoginForm from "./LoginForm";
+import { AuthShell } from "@/components/auth/AuthShell";
+
+export default function BloggerLoginPage() {
+  return (
+    <AuthShell
+      portal="blogger"
+      eyebrow="KCMSC Journal"
+      headline={<>Write for<br />your <span className="text-[#e4d49a]">school.</span></>}
+      blurb="Sign in to write, edit, and manage articles for the school blog."
+      points={["Draft and publish your articles", "Manage your writer profile", "Read what your classmates are writing"]}
+      title="Blogger sign in"
+      subtitle="Use the school ID and password provided when your blogger account was activated."
+      footer={
+        <>
+          <p>
+            Not a blogger yet?{" "}
+            <Link className="font-semibold text-[#176b45] hover:underline" href="/en/blog/apply">
+              Apply here
+            </Link>
+          </p>
+          <Link className="inline-flex items-center gap-2 font-medium text-[#176b45] transition hover:text-[#124c36] hover:underline" href="/en/blog">
+            ← Back to blog
+          </Link>
+        </>
+      }
+    >
+      <LoginForm />
+    </AuthShell>
+  );
+}

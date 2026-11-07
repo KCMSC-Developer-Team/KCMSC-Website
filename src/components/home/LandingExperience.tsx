@@ -4,6 +4,8 @@ import type { Locale } from "@/i18n/config";
 import type { AlumniMessage } from "@prisma/client";
 import { HeroSlideshow } from "./HeroSlideshow";
 import { MissionVisionParallax } from "./MissionVisionParallax";
+import { CountUp } from "@/components/motion/CountUp";
+import { Bar, Ring } from "@/components/motion/Charts";
 
 const copy = {
   en: {
@@ -165,18 +167,18 @@ export function LandingExperience({
     <div className="kc-homepage bg-[#f7f5ef] text-[#242824]">
       <HeroSlideshow locale={locale} />
 
-      <section className="border-b border-[#d9d8cf] bg-[#fffdf8]">
-        <div className="mx-auto grid w-full max-w-[1180px] grid-cols-2 lg:grid-cols-4">
+      <section className="relative z-10 -mt-6 px-4 sm:-mt-10 sm:px-8">
+        <div className="kc-panel kc-enter mx-auto grid w-full max-w-[1180px] grid-cols-2 overflow-hidden rounded-3xl lg:grid-cols-4" style={{ ["--kc-d" as string]: "250ms" }}>
           {stats.map(([label, value], index) => (
             <div
               key={label}
-              className={`min-w-0 px-4 py-5 sm:px-7 lg:px-8 lg:py-7 ${index % 2 ? "border-l border-[#d9d8cf]" : ""} ${index > 1 ? "border-t border-[#d9d8cf]" : ""} lg:border-t-0 ${index ? "lg:border-l" : "lg:border-l-0"}`}
+              className={`min-w-0 px-5 py-6 sm:px-7 lg:px-8 lg:py-8 ${index % 2 ? "border-l border-[#e4e2da]" : ""} ${index > 1 ? "border-t border-[#e4e2da]" : ""} lg:border-t-0 ${index ? "lg:border-l" : "lg:border-l-0"}`}
             >
-              <p className="text-[9px] uppercase tracking-[.13em] text-[#7b817b]">
+              <p className="text-xs uppercase tracking-[.12em] text-[#69716b]">
                 {label}
               </p>
-              <p className="mt-2 break-words font-heading text-[18px] font-normal leading-snug text-[#176b45] sm:text-[21px]">
-                {value}
+              <p className="mt-2 break-words font-heading text-xl font-normal leading-snug text-[#176b45] sm:text-2xl">
+                {index === 0 && value ? <CountUp text={value} duration={1800} /> : value}
               </p>
             </div>
           ))}
@@ -188,7 +190,7 @@ export function LandingExperience({
           <div>
             <p className="kc-classic-kicker">{t.storyKicker}</p>
             <h2 className="kc-classic-title mt-4">{t.storyTitle}</h2>
-            <p className="mt-6 max-w-lg text-[14px] leading-7 text-[#69716b] sm:text-[15px]">
+            <p className="mt-6 max-w-lg text-base leading-8 text-[#58645c]">
               {t.storyBody}
             </p>
             <Link href={`/${locale}/about`} className="kc-classic-link mt-7">
@@ -196,7 +198,7 @@ export function LandingExperience({
               <span>↗</span>
             </Link>
           </div>
-          <div className="relative aspect-[5/3] overflow-hidden rounded-[14px] bg-[#e5e2d8]">
+          <div className="relative aspect-[5/3] overflow-hidden rounded-3xl bg-[#e5e2d8] shadow-lift">
             <Image
               src={images.story}
               alt="KCMSC students and staff on campus"
@@ -217,39 +219,42 @@ export function LandingExperience({
                 {t.focusTitle}
               </h2>
             </div>
-            <span className="text-[10px] uppercase tracking-[.12em] text-[#969c96]">
+            <span className="text-xs uppercase tracking-[.12em] text-[#7b817b]">
               01 — 03
             </span>
           </div>
 
-          <div className="mt-10 divide-y divide-[#d9d8cf] border-y border-[#d9d8cf]">
+          <div className="mt-10 grid gap-6 md:grid-cols-3">
             {focus.map((item, index) => (
               <Link
                 key={item.title}
                 href={`/${locale}/${item.href}`}
-                className="group grid gap-5 py-5 sm:grid-cols-[52px_220px_1fr_auto] sm:items-center sm:gap-6"
+                className="kc-panel kc-lift group flex flex-col overflow-hidden"
               >
-                <span className="text-[10px] text-[#b59a4a]">0{index + 1}</span>
-                <div className="relative aspect-[4/2.7] overflow-hidden rounded-lg bg-[#e7e4da]">
+                <div className="relative aspect-[4/3] overflow-hidden bg-[#e7e4da]">
                   <Image
                     src={item.image}
                     alt={item.title}
                     fill
-                    sizes="220px"
-                    className="object-cover transition duration-500 group-hover:scale-[1.02]"
+                    sizes="(min-width: 768px) 33vw, 100vw"
+                    className="object-cover transition duration-700 ease-out group-hover:scale-[1.05]"
                   />
+                  <span className="absolute left-4 top-4 rounded-full bg-[#fffdf8]/90 px-3 py-1 text-xs font-semibold tracking-[.12em] text-[#8a7740] backdrop-blur">
+                    0{index + 1}
+                  </span>
                 </div>
-                <div>
-                  <h3 className="font-heading text-[28px] font-normal text-[#176b45]">
+                <div className="flex flex-1 flex-col p-6 sm:p-7">
+                  <h3 className="font-heading text-3xl font-normal text-[#176b45]">
                     {item.title}
                   </h3>
-                  <p className="mt-2 max-w-xl text-[13px] leading-6 text-[#69716b]">
+                  <p className="mt-3 text-[15px] leading-7 text-[#58645c]">
                     {item.body}
                   </p>
+                  <span className="mt-auto flex items-center gap-2 pt-6 text-sm font-semibold text-[#176b45] transition-all group-hover:gap-3">
+                    {item.link}
+                    <span aria-hidden="true" className="grid h-8 w-8 place-items-center rounded-full bg-[#e3f2e9] transition-colors group-hover:bg-[#176b45] group-hover:text-white">↗</span>
+                  </span>
                 </div>
-                <span className="text-[14px] text-[#7b817b] transition group-hover:translate-x-1 group-hover:text-[#176b45]">
-                  ↗
-                </span>
               </Link>
             ))}
           </div>
@@ -281,7 +286,7 @@ export function LandingExperience({
             <div className="max-w-xl">
               <p className="kc-classic-kicker">{t.resultsKicker}</p>
               <h2 className="kc-classic-title mt-3">{t.resultsTitle}</h2>
-              <p className="mt-5 text-[14px] leading-7 text-[#69716b]">
+              <p className="mt-5 text-[15px] leading-7 text-[#69716b]">
                 {t.resultsBody}
               </p>
             </div>
@@ -291,33 +296,42 @@ export function LandingExperience({
             </Link>
           </div>
 
-          <div className="mt-10 grid border-y border-[#d9d8cf] sm:grid-cols-2">
-            <div className="py-7 sm:pr-10">
-              <p className="text-[9px] uppercase tracking-[.13em] text-[#7b817b]">
-                {t.ssc}
-              </p>
-              <div className="mt-3 flex items-baseline gap-3">
-                <span className="font-heading text-5xl font-normal text-[#176b45]">
-                  98.48%
-                </span>
+          <div className="mt-10 grid gap-6 sm:grid-cols-2">
+            {[
+              { label: t.ssc, pct: 98.48, text: "98.48%", total: 130, passed: 128, gpa: 67 },
+              { label: t.hsc, pct: 100, text: "100%", total: 47, passed: 47, gpa: 13 },
+            ].map((row) => (
+              <div key={row.label} className="kc-panel kc-lift flex flex-col items-start gap-6 p-6 sm:flex-row sm:items-center sm:p-8">
+                <Ring value={row.pct} max={100} size={132} stroke={11} label={`${row.label}: ${row.text} pass rate`}>
+                  <span className="font-heading text-[28px] leading-none text-[#176b45]">
+                    <CountUp text={row.text} duration={1800} />
+                  </span>
+                </Ring>
+                <div className="w-full min-w-0">
+                  <p className="text-xs uppercase tracking-[.12em] text-[#69716b]">{row.label}</p>
+                  <div className="mt-4 space-y-4">
+                    <div>
+                      <div className="flex items-baseline justify-between text-sm text-[#58645c]">
+                        <span>{t.passed}</span>
+                        <span className="font-heading text-xl text-[#124c36]">
+                          <CountUp text={row.passed} /> <span className="text-sm text-[#7b817b]">/ {row.total} {t.candidates}</span>
+                        </span>
+                      </div>
+                      <Bar value={row.passed} max={row.total} className="mt-1.5 h-2" />
+                    </div>
+                    <div>
+                      <div className="flex items-baseline justify-between text-sm text-[#58645c]">
+                        <span>{t.gpa5}</span>
+                        <span className="font-heading text-xl text-[#124c36]">
+                          <CountUp text={row.gpa} />
+                        </span>
+                      </div>
+                      <Bar value={row.gpa} max={row.total} delay={120} className="mt-1.5 h-2" />
+                    </div>
+                  </div>
+                </div>
               </div>
-              <p className="mt-3 text-xs text-[#69716b]">
-                130 {t.candidates} · 128 {t.passed} · 67 {t.gpa5}
-              </p>
-            </div>
-            <div className="border-t border-[#d9d8cf] py-7 sm:border-l sm:border-t-0 sm:pl-10">
-              <p className="text-[9px] uppercase tracking-[.13em] text-[#7b817b]">
-                {t.hsc}
-              </p>
-              <div className="mt-3 flex items-baseline gap-3">
-                <span className="font-heading text-5xl font-normal text-[#176b45]">
-                  100%
-                </span>
-              </div>
-              <p className="mt-3 text-xs text-[#69716b]">
-                47 {t.candidates} · 47 {t.passed} · 13 {t.gpa5}
-              </p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -337,7 +351,7 @@ export function LandingExperience({
                 <span>↗</span>
               </Link>
             </div>
-            <div className="mt-9 grid gap-0 border-y border-[#d9d8cf] md:grid-cols-3 md:divide-x md:divide-[#d9d8cf]">
+            <div className="mt-9 grid gap-5 md:grid-cols-3">
               {alumni.map((message) => {
                 const name = locale === "bn" ? message.nameBn : message.nameEn;
                 const quote =
@@ -346,18 +360,18 @@ export function LandingExperience({
                     : message.previewEn || message.messageEn;
                 const role = locale === "bn" ? message.roleBn : message.roleEn;
                 return (
-                  <article key={message.id} className="p-6 sm:p-7">
+                  <article key={message.id} className="kc-panel kc-lift p-6 sm:p-8">
                     <span className="font-heading text-4xl leading-none text-[#b59a4a]">
                       “
                     </span>
-                    <p className="mt-1 font-heading text-[19px] leading-[1.35] text-[#124c36]">
+                    <p className="mt-1 font-heading text-xl leading-[1.4] text-[#124c36]">
                       {quote}
                     </p>
                     <div className="mt-6 border-t border-[#d9d8cf] pt-4">
                       <p className="font-heading text-lg text-[#176b45]">
                         {name}
                       </p>
-                      <p className="mt-1 text-[11px] leading-5 text-[#69716b]">
+                      <p className="mt-1 text-sm leading-6 text-[#69716b]">
                         {[
                           role,
                           locale === "bn"
@@ -376,27 +390,27 @@ export function LandingExperience({
         </section>
       )}
 
-      <section className="border-t border-[#d9d8cf] bg-[#fffdf8]">
-        <div className="mx-auto grid max-w-[1180px] gap-8 px-5 py-14 sm:px-8 sm:py-16 lg:grid-cols-[1fr_auto] lg:items-end lg:px-10">
+      <section className="bg-[#f7f5ef] px-4 pb-16 pt-6 sm:px-8 sm:pb-24">
+        <div className="kc-dash-hero mx-auto grid max-w-[1180px] gap-8 rounded-3xl px-6 py-12 shadow-lift sm:px-12 sm:py-16 lg:grid-cols-[1fr_auto] lg:items-end">
           <div>
-            <p className="kc-classic-kicker">{t.admissionKicker}</p>
-            <h2 className="mt-3 max-w-3xl font-heading text-[clamp(2.2rem,4vw,4rem)] font-normal leading-[1] tracking-[-.03em] text-[#124c36]">
+            <p className="kc-light-kicker">{t.admissionKicker}</p>
+            <h2 className="mt-3 max-w-3xl font-heading text-[clamp(2.2rem,4vw,3.75rem)] font-normal leading-[1.02] tracking-[-.03em]">
               {t.admissionTitle}
             </h2>
-            <p className="mt-4 max-w-xl text-[14px] leading-7 text-[#69716b]">
+            <p className="mt-4 max-w-xl text-base leading-8 text-white/80">
               {t.admissionBody}
             </p>
           </div>
-          <div className="flex flex-wrap gap-2.5 lg:justify-end">
+          <div className="flex flex-wrap gap-3 lg:justify-end">
             <Link
               href={`/${locale}/admissions`}
-              className="kc-classic-button kc-classic-button-primary"
+              className="kc-classic-button kc-classic-button-light"
             >
               {t.admissionLink}
             </Link>
             <Link
               href={`/${locale}/contact`}
-              className="kc-classic-button kc-classic-button-outline"
+              className="kc-classic-button kc-classic-button-ghost-light"
             >
               {t.contactLink}
             </Link>

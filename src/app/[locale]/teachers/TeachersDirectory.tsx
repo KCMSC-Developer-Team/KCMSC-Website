@@ -77,7 +77,7 @@ export default function TeachersDirectory({ locale, teachers, initialWing = "all
           <div className="max-w-[780px]">
             <div className="flex items-center gap-3">
               <span className="h-px w-10 bg-[#d7bd68]" />
-              <p className="text-[10px] font-semibold uppercase tracking-[.25em] text-[#e5cf83]">
+              <p className="text-[12px] font-semibold uppercase tracking-[.25em] text-[#e5cf83]">
                 {bn ? "কে সি মডেল স্কুল অ্যান্ড কলেজ · শিক্ষকবৃন্দ" : "K C MODEL SCHOOL & COLLEGE · FACULTY"}
               </p>
             </div>
@@ -104,7 +104,7 @@ export default function TeachersDirectory({ locale, teachers, initialWing = "all
         <div className="border border-[#d3ddd4] bg-[#f8faf7]">
           <div className="grid gap-4 p-4 sm:grid-cols-[minmax(220px,1fr)_220px_220px] sm:p-5">
             <label className="block">
-              <span className="mb-2 block text-[10px] font-semibold uppercase tracking-[.16em] text-[#607266]">{bn ? "শিক্ষক খুঁজুন" : "Search faculty"}</span>
+              <span className="mb-2 block text-[12px] font-semibold uppercase tracking-[.16em] text-[#607266]">{bn ? "শিক্ষক খুঁজুন" : "Search faculty"}</span>
               <div className="flex h-11 items-center border border-[#cbd7cd] bg-white focus-within:border-[#176b45]">
                 <span aria-hidden="true" className="pl-3 text-[#718477]">⌕</span>
                 <input value={search} onChange={e => { setSearch(e.target.value); setPage(1); }} placeholder={bn ? "নাম, বিষয় বা পদবি..." : "Name, subject or designation..."} className="h-full min-w-0 flex-1 bg-transparent px-3 text-sm text-[#17352a] outline-none placeholder:text-[#8b9990]" />
@@ -112,14 +112,14 @@ export default function TeachersDirectory({ locale, teachers, initialWing = "all
               </div>
             </label>
             <label className="block">
-              <span className="mb-2 block text-[10px] font-semibold uppercase tracking-[.16em] text-[#607266]">{bn ? "বিভাগ" : "School division"}</span>
+              <span className="mb-2 block text-[12px] font-semibold uppercase tracking-[.16em] text-[#607266]">{bn ? "বিভাগ" : "School division"}</span>
               <select value={wing} onChange={e => { setWing(e.target.value); setPage(1); }} className="h-11 w-full border border-[#cbd7cd] bg-white px-3 text-sm text-[#17352a] outline-none focus:border-[#176b45]">
                 <option value="all">{bn ? "সব বিভাগ" : "All divisions"}</option>
                 {wings.map(w => <option key={w} value={w}>{w}</option>)}
               </select>
             </label>
             <label className="block">
-              <span className="mb-2 block text-[10px] font-semibold uppercase tracking-[.16em] text-[#607266]">{bn ? "বিষয়" : "Subject"}</span>
+              <span className="mb-2 block text-[12px] font-semibold uppercase tracking-[.16em] text-[#607266]">{bn ? "বিষয়" : "Subject"}</span>
               <select value={subject} onChange={e => { setSubject(e.target.value); setPage(1); }} className="h-11 w-full border border-[#cbd7cd] bg-white px-3 text-sm text-[#17352a] outline-none focus:border-[#176b45]">
                 <option value="all">{bn ? "সব বিষয়" : "All subjects"}</option>
                 {subjects.map(s => <option key={s} value={s}>{s}</option>)}
@@ -134,7 +134,7 @@ export default function TeachersDirectory({ locale, teachers, initialWing = "all
 
         {teachers.length === 0 ? (
           <div className="mt-8 border border-[#d3ddd4] bg-[#f8faf7] px-6 py-16 text-center">
-            <p className="text-[10px] font-semibold uppercase tracking-[.18em] text-[#9a854a]">KCMSC FACULTY</p>
+            <p className="text-[12px] font-semibold uppercase tracking-[.18em] text-[#9a854a]">KCMSC FACULTY</p>
             <h2 className="mt-3 font-heading text-2xl text-[#17352a]">{bn ? "শিক্ষক পরিচিতি প্রস্তুত করা হচ্ছে" : "Teacher profiles are being prepared"}</h2>
             <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-[#64776a]">{bn ? "যাচাইকৃত তথ্য প্রকাশের সঙ্গে সঙ্গে এই তালিকা হালনাগাদ করা হবে।" : "Verified teacher profiles will appear here as they are approved for publication."}</p>
           </div>
@@ -148,7 +148,7 @@ export default function TeachersDirectory({ locale, teachers, initialWing = "all
           <>
             <div className="mb-4 mt-8 flex items-end justify-between border-b border-[#cbd7cd] pb-3">
               <div>
-                <p className="text-[10px] font-semibold uppercase tracking-[.18em] text-[#9a854a]">{bn ? "শিক্ষক ডিরেক্টরি" : "Faculty directory"}</p>
+                <p className="text-[12px] font-semibold uppercase tracking-[.18em] text-[#9a854a]">{bn ? "শিক্ষক ডিরেক্টরি" : "Faculty directory"}</p>
                 <h2 className="mt-1 font-heading text-2xl tracking-tight text-[#17352a]">{wing === "all" ? (bn ? "সকল শিক্ষক" : "All faculty") : wing}</h2>
               </div>
               <p className="text-xs text-[#64776a]">{bn ? `পৃষ্ঠা ${currentPage} / ${pageCount}` : `Page ${currentPage} of ${pageCount}`}</p>
@@ -162,11 +162,11 @@ export default function TeachersDirectory({ locale, teachers, initialWing = "all
                     </div>
                   </div>
                   <div className="min-w-0 flex-1 p-3.5">
-                    <span className="block text-[9px] font-semibold uppercase tracking-[.12em] text-[#8b7840]">{t.wing}</span>
+                    <span className="block text-[12px] font-semibold uppercase tracking-[.12em] text-[#8b7840]">{t.wing}</span>
                     <h3 className="mt-1 line-clamp-2 font-heading text-[17px] leading-snug text-[#17352a] group-hover:text-[#176b45]">{t.name}</h3>
                     <p className="mt-1 line-clamp-2 text-xs leading-5 text-[#68796d]">{t.designation}</p>
-                    {t.subjects.length > 0 && <p className="mt-2 line-clamp-1 text-[10px] font-medium text-[#176b45]">{t.subjects.join(" · ")}</p>}
-                    <span className="mt-3 inline-flex items-center gap-2 text-[9px] font-semibold uppercase tracking-[.13em] text-[#176b45]">{bn ? "সম্পূর্ণ পরিচিতি" : "View profile"} <span aria-hidden="true">↗</span></span>
+                    {t.subjects.length > 0 && <p className="mt-2 line-clamp-1 text-[12px] font-medium text-[#176b45]">{t.subjects.join(" · ")}</p>}
+                    <span className="mt-3 inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[.13em] text-[#176b45]">{bn ? "সম্পূর্ণ পরিচিতি" : "View profile"} <span aria-hidden="true">↗</span></span>
                   </div>
                 </Link>
               ))}

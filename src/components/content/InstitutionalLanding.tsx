@@ -598,9 +598,9 @@ export function InstitutionalLanding({
               </div>
             </div>
             <div className="mt-16 grid gap-5 border-t border-white/30 pt-5 sm:grid-cols-3 sm:gap-8">
-              <div><p className="text-[10px] font-semibold uppercase tracking-[.2em] text-[#e6d69a]">{bn ? "শিক্ষার পরিসর" : "LEARNING SPAN"}</p><p className="mt-2 font-heading text-2xl sm:text-3xl">{bn ? "প্লে গ্রুপ – দ্বাদশ" : "Play Group – Grade XII"}</p></div>
-              <div><p className="text-[10px] font-semibold uppercase tracking-[.2em] text-[#e6d69a]">{bn ? "পাঠ্যক্রম" : "CURRICULUM"}</p><p className="mt-2 font-heading text-2xl sm:text-3xl">{bn ? "বাংলা ও ইংরেজি ভার্সন" : "Bangla & English Versions"}</p></div>
-              <div><p className="text-[10px] font-semibold uppercase tracking-[.2em] text-[#e6d69a]">{bn ? "অবস্থান" : "LOCATION"}</p><p className="mt-2 font-heading text-2xl sm:text-3xl">{bn ? "দক্ষিণখান, ঢাকা" : "Dakshinkhan, Dhaka"}</p></div>
+              <div><p className="text-[12px] font-semibold uppercase tracking-[.2em] text-[#e6d69a]">{bn ? "শিক্ষার পরিসর" : "LEARNING SPAN"}</p><p className="mt-2 font-heading text-2xl sm:text-3xl">{bn ? "প্লে গ্রুপ – দ্বাদশ" : "Play Group – Grade XII"}</p></div>
+              <div><p className="text-[12px] font-semibold uppercase tracking-[.2em] text-[#e6d69a]">{bn ? "পাঠ্যক্রম" : "CURRICULUM"}</p><p className="mt-2 font-heading text-2xl sm:text-3xl">{bn ? "বাংলা ও ইংরেজি ভার্সন" : "Bangla & English Versions"}</p></div>
+              <div><p className="text-[12px] font-semibold uppercase tracking-[.2em] text-[#e6d69a]">{bn ? "অবস্থান" : "LOCATION"}</p><p className="mt-2 font-heading text-2xl sm:text-3xl">{bn ? "দক্ষিণখান, ঢাকা" : "Dakshinkhan, Dhaka"}</p></div>
             </div>
           </div>
         </section>
@@ -609,7 +609,7 @@ export function InstitutionalLanding({
         <section className="kc-why-intro relative z-10 border-b border-[#deddd3] bg-[#fffdf7]">
           <div className="mx-auto grid max-w-[1240px] gap-8 px-6 py-16 sm:px-10 sm:py-20 lg:grid-cols-[.72fr_1.28fr] lg:px-12 lg:py-24">
             <div><p className="kc-classic-kicker">{bn ? "আমাদের দৃষ্টিভঙ্গি" : "THE KCMSC APPROACH"}</p><p className="mt-5 max-w-sm font-heading text-3xl leading-tight sm:text-4xl">{bn ? "শুধু একটি শ্রেণি নয়, শিক্ষার ধারাবাহিক পথ।" : "Not just the next class. A connected path through school."}</p></div>
-            <div><h2 className="max-w-3xl font-heading text-[clamp(2rem,4.4vw,4.4rem)] leading-[.96] tracking-[-.045em]">{bn ? "প্রতিটি পর্যায়ের নিজস্ব প্রয়োজন আছে।" : "Every stage brings a different kind of growth."}</h2><p className="mt-6 max-w-3xl text-[15px] leading-8 text-[#5f6d64] sm:text-base">{bn ? "শিশুরা বড় হওয়ার সঙ্গে সঙ্গে তাদের শেখার ধরন, বিষয় ও দায়িত্ব বদলায়। তাই পরিবারগুলোর জন্য একাডেমিক ধাপ, ক্যাম্পাসের পরিবেশ এবং শিক্ষাজীবনের সুযোগগুলো একসঙ্গে বোঝা গুরুত্বপূর্ণ।" : "As students grow, their learning needs, subjects and responsibilities change. Families should be able to understand the academic stages alongside the spaces, people and experiences that shape school life."}</p><p className="mt-4 max-w-3xl text-[15px] leading-8 text-[#5f6d64] sm:text-base">{bn ? "এই পৃষ্ঠাটি KCMSC-এর বিদ্যমান বিভাগগুলোর সঙ্গে পরিচয় করিয়ে দেয়, যাতে প্রয়োজনীয় তথ্যের জন্য আলাদা আলাদা জায়গায় খুঁজতে না হয়।" : "This guide brings together the school’s existing information so families can move naturally from an overview to the details that matter to them."}</p></div>
+            <div><h2 className="max-w-3xl font-heading text-[clamp(2rem,4.4vw,4.4rem)] leading-[.96] tracking-[-.045em]">{bn ? "প্রতিটি পর্যায়ের নিজস্ব প্রয়োজন আছে।" : "Every stage brings a different kind of growth."}</h2><p className="mt-6 max-w-3xl text-[16px] leading-8 text-[#5f6d64] sm:text-base">{bn ? "শিশুরা বড় হওয়ার সঙ্গে সঙ্গে তাদের শেখার ধরন, বিষয় ও দায়িত্ব বদলায়। তাই পরিবারগুলোর জন্য একাডেমিক ধাপ, ক্যাম্পাসের পরিবেশ এবং শিক্ষাজীবনের সুযোগগুলো একসঙ্গে বোঝা গুরুত্বপূর্ণ।" : "As students grow, their learning needs, subjects and responsibilities change. Families should be able to understand the academic stages alongside the spaces, people and experiences that shape school life."}</p><p className="mt-4 max-w-3xl text-[16px] leading-8 text-[#5f6d64] sm:text-base">{bn ? "এই পৃষ্ঠাটি KCMSC-এর বিদ্যমান বিভাগগুলোর সঙ্গে পরিচয় করিয়ে দেয়, যাতে প্রয়োজনীয় তথ্যের জন্য আলাদা আলাদা জায়গায় খুঁজতে না হয়।" : "This guide brings together the school’s existing information so families can move naturally from an overview to the details that matter to them."}</p></div>
           </div>
         </section>
 
@@ -848,7 +848,7 @@ export function InstitutionalLanding({
           <h1 className="mt-5 max-w-4xl font-heading text-[clamp(2.7rem,6vw,5.8rem)] leading-[.94] tracking-[-.05em] text-[#12324A]">
             {data.title}
           </h1>
-          <p className="mt-7 max-w-3xl text-[15px] leading-7 text-[#64748B] sm:text-base">
+          <p className="mt-7 max-w-3xl text-[16px] leading-7 text-[#64748B] sm:text-base">
             {data.intro}
           </p>
           <p className="mt-6 max-w-3xl border-l-2 border-[#d5bd75] pl-4 text-sm leading-6 text-[#707770]">
@@ -881,7 +881,7 @@ export function InstitutionalLanding({
                     key={item.title}
                     className="flex min-h-[205px] flex-col border-b border-[#D9E2EC] py-7 md:border-b-0 md:border-r md:px-6 md:first:pl-0 md:last:border-r-0 md:last:pr-0"
                   >
-                    <span className="text-[11px] font-semibold tracking-[.15em] text-[#9A854A]">
+                    <span className="text-[12px] font-semibold tracking-[.15em] text-[#9A854A]">
                       {String(j + 1).padStart(2, "0")}
                     </span>
                     <h3 className="mt-4 font-heading text-xl text-[#12324A]">

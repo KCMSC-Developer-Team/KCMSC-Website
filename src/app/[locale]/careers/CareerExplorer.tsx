@@ -109,7 +109,7 @@ export default function CareerExplorer({ careers, locale, emptyMessage, applied,
             <div className="max-w-3xl text-white">
               <div className="mb-6 flex items-center gap-3">
                 <span className="h-px w-9 bg-[#d8c58a]" />
-                <span className="text-[10px] font-semibold uppercase tracking-[0.24em] text-white/80">
+                <span className="text-[12px] font-semibold uppercase tracking-[0.24em] text-white/80">
                   {isBn ? "কেসিএমএসসি · ক্যারিয়ার" : "K C MODEL SCHOOL & COLLEGE · CAREERS"}
                 </span>
               </div>
@@ -133,7 +133,7 @@ export default function CareerExplorer({ careers, locale, emptyMessage, applied,
             </div>
 
             <aside className="kc-careers-hero-note">
-              <p className="text-[9px] font-semibold uppercase tracking-[0.22em] text-[#e0d09b]">
+              <p className="text-[12px] font-semibold uppercase tracking-[0.22em] text-[#e0d09b]">
                 {isBn ? "একসঙ্গে এগিয়ে চলি" : "GROW WITH US"}
               </p>
               <p className="mt-5 font-heading text-5xl leading-none">{String(careers?.length ?? 0).padStart(2, "0")}</p>
@@ -160,7 +160,7 @@ export default function CareerExplorer({ careers, locale, emptyMessage, applied,
               <p className="max-w-xs text-xs leading-6 text-[#69716b] sm:text-sm">
                 {isBn ? "পদ সম্পর্কে বিস্তারিত দেখতে নির্বাচন করুন।" : "Explore the role first. Open its details to learn more and submit your application."}
               </p>
-              <span className="shrink-0 rounded-full border border-[#d9d8cf] px-3 py-2 text-[10px] font-medium uppercase tracking-wider text-[#526258]">
+              <span className="shrink-0 rounded-full border border-[#d9d8cf] px-3 py-2 text-[12px] font-medium uppercase tracking-wider text-[#526258]">
                 {String(careers?.length ?? 0).padStart(2, "0")} {isBn ? "টি পদ" : "roles"}
               </span>
             </div>
@@ -191,19 +191,19 @@ export default function CareerExplorer({ careers, locale, emptyMessage, applied,
                     <button type="button" onClick={() => setSelectedId(career.id)} aria-label={`${isBn ? "বিস্তারিত দেখুন" : "View details for"} ${title}`} className="kc-job-thumb relative block h-48 w-full overflow-hidden text-left sm:h-52">
                       <img src={cardImage} alt="" className="h-full w-full object-cover transition duration-700 group-hover:scale-105" loading="lazy" />
                       <span className="absolute inset-0 bg-gradient-to-t from-[#0b3024]/80 via-[#0b3024]/10 to-[#0b3024]/5" />
-                      <span className="absolute left-5 top-5 rounded-full border border-white/40 bg-black/15 px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.16em] text-white backdrop-blur-sm">{cardCategory}</span>
+                      <span className="absolute left-5 top-5 rounded-full border border-white/40 bg-black/15 px-3 py-1.5 text-[12px] font-semibold uppercase tracking-[0.16em] text-white backdrop-blur-sm">{cardCategory}</span>
                       <span className="absolute right-5 top-5 flex h-9 w-9 items-center justify-center rounded-full border border-white/50 text-xs text-white backdrop-blur-sm">{String(index + 1).padStart(2, "0")}</span>
                       <span className="absolute bottom-5 left-5 right-5 font-heading text-2xl leading-tight text-white sm:text-3xl">{title}</span>
                     </button>
                     <div className="flex flex-1 flex-col p-5 sm:p-6">
-                      <div className="flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.13em]">
+                      <div className="flex items-center gap-2 text-[12px] font-medium uppercase tracking-[0.13em]">
                         <span className={`h-1.5 w-1.5 rounded-full ${closed ? "bg-[#a36b50]" : "bg-[#278653]"}`} />
                         <span className={closed ? "text-[#a36b50]" : "text-[#26744b]"}>{closed ? (isBn ? "আবেদন বন্ধ" : "Applications closed") : (isBn ? "আবেদন চলছে" : "Accepting applications")}</span>
                       </div>
                       <p className="mt-3 line-clamp-3 min-h-[4.5rem] text-sm leading-6 text-[#69716b]">{description}</p>
                       <div className="mt-5 flex items-end justify-between gap-3 border-t border-[#e7e5dc] pt-4">
                         <div>
-                          <p className="text-[9px] font-semibold uppercase tracking-[0.15em] text-[#858a80]">{isBn ? "শেষ তারিখ" : "DEADLINE"}</p>
+                          <p className="text-[12px] font-semibold uppercase tracking-[0.15em] text-[#858a80]">{isBn ? "শেষ তারিখ" : "DEADLINE"}</p>
                           <p className="mt-1 text-xs font-medium text-[#37483c]">{getDeadline(career.deadline, locale)}</p>
                         </div>
                         <button type="button" onClick={() => setSelectedId(career.id)} className="inline-flex min-h-10 shrink-0 items-center gap-3 rounded-full bg-[#176b45] px-4 text-xs font-semibold text-white transition hover:bg-[#124c36] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#176b45]">
@@ -234,7 +234,7 @@ export default function CareerExplorer({ careers, locale, emptyMessage, applied,
               <div className="absolute inset-0 bg-gradient-to-t from-[#092e22]/90 via-[#092e22]/25 to-[#092e22]/10" />
               <button type="button" onClick={() => setSelectedId(null)} aria-label={isBn ? "বন্ধ করুন" : "Close details"} className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full border border-white/60 bg-black/20 text-xl text-white backdrop-blur-sm transition hover:bg-white hover:text-[#124c36]">×</button>
               <div className="absolute bottom-6 left-6 right-6 sm:bottom-8 sm:left-8">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#e0d09b]">{(isBn ? selected.categoryBn : selected.categoryEn) || roleVisual(selected.titleEn).category}</p>
+                <p className="text-[12px] font-semibold uppercase tracking-[0.2em] text-[#e0d09b]">{(isBn ? selected.categoryBn : selected.categoryEn) || roleVisual(selected.titleEn).category}</p>
                 <h2 id="kc-career-modal-title" className="mt-3 max-w-3xl font-heading text-3xl leading-tight text-white sm:text-5xl">{selectedTitle}</h2>
                 <p className="mt-3 text-xs text-white/75">{isBn ? "আবেদনের শেষ তারিখ" : "Application deadline"}: {getDeadline(selected.deadline, locale)}</p>
               </div>
@@ -259,7 +259,7 @@ export default function CareerExplorer({ careers, locale, emptyMessage, applied,
                     <div><label htmlFor={`phone-${selected.id}`} className="kc-form-label">{isBn ? "মোবাইল নম্বর" : "Phone number"} *</label><input id={`phone-${selected.id}`} name="phone" type="tel" autoComplete="tel" required className="kc-form-input" /></div>
                     <div><label htmlFor={`qualification-${selected.id}`} className="kc-form-label">{isBn ? "শিক্ষাগত যোগ্যতা" : "Qualification"}</label><input id={`qualification-${selected.id}`} name="qualification" className="kc-form-input" /></div>
                     <div className="sm:col-span-2"><label htmlFor={`experience-${selected.id}`} className="kc-form-label">{isBn ? "অভিজ্ঞতা" : "Experience"}</label><textarea id={`experience-${selected.id}`} name="experience" rows={3} className="kc-form-input resize-y" /></div>
-                    <div className="sm:col-span-2"><label htmlFor={`coverLetter-${selected.id}`} className="kc-form-label">{isBn ? "কভার লেটার / অতিরিক্ত তথ্য" : "Cover letter / additional information"}</label><textarea id={`coverLetter-${selected.id}`} name="coverLetter" rows={4} maxLength={5000} className="kc-form-input resize-y" /><p className="mt-1 text-right text-[10px] text-[#858a80]">{isBn ? "সর্বোচ্চ ৫,০০০ অক্ষর" : "Maximum 5,000 characters"}</p></div>
+                    <div className="sm:col-span-2"><label htmlFor={`coverLetter-${selected.id}`} className="kc-form-label">{isBn ? "কভার লেটার / অতিরিক্ত তথ্য" : "Cover letter / additional information"}</label><textarea id={`coverLetter-${selected.id}`} name="coverLetter" rows={4} maxLength={5000} className="kc-form-input resize-y" /><p className="mt-1 text-right text-[12px] text-[#858a80]">{isBn ? "সর্বোচ্চ ৫,০০০ অক্ষর" : "Maximum 5,000 characters"}</p></div>
                   </div>
                   <div className="mt-6 flex flex-col-reverse gap-3 border-t border-[#e4e2d8] pt-5 sm:flex-row sm:items-center sm:justify-between">
                     <button type="button" onClick={() => setSelectedId(null)} className="kc-classic-button kc-classic-button-outline">{isBn ? "ফিরে যান" : "Back to positions"}</button>

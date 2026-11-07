@@ -25,7 +25,7 @@ export default async function CareersListPage() {
     <div>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="text-[9px] font-medium uppercase tracking-[0.18em] text-[#7c847d]">
+          <p className="text-[12px] font-medium uppercase tracking-[0.18em] text-[#7c847d]">
             Recruitment
           </p>
 
@@ -46,7 +46,7 @@ export default async function CareersListPage() {
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2">
         <div className="rounded-xl border border-border bg-white p-5">
-          <p className="text-[9px] font-medium uppercase tracking-[0.16em] text-ink-muted">
+          <p className="text-[12px] font-medium uppercase tracking-[0.16em] text-ink-muted">
             Vacancies
           </p>
 
@@ -60,7 +60,7 @@ export default async function CareersListPage() {
         </div>
 
         <div className="rounded-xl border border-border bg-white p-5">
-          <p className="text-[9px] font-medium uppercase tracking-[0.16em] text-ink-muted">
+          <p className="text-[12px] font-medium uppercase tracking-[0.16em] text-ink-muted">
             Applications
           </p>
 
@@ -93,7 +93,7 @@ export default async function CareersListPage() {
                     <h2 className="font-medium text-ink">{career.titleEn}</h2>
 
                     <span
-                      className={`rounded-full px-2.5 py-1 text-[10px] font-medium ${
+                      className={`rounded-full px-2.5 py-1 text-[12px] font-medium ${
                         career.isPublished
                           ? "bg-[#e9f6ee] text-primary"
                           : "bg-[#efeee7] text-ink-muted"

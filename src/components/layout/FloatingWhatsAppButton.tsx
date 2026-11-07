@@ -14,7 +14,7 @@ export function FloatingWhatsAppButton() {
       style={{ bottom: "calc(82px + env(safe-area-inset-bottom, 0px))" }}
     >
       <FaWhatsapp aria-hidden="true" className="h-6 w-6" />
-      <span className="pointer-events-none absolute bottom-full right-0 mb-2 hidden whitespace-nowrap rounded-[2px] border border-[#d9d8cf] bg-[#fffdf8] px-3 py-2 text-[11px] font-medium text-[#124c36] shadow-[0_2px_8px_rgba(18,76,54,0.12)] md:block md:opacity-0 md:transition-opacity md:group-hover:opacity-100 md:group-focus-visible:opacity-100">
+      <span className="pointer-events-none absolute bottom-full right-0 mb-2 hidden whitespace-nowrap rounded-lg border border-[#d9d8cf] bg-[#fffdf8] px-3 py-2 text-[12px] font-medium text-[#124c36] shadow-[0_2px_8px_rgba(18,76,54,0.12)] md:block md:opacity-0 md:transition-opacity md:group-hover:opacity-100 md:group-focus-visible:opacity-100">
         Chat with us on WhatsApp
       </span>
     </a>

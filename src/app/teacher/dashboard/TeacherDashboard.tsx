@@ -2,6 +2,9 @@
 import { signOut } from "next-auth/react";
 import { useCallback, useState } from "react";
 import Cropper, { Area } from "react-easy-crop";
+import { CountUp } from "@/components/motion/CountUp";
+import { Bar, Ring } from "@/components/motion/Charts";
+import { ScrollEffects } from "@/components/motion/ScrollEffects";
 
 type T = {
   id: string;
@@ -228,15 +231,16 @@ export default function TeacherDashboard({ teacher }: { teacher: T }) {
     }
   }
   return (
-    <main className="min-h-screen bg-[#f1f6f0] text-[#183c2b]">
-      <header className="sticky top-0 z-20 border-b border-[#d4e4d7] bg-white/95 shadow-sm backdrop-blur">
+    <main className="kc-dash-canvas min-h-screen text-[#183c2b]">
+      <ScrollEffects />
+      <header className="sticky top-0 z-20 border-b border-[#d4e4d7] bg-white/95 shadow-card backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
           <div className="flex min-w-0 items-center gap-3">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#12643f] text-lg font-bold text-white shadow-sm">
-              K
-            </div>
+            <span className="grid h-11 w-11 shrink-0 place-items-center overflow-hidden rounded-xl bg-[#fffdf8] p-1 shadow-card ring-1 ring-[#d9d8cf]">
+              <img src="/kcmsc/kcmsc-logo.png" alt="K C Model School & College logo" className="h-full w-full object-contain" />
+            </span>
             <div className="min-w-0">
-              <p className="text-[10px] font-bold uppercase tracking-[.18em] text-[#16734a]">
+              <p className="text-[12px] font-bold uppercase tracking-[.18em] text-[#16734a]">
                 KCMSC · Teacher portal
               </p>
               <p className="truncate text-base font-bold text-[#153f2a] sm:text-lg">
@@ -253,7 +257,7 @@ export default function TeacherDashboard({ teacher }: { teacher: T }) {
         </div>
       </header>
       <div className="mx-auto max-w-6xl px-4 py-5 sm:px-6 sm:py-8 lg:px-8">
-        <section className="relative overflow-hidden rounded-3xl bg-[#105b39] p-5 text-white shadow-lg shadow-[#174b2e]/10 sm:p-8">
+        <section className="kc-dash-hero kc-enter rounded-3xl p-5 shadow-lift sm:p-8">
           <div className="pointer-events-none absolute -right-12 -top-20 h-64 w-64 rounded-full border-[36px] border-white/5" />
           <div className="pointer-events-none absolute -bottom-24 right-24 h-44 w-44 rounded-full bg-[#8bbd75]/10" />
           <div className="relative flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
@@ -290,7 +294,10 @@ export default function TeacherDashboard({ teacher }: { teacher: T }) {
                 </p>
               </div>
             </div>
-            <div className="flex flex-wrap gap-2 text-xs font-semibold">
+            <div className="flex flex-wrap items-center gap-4 text-xs font-semibold">
+              <Ring value={completed} max={7} size={88} stroke={8} label={`${completed} of 7 profile sections filled in`} className="[&_.kc-ring-track]:stroke-white/20">
+                <span className="font-heading text-xl text-white"><CountUp text={`${Math.round((completed / 7) * 100)}%`} /></span>
+              </Ring>
               <span className="rounded-full bg-white/10 px-3 py-2 ring-1 ring-white/15">
                 Employee ID: {t.staffId}
               </span>
@@ -311,7 +318,7 @@ export default function TeacherDashboard({ teacher }: { teacher: T }) {
         {t.mustChangePassword && (
           <form
             onSubmit={changePassword}
-            className="mt-5 overflow-hidden rounded-2xl border border-[#e7d39a] bg-white shadow-sm"
+            className="mt-5 overflow-hidden rounded-2xl border border-[#e7d39a] bg-white shadow-card"
           >
             <div className="flex items-start gap-3 border-b border-[#f0e5c5] bg-[#fff9e8] px-5 py-4">
               <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#f3e5b8] text-[#77520d]">
@@ -368,10 +375,10 @@ export default function TeacherDashboard({ teacher }: { teacher: T }) {
           <div className="mt-5 grid items-start gap-5 lg:grid-cols-[minmax(0,1fr)_280px]">
             <form
               onSubmit={save}
-              className="min-w-0 overflow-hidden rounded-2xl border border-[#d4e4d7] bg-white shadow-sm"
+              className="min-w-0 overflow-hidden rounded-2xl border border-[#d4e4d7] bg-white shadow-card"
             >
               <div className="border-b border-[#e0ebe2] px-5 py-5 sm:px-7">
-                <p className="text-[10px] font-bold uppercase tracking-[.16em] text-[#16734a]">
+                <p className="text-[12px] font-bold uppercase tracking-[.16em] text-[#16734a]">
                   Your information
                 </p>
                 <h2 className="mt-1 text-xl font-bold tracking-tight text-[#153f2a] sm:text-2xl">
@@ -381,12 +388,7 @@ export default function TeacherDashboard({ teacher }: { teacher: T }) {
                   You control the professional details below. Your official
                   staff information is managed by school administration.
                 </p>
-                <div className="mt-4 h-2 overflow-hidden rounded-full bg-[#e8f0e9]">
-                  <div
-                    className="h-full rounded-full bg-[#218653] transition-all"
-                    style={{ width: `${Math.round((completed / 7) * 100)}%` }}
-                  />
-                </div>
+                <Bar value={completed} max={7} className="mt-4 h-2.5" />
                 <p className="mt-1.5 text-xs text-[#63786a]">
                   {completed} of 7 profile sections filled in
                 </p>
@@ -613,15 +615,15 @@ export default function TeacherDashboard({ teacher }: { teacher: T }) {
                 </p>
                 <button
                   disabled={busy}
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#12643f] px-6 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-[#0d4d30] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#12643f] px-6 py-3 text-sm font-bold text-white shadow-card transition hover:bg-[#0d4d30] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
                 >
                   {busy ? "Saving profile…" : "Save profile changes"}
                 </button>
               </div>
             </form>
             <aside className="space-y-4 lg:sticky lg:top-24">
-              <div className="rounded-2xl border border-[#d4e4d7] bg-white p-5 shadow-sm">
-                <p className="text-[10px] font-bold uppercase tracking-[.15em] text-[#16734a]">
+              <div className="rounded-2xl border border-[#d4e4d7] bg-white p-5 shadow-card">
+                <p className="text-[12px] font-bold uppercase tracking-[.15em] text-[#16734a]">
                   Profile preview
                 </p>
                 <div className="mt-4 flex items-center gap-3">

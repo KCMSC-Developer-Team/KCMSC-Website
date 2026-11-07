@@ -61,7 +61,7 @@ export default async function AlumniPage({
           <h1 className="mt-5 max-w-4xl font-heading text-[clamp(2.8rem,6vw,6rem)] leading-[.9] tracking-[-.05em] text-white">
             {copy.title}
           </h1>
-          <p className="mt-8 max-w-2xl text-[15px] leading-7 text-white/90 sm:text-base">
+          <p className="mt-8 max-w-2xl text-[16px] leading-7 text-white/90 sm:text-base">
             {copy.intro}
           </p>
         </div>
@@ -114,7 +114,7 @@ export default async function AlumniPage({
                           {name}
                         </p>
                         {batches ? (
-                          <p className="mt-2 text-[9px] uppercase tracking-[.16em] text-[#b59a4a]">
+                          <p className="mt-2 text-[12px] uppercase tracking-[.16em] text-[#b59a4a]">
                             {batches}
                           </p>
                         ) : null}

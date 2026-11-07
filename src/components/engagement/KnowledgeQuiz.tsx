@@ -629,7 +629,7 @@ export function KnowledgeQuiz({ locale }: { locale: Locale }) {
           font-weight: 700;
         }
         .kq-teaser-copy small {
-          font-size: 10px;
+          font-size: 12px;
           color: #69716b;
           line-height: 1.35;
         }
@@ -638,7 +638,7 @@ export function KnowledgeQuiz({ locale }: { locale: Locale }) {
           align-items: center;
           gap: 4px;
           color: #176b45;
-          font-size: 11px;
+          font-size: 12px;
           font-weight: 700;
           white-space: nowrap;
         }
@@ -651,14 +651,14 @@ export function KnowledgeQuiz({ locale }: { locale: Locale }) {
             border-radius: 15px;
           }
           .kq-teaser-icon { flex-basis: 32px; height: 32px; }
-          .kq-teaser-copy strong { font-size: 11px; }
-          .kq-teaser-copy small { font-size: 10px; }
-          .kq-teaser-cta { font-size: 10px; }
+          .kq-teaser-copy strong { font-size: 12px; }
+          .kq-teaser-copy small { font-size: 12px; }
+          .kq-teaser-cta { font-size: 12px; }
         }
         @media (max-width: 370px) {
           .kq-teaser { width: calc(100vw - 20px); gap: 7px; }
           .kq-teaser-copy small { display: none; }
-          .kq-teaser-cta { font-size: 9px; }
+          .kq-teaser-cta { font-size: 12px; }
         }
         .kq-overlay {
           position: fixed;
@@ -714,7 +714,7 @@ export function KnowledgeQuiz({ locale }: { locale: Locale }) {
           align-items: center;
           gap: 9px;
           color: #176b45;
-          font-size: 10px;
+          font-size: 12px;
           letter-spacing: 0.12em;
           font-weight: 800;
           padding-right: 42px;
@@ -747,7 +747,7 @@ export function KnowledgeQuiz({ locale }: { locale: Locale }) {
         }
         .kq-eyebrow {
           color: #176b45;
-          font-size: 10px;
+          font-size: 12px;
           font-weight: 800;
           letter-spacing: 0.15em;
           text-transform: uppercase;
@@ -765,7 +765,7 @@ export function KnowledgeQuiz({ locale }: { locale: Locale }) {
         .kq-welcome > p:not(.kq-eyebrow),
         .kq-result > p {
           color: #69716b;
-          font-size: 14px;
+          font-size: 15px;
           line-height: 1.7;
           max-width: 380px;
           margin: 0 auto;
@@ -781,7 +781,7 @@ export function KnowledgeQuiz({ locale }: { locale: Locale }) {
           padding: 8px 10px;
           border: 1px solid #d9d8cf;
           border-radius: 999px;
-          font-size: 11px;
+          font-size: 12px;
           color: #505850;
         }
         .kq-primary,
@@ -793,7 +793,7 @@ export function KnowledgeQuiz({ locale }: { locale: Locale }) {
           min-height: 46px;
           padding: 12px 19px;
           border-radius: 10px;
-          font-size: 13px;
+          font-size: 14px;
           font-weight: 700;
           transition:
             background 0.2s,
@@ -828,7 +828,7 @@ export function KnowledgeQuiz({ locale }: { locale: Locale }) {
           justify-content: space-between;
           gap: 12px;
           color: #69716b;
-          font-size: 11px;
+          font-size: 12px;
           font-weight: 700;
         }
         .kq-progress-label span:last-child {
@@ -871,7 +871,7 @@ export function KnowledgeQuiz({ locale }: { locale: Locale }) {
           background: #fff;
           color: #242824;
           text-align: left;
-          font-size: 13px;
+          font-size: 14px;
           line-height: 1.45;
           transition:
             border 0.15s,
@@ -892,7 +892,7 @@ export function KnowledgeQuiz({ locale }: { locale: Locale }) {
           border: 1px solid #d9d8cf;
           border-radius: 8px;
           color: #69716b;
-          font-size: 11px;
+          font-size: 12px;
           font-weight: 700;
         }
         .kq-option.is-correct {
@@ -935,7 +935,7 @@ export function KnowledgeQuiz({ locale }: { locale: Locale }) {
           margin: 5px 0;
         }
         .kq-feedback small {
-          font-size: 9px;
+          font-size: 12px;
           text-transform: uppercase;
           letter-spacing: 0.1em;
           color: #69716b;
@@ -977,7 +977,7 @@ export function KnowledgeQuiz({ locale }: { locale: Locale }) {
           background: #f0f0e8;
         }
         .kq-quote > span {
-          font-size: 9px;
+          font-size: 12px;
           font-weight: 800;
           letter-spacing: 0.13em;
           text-transform: uppercase;
@@ -1007,10 +1007,10 @@ export function KnowledgeQuiz({ locale }: { locale: Locale }) {
           font-family: var(--font-bangla-heading), serif;
         }
         .font-bangla .kq-teaser-copy strong {
-          font-size: 14px;
+          font-size: 15px;
         }
         .font-bangla .kq-teaser-copy small {
-          font-size: 11px;
+          font-size: 12px;
         }
         @media (max-width: 520px) {
           .kq-teaser {
@@ -1026,13 +1026,13 @@ export function KnowledgeQuiz({ locale }: { locale: Locale }) {
             font-size: 15px;
           }
           .kq-teaser-copy strong {
-            font-size: 11px;
+            font-size: 12px;
           }
           .kq-teaser-copy small {
-            font-size: 9px;
+            font-size: 12px;
           }
           .kq-teaser-cta {
-            font-size: 10px;
+            font-size: 12px;
             gap: 2px;
           }
           .kq-dialog {
@@ -1044,7 +1044,7 @@ export function KnowledgeQuiz({ locale }: { locale: Locale }) {
             padding: 8px;
           }
           .kq-brand {
-            font-size: 9px;
+            font-size: 12px;
           }
           .kq-welcome,
           .kq-result {
@@ -1054,7 +1054,7 @@ export function KnowledgeQuiz({ locale }: { locale: Locale }) {
             gap: 5px;
           }
           .kq-meta span {
-            font-size: 9px;
+            font-size: 12px;
             padding: 7px 8px;
           }
           .kq-option {

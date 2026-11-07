@@ -325,7 +325,7 @@ export function Navbar({ locale }: { locale: Locale }) {
           }`}
           aria-hidden={!showTopbar}
         >
-          <div className="mx-auto flex min-h-[38px] w-full max-w-[1280px] flex-wrap items-center justify-between gap-x-5 gap-y-1 px-3 py-2 text-[9px] leading-4 sm:px-6 sm:text-[10px] lg:px-10">
+          <div className="mx-auto flex min-h-[38px] w-full max-w-[1280px] flex-wrap items-center justify-between gap-x-5 gap-y-1 px-3 py-2 text-[12px] leading-4 sm:px-6 sm:text-[12px] lg:px-10">
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-white/90">
               <span><strong className="font-semibold text-white">EIIN</strong> 137368</span>
               <span><strong className="font-semibold text-white">School Code</strong> 1417</span>
@@ -363,7 +363,7 @@ export function Navbar({ locale }: { locale: Locale }) {
                 className="block h-full w-full object-contain"
               />
             </span>
-            <span className="kc-navbar-title block min-w-0 font-heading text-[14px] font-normal leading-tight text-[#124c36] sm:whitespace-nowrap sm:text-[17px]">
+            <span className="kc-navbar-title block min-w-0 font-heading text-[15px] font-normal leading-tight text-[#124c36] sm:whitespace-nowrap sm:text-[17px]">
               K C Model School & College
             </span>
           </Link>
@@ -413,7 +413,7 @@ export function Navbar({ locale }: { locale: Locale }) {
               aria-expanded={open}
               aria-controls="site-menu"
               onClick={() => setOpen((value) => !value)}
-              className="kc-navbar-menu rounded-full border border-[#d9d8cf] px-3 py-2 text-[10px] font-medium uppercase tracking-[.08em] text-[#3f4741] transition hover:border-[#176b45] hover:text-[#176b45] lg:hidden sm:px-4"
+              className="kc-navbar-menu rounded-full border border-[#d9d8cf] px-3 py-2 text-[12px] font-medium uppercase tracking-[.08em] text-[#3f4741] transition hover:border-[#176b45] hover:text-[#176b45] lg:hidden sm:px-4"
             >
               {open ? text("Close", "বন্ধ") : text("Menu", "মেনু")}
             </button>
@@ -558,10 +558,10 @@ export function Navbar({ locale }: { locale: Locale }) {
                     <Link
                       href={`/${locale}/${group.href}`}
                       onClick={closeMobile}
-                      className="flex items-center justify-between py-2 text-[15px] font-medium text-[#124c36]"
+                      className="flex items-center justify-between py-2 text-[16px] font-medium text-[#124c36]"
                     >
                       <span>
-                        <span className="mr-3 text-[10px] text-[#b59a4a]">
+                        <span className="mr-3 text-[12px] text-[#b59a4a]">
                           0{index + 1}
                         </span>
                         {group.label}

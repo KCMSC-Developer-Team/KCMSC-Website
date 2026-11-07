@@ -161,7 +161,7 @@ export default async function FacilitiesPage({ params }: { params: Promise<{ loc
               </h1>
               <p className="mt-6 max-w-2xl text-sm leading-7 text-white/80 sm:text-base">{c.intro}</p>
             </div>
-            <p className="self-end border-l border-[#cbb56d]/70 pl-4 text-[10px] font-semibold uppercase tracking-[.17em] text-[#e2d18a] lg:mb-1">
+            <p className="self-end border-l border-[#cbb56d]/70 pl-4 text-[12px] font-semibold uppercase tracking-[.17em] text-[#e2d18a] lg:mb-1">
               {c.location}
             </p>
           </div>
@@ -176,7 +176,7 @@ export default async function FacilitiesPage({ params }: { params: Promise<{ loc
           </div>
           <div>
             <h2 className="max-w-5xl font-heading text-[clamp(2.2rem,5.3vw,5.8rem)] leading-[.9] tracking-[-.05em]">{c.campusTitle}</h2>
-            <p className="mt-7 max-w-3xl text-[15px] leading-8 text-[#64748B] sm:text-base">{c.campusBody}</p>
+            <p className="mt-7 max-w-3xl text-[16px] leading-8 text-[#64748B] sm:text-base">{c.campusBody}</p>
           </div>
         </div>
         <div className="relative mx-auto max-w-[1440px] overflow-hidden">
@@ -190,7 +190,7 @@ export default async function FacilitiesPage({ params }: { params: Promise<{ loc
               className="object-cover object-[50%_58%]"
             />
           </div>
-          <div className="absolute bottom-0 left-0 bg-[#F8FAFC] px-5 py-3 text-[9px] font-semibold uppercase tracking-[.18em] text-[#52645a] sm:px-7">
+          <div className="absolute bottom-0 left-0 bg-[#F8FAFC] px-5 py-3 text-[12px] font-semibold uppercase tracking-[.18em] text-[#52645a] sm:px-7">
             K C Model School & College · Campus
           </div>
         </div>
@@ -269,7 +269,7 @@ export default async function FacilitiesPage({ params }: { params: Promise<{ loc
             <div className="mt-9 grid border-t border-[#CBD5E1] sm:grid-cols-2">
               {c.services.map((item, index) => (
                 <div key={item} className="grid grid-cols-[48px_1fr] border-b border-[#CBD5E1] py-4 text-sm text-[#354b41]">
-                  <span className="font-mono text-[10px] text-[#9c8040]">{String(index + 1).padStart(2, "0")}</span>
+                  <span className="font-mono text-[12px] text-[#9c8040]">{String(index + 1).padStart(2, "0")}</span>
                   <span>{item}</span>
                 </div>
               ))}

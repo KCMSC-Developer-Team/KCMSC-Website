@@ -5,6 +5,9 @@ import { FiArrowUpRight, FiEye, FiFileText, FiPenTool, FiPlus } from "react-icon
 import { authOptions } from "@/lib/auth-options";
 import { prisma } from "@/lib/db";
 import { BloggerProfileMenu, BloggerSidebar } from "./DashboardNavigation";
+import { CountUp } from "@/components/motion/CountUp";
+import { Bar, Ring } from "@/components/motion/Charts";
+import { ScrollEffects } from "@/components/motion/ScrollEffects";
 
 export const dynamic = "force-dynamic";
 
@@ -57,38 +60,39 @@ export default async function BloggerDashboard() {
       value: articleCount,
       note: "All your writing",
       icon: FiFileText,
-      tone: "bg-[#edf2ee] text-[#176b45]",
+      tone: "bg-[#e3f2e9] text-[#176b45]",
     },
     {
       label: "Published",
       value: publishedCount,
       note: "Visible in the journal",
       icon: FiPenTool,
-      tone: "bg-[#eef3ea] text-[#526f42]",
+      tone: "bg-[#d5eedf] text-[#1f8a5b]",
     },
     {
       label: "Drafts",
       value: draftCount,
       note: "Ready when you are",
       icon: FiFileText,
-      tone: "bg-[#f5f0e4] text-[#987633]",
+      tone: "bg-[#f3eac8] text-[#8a6d1d]",
     },
     {
       label: "Article views",
       value: totalViews,
       note: "Across all articles",
       icon: FiEye,
-      tone: "bg-[#edf0f4] text-[#4b6380]",
+      tone: "bg-[#e5efe9] text-[#124c36]",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-[#f5f6f3] text-[#25352b] lg:flex">
+    <div className="kc-dash-canvas min-h-screen text-[#25352b] lg:flex">
+      <ScrollEffects />
       <BloggerSidebar />
       <main className="min-w-0 flex-1 lg:ml-64">
-        <header className="sticky top-0 z-20 flex min-h-[76px] items-center justify-between border-b border-[#e4e8e1] bg-white/95 px-5 py-3 backdrop-blur sm:px-8">
+        <header className="sticky top-0 z-20 flex min-h-[76px] items-center justify-between border-b border-[#d9d8cf] bg-white/95 px-5 py-3 backdrop-blur sm:px-8">
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[.16em] text-[#778078]">
+            <p className="text-[12px] font-bold uppercase tracking-[.16em] text-[#778078]">
               Blogger workspace
             </p>
             <p className="mt-1 text-sm font-semibold text-[#36463b]">Dashboard</p>
@@ -101,20 +105,21 @@ export default async function BloggerDashboard() {
         </header>
 
         <div className="mx-auto max-w-[1440px] px-5 py-8 sm:px-8 sm:py-10 xl:px-12">
-          <section className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
-            <div>
-              <p className="text-sm font-medium text-[#176b45]">KCMSC Journal</p>
-              <h1 className="mt-2 font-serif text-3xl font-medium tracking-[-.03em] text-[#203a2c] sm:text-4xl">
+          <section className="kc-dash-hero kc-enter flex flex-col justify-between gap-6 rounded-3xl p-6 shadow-lift sm:flex-row sm:items-end sm:p-9">
+            <div aria-hidden="true" className="kc-float pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full border-[36px] border-white/[0.04]" />
+            <div className="relative">
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#e4d49a]">KCMSC Journal</p>
+              <h1 className="mt-3 font-heading text-4xl font-normal leading-[1.05] tracking-[-.03em] sm:text-5xl">
                 Welcome back, {profile.displayName}
               </h1>
-              <p className="mt-2 text-sm text-[#768078]">
-                {roleLabel} <span className="mx-1.5 text-[#c2c9c1]">/</span> Here&apos;s
+              <p className="mt-3 text-base text-white/80">
+                {roleLabel} <span className="mx-1.5 text-white/40">/</span> Here&apos;s
                 how your writing is doing.
               </p>
             </div>
             <Link
               href="/blogger/articles/new"
-              className="inline-flex min-h-11 items-center justify-center gap-2 self-start rounded-xl bg-[#176b45] px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#124c36] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176b45] focus-visible:ring-offset-2 sm:self-auto"
+              className="kc-btn relative self-start bg-[#fffdf8] text-[#124c36] hover:-translate-y-0.5 hover:bg-white hover:shadow-lift focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             >
               <FiPlus aria-hidden="true" size={17} />
               Write an article
@@ -125,7 +130,7 @@ export default async function BloggerDashboard() {
             {stats.map(({ label, value, note, icon: Icon, tone }) => (
               <article
                 key={label}
-                className="rounded-2xl border border-[#e4e8e1] bg-white p-5 shadow-[0_2px_8px_rgba(30,55,38,.03)] sm:p-6"
+                className="kc-panel kc-lift p-5 sm:p-6"
               >
                 <div className="flex items-center justify-between gap-3">
                   <p className="text-sm font-medium text-[#6c786e]">{label}</p>
@@ -133,8 +138,8 @@ export default async function BloggerDashboard() {
                     <Icon aria-hidden="true" size={18} />
                   </span>
                 </div>
-                <p className="mt-4 font-serif text-4xl text-[#223c2d]">{number(value)}</p>
-                <p className="mt-1 text-xs text-[#899189]">{note}</p>
+                <p className="mt-4 font-heading text-5xl text-[#124c36]"><CountUp text={number(value)} /></p>
+                <p className="mt-1 text-sm text-[#69716b]">{note}</p>
               </article>
             ))}
           </section>
@@ -143,11 +148,11 @@ export default async function BloggerDashboard() {
             <section
               id="articles"
               aria-labelledby="articles-heading"
-              className="min-w-0 rounded-2xl border border-[#e4e8e1] bg-white p-5 shadow-[0_2px_8px_rgba(30,55,38,.03)] sm:p-7"
+              className="min-w-0 rounded-2xl border border-[#d9d8cf] bg-white p-5 shadow-card sm:p-7"
             >
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-[.15em] text-[#8a938b]">
+                  <p className="text-[12px] font-bold uppercase tracking-[.15em] text-[#8a938b]">
                     Your workspace
                   </p>
                   <h2
@@ -183,7 +188,7 @@ export default async function BloggerDashboard() {
                         </div>
                         <div className="flex shrink-0 items-center gap-3">
                           <span
-                            className={`rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-[.08em] ${
+                            className={`rounded-full px-2.5 py-1 text-[12px] font-bold uppercase tracking-[.08em] ${
                               published
                                 ? "bg-[#eaf3eb] text-[#287348]"
                                 : "bg-[#f6f0e4] text-[#987633]"
@@ -236,8 +241,8 @@ export default async function BloggerDashboard() {
             </section>
 
             <aside className="space-y-6">
-              <section className="overflow-hidden rounded-2xl bg-[#123b2d] p-6 text-white">
-                <p className="text-[10px] font-bold uppercase tracking-[.16em] text-white/55">
+              <section className="kc-dash-hero rounded-2xl p-6 shadow-card">
+                <p className="text-[12px] font-bold uppercase tracking-[.16em] text-white/55">
                   Keep the ideas flowing
                 </p>
                 <h2 className="mt-3 font-serif text-2xl leading-tight">
@@ -255,46 +260,40 @@ export default async function BloggerDashboard() {
                 </Link>
               </section>
 
-              <section className="rounded-2xl border border-[#e4e8e1] bg-white p-6 shadow-[0_2px_8px_rgba(30,55,38,.03)]">
+              <section className="kc-panel p-6">
                 <div className="flex items-center justify-between">
-                  <h2 className="font-serif text-xl text-[#223c2d]">Publishing status</h2>
-                  <FiFileText aria-hidden="true" className="text-[#829084]" size={17} />
+                  <h2 className="font-heading text-2xl text-[#124c36]">Publishing status</h2>
+                  <FiFileText aria-hidden="true" className="text-[#829084]" size={18} />
                 </div>
-                <div className="mt-5 space-y-4">
+                <div className="mt-5 flex items-center gap-5">
+                  <Ring value={publishedCount} max={articleCount || 1} size={96} stroke={9} label="Share of articles published">
+                    <span className="font-heading text-xl text-[#124c36]">
+                      <CountUp text={`${articleCount ? Math.round((publishedCount / articleCount) * 100) : 0}%`} />
+                    </span>
+                  </Ring>
+                  <p className="text-sm leading-6 text-[#69716b]">of your articles are published in the journal.</p>
+                </div>
+                <div className="mt-6 space-y-5">
                   <div>
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-[#69766d]">Published</span>
-                      <span className="font-semibold text-[#314337]">
-                        {number(publishedCount)}
+                    <div className="flex items-center justify-between text-base">
+                      <span className="text-[#58645c]">Published</span>
+                      <span className="font-semibold text-[#124c36]">
+                        <CountUp text={number(publishedCount)} />
                       </span>
                     </div>
-                    <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-[#edf0eb]">
-                      <div
-                        className="h-full rounded-full bg-[#39835b]"
-                        style={{
-                          width: `${articleCount ? (publishedCount / articleCount) * 100 : 0}%`,
-                        }}
-                      />
-                    </div>
+                    <Bar value={publishedCount} max={articleCount || 1} className="mt-2 h-2" />
                   </div>
                   <div>
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-[#69766d]">Drafts</span>
-                      <span className="font-semibold text-[#314337]">
-                        {number(draftCount)}
+                    <div className="flex items-center justify-between text-base">
+                      <span className="text-[#58645c]">Drafts</span>
+                      <span className="font-semibold text-[#124c36]">
+                        <CountUp text={number(draftCount)} />
                       </span>
                     </div>
-                    <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-[#edf0eb]">
-                      <div
-                        className="h-full rounded-full bg-[#c5a15b]"
-                        style={{
-                          width: `${articleCount ? (draftCount / articleCount) * 100 : 0}%`,
-                        }}
-                      />
-                    </div>
+                    <Bar value={draftCount} max={articleCount || 1} delay={120} className="mt-2 h-2" />
                   </div>
                 </div>
-                <p className="mt-5 border-t border-[#edf0eb] pt-4 text-xs leading-5 text-[#899189]">
+                <p className="mt-5 border-t border-[#edf0eb] pt-4 text-sm leading-6 text-[#69716b]">
                   Your latest six articles appear in the workspace list.
                 </p>
               </section>

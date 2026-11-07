@@ -68,7 +68,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
                 : "The story of a school, from its roots."}
             </h1>
 
-            <p className="mt-8 max-w-[650px] text-[15px] leading-7 text-[#64748B] sm:text-[16px]">
+            <p className="mt-8 max-w-[650px] text-[16px] leading-7 text-[#64748B] sm:text-[16px]">
               {dict.about.body}
             </p>
           </div>
@@ -85,7 +85,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
             />
 
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#102e23]/80 via-[#102e23]/10 to-transparent p-7 sm:p-10">
-              {/* <p className="text-[10px] font-bold uppercase tracking-[.18em] text-[#d5bd75]">
+              {/* <p className="text-[12px] font-bold uppercase tracking-[.18em] text-[#d5bd75]">
                 K C Model School & College
               </p> */}
               {/* <p className="mt-2 font-heading text-2xl text-white">
@@ -132,7 +132,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
 
                   <div>
                     <div className="flex items-baseline gap-3">
-                      <span className="text-[11px] text-[#C27A05]">
+                      <span className="text-[12px] text-[#C27A05]">
                         0{index + 1}
                       </span>
                       <h3 className="font-heading text-2xl text-[#12324A]">
@@ -206,7 +206,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
                   : "The founders, administration and academic leadership form the people responsible for guiding KCMSC’s educational environment."}
               </p>
 
-              <div className="mt-8 border-t border-[#D9E2EC] pt-5 text-[10px] font-semibold uppercase tracking-[.13em] text-[#8a8d87]">
+              <div className="mt-8 border-t border-[#D9E2EC] pt-5 text-[12px] font-semibold uppercase tracking-[.13em] text-[#8a8d87]">
                 {bn
                   ? "কেসিএমএসসি · নেতৃত্ব ও কমিউনিটি"
                   : "KCMSC · leadership and community"}
@@ -256,7 +256,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
                   <p className="mt-1 text-sm text-[#747b74]">{person.role}</p>
                 </div>
 
-                <span className="hidden text-[9px] font-bold uppercase tracking-[.16em] text-[#C27A05] sm:block">
+                <span className="hidden text-[12px] font-bold uppercase tracking-[.16em] text-[#C27A05] sm:block">
                   KCMSC
                 </span>
               </div>
@@ -285,7 +285,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
                   key={member.name}
                   className="border-b border-[#CBD5E1] py-5 sm:[&:nth-child(odd)]:border-r sm:[&:nth-child(odd)]:pr-6 sm:[&:nth-child(even)]:pl-6"
                 >
-                  <span className="text-[10px] font-bold tracking-[.14em] text-[#C27A05]">
+                  <span className="text-[12px] font-bold tracking-[.14em] text-[#C27A05]">
                     0{index + 1}
                   </span>
 
@@ -324,7 +324,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
 
           <dl className="mt-8 grid overflow-hidden border-y border-[#D9E2EC] sm:grid-cols-3">
             <div className="py-5 sm:py-7 sm:pr-6">
-              <dt className="text-[10px] uppercase tracking-[.16em] text-[#747b74]">
+              <dt className="text-[12px] uppercase tracking-[.16em] text-[#747b74]">
                 EIIN
               </dt>
               <dd className="mt-2 font-heading text-3xl text-[#176b45] sm:text-4xl">
@@ -333,7 +333,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
             </div>
 
             <div className="border-t border-[#D9E2EC] py-5 sm:border-l sm:border-t-0 sm:px-6 sm:py-7">
-              <dt className="text-[10px] uppercase tracking-[.16em] text-[#747b74]">
+              <dt className="text-[12px] uppercase tracking-[.16em] text-[#747b74]">
                 {bn ? "স্কুল কোড" : "School Code"}
               </dt>
               <dd className="mt-2 font-heading text-3xl text-[#176b45] sm:text-4xl">
@@ -342,7 +342,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
             </div>
 
             <div className="border-t border-[#D9E2EC] py-5 sm:border-l sm:border-t-0 sm:pl-6 sm:py-7">
-              <dt className="text-[10px] uppercase tracking-[.16em] text-[#747b74]">
+              <dt className="text-[12px] uppercase tracking-[.16em] text-[#747b74]">
                 {bn ? "কলেজ কোড" : "College Code"}
               </dt>
               <dd className="mt-2 font-heading text-3xl text-[#176b45] sm:text-4xl">

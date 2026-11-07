@@ -8,6 +8,7 @@ import { prisma } from "@/lib/db";
 import { SiteNotification } from "@/components/layout/SiteNotification";
 import { KnowledgeQuiz } from "@/components/engagement/KnowledgeQuiz";
 import { FloatingWhatsAppButton } from "@/components/layout/FloatingWhatsAppButton";
+import { ScrollEffects } from "@/components/motion/ScrollEffects";
 
 const banglaSans = Noto_Sans_Bengali({
   subsets: ["bengali"],
@@ -78,6 +79,7 @@ export default async function LocaleLayout({
       lang={locale}
       className={`${locale === "bn" ? "font-bangla" : "font-sans"} ${banglaSans.variable} ${banglaSerif.variable}`}
     >
+      <ScrollEffects progress />
       <SiteNotification locale={locale} notification={notification} />
       <Navbar locale={locale} />
       <main className="kc-public-layout">{children}</main>

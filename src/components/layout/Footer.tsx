@@ -74,7 +74,7 @@ export function Footer({ locale }: { locale: Locale }) {
               href={`/${locale}`}
               className="inline-flex items-center gap-3 text-[#124c36]"
             >
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[2px] bg-[#fffdf8]">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#fffdf8]">
                 <img
                   src="/kcmsc/kcmsc-logo.png"
                   alt="K C Model School & College logo"
@@ -87,7 +87,7 @@ export function Footer({ locale }: { locale: Locale }) {
               </span>
             </Link>
 
-            <p className="mt-4 max-w-md text-[13px] leading-6">
+            <p className="mt-4 max-w-md text-[14px] leading-6">
               {isBangla
                 ? "প্লে গ্রুপ থেকে দ্বাদশ শ্রেণি পর্যন্ত বাংলা ও ইংরেজি ভার্সনে শিক্ষা।"
                 : "Education from Play Group to Grade Twelve in Bangla and English Versions."}
@@ -95,32 +95,32 @@ export function Footer({ locale }: { locale: Locale }) {
 
             {/* Institutional Information */}
             <div className="mt-5 max-w-md border-t border-[#d9d8cf] pt-4">
-              <p className="text-[9px] uppercase tracking-[.16em] text-[#176b45]">
+              <p className="text-[12px] uppercase tracking-[.16em] text-[#176b45]">
                 {isBangla ? "প্রাতিষ্ঠানিক তথ্য" : "INSTITUTIONAL INFORMATION"}
               </p>
 
               <dl className="mt-3 grid grid-cols-3 gap-2">
                 <div className="min-w-0">
-                  <dt className="text-[10px] leading-4 text-[#858b84]">EIIN</dt>
-                  <dd className="mt-1 text-[13px] font-medium tabular-nums text-[#124c36]">
+                  <dt className="text-[12px] leading-4 text-[#858b84]">EIIN</dt>
+                  <dd className="mt-1 text-[14px] font-medium tabular-nums text-[#124c36]">
                     137368
                   </dd>
                 </div>
 
                 <div className="min-w-0 border-l border-[#d9d8cf] pl-3">
-                  <dt className="text-[10px] leading-4 text-[#858b84]">
+                  <dt className="text-[12px] leading-4 text-[#858b84]">
                     {isBangla ? "স্কুল কোড" : "School Code"}
                   </dt>
-                  <dd className="mt-1 text-[13px] font-medium tabular-nums text-[#124c36]">
+                  <dd className="mt-1 text-[14px] font-medium tabular-nums text-[#124c36]">
                     1417
                   </dd>
                 </div>
 
                 <div className="min-w-0 border-l border-[#d9d8cf] pl-3">
-                  <dt className="text-[10px] leading-4 text-[#858b84]">
+                  <dt className="text-[12px] leading-4 text-[#858b84]">
                     {isBangla ? "কলেজ কোড" : "College Code"}
                   </dt>
-                  <dd className="mt-1 text-[13px] font-medium tabular-nums text-[#124c36]">
+                  <dd className="mt-1 text-[14px] font-medium tabular-nums text-[#124c36]">
                     1290
                   </dd>
                 </div>
@@ -167,7 +167,7 @@ export function Footer({ locale }: { locale: Locale }) {
           <div className="grid grid-cols-1 gap-7 sm:grid-cols-3 sm:gap-6">
             {groups.map((group) => (
               <div key={group.title}>
-                <p className="text-[9px] uppercase tracking-[.16em] text-[#176b45]">
+                <p className="text-[12px] uppercase tracking-[.16em] text-[#176b45]">
                   {group.title}
                 </p>
 
@@ -194,7 +194,7 @@ export function Footer({ locale }: { locale: Locale }) {
         </div>
 
         {/* Bottom Footer */}
-        <div className="grid gap-4 pt-6 text-[11px] leading-5 text-[#858b84] sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 pt-6 text-[12px] leading-5 text-[#858b84] sm:grid-cols-2 lg:grid-cols-3">
           {/* Address */}
           <address className="not-italic">
             {dict.footer.address}

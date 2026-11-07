@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { AuthShell } from "@/components/auth/AuthShell";
 export default function TeacherLoginPage() {
   const [staffId, setStaffId] = useState("");
   const [password, setPassword] = useState("");
@@ -26,42 +27,37 @@ export default function TeacherLoginPage() {
     router.refresh();
   }
   return (
-    <main className="grid min-h-screen place-items-center bg-[#f7f5ef] px-4 py-10">
-      <form
-        onSubmit={submit}
-        className="w-full max-w-md rounded-2xl border border-[#d9d8cf] bg-[#fffdf8] p-7 shadow-sm sm:p-9"
-      >
-        <img
-          src="/kcmsc/kcmsc-logo.png"
-          alt="KCMSC"
-          className="h-14 w-14 object-contain"
-        />
-        <p className="mt-6 text-[10px] font-semibold uppercase tracking-[.2em] text-[#176b45]">
-          K C Model School & College
-        </p>
-        <h1 className="mt-2 font-heading text-3xl text-[#124c36]">
-          Teacher portal
-        </h1>
-        <p className="mt-2 text-sm leading-6 text-[#69716b]">
-          Sign in with your Employee ID. Your initial password is also your
-          Employee ID.
-        </p>
+    <AuthShell
+      portal="teacher"
+      eyebrow="Faculty portal"
+      headline={<>Your faculty<br />account,<br /><span className="text-[#e4d49a]">in one place.</span></>}
+      blurb="Access your staff account and faculty tools using your employee credentials."
+      points={["Sign in with your Employee ID", "Keep your faculty profile up to date", "Your public teacher page, in your hands"]}
+      title="Teacher portal"
+      subtitle="Sign in with your Employee ID. Your initial password is also your Employee ID."
+      footer={
+        <a href="/en/teachers" className="inline-flex items-center gap-2 font-medium text-[#176b45] transition hover:text-[#124c36] hover:underline">
+          View public teacher directory
+        </a>
+      }
+    >
+      <form onSubmit={submit} className="space-y-5">
         {error && (
-          <p className="mt-4 rounded-lg bg-[#f6e7e3] p-3 text-sm text-[#8d3b2e]">
+          <p role="alert" className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm leading-6 text-red-700">
             {error}
           </p>
         )}
-        <label className="mt-6 block text-xs font-medium text-[#59615b]">
+        <label className="block text-sm font-medium text-[#414741]">
           Employee ID
           <input
             required
             autoComplete="username"
             value={staffId}
             onChange={(e) => setStaffId(e.target.value)}
-            className="mt-1.5 w-full rounded-lg border border-[#d9d8cf] bg-white px-3 py-3 text-sm outline-none focus:border-[#176b45]"
+            className="kc-input mt-2"
           />
         </label>
-        <label className="mt-4 block text-xs font-medium text-[#59615b]">
+        <label className="block text-sm font-medium text-[#414741]">
           Password
           <input
             required
@@ -69,22 +65,13 @@ export default function TeacherLoginPage() {
             autoComplete="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="mt-1.5 w-full rounded-lg border border-[#d9d8cf] bg-white px-3 py-3 text-sm outline-none focus:border-[#176b45]"
+            className="kc-input mt-2"
           />
         </label>
-        <button
-          disabled={busy}
-          className="mt-6 w-full rounded-lg bg-[#176b45] px-4 py-3 text-sm font-medium text-white disabled:opacity-50"
-        >
+        <button disabled={busy} className="kc-btn kc-btn-primary w-full">
           {busy ? "Signing in…" : "Sign in"}
         </button>
-        <a
-          href="/en/teachers"
-          className="mt-5 block text-center text-xs text-[#176b45] hover:underline"
-        >
-          View public teacher directory
-        </a>
       </form>
-    </main>
+    </AuthShell>
   );
 }

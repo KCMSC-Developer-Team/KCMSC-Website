@@ -74,7 +74,7 @@ function RichTextEditor({
               {tool.label}
             </button>
           ))}
-          <span className="ml-auto px-2 text-[10px] text-ink-muted">Rich text</span>
+          <span className="ml-auto px-2 text-[12px] text-ink-muted">Rich text</span>
         </div>
         <div
           ref={editorRef}
@@ -147,7 +147,7 @@ export function CareerForm({
   return (
     <form action={action} className="max-w-5xl space-y-8">
       <section className="rounded-2xl border border-border bg-white p-5 sm:p-7">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-primary">01 · Vacancy identity</p>
+        <p className="text-[12px] font-semibold uppercase tracking-[0.18em] text-primary">01 · Vacancy identity</p>
         <h2 className="mt-2 font-heading text-xl text-ink">What visitors see first</h2>
         <p className="mt-1 text-sm leading-6 text-ink-muted">Set the title, category and short card description independently from the full job details.</p>
         <div className="mt-6 grid gap-5 sm:grid-cols-2">
@@ -179,7 +179,7 @@ export function CareerForm({
       </section>
 
       <section className="rounded-2xl border border-border bg-white p-5 sm:p-7">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-primary">02 · Vacancy thumbnail</p>
+        <p className="text-[12px] font-semibold uppercase tracking-[0.18em] text-primary">02 · Vacancy thumbnail</p>
         <h2 className="mt-2 font-heading text-xl text-ink">Choose the card image</h2>
         <p className="mt-1 text-sm leading-6 text-ink-muted">Drag a photo here or browse your computer. The image is resized before saving.</p>
         <input type="hidden" name="imageData" value={imageData} />
@@ -213,7 +213,7 @@ export function CareerForm({
       </section>
 
       <section className="rounded-2xl border border-border bg-white p-5 sm:p-7">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-primary">03 · Full role details</p>
+        <p className="text-[12px] font-semibold uppercase tracking-[0.18em] text-primary">03 · Full role details</p>
         <h2 className="mt-2 font-heading text-xl text-ink">What opens when someone clicks the card</h2>
         <p className="mt-1 text-sm leading-6 text-ink-muted">Use the formatting toolbar for bold, italics, headings and lists. This content appears in the details overlay.</p>
         <div className="mt-6 space-y-6">
@@ -223,7 +223,7 @@ export function CareerForm({
       </section>
 
       <section className="rounded-2xl border border-border bg-white p-5 sm:p-7">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-primary">04 · Publication</p>
+        <p className="text-[12px] font-semibold uppercase tracking-[0.18em] text-primary">04 · Publication</p>
         <div className="mt-4 grid gap-5 sm:grid-cols-2 sm:items-end">
           <div>
             <label htmlFor="deadline" className="block text-sm font-medium text-ink">Application deadline · optional</label>

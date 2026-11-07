@@ -130,7 +130,7 @@ summary {
 
 .kc-classic-kicker,
 .kc-light-kicker {
-  font-size: 9px;
+  font-size: 12px;
   font-weight: 500;
   letter-spacing: 0.18em;
   line-height: 1.4;
@@ -165,7 +165,7 @@ summary {
   border: 1px solid var(--kc-line);
   border-radius: 999px;
   padding: 0.65rem 1rem;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -222,7 +222,7 @@ summary {
   align-items: center;
   gap: 0.5rem;
   color: var(--kc-green);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
   letter-spacing: 0.04em;
   transition:
@@ -265,7 +265,7 @@ summary {
   align-items: center;
   border-radius: 999px;
   padding: 8px 11px;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 400;
   color: #59615b;
   transition:
@@ -284,7 +284,7 @@ summary {
   justify-content: space-between;
   border-bottom: 1px solid var(--kc-line);
   padding: 13px 3px;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 400;
   color: #414741;
 }
@@ -300,14 +300,14 @@ summary {
 
 .kc-card {
   border: 1px solid var(--kc-line);
-  border-radius: 14px;
+  border-radius: var(--kc-r-lg);
   background: var(--kc-paper);
   box-shadow: none;
 }
 
 .kc-section-label {
   color: var(--kc-green);
-  font-size: 9px;
+  font-size: 12px;
   font-weight: 500;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -451,7 +451,7 @@ summary {
 .kc-mega-eyebrow {
   margin: 0 0 16px;
   color: #d4c38c;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.19em;
   text-transform: uppercase;
@@ -470,7 +470,7 @@ summary {
   max-width: 330px;
   margin: 16px 0 0;
   color: rgba(255, 253, 248, 0.76);
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.8;
 }
 .kc-mega-all {
@@ -481,7 +481,7 @@ summary {
   padding-bottom: 6px;
   border-bottom: 1px solid rgba(255, 253, 248, 0.45);
   color: #fffdf8;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.04em;
   transition:
@@ -516,7 +516,7 @@ summary {
   align-self: flex-start;
   padding-top: 3px;
   color: #d4c38c;
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.08em;
 }
 .kc-mega-link-copy {
@@ -525,12 +525,12 @@ summary {
   flex: 1;
 }
 .kc-mega-link-copy strong {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 500;
 }
 .kc-mega-link-copy small {
   color: rgba(255, 253, 248, 0.66);
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1.5;
 }
 .kc-mega-arrow {
@@ -575,7 +575,7 @@ summary {
 }
 .kc-mega-feature-copy small {
   color: #e5d7a6;
-  font-size: 9px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.18em;
 }
@@ -590,7 +590,7 @@ summary {
   width: fit-content;
   padding-bottom: 4px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.65);
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.05em;
 }
 @keyframes kc-mega-enter {
@@ -656,7 +656,7 @@ summary {
   position: relative;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: 18px;
+  border-radius: var(--kc-r-lg);
   padding: 28px;
   background: rgba(5, 87, 58, 0.76);
   box-shadow: 0 18px 60px rgba(0, 0, 0, 0.16);
@@ -701,7 +701,7 @@ summary {
   flex-direction: column;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 20px;
+  border-radius: var(--kc-r-xl);
   background: #fffdf8;
   box-shadow: 0 30px 100px rgba(0, 0, 0, 0.3);
   animation: kc-career-rise-in 200ms ease-out;
@@ -732,12 +732,12 @@ summary {
   width: 100%;
   margin-top: 8px;
   border: 1px solid #dcdcd2;
-  border-radius: 9px;
+  border-radius: var(--kc-r-md);
   background: #fff;
   padding: 12px 13px;
   color: #243d30;
   font: inherit;
-  font-size: 13px;
+  font-size: 14px;
   outline: none;
   transition: border-color 160ms ease, box-shadow 160ms ease;
 }
@@ -769,7 +769,7 @@ summary {
   }
   .kc-careers-hero-note { padding: 22px; }
   .kc-career-modal-layer { align-items: flex-end; padding: 0; }
-  .kc-career-modal { width: 100%; max-height: 95dvh; border-radius: 18px 18px 0 0; }
+  .kc-career-modal { width: 100%; max-height: 95dvh; border-radius: var(--kc-r-xl) var(--kc-r-xl) 0 0; }
   .kc-career-modal-cover { flex-basis: 210px; }
   .kc-career-modal-body { padding: 22px 20px max(22px, env(safe-area-inset-bottom)); }
 }
@@ -806,16 +806,16 @@ body { overflow-x: clip; }
 .kc-navbar-actions { gap: 6px; }
 
 .kc-home-hero { width: 100%; background: #f7f5ef; padding: 16px clamp(12px, 3vw, 28px) 22px; }
-.kc-home-hero-frame { position: relative; isolation: isolate; width: 100%; min-height: 570px; height: min(690px, 72svh); overflow: hidden; border-radius: 22px; background: #173d2d; color: #fffdf8; }
+.kc-home-hero-frame { position: relative; isolation: isolate; width: 100%; min-height: 570px; height: min(690px, 72svh); overflow: hidden; border-radius: var(--kc-r-xl); background: #173d2d; color: #fffdf8; }
 .kc-home-hero-slide { position: absolute; inset: 0; z-index: -2; opacity: 0; transition: opacity 650ms ease; }
 .kc-home-hero-slide.is-active { opacity: 1; }
 .kc-home-hero-shade { position: absolute; z-index: -1; inset: 0; background: linear-gradient(90deg, rgba(6, 28, 20, .70) 0%, rgba(6, 28, 20, .24) 100%), linear-gradient(0deg, rgba(5, 22, 16, .82) 0%, rgba(5, 22, 16, .10) 72%); }
 .kc-home-hero-content { display: flex; min-height: inherit; height: 100%; flex-direction: column; justify-content: flex-end; padding: clamp(22px, 4vw, 58px); }
 .kc-home-hero-copy { max-width: 680px; animation: kc-home-copy-in 450ms ease both; }
-.kc-home-hero-kicker { display: flex; align-items: center; gap: 12px; margin: 0; color: rgba(255,253,248,.82); font-size: 10px; font-weight: 600; letter-spacing: .17em; line-height: 1.5; text-transform: uppercase; }
+.kc-home-hero-kicker { display: flex; align-items: center; gap: 12px; margin: 0; color: rgba(255,253,248,.82); font-size: 12px; font-weight: 600; letter-spacing: .17em; line-height: 1.5; text-transform: uppercase; }
 .kc-home-hero-kicker i { display: block; width: 32px; height: 1px; background: rgba(255,253,248,.58); }
 .kc-home-hero-copy h1 { max-width: 650px; margin: 20px 0 0; color: #fffdf8; font-family: var(--font-heading), Georgia, serif; font-size: clamp(42px, 6vw, 82px); font-weight: 400; letter-spacing: -.045em; line-height: .98; text-wrap: balance; }
-.kc-home-hero-description { max-width: 490px; margin: 22px 0 0; color: rgba(255,253,248,.82); font-size: 15px; line-height: 1.8; }
+.kc-home-hero-description { max-width: 490px; margin: 22px 0 0; color: rgba(255,253,248,.82); font-size: 16px; line-height: 1.8; }
 .kc-home-hero-controls { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 30px; }
 .kc-home-hero-dots { display: flex; align-items: center; gap: 9px; }
 .kc-home-hero-dots button { width: 8px; height: 8px; padding: 0; border: 0; border-radius: 99px; background: rgba(255,255,255,.55); cursor: pointer; transition: width .2s ease, background .2s ease; }
@@ -828,14 +828,14 @@ body { overflow-x: clip; }
 @media (max-width: 640px) {
   .kc-navbar-inner { height: 64px; padding-right: 10px; padding-left: 10px; }
   .kc-navbar-brand { gap: 7px; flex: 1 1 auto; }
-  .kc-navbar-title { max-width: 42vw; font-size: 13px !important; line-height: 1.15 !important; white-space: normal !important; }
+  .kc-navbar-title { max-width: 42vw; font-size: 14px !important; line-height: 1.15 !important; white-space: normal !important; }
   .kc-navbar-actions { margin-left: 8px; gap: 6px; }
-  .kc-navbar-menu { padding: 9px 11px !important; font-size: 9px !important; }
+  .kc-navbar-menu { padding: 9px 11px !important; font-size: 12px !important; }
   .kc-home-hero { padding: 10px 10px 18px; }
-  .kc-home-hero-frame { height: auto; min-height: 0; aspect-ratio: auto; border-radius: 18px; }
+  .kc-home-hero-frame { height: auto; min-height: 0; aspect-ratio: auto; border-radius: var(--kc-r-lg); }
   .kc-home-hero-content { min-height: 570px; padding: 24px 22px 22px; }
   .kc-home-hero-copy h1 { max-width: 100%; margin-top: 17px; font-size: clamp(39px, 10vw, 58px); line-height: .99; }
-  .kc-home-hero-description { margin-top: 18px; font-size: 14px; line-height: 1.7; }
+  .kc-home-hero-description { margin-top: 18px; font-size: 15px; line-height: 1.7; }
   .kc-home-hero-controls { margin-top: 27px; }
   .kc-home-hero-arrows button { width: 40px; height: 40px; }
   .kc-home-hero-dots { gap: 7px; }
@@ -847,7 +847,7 @@ body { overflow-x: clip; }
   .kc-navbar-inner img { max-width: 32px; }
   .kc-home-hero-content { min-height: 535px; padding: 20px 17px 18px; }
   .kc-home-hero-copy h1 { font-size: 38px; }
-  .kc-home-hero-description { font-size: 13px; }
+  .kc-home-hero-description { font-size: 14px; }
 }
 @media (min-width: 641px) and (max-width: 900px) {
   .kc-home-hero-frame { height: 650px; min-height: 0; }
@@ -865,19 +865,6 @@ body { overflow-x: clip; }
    visual-only: route structure, content, data, links and interaction stay intact.
    -------------------------------------------------------------------------- */
 /* Public content treatment; exclude the approved homepage and its descendants. */
-.kc-public-layout:not(:has(.kc-homepage)) article,
-.kc-public-layout:not(:has(.kc-homepage)) [class*="rounded-"] {
-  border-radius: 2px !important;
-}
-
-.kc-public-layout:not(:has(.kc-homepage)) article,
-.kc-public-layout:not(:has(.kc-homepage)) [class*="shadow-"] {
-  box-shadow: none !important;
-}
-
-.kc-public-layout:not(:has(.kc-homepage)) img[class*="rounded-full"] {
-  border-radius: 50% !important;
-}
 
 /* Bring legacy public-page utilities into the existing KCMSC palette. */
 .kc-public-layout:not(:has(.kc-homepage)) [class~="bg-white"],
@@ -996,7 +983,7 @@ body { overflow-x: clip; }
 
 .kc-page-intro__eyebrow {
   color: var(--kc-green);
-  font-size: 0.6875rem;
+  font-size: 0.8125rem;
   font-weight: 600;
   letter-spacing: 0.16em;
   line-height: 1.5;
@@ -1056,46 +1043,15 @@ body { overflow-x: clip; }
   min-height: clamp(27rem, 38vw, 32rem) !important;
 }
 
-.kc-public-layout:not(:has(.kc-homepage)) .kc-careers-hero-note {
-  border-radius: 2px;
-  box-shadow: none;
-  backdrop-filter: none;
-}
-
-.kc-public-layout:not(:has(.kc-homepage)) .kc-careers-hero-note::after {
-  display: none;
-}
-
-.kc-public-layout:not(:has(.kc-homepage)) .kc-career-modal {
-  border-radius: 2px;
-  box-shadow: none;
-}
-
-.kc-public-layout:not(:has(.kc-homepage)) [class*="hover:scale-"],
-.kc-public-layout:not(:has(.kc-homepage)) [class*="group-hover:scale-"] {
-  transform: none !important;
-}
-
-.kc-public-layout:not(:has(.kc-homepage)) [class*="backdrop-blur"] {
-  backdrop-filter: none !important;
-}
-
-.kc-public-layout:not(:has(.kc-homepage)) [class*="hover:-translate-y"] {
-  transform: none !important;
-}
-.kc-public-layout:not(:has(.kc-homepage)) article,
-.kc-public-layout:not(:has(.kc-homepage)) [class~="transition-all"] {
-  transition-property: color, background-color, border-color !important;
-  transition-duration: 160ms !important;
-}
 
 /* Consistent form controls across public pages. */
 .kc-public-layout:not(:has(.kc-homepage)) input:not([type="checkbox"]):not([type="radio"]),
 .kc-public-layout:not(:has(.kc-homepage)) select,
 .kc-public-layout:not(:has(.kc-homepage)) textarea {
-  border-radius: 2px;
+  border-radius: var(--kc-r-md);
   border-color: var(--kc-line);
   box-shadow: none;
+  transition: border-color .2s ease, box-shadow .2s ease;
 }
 .kc-public-layout:not(:has(.kc-homepage)) input:not([type="checkbox"]):not([type="radio"]),
 .kc-public-layout:not(:has(.kc-homepage)) select {
@@ -1106,21 +1062,9 @@ body { overflow-x: clip; }
 .kc-public-layout:not(:has(.kc-homepage)) textarea:focus {
   border-color: var(--kc-green);
   outline-color: var(--kc-green);
-  box-shadow: none;
+  box-shadow: 0 0 0 4px rgba(31, 138, 91, 0.14);
 }
 
-.kc-public-layout:not(:has(.kc-homepage)) button,
-.kc-public-layout:not(:has(.kc-homepage)) [role="button"] {
-  border-radius: 2px;
-  box-shadow: none;
-}
-
-.kc-public-layout:not(:has(.kc-homepage)) .kc-classic-button {
-  border-radius: 2px;
-}
-.kc-public-layout:not(:has(.kc-homepage)) .kc-classic-button:hover {
-  transform: none;
-}
 
 /* Keep editorial reading measure and image treatment consistent. */
 .kc-public-layout:not(:has(.kc-homepage)) article p,
@@ -1131,17 +1075,7 @@ body { overflow-x: clip; }
 .kc-public-layout:not(:has(.kc-homepage)) article h3 {
   text-wrap: balance;
 }
-.kc-public-layout:not(:has(.kc-homepage)) article img,
-.kc-public-layout:not(:has(.kc-homepage)) section img {
-  border-radius: 2px;
-}
 
-@media (max-width: 767px) {
-  .kc-public-layout:not(:has(.kc-homepage)) article,
-  .kc-public-layout:not(:has(.kc-homepage)) [class*="rounded-"] {
-    border-radius: 2px !important;
-  }
-}
 
 
 /* Why KCMSC: pinned-video elevator transition. The page content rises over the
@@ -1254,3 +1188,285 @@ body { overflow-x: clip; }
   }
 }
 /* The scroll-linked movement is intentionally controlled by MissionVisionParallax. */
+
+
+/* ==========================================================================
+   KCMSC unified design layer
+   One corner scale, one type scale, one motion language for the public site,
+   the login portals and every dashboard. Presentation only: no routes, data,
+   forms or links are affected.
+   ========================================================================== */
+:root {
+  /* Corner scale: sm 8 · md 12 · lg 16 · xl 20 · pill */
+  --kc-r-sm: 0.5rem;
+  --kc-r-md: 0.75rem;
+  --kc-r-lg: 1rem;
+  --kc-r-xl: 1.25rem;
+
+  /* Brighter tints of the existing palette (the base palette is unchanged). */
+  --kc-green-bright: #27a872;
+  --kc-leaf: #1f8a5b;
+  --kc-mint: #e3f2e9;
+  --kc-gold: #c9a83f;
+  --kc-gold-soft: #f3eac8;
+
+  --kc-shadow-card: 0 1px 2px rgba(18, 76, 54, 0.05), 0 8px 24px -12px rgba(18, 76, 54, 0.12);
+  --kc-shadow-lift: 0 2px 4px rgba(18, 76, 54, 0.06), 0 18px 40px -16px rgba(18, 76, 54, 0.22);
+  --kc-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html {
+  scroll-padding-top: 6rem;
+}
+
+::selection {
+  background: rgba(39, 168, 114, 0.28);
+}
+
+/* ---------- Scroll reveal (activated by <ScrollEffects />) ---------- */
+.kc-rv {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0);
+  transition:
+    opacity 0.75s var(--kc-ease),
+    transform 0.75s var(--kc-ease);
+  transition-delay: var(--kc-rv-delay, 0ms);
+  will-change: opacity, transform;
+}
+.kc-rv.kc-in {
+  opacity: 1;
+  transform: none;
+}
+@media print {
+  .kc-rv {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ---------- Page-load entrance (logins, hero panels) ---------- */
+@keyframes kc-fade-up {
+  from { opacity: 0; transform: translate3d(0, 18px, 0); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes kc-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes kc-float {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -12px, 0); }
+}
+@keyframes kc-pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgba(39, 168, 114, 0.45); }
+  100% { box-shadow: 0 0 0 10px rgba(39, 168, 114, 0); }
+}
+.kc-enter {
+  animation: kc-fade-up 0.85s var(--kc-ease) both;
+  animation-delay: var(--kc-d, 0ms);
+}
+.kc-fade {
+  animation: kc-fade-in 1s ease both;
+  animation-delay: var(--kc-d, 0ms);
+}
+.kc-float {
+  animation: kc-float 9s ease-in-out infinite;
+}
+.kc-live-dot {
+  animation: kc-pulse-ring 1.8s ease-out infinite;
+}
+
+/* ---------- Scroll progress bar ---------- */
+.kc-progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 70;
+  height: 3px;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  background: linear-gradient(90deg, var(--kc-green), var(--kc-green-bright), var(--kc-gold));
+  pointer-events: none;
+}
+
+/* ---------- Shared surfaces ---------- */
+.kc-panel {
+  border: 1px solid var(--kc-line);
+  border-radius: var(--kc-r-xl);
+  background: var(--kc-paper);
+  box-shadow: var(--kc-shadow-card);
+}
+.kc-lift {
+  transition:
+    transform 0.35s var(--kc-ease),
+    box-shadow 0.35s var(--kc-ease),
+    border-color 0.25s ease;
+}
+.kc-lift:hover {
+  transform: translateY(-3px);
+  border-color: rgba(23, 107, 69, 0.45);
+  box-shadow: var(--kc-shadow-lift);
+}
+
+/* Shared primary button used by portals and dashboards. */
+.kc-btn {
+  display: inline-flex;
+  min-height: 2.9rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  border-radius: var(--kc-r-md);
+  padding: 0.7rem 1.25rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.2;
+  transition:
+    transform 0.25s var(--kc-ease),
+    box-shadow 0.25s var(--kc-ease),
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+.kc-btn:active {
+  transform: translateY(1px) scale(0.99);
+}
+.kc-btn-primary {
+  color: #fff;
+  background: linear-gradient(180deg, var(--kc-leaf), var(--kc-green));
+  box-shadow: 0 8px 20px -10px rgba(23, 107, 69, 0.7);
+}
+.kc-btn-primary:hover {
+  background: linear-gradient(180deg, var(--kc-green), var(--kc-green-dark));
+  box-shadow: 0 14px 28px -12px rgba(23, 107, 69, 0.75);
+  transform: translateY(-1px);
+}
+.kc-btn-primary:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+  transform: none;
+}
+.kc-btn-ghost {
+  color: var(--kc-green-dark);
+  border: 1px solid var(--kc-line);
+  background: var(--kc-paper);
+}
+.kc-btn-ghost:hover {
+  border-color: var(--kc-green);
+  background: #fff;
+  transform: translateY(-1px);
+}
+
+/* Shared form controls for portals and dashboards. */
+.kc-input {
+  display: block;
+  width: 100%;
+  min-height: 3.1rem;
+  border: 1px solid var(--kc-line);
+  border-radius: var(--kc-r-md);
+  background: #fff;
+  padding: 0.75rem 1rem;
+  color: var(--kc-ink);
+  font: inherit;
+  font-size: 1rem;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.kc-input::placeholder {
+  color: #9aa09a;
+}
+.kc-input:focus {
+  border-color: var(--kc-green);
+  box-shadow: 0 0 0 4px rgba(31, 138, 91, 0.14);
+}
+
+/* Portal (login) backdrop: same palette, with soft moving light. */
+.kc-auth-brand {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(900px 500px at 85% -10%, rgba(39, 168, 114, 0.45), transparent 60%),
+    radial-gradient(700px 500px at -10% 110%, rgba(201, 168, 63, 0.22), transparent 60%),
+    linear-gradient(160deg, #176b45 0%, #124c36 55%, #0e3b2a 100%);
+}
+.kc-auth-brand::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.5;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(circle at 30% 30%, #000, transparent 70%);
+  mask-image: radial-gradient(circle at 30% 30%, #000, transparent 70%);
+}
+
+/* Dashboard hero: same family as the login brand panel. */
+.kc-dash-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: #fffdf8;
+  background:
+    radial-gradient(800px 420px at 90% -20%, rgba(39, 168, 114, 0.42), transparent 60%),
+    radial-gradient(600px 400px at 0% 120%, rgba(201, 168, 63, 0.2), transparent 60%),
+    linear-gradient(150deg, #176b45 0%, #124c36 60%, #0e3b2a 100%);
+}
+
+/* Soft page background so panels read as surfaces. */
+.kc-dash-canvas {
+  background:
+    radial-gradient(900px 500px at 100% -10%, rgba(39, 168, 114, 0.07), transparent 60%),
+    var(--kc-cream);
+}
+
+/* Table rows respond to the pointer. */
+.kc-rows > * {
+  transition: background-color 0.2s ease, padding-left 0.25s var(--kc-ease);
+}
+.kc-rows > a:hover {
+  background-color: var(--kc-mint);
+  padding-left: 1.5rem;
+}
+
+/* Inner public pages: gentle card interaction (replaces the former flat style). */
+.kc-public-layout:not(:has(.kc-homepage)) article[class~="border"],
+.kc-public-layout:not(:has(.kc-homepage)) a[class~="border"][class*="bg-"] {
+  border-radius: var(--kc-r-lg);
+  transition:
+    transform 0.35s var(--kc-ease),
+    box-shadow 0.35s var(--kc-ease),
+    border-color 0.25s ease;
+}
+.kc-public-layout:not(:has(.kc-homepage)) article[class~="border"]:hover,
+.kc-public-layout:not(:has(.kc-homepage)) a[class~="border"][class*="bg-"]:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--kc-shadow-card);
+}
+
+/* Home page: smoother classic buttons and links. */
+.kc-classic-button:hover {
+  box-shadow: 0 10px 22px -12px rgba(18, 76, 54, 0.45);
+}
+.kc-classic-button-primary {
+  background: linear-gradient(180deg, var(--kc-leaf), var(--kc-green));
+}
+.kc-classic-button-primary:hover {
+  background: linear-gradient(180deg, var(--kc-green), var(--kc-green-dark));
+}
+
+/* Charts */
+.kc-ring-track {
+  stroke: rgba(23, 107, 69, 0.12);
+}
+.kc-bar-track {
+  background: rgba(23, 107, 69, 0.1);
+}
+.kc-bar-fill {
+  background: linear-gradient(90deg, var(--kc-green), var(--kc-green-bright));
+  transform-origin: 0 50%;
+  transition: transform 1.2s var(--kc-ease);
+  transition-delay: var(--kc-d, 0ms);
+}

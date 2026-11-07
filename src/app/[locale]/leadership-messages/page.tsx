@@ -129,7 +129,7 @@ export default async function LeadershipMessagesPage({
 
             <p
               lang={bn ? "bn" : undefined}
-              className={`mt-8 max-w-2xl text-[15px] leading-7 text-[#69716b] sm:text-[16px] ${
+              className={`mt-8 max-w-2xl text-[16px] leading-7 text-[#69716b] sm:text-[16px] ${
                 bn ? "font-bangla" : ""
               }`}
             >
@@ -154,7 +154,7 @@ export default async function LeadershipMessagesPage({
 
             <div className="absolute inset-0 bg-gradient-to-t from-[#102e23]/70 via-transparent to-[#102e23]/10" />
 
-            <div className="absolute bottom-8 left-8 right-8 border-t border-white/30 pt-4 text-[9px] font-medium uppercase tracking-[.18em] text-white/80">
+            <div className="absolute bottom-8 left-8 right-8 border-t border-white/30 pt-4 text-[12px] font-medium uppercase tracking-[.18em] text-white/80">
               K C Model School & College · Leadership
             </div>
           </div>
@@ -171,7 +171,7 @@ export default async function LeadershipMessagesPage({
               className="group flex items-center justify-between border-b border-[#D9E2EC] py-5 transition hover:bg-[#f7f5ef] lg:border-b-0 lg:border-r lg:px-6 lg:first:pl-0 lg:last:border-r-0"
             >
               <div>
-                <span className="text-[9px] font-semibold uppercase tracking-[.16em] text-[#b59a4a]">
+                <span className="text-[12px] font-semibold uppercase tracking-[.16em] text-[#b59a4a]">
                   {message.number}
                 </span>
 
@@ -272,7 +272,7 @@ export default async function LeadershipMessagesPage({
                         {/* TITLE */}
                         <p
                           lang={bn ? "bn" : undefined}
-                          className={`mt-3 max-w-2xl text-[11px] leading-5 text-[#737a74] ${
+                          className={`mt-3 max-w-2xl text-[12px] leading-5 text-[#737a74] ${
                             bn ? "font-bangla" : ""
                           }`}
                         >
@@ -280,7 +280,7 @@ export default async function LeadershipMessagesPage({
                         </p>
                       </div>
 
-                      <span className="hidden text-[11px] font-medium tracking-[.16em] text-[#b59a4a] sm:block">
+                      <span className="hidden text-[12px] font-medium tracking-[.16em] text-[#b59a4a] sm:block">
                         {message.number}
                       </span>
                     </div>
@@ -294,7 +294,7 @@ export default async function LeadershipMessagesPage({
 
                         <cite
                           lang="bn"
-                          className="mt-3 block font-bangla text-[9px] font-medium tracking-[.16em] text-[#8a8f89] not-italic"
+                          className="mt-3 block font-bangla text-[12px] font-medium tracking-[.16em] text-[#8a8f89] not-italic"
                         >
                           — রবীন্দ্রনাথ ঠাকুর
                         </cite>
@@ -302,7 +302,7 @@ export default async function LeadershipMessagesPage({
                     )}
 
                     {/* BODY */}
-                    <div className="mt-7 space-y-5 text-[14px] leading-8 text-[#59615b] sm:text-[15px] sm:leading-8">
+                    <div className="mt-7 space-y-5 text-[15px] leading-8 text-[#59615b] sm:text-[16px] sm:leading-8">
                       {message.body.map((paragraph, paragraphIndex) => (
                         <p
                           key={paragraphIndex}
@@ -315,7 +315,7 @@ export default async function LeadershipMessagesPage({
                     </div>
 
                     {/* FOOTER */}
-                    <div className="mt-9 border-t border-[#d9d8cf] pt-5 text-[9px] font-medium uppercase tracking-[.16em] text-[#9a9f99]">
+                    <div className="mt-9 border-t border-[#d9d8cf] pt-5 text-[12px] font-medium uppercase tracking-[.16em] text-[#9a9f99]">
                       K C Model School & College · {message.number}
                     </div>
                   </div>

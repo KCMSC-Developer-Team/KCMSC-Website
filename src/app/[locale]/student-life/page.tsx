@@ -226,7 +226,7 @@ export default async function StudentLifePage({ params }: { params: Promise<{ lo
                       <Image src={photo.src} alt={photo.alt} fill sizes="(min-width: 640px) 6rem, 100vw" className="object-cover" />
                     </div>
                     <div>
-                      <p className="mb-2 text-[10px] font-bold uppercase tracking-[.18em] text-[#C27A05]">{String(index + 1).padStart(2, "0")}</p>
+                      <p className="mb-2 text-[12px] font-bold uppercase tracking-[.18em] text-[#C27A05]">{String(index + 1).padStart(2, "0")}</p>
                       <h3 className="font-heading text-xl leading-tight text-[#12324A] sm:text-2xl">{club.name}</h3>
                       {club.description ? <p className="mt-2 text-sm leading-6 text-[#64748B]">{club.description}</p> : null}
                     </div>
@@ -259,7 +259,7 @@ export default async function StudentLifePage({ params }: { params: Promise<{ lo
                   return <article key={event.id} className="grid gap-5 border-b border-[#CBD5E1] py-6 sm:grid-cols-[minmax(0,.9fr)_minmax(0,1.1fr)] sm:gap-7 sm:py-8">
                     <div className="relative aspect-[4/3] overflow-hidden bg-[#E2E6E2]">
                       {event.coverImage || gallery[0] ? <img src={event.coverImage || gallery[0]} alt={title} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 hover:scale-[1.03]" /> : <div className="flex h-full items-end bg-[#0B5A40] p-5 text-white"><span className="font-heading text-4xl">{String(index + 1).padStart(2,"0")}</span></div>}
-                      {event.isFeatured ? <span className="absolute left-3 top-3 bg-[#E6C77A] px-2.5 py-1 text-[9px] font-bold uppercase tracking-[.16em] text-[#12324A]">{bn ? "বিশেষ আয়োজন" : "Featured event"}</span> : null}
+                      {event.isFeatured ? <span className="absolute left-3 top-3 bg-[#E6C77A] px-2.5 py-1 text-[12px] font-bold uppercase tracking-[.16em] text-[#12324A]">{bn ? "বিশেষ আয়োজন" : "Featured event"}</span> : null}
                     </div>
                     <div className="flex flex-col items-start">
                       <p className="kc-classic-kicker">{new Intl.DateTimeFormat(bn ? "bn-BD" : "en-GB", { day: "2-digit", month: "long", year: "numeric" }).format(event.startAt)}</p>

@@ -319,7 +319,7 @@ function PassRate({ rate }: { rate: number }) {
       <div className="absolute inset-[7px] flex flex-col items-center justify-center rounded-full bg-[#f8f6f0]">
         <span className="font-heading text-xl text-[#12324A]">{rate}%</span>
 
-        <span className="mt-1 text-[7px] font-bold uppercase tracking-[.14em] text-[#747b74]">
+        <span className="mt-1 text-[12px] font-bold uppercase tracking-[.14em] text-[#747b74]">
           pass rate
         </span>
       </div>
@@ -359,7 +359,7 @@ export default async function AcademicsPage({
         <div className="kc-feature-hero mx-auto grid min-h-[610px] max-w-[1440px] lg:grid-cols-[1.18fr_.82fr]">
           <div className="relative flex flex-col justify-center px-6 py-20 sm:px-10 lg:px-16 lg:py-24">
             <div className="relative z-10 max-w-3xl">
-              <p className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-[.28em] text-[#FBBF24]">
+              <p className="flex items-center gap-3 text-[12px] font-bold uppercase tracking-[.28em] text-[#FBBF24]">
                 <span className="h-px w-9 bg-[#FBBF24]" />
                 {t.kicker}
               </p>
@@ -375,14 +375,14 @@ export default async function AcademicsPage({
               <div className="mt-9 flex flex-wrap gap-3">
                 <a
                   href="#results"
-                  className="inline-flex items-center bg-white px-5 py-3 text-[10px] font-bold uppercase tracking-[.16em] text-[#12324A] transition hover:bg-[#b59a4a]"
+                  className="inline-flex items-center bg-white px-5 py-3 text-[12px] font-bold uppercase tracking-[.16em] text-[#12324A] transition hover:bg-[#b59a4a]"
                 >
                   {t.explore}
                 </a>
 
                 <Link
                   href={`/${locale}/admissions`}
-                  className="inline-flex items-center border border-white/25 px-5 py-3 text-[10px] font-bold uppercase tracking-[.16em] text-white/85 transition hover:border-white"
+                  className="inline-flex items-center border border-white/25 px-5 py-3 text-[12px] font-bold uppercase tracking-[.16em] text-white/85 transition hover:border-white"
                 >
                   {t.admissions}
                 </Link>
@@ -408,7 +408,7 @@ export default async function AcademicsPage({
 
               <div className="mt-5 h-px w-full bg-white/20" />
 
-              <p className="mt-3 text-[9px] font-bold uppercase tracking-[.18em] text-white/50">
+              <p className="mt-3 text-[12px] font-bold uppercase tracking-[.18em] text-white/50">
                 K C Model School & College · Est. 2014
               </p>
             </div>
@@ -423,7 +423,7 @@ export default async function AcademicsPage({
       <section className="border-b border-[#d9d8cf] bg-[#eeeae0]">
         <div className="mx-auto max-w-[1440px] px-6 py-8 sm:px-10 lg:px-16">
           <div className="mb-6 flex items-center gap-3">
-            <span className="text-[9px] font-bold uppercase tracking-[.24em] text-[#b07a17]">
+            <span className="text-[12px] font-bold uppercase tracking-[.24em] text-[#b07a17]">
               {t.overview}
             </span>
 
@@ -453,7 +453,7 @@ export default async function AcademicsPage({
                   {label}
                 </p>
 
-                <p className="mt-1 text-[8px] uppercase tracking-[.14em] text-[#747b74]">
+                <p className="mt-1 text-[12px] uppercase tracking-[.14em] text-[#747b74]">
                   {detail}
                 </p>
               </div>
@@ -470,7 +470,7 @@ export default async function AcademicsPage({
         <div className="mx-auto max-w-[1240px] px-6 py-20 sm:px-10 lg:py-28">
           <div className="grid gap-8 lg:grid-cols-[.8fr_1.2fr] lg:items-end">
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-[.25em] text-[#b07a17]">
+              <p className="text-[12px] font-bold uppercase tracking-[.25em] text-[#b07a17]">
                 {t.structure}
               </p>
 
@@ -527,7 +527,7 @@ export default async function AcademicsPage({
                 </div>
 
                 <div className="p-7 sm:p-8">
-                  <p className="text-[9px] font-bold uppercase tracking-[.2em] text-[#b07a17]">
+                  <p className="text-[12px] font-bold uppercase tracking-[.2em] text-[#b07a17]">
                     {wing.eyebrow}
                   </p>
 
@@ -542,7 +542,7 @@ export default async function AcademicsPage({
                   <div className="mt-7 border-t border-[#d3cdbf] pt-5">
                     <div className="flex items-start justify-between gap-5">
                       <div>
-                        <p className="text-[8px] font-bold uppercase tracking-[.18em] text-[#b07a17]">
+                        <p className="text-[12px] font-bold uppercase tracking-[.18em] text-[#b07a17]">
                           Classes
                         </p>
 
@@ -551,7 +551,7 @@ export default async function AcademicsPage({
                         </p>
                       </div>
 
-                      <span className="max-w-[190px] text-right text-[9px] font-semibold uppercase leading-4 tracking-[.1em] text-[#1D4ED8]">
+                      <span className="max-w-[190px] text-right text-[12px] font-semibold uppercase leading-4 tracking-[.1em] text-[#1D4ED8]">
                         {wing.staff}
                       </span>
                     </div>
@@ -585,7 +585,7 @@ export default async function AcademicsPage({
 
         <div className="relative z-10 mx-auto flex min-h-[620px] max-w-[1240px] items-stretch px-6 sm:px-10">
           <div className="flex w-full max-w-[520px] flex-col justify-center bg-[#12324A]/95 px-7 py-16 backdrop-blur-[2px] sm:px-10 lg:px-14">
-            <p className="text-[10px] font-bold uppercase tracking-[.25em] text-[#FBBF24]">
+            <p className="text-[12px] font-bold uppercase tracking-[.25em] text-[#FBBF24]">
               {t.classroomKicker}
             </p>
 
@@ -599,7 +599,7 @@ export default async function AcademicsPage({
 
             <div className="mt-10 grid grid-cols-2 gap-6 border-t border-white/15 pt-6">
               <div>
-                <p className="text-[8px] uppercase tracking-[.16em] text-white/40">
+                <p className="text-[12px] uppercase tracking-[.16em] text-white/40">
                   {t.schoolHours}
                 </p>
 
@@ -609,7 +609,7 @@ export default async function AcademicsPage({
               </div>
 
               <div>
-                <p className="text-[8px] uppercase tracking-[.16em] text-white/40">
+                <p className="text-[12px] uppercase tracking-[.16em] text-white/40">
                   Days
                 </p>
 
@@ -630,7 +630,7 @@ export default async function AcademicsPage({
         <div className="mx-auto max-w-[1240px] px-6 py-20 sm:px-10 lg:py-24">
           <div className="grid gap-12 lg:grid-cols-[.72fr_1.28fr]">
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-[.25em] text-[#b07a17]">
+              <p className="text-[12px] font-bold uppercase tracking-[.25em] text-[#b07a17]">
                 {t.journeyKicker}
               </p>
 
@@ -649,7 +649,7 @@ export default async function AcademicsPage({
                   key={name}
                   className="grid grid-cols-[35px_1fr_auto] items-center gap-3 border-b border-[#cbc5b7] py-4 sm:grid-cols-[50px_1fr_190px]"
                 >
-                  <span className="text-[8px] font-bold tracking-[.15em] text-[#b07a17]">
+                  <span className="text-[12px] font-bold tracking-[.15em] text-[#b07a17]">
                     {String(index + 1).padStart(2, "0")}
                   </span>
 
@@ -657,7 +657,7 @@ export default async function AcademicsPage({
                     {name}
                   </span>
 
-                  <span className="text-right text-[9px] uppercase tracking-[.1em] text-[#747b74]">
+                  <span className="text-right text-[12px] uppercase tracking-[.1em] text-[#747b74]">
                     {age}
                   </span>
                 </div>
@@ -675,7 +675,7 @@ export default async function AcademicsPage({
         <div className="mx-auto max-w-[1240px] px-6 py-20 sm:px-10 lg:py-28">
           <div className="grid gap-8 lg:grid-cols-[.72fr_1.28fr] lg:items-end">
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-[.25em] text-[#b07a17]">
+              <p className="text-[12px] font-bold uppercase tracking-[.25em] text-[#b07a17]">
                 {t.resultsKicker}
               </p>
 
@@ -697,7 +697,7 @@ export default async function AcademicsPage({
               >
                 <div className="flex items-start justify-between gap-5">
                   <div>
-                    <p className="text-[9px] font-bold uppercase tracking-[.2em] text-[#b07a17]">
+                    <p className="text-[12px] font-bold uppercase tracking-[.2em] text-[#b07a17]">
                       {result.year}
                     </p>
 
@@ -719,7 +719,7 @@ export default async function AcademicsPage({
                       key={label}
                       className={index ? "border-l border-[#d9d8cf] pl-4" : ""}
                     >
-                      <p className="text-[8px] uppercase tracking-[.13em] text-[#747b74]">
+                      <p className="text-[12px] uppercase tracking-[.13em] text-[#747b74]">
                         {label}
                       </p>
 
@@ -737,7 +737,7 @@ export default async function AcademicsPage({
             ))}
           </div>
 
-          <p className="mt-5 text-[8px] font-semibold uppercase tracking-[.12em] text-[#858a83]">
+          <p className="mt-5 text-[12px] font-semibold uppercase tracking-[.12em] text-[#858a83]">
             {t.resultNote}
           </p>
         </div>
@@ -751,7 +751,7 @@ export default async function AcademicsPage({
         <div className="mx-auto max-w-[1240px] px-6 py-20 sm:px-10 lg:py-24">
           <div className="grid gap-12 lg:grid-cols-[.68fr_1.32fr]">
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-[.25em] text-[#FBBF24]">
+              <p className="text-[12px] font-bold uppercase tracking-[.25em] text-[#FBBF24]">
                 {t.curriculumKicker}
               </p>
 
@@ -770,7 +770,7 @@ export default async function AcademicsPage({
                   key={number}
                   className="grid gap-4 border-b border-white/15 py-6 sm:grid-cols-[45px_190px_1fr] sm:items-start"
                 >
-                  <span className="text-[9px] font-bold tracking-[.16em] text-[#FBBF24]">
+                  <span className="text-[12px] font-bold tracking-[.16em] text-[#FBBF24]">
                     {number}
                   </span>
 
@@ -792,7 +792,7 @@ export default async function AcademicsPage({
         <div className="mx-auto max-w-[1240px] px-6 py-20 sm:px-10 lg:py-28">
           <div className="grid gap-10 lg:grid-cols-[.72fr_1.28fr] lg:items-end">
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-[.25em] text-[#b07a17]">
+              <p className="text-[12px] font-bold uppercase tracking-[.25em] text-[#b07a17]">
                 {t.beyondKicker}
               </p>
 
@@ -824,7 +824,7 @@ export default async function AcademicsPage({
               <div className="absolute inset-0 bg-gradient-to-t from-[#082b20]/90 via-[#082b20]/15 to-transparent" />
 
               <div className="absolute bottom-0 left-0 right-0 p-7 sm:p-8">
-                <p className="text-[9px] font-bold uppercase tracking-[.2em] text-[#FBBF24]">
+                <p className="text-[12px] font-bold uppercase tracking-[.2em] text-[#FBBF24]">
                   {t.highlights}
                 </p>
 
@@ -850,7 +850,7 @@ export default async function AcademicsPage({
                     </span>
 
                     <div>
-                      <p className="text-[8px] font-bold uppercase tracking-[.18em] text-[#b07a17]">
+                      <p className="text-[12px] font-bold uppercase tracking-[.18em] text-[#b07a17]">
                         {entry.category}
                       </p>
 
@@ -863,7 +863,7 @@ export default async function AcademicsPage({
                       </p>
                     </div>
 
-                    <span className="hidden text-[8px] font-bold uppercase tracking-[.15em] text-[#9a9f98] sm:block">
+                    <span className="hidden text-[12px] font-bold uppercase tracking-[.15em] text-[#9a9f98] sm:block">
                       {String(index + 1).padStart(2, "0")}
                     </span>
                   </article>
@@ -881,14 +881,14 @@ export default async function AcademicsPage({
           ================================================= */}
 
           <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-[#d9d8cf] pt-5">
-            <p className="text-[9px] uppercase tracking-[.14em] text-[#858a83]">
+            <p className="text-[12px] uppercase tracking-[.14em] text-[#858a83]">
               {entries.length}{" "}
               {locale === "bn" ? "টি প্রকাশিত রেকর্ড" : "published records"}
             </p>
 
             <Link
               href={`/${locale}/achievements`}
-              className="text-[9px] font-bold uppercase tracking-[.16em] text-[#12324A] underline decoration-[#b07a17] underline-offset-4 transition hover:text-[#1D4ED8]"
+              className="text-[12px] font-bold uppercase tracking-[.16em] text-[#12324A] underline decoration-[#b07a17] underline-offset-4 transition hover:text-[#1D4ED8]"
             >
               {t.allAchievements} ↗
             </Link>
@@ -906,7 +906,7 @@ export default async function AcademicsPage({
             {/* Text panel */}
 
             <div className="flex flex-col justify-center bg-[#12324A] px-7 py-12 sm:px-10 lg:px-12">
-              <p className="text-[10px] font-bold uppercase tracking-[.25em] text-[#FBBF24]">
+              <p className="text-[12px] font-bold uppercase tracking-[.25em] text-[#FBBF24]">
                 K C Model School & College
               </p>
 
@@ -925,14 +925,14 @@ export default async function AcademicsPage({
               <div className="mt-7 flex flex-wrap gap-3">
                 <Link
                   href={`/${locale}/student-life`}
-                  className="inline-flex bg-white px-5 py-3 text-[9px] font-bold uppercase tracking-[.16em] text-[#12324A] transition hover:bg-[#FBBF24]"
+                  className="inline-flex bg-white px-5 py-3 text-[12px] font-bold uppercase tracking-[.16em] text-[#12324A] transition hover:bg-[#FBBF24]"
                 >
                   {t.studentLife}
                 </Link>
 
                 <Link
                   href={`/${locale}/admissions`}
-                  className="inline-flex border border-white/30 px-5 py-3 text-[9px] font-bold uppercase tracking-[.16em] text-white transition hover:border-white hover:bg-white/5"
+                  className="inline-flex border border-white/30 px-5 py-3 text-[12px] font-bold uppercase tracking-[.16em] text-white transition hover:border-white hover:bg-white/5"
                 >
                   {t.admissions}
                 </Link>
@@ -956,7 +956,7 @@ export default async function AcademicsPage({
               <div className="absolute inset-0 bg-gradient-to-r from-[#12324A]/55 via-transparent to-transparent" />
 
               <div className="absolute bottom-5 left-5 border border-white/20 bg-[#12324A]/60 px-4 py-2 backdrop-blur-sm">
-                <p className="text-[8px] font-bold uppercase tracking-[.18em] text-white/75">
+                <p className="text-[12px] font-bold uppercase tracking-[.18em] text-white/75">
                   K C Model School & College
                 </p>
               </div>
