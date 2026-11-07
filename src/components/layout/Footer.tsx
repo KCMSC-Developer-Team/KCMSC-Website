@@ -183,11 +183,27 @@ export function Footer({ locale }: { locale: Locale }) {
                       key={href}
                       href={`/${locale}/${href}`}
                       className="
-                        block
+                        group
+                        relative
+                        inline-block
+                        w-fit
                         text-[12px]
                         transition-colors
                         duration-200
                         hover:text-[#176b45]
+                        after:absolute
+                        after:-bottom-1
+                        after:left-0
+                        after:h-px
+                        after:w-full
+                        after:origin-left
+                        after:scale-x-0
+                        after:bg-[#176b45]
+                        after:transition-transform
+                        after:duration-300
+                        after:ease-out
+                        hover:after:scale-x-100
+                        focus-visible:after:scale-x-100
                       "
                     >
                       {label}
