@@ -16,18 +16,50 @@ type MenuGroup = {
   links: MenuLink[];
 };
 
-type PortalIconName = "admin" | "faculty" | "writer";
+type PortalIconName = "admin" | "users" | "faculty" | "writer";
 
 function PortalIcon({ name }: { name: PortalIconName }) {
   const common = {
-    width: 14, height: 14, viewBox: "0 0 24 24", fill: "none",
-    stroke: "currentColor", strokeWidth: 1.8,
-    strokeLinecap: "round" as const, strokeLinejoin: "round" as const,
+    width: 14,
+    height: 14,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 1.8,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
     "aria-hidden": true as const,
   };
-  if (name === "admin") return <svg {...common}><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z" /><path d="m9 12 2 2 4-4" /></svg>;
-  if (name === "faculty") return <svg {...common}><path d="m22 10-10-5L2 10l10 5 10-5Z" /><path d="M6 12v5c3.5 3 8.5 3 12 0v-5" /><path d="M22 10v6" /></svg>;
-  return <svg {...common}><path d="M12 20h9" /><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L8 18l-4 1 1-4Z" /></svg>;
+  if (name === "admin")
+    return (
+      <svg {...common}>
+        <path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z" />
+        <path d="m9 12 2 2 4-4" />
+      </svg>
+    );
+  if (name === "users")
+    return (
+      <svg {...common}>
+        <path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+        <circle cx="10" cy="7" r="4" />
+        <path d="M20 21v-2a4 4 0 0 0-3-3.87" />
+        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+      </svg>
+    );
+  if (name === "faculty")
+    return (
+      <svg {...common}>
+        <path d="m22 10-10-5L2 10l10 5 10-5Z" />
+        <path d="M6 12v5c3.5 3 8.5 3 12 0v-5" />
+        <path d="M22 10v6" />
+      </svg>
+    );
+  return (
+    <svg {...common}>
+      <path d="M12 20h9" />
+      <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L8 18l-4 1 1-4Z" />
+    </svg>
+  );
 }
 
 export function Navbar({ locale }: { locale: Locale }) {
@@ -327,20 +359,58 @@ export function Navbar({ locale }: { locale: Locale }) {
         >
           <div className="mx-auto flex min-h-[38px] w-full max-w-[1280px] flex-wrap items-center justify-between gap-x-5 gap-y-1 px-3 py-2 text-[12px] leading-4 sm:px-6 sm:text-[12px] lg:px-10">
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-white/90">
-              <span><strong className="font-semibold text-white">EIIN</strong> 137368</span>
-              <span><strong className="font-semibold text-white">School Code</strong> 1417</span>
-              <span><strong className="font-semibold text-white">College Code</strong> 1290</span>
+              <span>
+                <strong className="font-semibold text-white">EIIN</strong>{" "}
+                137368
+              </span>
+              <span>
+                <strong className="font-semibold text-white">
+                  School Code
+                </strong>{" "}
+                1417
+              </span>
+              <span>
+                <strong className="font-semibold text-white">
+                  College Code
+                </strong>{" "}
+                1290
+              </span>
             </div>
-            <nav aria-label={text("Portal logins", "পোর্টাল লগইন")} className="flex flex-wrap items-center gap-x-4 gap-y-1">
-              <Link href="/admin/login" tabIndex={showTopbar ? 0 : -1} className="inline-flex items-center gap-1.5 font-semibold text-white transition hover:text-[#e5d8a7]">
+            <nav
+              aria-label={text("Portal logins", "পোর্টাল লগইন")}
+              className="flex flex-wrap items-center gap-x-4 gap-y-1"
+            >
+              <Link
+                href="/admin/login"
+                tabIndex={showTopbar ? 0 : -1}
+                className="inline-flex items-center gap-1.5 font-semibold text-white transition hover:text-[#e5d8a7]"
+              >
                 <PortalIcon name="admin" />
                 {text("Admin Portal Login", "অ্যাডমিন পোর্টাল লগইন")}
               </Link>
-              <Link href="/teacher/login" tabIndex={showTopbar ? 0 : -1} className="inline-flex items-center gap-1.5 font-semibold text-white transition hover:text-[#e5d8a7]">
+
+              <Link
+                href="https://ems.kcmsc.edu.bd"
+                tabIndex={showTopbar ? 0 : -1}
+                className="inline-flex items-center gap-1.5 font-semibold text-white transition hover:text-[#e5d8a7]"
+              >
+                <PortalIcon name="users" />
+                {text("EMS Login", "ই.এম.এস লগইন")}
+              </Link>
+
+              <Link
+                href="/teacher/login"
+                tabIndex={showTopbar ? 0 : -1}
+                className="inline-flex items-center gap-1.5 font-semibold text-white transition hover:text-[#e5d8a7]"
+              >
                 <PortalIcon name="faculty" />
                 {text("Faculty Member Login", "শিক্ষক লগইন")}
               </Link>
-              <Link href="/blogger/login" tabIndex={showTopbar ? 0 : -1} className="inline-flex items-center gap-1.5 font-semibold text-white transition hover:text-[#e5d8a7]">
+              <Link
+                href="/blogger/login"
+                tabIndex={showTopbar ? 0 : -1}
+                className="inline-flex items-center gap-1.5 font-semibold text-white transition hover:text-[#e5d8a7]"
+              >
                 <PortalIcon name="writer" />
                 {text("Writer Login", "লেখক লগইন")}
               </Link>
