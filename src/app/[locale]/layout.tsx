@@ -22,6 +22,9 @@ const banglaSerif = Noto_Serif_Bengali({
   variable: "--font-bangla-heading"
 });
 
+// Knowledge quiz is hidden for now. Set to true to show it again.
+const SHOW_KNOWLEDGE_QUIZ = false;
+
 export function generateStaticParams() {
   return [{ locale: "en" }, { locale: "bn" }];
 }
@@ -84,7 +87,7 @@ export default async function LocaleLayout({
       <Navbar locale={locale} />
       <main className="kc-public-layout">{children}</main>
       <Footer locale={locale} />
-      <KnowledgeQuiz locale={locale} />
+      {SHOW_KNOWLEDGE_QUIZ && <KnowledgeQuiz locale={locale} />}
       <FloatingWhatsAppButton />
     </div>
   );

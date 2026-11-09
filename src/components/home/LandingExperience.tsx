@@ -25,18 +25,21 @@ const copy = {
     openedLabel: "Opened",
     openedValue: "1 January 2015",
     storyKicker: "THE SCHOOL",
-    storyTitle: "A clear purpose, from the first classroom to higher secondary.",
+    storyTitle:
+      "A clear purpose, from the first classroom to higher secondary.",
     storyBody:
       "Founded in 2014 and opened on 1 January 2015, K C Model School & College was established to help students develop their academic ability alongside discipline, values and responsibility.",
     storyLink: "Our story",
     leadershipKicker: "LEADERSHIP",
     leadershipTitle: "Guided by experience. Driven by a belief in education.",
-    leadershipBody: "A few words from the people shaping the values, direction and future of K C Model School & College.",
+    leadershipBody:
+      "A few words from the people shaping the values, direction and future of K C Model School & College.",
     readMessage: "Read the full message",
     allMessages: "All leadership messages",
     facultyKicker: "FACULTY",
     facultyTitle: "Meet the people behind learning.",
-    facultyBody: "Get to know the educators who guide our students, share their expertise and bring learning to life.",
+    facultyBody:
+      "Get to know the educators who guide our students, share their expertise and bring learning to life.",
     facultyLink: "Faculty directory",
     focusKicker: "EXPLORE",
     focusTitle: "Three parts of school life, one shared direction.",
@@ -53,7 +56,7 @@ const copy = {
     lifeLink: "See student life",
     campusLink: "View facilities",
     resultsKicker: "ACADEMIC RESULTS",
-    resultsTitle: "Recent results, without the clutter.",
+    resultsTitle: "Recent results.",
     resultsBody: "The 2024 board-examination results are summarised below.",
     ssc: "SSC 2024",
     hsc: "HSC 2024",
@@ -63,7 +66,8 @@ const copy = {
     resultsLink: "Results & achievements",
     admissionKicker: "ADMISSIONS",
     admissionTitle: "Information for families starts here.",
-    admissionBody: "Find admission information, notices and contact details in one place.",
+    admissionBody:
+      "Find admission information, notices and contact details in one place.",
     admissionLink: "Admissions",
     contactLink: "Contact",
     alumniKicker: "ALUMNI",
@@ -85,18 +89,21 @@ const copy = {
     openedLabel: "যাত্রা শুরু",
     openedValue: "১ জানুয়ারি ২০১৫",
     storyKicker: "স্কুল",
-    storyTitle: "প্রথম শ্রেণিকক্ষ থেকে উচ্চমাধ্যমিক পর্যন্ত একটি স্পষ্ট শিক্ষাপথ।",
+    storyTitle:
+      "প্রথম শ্রেণিকক্ষ থেকে উচ্চমাধ্যমিক পর্যন্ত একটি স্পষ্ট শিক্ষাপথ।",
     storyBody:
       "২০১৪ সালে প্রতিষ্ঠিত এবং ১ জানুয়ারি ২০১৫-তে যাত্রা শুরু করা K C Model School & College একাডেমিক শিক্ষার পাশাপাশি শৃঙ্খলা, মূল্যবোধ ও দায়িত্ববোধ গড়ে তোলার লক্ষ্য নিয়ে এগিয়ে চলে।",
     storyLink: "আমাদের গল্প",
     leadershipKicker: "নেতৃত্ব",
     leadershipTitle: "অভিজ্ঞতার দিকনির্দেশনা, শিক্ষার প্রতি অঙ্গীকার।",
-    leadershipBody: "কে সি মডেল স্কুল অ্যান্ড কলেজের মূল্যবোধ, অগ্রযাত্রা ও ভবিষ্যৎ নির্মাণে যাঁরা ভূমিকা রাখছেন, তাঁদের কিছু কথা।",
+    leadershipBody:
+      "কে সি মডেল স্কুল অ্যান্ড কলেজের মূল্যবোধ, অগ্রযাত্রা ও ভবিষ্যৎ নির্মাণে যাঁরা ভূমিকা রাখছেন, তাঁদের কিছু কথা।",
     readMessage: "সম্পূর্ণ বার্তা পড়ুন",
     allMessages: "সব নেতৃত্বের বার্তা",
     facultyKicker: "শিক্ষকবৃন্দ",
     facultyTitle: "শিক্ষার পেছনের মানুষগুলো।",
-    facultyBody: "আমাদের শিক্ষকবৃন্দের পরিচিতি ও বিষয়ভিত্তিক দক্ষতা খুঁজে দেখুন।",
+    facultyBody:
+      "আমাদের শিক্ষকবৃন্দের পরিচিতি ও বিষয়ভিত্তিক দক্ষতা খুঁজে দেখুন।",
     facultyLink: "শিক্ষকদের তালিকা",
     focusKicker: "দেখুন",
     focusTitle: "স্কুলজীবনের তিনটি দিক, একটি অভিন্ন লক্ষ্য।",
@@ -150,12 +157,32 @@ export function LandingExperience({
 }) {
   const t = copy[locale];
 
-  // Glance strip: each cell fills with its own colour on hover.
+  // Glance cards: each card fills with its own colour on hover.
   const stats = [
-    { label: t.students, value: t.studentsValue, hover: "hover:bg-[#2fbf7f]" },
-    { label: t.range, value: t.rangeValue, hover: "hover:bg-[#22a6b3]" },
-    { label: t.versions, value: t.versionsValue, hover: "hover:bg-[#f2b134] hover:text-[#10372a]" },
-    { label: t.hours, value: t.hoursValue, hover: "hover:bg-[#ef6f5e]" },
+    {
+      label: t.students,
+      value: t.studentsValue,
+      hover: "hover:bg-[#2fbf7f] hover:border-[#2fbf7f]",
+      hoverText: "group-hover:text-white",
+    },
+    {
+      label: t.range,
+      value: t.rangeValue,
+      hover: "hover:bg-[#22a6b3] hover:border-[#22a6b3]",
+      hoverText: "group-hover:text-white",
+    },
+    {
+      label: t.versions,
+      value: t.versionsValue,
+      hover: "hover:bg-[#f2b134] hover:border-[#f2b134]",
+      hoverText: "group-hover:text-[#10372a]",
+    },
+    {
+      label: t.hours,
+      value: t.hoursValue,
+      hover: "hover:bg-[#ef6f5e] hover:border-[#ef6f5e]",
+      hoverText: "group-hover:text-white",
+    },
   ];
 
   const leaders = [
@@ -202,39 +229,83 @@ export function LandingExperience({
   ];
 
   const explore = [
-    { title: t.academics, body: t.academicsBody, image: images.academics, href: `/${locale}/academics`, link: t.academicsLink },
-    { title: t.life, body: t.lifeBody, image: images.life, href: `/${locale}/student-life`, link: t.lifeLink },
-    { title: t.campus, body: t.campusBody, image: images.campus, href: `/${locale}/facilities`, link: t.campusLink },
+    {
+      title: t.academics,
+      body: t.academicsBody,
+      image: images.academics,
+      href: `/${locale}/academics`,
+      link: t.academicsLink,
+    },
+    {
+      title: t.life,
+      body: t.lifeBody,
+      image: images.life,
+      href: `/${locale}/student-life`,
+      link: t.lifeLink,
+    },
+    {
+      title: t.campus,
+      body: t.campusBody,
+      image: images.campus,
+      href: `/${locale}/facilities`,
+      link: t.campusLink,
+    },
   ];
 
   const results = [
-    { label: t.ssc, pct: 98.48, text: "98.48%", total: 130, passed: 128, gpa: 67, accent: "from-[#27a872] to-[#176b45]" },
-    { label: t.hsc, pct: 100, text: "100%", total: 47, passed: 47, gpa: 13, accent: "from-[#c9a83f] to-[#9a7412]" },
+    {
+      label: t.ssc,
+      pct: 98.48,
+      text: "98.48%",
+      total: 130,
+      passed: 128,
+      gpa: 67,
+      accent: "from-[#27a872] to-[#176b45]",
+    },
+    {
+      label: t.hsc,
+      pct: 100,
+      text: "100%",
+      total: 47,
+      passed: 47,
+      gpa: 13,
+      accent: "from-[#c9a83f] to-[#9a7412]",
+    },
   ];
 
   return (
     <div className="kc-homepage bg-[#f7f5ef] text-[#242824]" data-no-reveal>
       <HeroSlideshow locale={locale} />
 
-      {/* ───────── At a glance ───────── */}
-      <section aria-label={t.glanceKicker} className="kc-glance relative w-full overflow-hidden px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
-        <Reveal className="relative mx-auto max-w-[1180px]">
-          <div className="grid grid-cols-2 overflow-hidden rounded-3xl border border-white/15 bg-white/[0.05] backdrop-blur-sm lg:grid-cols-4">
-            {stats.map((s, index) => (
+      {/* ───────── At a glance: cards floating over the bottom of the hero ───────── */}
+      <section
+        aria-label={t.glanceKicker}
+        className="relative z-20 -mt-[64px] w-full px-4 sm:px-6 lg:px-8"
+      >
+        <div className="mx-auto grid max-w-[1180px] grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+          {stats.map((s, index) => (
+            <Reveal key={s.label} delay={index * 110} className="h-full">
               <div
-                key={s.label}
-                className={`group flex min-w-0 flex-col justify-center gap-3 px-6 py-6 text-white transition-colors duration-500 ease-out sm:px-7 lg:px-8 lg:py-9 ${s.hover} border-white/15 ${index % 2 ? "border-l" : ""} ${index > 1 ? "border-t" : ""} ${index ? "lg:border-l" : "lg:border-l-0"} lg:border-t-0`}
+                className={`group cursor-default select-none flex h-full min-h-[128px] min-w-0 flex-col justify-between rounded-2xl border border-[#e4e2da] bg-[#fffdf8] px-5 py-5 shadow-[var(--kc-shadow-lift)] transition-all duration-500 ease-out hover:-translate-y-1 hover:border-transparent sm:px-6 ${s.hover}`}
               >
-                <p className="text-[11px] font-semibold uppercase tracking-[.2em] text-white/70 transition-colors duration-500 group-hover:text-current sm:text-xs">
+                <p
+                  className={`text-[11px] font-semibold uppercase tracking-[.2em] text-[#1f8a5b] transition-colors duration-500 sm:text-xs ${s.hoverText}`}
+                >
                   {s.label}
                 </p>
-                <p className="break-words font-heading text-[clamp(1.4rem,2vw,1.85rem)] leading-tight tracking-[-.01em]">
-                  {index === 0 ? <CountUp text={s.value} duration={1800} /> : s.value}
+                <p
+                  className={`mt-4 break-words font-heading text-[clamp(1.5rem,2.3vw,2.1rem)] leading-tight tracking-[-.01em] text-[#124c36] transition-colors duration-500 ${s.hoverText}`}
+                >
+                  {index === 0 ? (
+                    <CountUp text={s.value} duration={1800} />
+                  ) : (
+                    s.value
+                  )}
                 </p>
               </div>
-            ))}
-          </div>
-        </Reveal>
+            </Reveal>
+          ))}
+        </div>
       </section>
 
       {/* ───────── The School ───────── */}
@@ -243,7 +314,9 @@ export function LandingExperience({
           <Reveal variant="left">
             <p className="kc-classic-kicker">{t.storyKicker}</p>
             <h2 className="kc-classic-title mt-4">{t.storyTitle}</h2>
-            <p className="mt-6 max-w-lg text-base leading-8 text-[#58645c]">{t.storyBody}</p>
+            <p className="mt-6 max-w-lg text-base leading-8 text-[#58645c]">
+              {t.storyBody}
+            </p>
             <Link href={`/${locale}/about`} className="kc-classic-link mt-8">
               {t.storyLink}
               <span>↗</span>
@@ -262,11 +335,15 @@ export function LandingExperience({
               </div>
               <div className="absolute -bottom-6 left-4 right-4 flex gap-3 sm:left-auto sm:right-8 sm:w-auto">
                 <div className="flex-1 rounded-2xl bg-[#176b45] px-5 py-4 text-white shadow-[var(--kc-shadow-lift)] sm:min-w-[170px]">
-                  <p className="text-[11px] font-semibold uppercase tracking-[.16em] text-white/75">{t.foundedLabel}</p>
+                  <p className="text-[11px] font-semibold uppercase tracking-[.16em] text-white/75">
+                    {t.foundedLabel}
+                  </p>
                   <p className="mt-1 font-heading text-2xl">{t.foundedValue}</p>
                 </div>
                 <div className="flex-1 rounded-2xl bg-[#c9a83f] px-5 py-4 text-[#10372a] shadow-[var(--kc-shadow-lift)] sm:min-w-[190px]">
-                  <p className="text-[11px] font-semibold uppercase tracking-[.16em] text-[#10372a]/70">{t.openedLabel}</p>
+                  <p className="text-[11px] font-semibold uppercase tracking-[.16em] text-[#10372a]/70">
+                    {t.openedLabel}
+                  </p>
                   <p className="mt-1 font-heading text-2xl">{t.openedValue}</p>
                 </div>
               </div>
@@ -284,10 +361,15 @@ export function LandingExperience({
             <Reveal className="max-w-2xl">
               <p className="kc-classic-kicker">{t.leadershipKicker}</p>
               <h2 className="kc-classic-title mt-3">{t.leadershipTitle}</h2>
-              <p className="mt-5 max-w-xl text-[15px] leading-7 text-[#69716b]">{t.leadershipBody}</p>
+              <p className="mt-5 max-w-xl text-[15px] leading-7 text-[#69716b]">
+                {t.leadershipBody}
+              </p>
             </Reveal>
             <Reveal delay={120}>
-              <Link href={`/${locale}/leadership-messages`} className="kc-classic-link shrink-0">
+              <Link
+                href={`/${locale}/leadership-messages`}
+                className="kc-classic-link shrink-0"
+              >
                 {t.allMessages}
                 <span>↗</span>
               </Link>
@@ -296,7 +378,11 @@ export function LandingExperience({
 
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {leaders.map((leader, index) => (
-              <Reveal key={leader.number} delay={index * 110} className="h-full">
+              <Reveal
+                key={leader.number}
+                delay={index * 110}
+                className="h-full"
+              >
                 <article className="kc-lead-card group flex h-full min-w-0 flex-col overflow-hidden rounded-3xl border border-[#e4e2da] bg-white shadow-[var(--kc-shadow-card)] transition-all duration-500 ease-out hover:-translate-y-1.5 hover:shadow-[var(--kc-shadow-lift)]">
                   <div className="relative aspect-[4/3] overflow-hidden bg-[#e7e4da]">
                     <Image
@@ -312,7 +398,9 @@ export function LandingExperience({
                   </div>
                   <div className="kc-accent-bar" aria-hidden="true" />
                   <div className="flex flex-1 flex-col p-5 sm:p-6">
-                    <p className="text-[11px] font-semibold uppercase tracking-[.14em] text-[#1f8a5b]">{leader.role}</p>
+                    <p className="text-[11px] font-semibold uppercase tracking-[.14em] text-[#1f8a5b]">
+                      {leader.role}
+                    </p>
                     <h3
                       className={`mt-2 font-heading text-xl leading-snug text-[#124c36] ${locale === "bn" ? "font-bangla" : ""}`}
                       lang={locale === "bn" ? "bn" : undefined}
@@ -346,14 +434,21 @@ export function LandingExperience({
           <div className="relative mx-auto max-w-[1180px] px-5 sm:px-8 lg:px-10">
             <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
               <Reveal className="max-w-2xl">
-                <p className="text-[12px] font-medium uppercase tracking-[.18em] text-[#6fe0a9]">{t.facultyKicker}</p>
+                <p className="text-[12px] font-medium uppercase tracking-[.18em] text-[#6fe0a9]">
+                  {t.facultyKicker}
+                </p>
                 <h2 className="mt-3 font-heading text-[clamp(2.15rem,4.4vw,4.25rem)] leading-[.99] tracking-[-.035em] text-white">
                   {t.facultyTitle}
                 </h2>
-                <p className="mt-5 max-w-xl text-[15px] leading-7 text-white/70">{t.facultyBody}</p>
+                <p className="mt-5 max-w-xl text-[15px] leading-7 text-white/70">
+                  {t.facultyBody}
+                </p>
               </Reveal>
               <Reveal delay={120}>
-                <Link href={`/${locale}/teachers`} className="kc-faculty-link shrink-0">
+                <Link
+                  href={`/${locale}/teachers`}
+                  className="kc-faculty-link shrink-0"
+                >
                   {t.facultyLink}
                   <span aria-hidden="true">↗</span>
                 </Link>
@@ -361,7 +456,11 @@ export function LandingExperience({
             </div>
           </div>
           <Reveal delay={150} className="relative mt-12">
-            <FacultyShowcase locale={locale} faculty={faculty} ariaLabel={t.facultyKicker} />
+            <FacultyShowcase
+              locale={locale}
+              faculty={faculty}
+              ariaLabel={t.facultyKicker}
+            />
           </Reveal>
         </section>
       )}
@@ -388,7 +487,9 @@ export function LandingExperience({
             <Reveal className="max-w-xl">
               <p className="kc-classic-kicker">{t.resultsKicker}</p>
               <h2 className="kc-classic-title mt-3">{t.resultsTitle}</h2>
-              <p className="mt-5 text-[15px] leading-7 text-[#69716b]">{t.resultsBody}</p>
+              <p className="mt-5 text-[15px] leading-7 text-[#69716b]">
+                {t.resultsBody}
+              </p>
             </Reveal>
             <Reveal delay={120}>
               <Link href={`/${locale}/academics`} className="kc-classic-link">
@@ -402,23 +503,41 @@ export function LandingExperience({
             {results.map((row, index) => (
               <Reveal key={row.label} delay={index * 140} className="h-full">
                 <div className="kc-result-card group relative flex h-full flex-col gap-6 overflow-hidden rounded-3xl border border-[#e4e2da] bg-white p-6 shadow-[var(--kc-shadow-card)] transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-[var(--kc-shadow-lift)] sm:flex-row sm:items-center sm:p-8">
-                  <div className={`absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r ${row.accent}`} aria-hidden="true" />
-                  <Ring value={row.pct} max={100} size={132} stroke={11} label={`${row.label}: ${row.text} pass rate`}>
+                  <div
+                    className={`absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r ${row.accent}`}
+                    aria-hidden="true"
+                  />
+                  <Ring
+                    value={row.pct}
+                    max={100}
+                    size={132}
+                    stroke={11}
+                    label={`${row.label}: ${row.text} pass rate`}
+                  >
                     <span className="font-heading text-[28px] leading-none text-[#176b45]">
                       <CountUp text={row.text} duration={1800} />
                     </span>
                   </Ring>
                   <div className="w-full min-w-0">
-                    <p className="text-xs font-semibold uppercase tracking-[.14em] text-[#69716b]">{row.label}</p>
+                    <p className="text-xs font-semibold uppercase tracking-[.14em] text-[#69716b]">
+                      {row.label}
+                    </p>
                     <div className="mt-4 space-y-4">
                       <div>
                         <div className="flex items-baseline justify-between text-sm text-[#58645c]">
                           <span>{t.passed}</span>
                           <span className="font-heading text-xl text-[#124c36]">
-                            <CountUp text={row.passed} /> <span className="text-sm text-[#7b817b]">/ {row.total} {t.candidates}</span>
+                            <CountUp text={row.passed} />{" "}
+                            <span className="text-sm text-[#7b817b]">
+                              / {row.total} {t.candidates}
+                            </span>
                           </span>
                         </div>
-                        <Bar value={row.passed} max={row.total} className="mt-1.5 h-2.5" />
+                        <Bar
+                          value={row.passed}
+                          max={row.total}
+                          className="mt-1.5 h-2.5"
+                        />
                       </div>
                       <div>
                         <div className="flex items-baseline justify-between text-sm text-[#58645c]">
@@ -427,7 +546,12 @@ export function LandingExperience({
                             <CountUp text={row.gpa} />
                           </span>
                         </div>
-                        <Bar value={row.gpa} max={row.total} delay={120} className="mt-1.5 h-2.5" />
+                        <Bar
+                          value={row.gpa}
+                          max={row.total}
+                          delay={120}
+                          className="mt-1.5 h-2.5"
+                        />
                       </div>
                     </div>
                   </div>
@@ -445,9 +569,7 @@ export function LandingExperience({
             <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
               <Reveal className="max-w-2xl">
                 <p className="kc-classic-kicker">{t.alumniKicker}</p>
-                <h2 className="kc-classic-title mt-3">
-                  {t.alumniTitle}
-                </h2>
+                <h2 className="kc-classic-title mt-3">{t.alumniTitle}</h2>
               </Reveal>
               <Reveal delay={120}>
                 <Link href={`/${locale}/alumni`} className="kc-classic-link">
@@ -459,17 +581,37 @@ export function LandingExperience({
             <div className="mt-10 grid gap-5 md:grid-cols-3">
               {alumni.map((message, index) => {
                 const name = locale === "bn" ? message.nameBn : message.nameEn;
-                const quote = locale === "bn" ? message.previewBn || message.messageBn : message.previewEn || message.messageEn;
+                const quote =
+                  locale === "bn"
+                    ? message.previewBn || message.messageBn
+                    : message.previewEn || message.messageEn;
                 const role = locale === "bn" ? message.roleBn : message.roleEn;
                 return (
-                  <Reveal key={message.id} delay={index * 120} className="h-full">
+                  <Reveal
+                    key={message.id}
+                    delay={index * 120}
+                    className="h-full"
+                  >
                     <article className="kc-alumni-card flex h-full flex-col rounded-3xl border border-[#e4e2da] bg-white p-6 shadow-[var(--kc-shadow-card)] transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-[var(--kc-shadow-lift)] sm:p-8">
-                      <span className="font-heading text-5xl leading-none text-[#c9a83f]">“</span>
-                      <p className="mt-2 flex-1 font-heading text-xl leading-[1.4] text-[#124c36]">{quote}</p>
+                      <span className="font-heading text-5xl leading-none text-[#c9a83f]">
+                        “
+                      </span>
+                      <p className="mt-2 flex-1 font-heading text-xl leading-[1.4] text-[#124c36]">
+                        {quote}
+                      </p>
                       <div className="mt-6 border-t border-[#e4e2da] pt-4">
-                        <p className="font-heading text-lg text-[#176b45]">{name}</p>
+                        <p className="font-heading text-lg text-[#176b45]">
+                          {name}
+                        </p>
                         <p className="mt-1 text-sm leading-6 text-[#69716b]">
-                          {[role, locale === "bn" ? message.organizationBn : message.organizationEn].filter(Boolean).join(" · ")}
+                          {[
+                            role,
+                            locale === "bn"
+                              ? message.organizationBn
+                              : message.organizationEn,
+                          ]
+                            .filter(Boolean)
+                            .join(" · ")}
                         </p>
                       </div>
                     </article>
@@ -491,13 +633,21 @@ export function LandingExperience({
               <h2 className="mt-3 max-w-3xl font-heading text-[clamp(2.2rem,4vw,3.75rem)] font-normal leading-[1.02] tracking-[-.03em]">
                 {t.admissionTitle}
               </h2>
-              <p className="mt-4 max-w-xl text-base leading-8 text-white/80">{t.admissionBody}</p>
+              <p className="mt-4 max-w-xl text-base leading-8 text-white/80">
+                {t.admissionBody}
+              </p>
             </div>
             <div className="relative flex flex-wrap gap-3 lg:justify-end">
-              <Link href={`/${locale}/admissions`} className="kc-classic-button kc-classic-button-light">
+              <Link
+                href={`/${locale}/admissions`}
+                className="kc-classic-button kc-classic-button-light"
+              >
                 {t.admissionLink}
               </Link>
-              <Link href={`/${locale}/contact`} className="kc-classic-button kc-classic-button-ghost-light">
+              <Link
+                href={`/${locale}/contact`}
+                className="kc-classic-button kc-classic-button-ghost-light"
+              >
                 {t.contactLink}
               </Link>
             </div>
