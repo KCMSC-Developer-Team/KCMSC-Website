@@ -13,5 +13,11 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
     take: 3,
   });
-  return <LandingExperience locale={locale} alumni={alumni} />;
+  const faculty = await prisma.teacherProfile.findMany({
+    where: { isActive: true, isPublished: true },
+    orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
+    select: { id: true, name: true, designation: true, wing: true, photoUrl: true, subjects: true },
+    take: 30,
+  });
+  return <LandingExperience locale={locale} alumni={alumni} faculty={faculty} />;
 }

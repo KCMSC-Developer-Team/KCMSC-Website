@@ -1470,3 +1470,145 @@ html {
   transition: transform 1.2s var(--kc-ease);
   transition-delay: var(--kc-d, 0ms);
 }
+
+
+/* ==========================================================================
+   Homepage: faculty slideshow, vibrant accents, consistent rounded corners.
+   Scoped to .kc-homepage / .kc-faculty-* so other pages are unaffected.
+   ========================================================================== */
+.kc-faculty-marquee {
+  position: relative;
+  overflow: hidden;
+  padding: 0.5rem 0 1rem;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+}
+.kc-faculty-track {
+  display: flex;
+  width: max-content;
+  gap: 1.25rem;
+  padding-left: 1.25rem;
+  animation: kc-faculty-scroll var(--kc-faculty-duration, 40s) linear infinite;
+  will-change: transform;
+}
+.kc-faculty-marquee:hover .kc-faculty-track,
+.kc-faculty-marquee:focus-within .kc-faculty-track {
+  animation-play-state: paused;
+}
+@keyframes kc-faculty-scroll {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .kc-faculty-track { animation: none; }
+  .kc-faculty-marquee { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
+}
+
+.kc-homepage .kc-classic-kicker { color: var(--kc-leaf); font-weight: 600; }
+.kc-homepage .kc-classic-link { color: var(--kc-leaf); font-weight: 600; }
+.kc-homepage .kc-classic-link span {
+  display: inline-grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 999px;
+  background: var(--kc-mint);
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.35s var(--kc-ease);
+}
+.kc-homepage .kc-classic-link:hover span {
+  background: var(--kc-leaf);
+  color: #fff;
+  transform: translate(2px, -2px);
+}
+.kc-homepage .kc-classic-button { border-radius: 999px; }
+.kc-homepage .kc-panel { border-radius: var(--kc-r-xl); }
+.kc-homepage .kc-panel img { border-radius: inherit; }
+
+
+/* ==========================================================================
+   Landing redesign: reveal motion, vivid bands, interactive accents.
+   Every rule is scoped to .kc-homepage or a landing-only class.
+   ========================================================================== */
+@media (scripting: enabled) {
+  .kc-homepage .kc-reveal {
+    opacity: 0;
+    transform: translate3d(0, 34px, 0);
+    transition-property: opacity, transform;
+    transition-duration: 0.9s;
+    transition-timing-function: var(--kc-ease);
+    transition-delay: var(--kc-reveal-delay, 0ms);
+  }
+  .kc-homepage .kc-reveal[data-reveal-variant="left"] { transform: translate3d(-44px, 0, 0); }
+  .kc-homepage .kc-reveal[data-reveal-variant="right"] { transform: translate3d(44px, 0, 0); }
+  .kc-homepage .kc-reveal[data-reveal-variant="scale"] { transform: scale(0.94); }
+  .kc-homepage .kc-reveal.is-visible { opacity: 1; transform: none; }
+}
+
+.kc-glance {
+  color: #fff;
+  background:
+    radial-gradient(900px 380px at 0% 0%, rgba(39, 168, 114, 0.5), transparent 60%),
+    radial-gradient(700px 360px at 100% 100%, rgba(201, 168, 63, 0.3), transparent 60%),
+    linear-gradient(120deg, #0f4a34 0%, #176b45 55%, #0f7a86 100%);
+}
+
+.kc-faculty-band {
+  color: #fff;
+  background:
+    radial-gradient(800px 420px at 90% 0%, rgba(39, 168, 114, 0.35), transparent 60%),
+    radial-gradient(600px 380px at 0% 100%, rgba(201, 168, 63, 0.2), transparent 60%),
+    linear-gradient(160deg, #0d3b2a 0%, #124c36 55%, #0b3328 100%);
+}
+
+.kc-faculty-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  padding: 0.8rem 1.25rem;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, gap 0.35s var(--kc-ease);
+}
+.kc-faculty-link:hover {
+  gap: 0.9rem;
+  border-color: #fff;
+  background: #fff;
+  color: #124c36;
+}
+
+.kc-accent-bar {
+  height: 4px;
+  background: linear-gradient(90deg, #1f8a5b, #27a872, #c9a83f);
+  transform: scaleX(0.25);
+  transform-origin: left center;
+  transition: transform 0.7s var(--kc-ease);
+}
+.kc-lead-card:hover .kc-accent-bar { transform: scaleX(1); }
+
+.kc-explore-panel {
+  animation: kc-explore-in 0.6s var(--kc-ease) both;
+}
+@keyframes kc-explore-in {
+  from { opacity: 0; transform: translate3d(0, 14px, 0); }
+  to { opacity: 1; transform: none; }
+}
+
+.kc-orb {
+  animation: kc-orb-drift 16s ease-in-out infinite alternate;
+}
+@keyframes kc-orb-drift {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(34px, -22px, 0) scale(1.08); }
+}
+
+.kc-homepage .kc-classic-kicker { color: var(--kc-leaf); font-weight: 600; }
+
+@media (prefers-reduced-motion: reduce) {
+  .kc-homepage .kc-reveal { opacity: 1; transform: none; transition: none; }
+  .kc-explore-panel, .kc-orb { animation: none; }
+  .kc-accent-bar { transition: none; transform: none; }
+}
