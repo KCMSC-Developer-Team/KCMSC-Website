@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { ReactNode } from "react";
 import type { Locale } from "@/i18n/config";
 import type { AlumniMessage } from "@prisma/client";
 import { HeroSlideshow } from "./HeroSlideshow";
@@ -140,43 +139,6 @@ const images = {
   campus: "/kcmsc/kc/kcmsc1.jpg",
 } as const;
 
-type IconName = "users" | "book" | "languages" | "clock";
-
-function Icon({ name }: { name: IconName }) {
-  const paths: Record<IconName, ReactNode> = {
-    users: (
-      <>
-        <circle cx="9" cy="8" r="3.5" />
-        <path d="M2.5 19.5c.8-3.2 3.3-5 6.5-5s5.7 1.8 6.5 5" />
-        <path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18.5 14.8c1.5.9 2.4 2.7 2.6 4.7" />
-      </>
-    ),
-    book: (
-      <>
-        <path d="M3 5.5C5 4.5 7 4.5 12 6.5c5-2 7-2 9-1v13c-2-1-4-1-9 1-5-2-7-2-9-1z" />
-        <path d="M12 6.5v13" />
-      </>
-    ),
-    languages: (
-      <>
-        <path d="M4 5h9M8.5 3v2M6 5c.6 3 2.6 5.4 5.5 7M11 5c-.7 2.6-2.5 5-5.5 7" />
-        <path d="M13 21l4-9 4 9M14.5 17h5" />
-      </>
-    ),
-    clock: (
-      <>
-        <circle cx="12" cy="12" r="9" />
-        <path d="M12 7v5l3 2" />
-      </>
-    ),
-  };
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6" aria-hidden="true">
-      {paths[name]}
-    </svg>
-  );
-}
-
 export function LandingExperience({
   locale,
   alumni = [],
@@ -188,12 +150,12 @@ export function LandingExperience({
 }) {
   const t = copy[locale];
 
-  // Each glance tile has its own vivid hover colour.
+  // Glance strip: each cell fills with its own colour on hover.
   const stats = [
-    { label: t.students, value: t.studentsValue, icon: "users" as IconName, hover: "hover:bg-[#2fbf7f] hover:border-[#2fbf7f]", text: "" },
-    { label: t.range, value: t.rangeValue, icon: "book" as IconName, hover: "hover:bg-[#22a6b3] hover:border-[#22a6b3]", text: "" },
-    { label: t.versions, value: t.versionsValue, icon: "languages" as IconName, hover: "hover:bg-[#f2b134] hover:border-[#f2b134] hover:text-[#10372a]", text: "" },
-    { label: t.hours, value: t.hoursValue, icon: "clock" as IconName, hover: "hover:bg-[#ef6f5e] hover:border-[#ef6f5e]", text: "" },
+    { label: t.students, value: t.studentsValue, hover: "hover:bg-[#2fbf7f]" },
+    { label: t.range, value: t.rangeValue, hover: "hover:bg-[#22a6b3]" },
+    { label: t.versions, value: t.versionsValue, hover: "hover:bg-[#f2b134] hover:text-[#10372a]" },
+    { label: t.hours, value: t.hoursValue, hover: "hover:bg-[#ef6f5e]" },
   ];
 
   const leaders = [
@@ -254,29 +216,25 @@ export function LandingExperience({
     <div className="kc-homepage bg-[#f7f5ef] text-[#242824]" data-no-reveal>
       <HeroSlideshow locale={locale} />
 
-      {/* ───────── At a glance: full-width vivid band ───────── */}
-      <section aria-label={t.glanceKicker} className="kc-glance relative w-full overflow-hidden px-4 py-7 sm:px-6 lg:px-8 lg:py-9">
-        <div className="relative mx-auto grid max-w-[1400px] grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
-          {stats.map((s, index) => (
-            <Reveal key={s.label} delay={index * 110} className="h-full">
+      {/* ───────── At a glance ───────── */}
+      <section aria-label={t.glanceKicker} className="kc-glance relative w-full overflow-hidden px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
+        <Reveal className="relative mx-auto max-w-[1180px]">
+          <div className="grid grid-cols-2 overflow-hidden rounded-3xl border border-white/15 bg-white/[0.05] backdrop-blur-sm lg:grid-cols-4">
+            {stats.map((s, index) => (
               <div
-                className={`group flex h-full min-h-[150px] min-w-0 flex-col justify-between rounded-3xl border border-white/15 bg-white/[0.08] p-5 text-white backdrop-blur-sm transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-[0_24px_50px_-18px_rgba(0,0,0,.5)] sm:p-7 ${s.hover}`}
+                key={s.label}
+                className={`group flex min-w-0 flex-col justify-center gap-3 px-6 py-6 text-white transition-colors duration-500 ease-out sm:px-7 lg:px-8 lg:py-9 ${s.hover} border-white/15 ${index % 2 ? "border-l" : ""} ${index > 1 ? "border-t" : ""} ${index ? "lg:border-l" : "lg:border-l-0"} lg:border-t-0`}
               >
-                <div className="flex items-center justify-between gap-3">
-                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-white/15 transition-colors duration-500 group-hover:bg-white/25">
-                    <Icon name={s.icon} />
-                  </span>
-                  <span className="text-right text-[11px] font-semibold uppercase tracking-[.16em] opacity-80 sm:text-xs">
-                    {s.label}
-                  </span>
-                </div>
-                <p className="mt-6 break-words font-heading text-[clamp(1.6rem,2.8vw,2.7rem)] leading-[1.05] tracking-[-.01em]">
+                <p className="text-[11px] font-semibold uppercase tracking-[.2em] text-white/70 transition-colors duration-500 group-hover:text-current sm:text-xs">
+                  {s.label}
+                </p>
+                <p className="break-words font-heading text-[clamp(1.4rem,2vw,1.85rem)] leading-tight tracking-[-.01em]">
                   {index === 0 ? <CountUp text={s.value} duration={1800} /> : s.value}
                 </p>
               </div>
-            </Reveal>
-          ))}
-        </div>
+            ))}
+          </div>
+        </Reveal>
       </section>
 
       {/* ───────── The School ───────── */}
@@ -482,12 +440,12 @@ export function LandingExperience({
 
       {/* ───────── Alumni ───────── */}
       {alumni.length > 0 && (
-        <section className="bg-[#f7f5ef] py-20 lg:py-24">
+        <section className="bg-[#f7f5ef] py-20 lg:py-28">
           <div className="mx-auto max-w-[1180px] px-5 sm:px-8 lg:px-10">
             <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
               <Reveal className="max-w-2xl">
                 <p className="kc-classic-kicker">{t.alumniKicker}</p>
-                <h2 className="mt-3 font-heading text-[clamp(2.1rem,4vw,3.7rem)] font-normal leading-[1] tracking-[-.035em] text-[#124c36]">
+                <h2 className="kc-classic-title mt-3">
                   {t.alumniTitle}
                 </h2>
               </Reveal>

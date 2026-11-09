@@ -1612,3 +1612,15 @@ html {
   .kc-explore-panel, .kc-orb { animation: none; }
   .kc-accent-bar { transition: none; transform: none; }
 }
+
+/* Footer: two columns from desktop width (plain CSS so it always applies). */
+.kc-footer-main {
+  grid-template-columns: minmax(0, 1fr);
+}
+@media (min-width: 1024px) {
+  .kc-footer-main {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 5rem;
+    align-items: stretch;
+  }
+}
