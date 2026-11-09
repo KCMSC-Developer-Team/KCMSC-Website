@@ -43,6 +43,11 @@ const copy = {
       "To help students discover and develop their physical, mental and spiritual potential while growing into responsible global citizens.",
     vision:
       "To nurture capable, responsible global citizens equipped to excel in the 21st century.",
+    leadershipKicker: "LEADERSHIP",
+    leadershipTitle: "Guided by experience. Driven by a belief in education.",
+    leadershipBody: "A few words from the people shaping the values, direction and future of K C Model School & College.",
+    readMessage: "Read the full message",
+    allMessages: "All leadership messages",
     resultsKicker: "ACADEMIC RESULTS",
     resultsTitle: "Recent results, without the clutter.",
     resultsBody: "The 2024 board-examination results are summarised below.",
@@ -96,6 +101,11 @@ const copy = {
     mission:
       "শিক্ষার্থীদের শারীরিক, মানসিক ও আধ্যাত্মিক সম্ভাবনা বিকশিত করে দায়িত্বশীল বিশ্বনাগরিক হিসেবে গড়ে তোলা।",
     vision: "২১শ শতকে উৎকর্ষের জন্য সক্ষম ও দায়িত্বশীল বিশ্বনাগরিক গড়ে তোলা।",
+    leadershipKicker: "নেতৃত্ব",
+    leadershipTitle: "অভিজ্ঞতার দিকনির্দেশনা, শিক্ষার প্রতি অঙ্গীকার।",
+    leadershipBody: "কে সি মডেল স্কুল অ্যান্ড কলেজের মূল্যবোধ, অগ্রযাত্রা ও ভবিষ্যৎ নির্মাণে যাঁরা ভূমিকা রাখছেন, তাঁদের কিছু কথা।",
+    readMessage: "সম্পূর্ণ বার্তা পড়ুন",
+    allMessages: "সব নেতৃত্বের বার্তা",
     resultsKicker: "একাডেমিক ফলাফল",
     resultsTitle: "ফলাফল, অপ্রয়োজনীয় জটিলতা ছাড়া।",
     resultsBody: "২০২৪ সালের বোর্ড পরীক্ষার ফলাফল সংক্ষেপে নিচে দেখানো হয়েছে।",
@@ -137,6 +147,45 @@ export function LandingExperience({
     [t.range, t.rangeValue],
     [t.versions, t.versionsValue],
     [t.hours, t.hoursValue],
+  ];
+
+  const leaders = [
+    {
+      number: "01",
+      name: "মোঃ খসরু চৌধুরী",
+      role: locale === "bn" ? "চেয়ারম্যান" : "Chairman",
+      image: "/kcmsc/leadership/chairman.jpg",
+      excerpt: locale === "bn"
+        ? "উন্নত ও আধুনিক শিক্ষার সুযোগ নিয়ে শিক্ষার্থীরা নিশ্চিত সাফল্য অর্জন করবে এবং বিশ্ব নাগরিক হিসেবে গড়ে উঠবে, এটাই আমার একান্ত চাওয়া।"
+        : "My hope is that access to modern, forward-looking education will help students achieve success and grow into responsible global citizens.",
+    },
+    {
+      number: "02",
+      name: "নীপা চৌধুরী",
+      role: locale === "bn" ? "ভাইস চেয়ারম্যান" : "Vice Chairman",
+      image: "/kcmsc/leadership/vice-chairman.jpg",
+      excerpt: locale === "bn"
+        ? "শিক্ষা মানে শুধু পুঁথিগত বিদ্যা নয়; জ্ঞানকে জীবনে কাজে লাগানো এবং নিজের সুকুমার বৃত্তি সবার মাঝে ছড়িয়ে দেওয়ার মানসিকতা।"
+        : "Education is more than knowledge from books. It is the ability to apply what we learn and share our better qualities with others.",
+    },
+    {
+      number: "03",
+      name: "ব্রিঃ জেঃ এ এস এম মুশফিকুর রহমান (অব.)",
+      role: locale === "bn" ? "প্রধান উপদেষ্টা" : "Chief Advisor",
+      image: "/kcmsc/leadership/chief-advisor.jpg",
+      excerpt: locale === "bn"
+        ? "বর্তমান সময়ের শিক্ষা হতে হবে শিক্ষার্থীবান্ধব, জীবনঘনিষ্ঠ, মানবিক, বিজ্ঞানমুখী ও সর্বাঙ্গীন।"
+        : "Education today must be student-centred, relevant to life, humane, science-minded and holistic.",
+    },
+    {
+      number: "04",
+      name: "প্রফেসর মোঃ আবদুল বাতেন",
+      role: locale === "bn" ? "অধ্যক্ষ" : "Principal",
+      image: "/kcmsc/leadership/principal.jpg",
+      excerpt: locale === "bn"
+        ? "শিক্ষা মানুষের সুপ্ত প্রতিভা বিকাশে সহায়তা করে এবং একটি সুন্দর সমাজ ও বিশ্ব গঠনে অনন্য ভূমিকা রাখে।"
+        : "Education unlocks human potential and plays a defining role in building a better society and a better world.",
+    },
   ];
 
   const focus = [
@@ -279,6 +328,49 @@ export function LandingExperience({
           </div>
         </div>
       </MissionVisionParallax>
+
+      <section className="relative overflow-hidden border-y border-[#d9d8cf] bg-[#fffdf8]">
+        <div className="pointer-events-none absolute -right-24 -top-28 h-80 w-80 rounded-full bg-[#e6eee6] blur-3xl" />
+        <div className="relative mx-auto max-w-[1180px] px-5 py-16 sm:px-8 lg:px-10 lg:py-20">
+          <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
+            <div className="max-w-2xl">
+              <p className="kc-classic-kicker">{t.leadershipKicker}</p>
+              <h2 className="mt-3 font-heading text-[clamp(2.2rem,4.5vw,4rem)] font-normal leading-[1] tracking-[-.04em] text-[#124c36]">
+                {t.leadershipTitle}
+              </h2>
+              <p className="mt-5 max-w-xl text-[15px] leading-7 text-[#69716b]">{t.leadershipBody}</p>
+            </div>
+            <Link href={`/${locale}/leadership-messages`} className="kc-classic-link shrink-0">
+              {t.allMessages}<span>↗</span>
+            </Link>
+          </div>
+
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {leaders.map((leader) => (
+              <article key={leader.number} className="kc-panel kc-lift group flex min-w-0 flex-col overflow-hidden rounded-2xl bg-[#f7f5ef]">
+                <div className="relative aspect-[4/3] overflow-hidden bg-[#e7e4da]">
+                  <Image
+                    src={leader.image}
+                    alt={leader.name}
+                    fill
+                    sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                    className="object-cover object-top transition duration-700 ease-out group-hover:scale-[1.04]"
+                  />
+                  <span className="absolute left-4 top-4 rounded-full border border-white/60 bg-[#fffdf8]/90 px-3 py-1 text-[11px] font-semibold tracking-[.14em] text-[#8a7740] backdrop-blur">{leader.number}</span>
+                </div>
+                <div className="flex flex-1 flex-col p-5 sm:p-6">
+                  <p className="text-[11px] font-semibold uppercase tracking-[.14em] text-[#9b8548]">{leader.role}</p>
+                  <h3 className={`mt-2 font-heading text-xl leading-snug text-[#124c36] ${locale === "bn" ? "font-bangla" : ""}`} lang={locale === "bn" ? "bn" : undefined}>{leader.name}</h3>
+                  <p className={`mt-4 flex-1 text-[14px] leading-7 text-[#58645c] ${locale === "bn" ? "font-bangla" : ""}`} lang={locale === "bn" ? "bn" : undefined}>“{leader.excerpt}”</p>
+                  <Link href={`/${locale}/leadership-messages#message-${leader.number}`} className="mt-5 inline-flex items-center gap-2 border-t border-[#d9d8cf] pt-4 text-sm font-semibold text-[#176b45] transition-all hover:gap-3">
+                    {t.readMessage}<span aria-hidden="true">↗</span>
+                  </Link>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
 
       <section className="kc-classic-section bg-[#f7f5ef]">
         <div className="mx-auto max-w-[1180px] px-5 sm:px-8 lg:px-10">
