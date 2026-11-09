@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { SubpageHero } from "@/components/subpage/SubpageKit";
 import { LeadershipPortrait } from "@/components/leadership/LeadershipPortrait";
 import { getDictionary, isLocale, type Locale } from "@/i18n/config";
 import { notFound } from "next/navigation";
@@ -102,64 +103,20 @@ export default async function LeadershipMessagesPage({
   getDictionary(locale);
 
   return (
-    <main className="bg-[#F8FAFC] text-[#23352c]">
+    <div className="kc-sub-page">
       {/* HERO */}
-      <section className="border-b border-[#D9E2EC] bg-[#f7f5ef]">
-        <div className="mx-auto grid min-h-[500px] max-w-[1440px] lg:grid-cols-[1.05fr_.95fr]">
-          <div className="flex flex-col justify-end px-6 pb-14 pt-24 sm:px-10 lg:px-16 lg:pb-20">
-            <span
-              className={`kc-classic-kicker ${
-                bn ? "font-bangla normal-case tracking-normal" : ""
-              }`}
-              lang={bn ? "bn" : undefined}
-            >
-              {bn ? "নেতৃত্বের বার্তা" : "Leadership messages"}
-            </span>
-
-            <h1
-              lang={bn ? "bn" : undefined}
-              className={`mt-5 max-w-4xl text-[clamp(3rem,7vw,7rem)] leading-[.86] tracking-[-.055em] text-[#124c36] ${
-                bn ? "font-bangla font-heading" : "font-heading"
-              }`}
-            >
-              {bn
-                ? "যাঁরা পথ দেখান, তাঁদের কথা।"
-                : "Words from those who guide the institution."}
-            </h1>
-
-            <p
-              lang={bn ? "bn" : undefined}
-              className={`mt-8 max-w-2xl text-[16px] leading-7 text-[#69716b] sm:text-[16px] ${
-                bn ? "font-bangla" : ""
-              }`}
-            >
-              {bn
-                ? "কে সি মডেল স্কুল অ্যান্ড কলেজের নেতৃত্বের বিভিন্ন স্তর থেকে শিক্ষা, মূল্যবোধ ও প্রতিষ্ঠানের ভবিষ্যৎ নিয়ে কিছু কথা।"
-                : "Reflections on education, values and the future of K C Model School & College from the people who help guide it."}
-            </p>
-          </div>
-
-          {/* HERO IMAGE */}
-          <div className="relative hidden min-h-[500px] overflow-hidden border-l border-[#D9E2EC] lg:block">
-            <Image
-              src="/kcmsc/about/leadership-gathering.jpg"
-              alt="KCMSC leadership gathering"
-              fill
-              priority
-              quality={100}
-              unoptimized
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover object-center"
-            />
-
-            <div className="absolute inset-0 bg-gradient-to-t from-[#102e23]/70 via-transparent to-[#102e23]/10" />
-
-            <div className="absolute bottom-8 left-8 right-8 border-t border-white/30 pt-4 text-[12px] font-medium uppercase tracking-[.18em] text-white/80">
-              K C Model School & College · Leadership
-            </div>
-          </div>
-        </div>
-      </section>
+      <SubpageHero
+        kicker={bn ? "নেতৃত্বের বার্তা" : "Leadership messages"}
+        title={bn ? "যাঁরা পথ দেখান, তাঁদের কথা।" : "Words from those who guide the institution."}
+        body={
+          bn
+            ? "কে সি মডেল স্কুল অ্যান্ড কলেজের নেতৃত্বের বিভিন্ন স্তর থেকে শিক্ষা, মূল্যবোধ ও প্রতিষ্ঠানের ভবিষ্যৎ নিয়ে কিছু কথা।"
+            : "Reflections on education, values and the future of K C Model School & College from the people who help guide it."
+        }
+        image="/kcmsc/about/leadership-gathering.jpg"
+        imageAlt="KCMSC leadership gathering"
+        priority
+      />
 
       {/* MESSAGE INDEX */}
       <section className="border-b border-[#D9E2EC] bg-white">
@@ -325,6 +282,6 @@ export default async function LeadershipMessagesPage({
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }

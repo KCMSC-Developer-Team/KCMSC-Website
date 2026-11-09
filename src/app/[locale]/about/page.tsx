@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { getDictionary, isLocale, type Locale } from "@/i18n/config";
 import { notFound } from "next/navigation";
+import { Reveal } from "@/components/home/Reveal";
+import { SubpageCTA, SubpageHero, SubpageIntro } from "@/components/subpage/SubpageKit";
 
 type AboutPageProps = {
   params: Promise<{ locale: string }>;
@@ -24,14 +26,14 @@ export default async function AboutPage({ params }: AboutPageProps) {
           text: "আল-হাজ্জ মো. খসরু চৌধুরী (সিআইপি), নিপা গ্রুপের প্রতিষ্ঠাতা, KCMSC প্রতিষ্ঠা করেন।",
         },
         {
-          year: "১ জানুয়ারি ২০১৫",
+          year: "১ জানুয়ারি ২০১৫",
           title: "যাত্রা শুরু",
-          text: "প্রতিষ্ঠানটির শিক্ষা কার্যক্রম শুরু হয় প্রায় ২,২০০ শিক্ষার্থী নিয়ে।",
+          text: "প্রতিষ্ঠানটির শিক্ষা কার্যক্রম শুরু হয় প্রায় ২,২০০ শিক্ষার্থী নিয়ে।",
         },
         {
           year: "বর্তমান",
           title: "Play Group থেকে Grade XII",
-          text: "বাংলা ও ইংরেজি ভার্সনে জাতীয় শিক্ষাক্রম অনুসরণ করে Play Group থেকে Grade Twelve পর্যন্ত শিক্ষা কার্যক্রম পরিচালিত হয়।",
+          text: "বাংলা ও ইংরেজি ভার্সনে জাতীয় শিক্ষাক্রম অনুসরণ করে Play Group থেকে Grade Twelve পর্যন্ত শিক্ষা কার্যক্রম পরিচালিত হয়।",
         },
       ]
     : [
@@ -52,339 +54,219 @@ export default async function AboutPage({ params }: AboutPageProps) {
         },
       ];
 
+  const identity = [
+    { label: "EIIN", value: "137368" },
+    { label: bn ? "স্কুল কোড" : "School Code", value: "1417" },
+    { label: bn ? "কলেজ কোড" : "College Code", value: "1290" },
+  ];
+
   return (
-    <main className="bg-[#F8FAFC] text-[#23352c]">
-      {/* Opening */}
-      <section className="border-b border-[#D9E2EC]">
-        <div className="mx-auto grid max-w-[1440px] lg:grid-cols-[1.03fr_.97fr]">
-          <div className="flex min-h-[420px] flex-col justify-end px-6 pb-14 pt-20 sm:px-10 lg:min-h-[560px] lg:px-16 lg:pb-20">
-            <span className="kc-classic-kicker">
-              {bn ? "আমাদের পরিচয়" : "Our beginning"}
-            </span>
+    <div className="kc-sub-page" data-no-reveal>
+      <SubpageHero
+        kicker={bn ? "আমাদের পরিচয়" : "Our beginning"}
+        title={bn ? "একটি বিদ্যালয়ের গল্প, শুরু থেকে আজ পর্যন্ত।" : "The story of a school, from its roots."}
+        body={dict.about.body}
+        image="/kcmsc/student-life/student_trip1.jpg"
+        imageAlt="K C Model School and College campus"
+        priority
+      />
 
-            <h1 className="mt-5 max-w-[760px] font-heading text-[clamp(2.5rem,6.5vw,6.8rem)] leading-[.88] tracking-[-.055em] text-[#12324A]">
-              {bn
-                ? "একটি বিদ্যালয়ের গল্প, শুরু থেকে আজ পর্যন্ত।"
-                : "The story of a school, from its roots."}
-            </h1>
+      {/* A short history */}
+      <section className="py-20 lg:py-28">
+        <div className="mx-auto max-w-[1180px] px-5 sm:px-8 lg:px-10">
+          <SubpageIntro
+            kicker={bn ? "আমাদের পথচলা" : "A short history"}
+            title={bn ? "একটি সময়, একটি স্থান, একটি লক্ষ্য।" : "A beginning, a place and a clear purpose."}
+            body={
+              bn
+                ? "কেসিএমএসসির পরিচয় তার প্রতিষ্ঠার ইতিহাস, শিক্ষার্থী এবং প্রতিদিনের শিক্ষা কার্যক্রমের সঙ্গে জড়িত।"
+                : "KCMSC’s identity is tied to its founding, the students it serves, and the ordinary work of teaching and learning."
+            }
+          />
 
-            <p className="mt-8 max-w-[650px] text-[16px] leading-7 text-[#64748B] sm:text-[16px]">
-              {dict.about.body}
-            </p>
-          </div>
-
-          <div className="relative min-h-[360px] overflow-hidden border-l border-[#D9E2EC] lg:min-h-[560px]">
-            <Image
-              src="/kcmsc/student-life/student_trip1.jpg"
-              alt="K C Model School and College campus"
-              fill
-              priority
-              sizes="(min-width: 1024px) 48vw, 100vw"
-              className="object-cover object-center"
-              quality={88}
-            />
-
-            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#102e23]/80 via-[#102e23]/10 to-transparent p-7 sm:p-10">
-              {/* <p className="text-[12px] font-bold uppercase tracking-[.18em] text-[#d5bd75]">
-                K C Model School & College
-              </p> */}
-              {/* <p className="mt-2 font-heading text-2xl text-white">
-                {bn
-                  ? "প্রেমবাগান · দক্ষিণখান · ঢাকা"
-                  : "Prembagan · Dakshinkhan · Dhaka"}
-              </p> */}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Institutional timeline */}
-      <section className="kc-classic-section bg-[#FFFFFF]">
-        <div className="mx-auto max-w-[1240px] px-6 sm:px-10">
-          <div className="grid gap-12 lg:grid-cols-[.7fr_1.3fr] lg:gap-20">
-            <div>
-              <span className="kc-classic-kicker">
-                {bn ? "আমাদের পথচলা" : "A short history"}
-              </span>
-
-              <h2 className="mt-4 max-w-md font-heading text-4xl leading-[.98] tracking-[-.035em] text-[#12324A] sm:text-5xl">
-                {bn
-                  ? "একটি সময়, একটি স্থান, একটি লক্ষ্য।"
-                  : "A beginning, a place and a clear purpose."}
-              </h2>
-
-              <p className="mt-6 max-w-md text-sm leading-7 text-[#707770]">
-                {bn
-                  ? "কেসিএমএসসির পরিচয় তার প্রতিষ্ঠার ইতিহাস, শিক্ষার্থী এবং প্রতিদিনের শিক্ষা কার্যক্রমের সঙ্গে জড়িত।"
-                  : "KCMSC’s identity is tied to its founding, the students it serves, and the ordinary work of teaching and learning."}
-              </p>
-            </div>
-
-            <div className="divide-y divide-[#D9E2EC] border-y border-[#D9E2EC]">
-              {milestones.map((item, index) => (
-                <article
-                  key={item.year}
-                  className="grid gap-5 py-7 sm:grid-cols-[150px_1fr] sm:items-start"
-                >
-                  <div className="text-xs font-bold uppercase tracking-[.15em] text-[#C27A05]">
-                    {item.year}
+          <div className="mt-12 grid gap-5 md:grid-cols-3">
+            {milestones.map((item, index) => (
+              <Reveal key={item.year} delay={index * 120} className="h-full">
+                <article className="kc-sub-panel flex h-full flex-col p-7 sm:p-8">
+                  <div className="flex items-center justify-between gap-4">
+                    <span className="kc-sub-year">{item.year}</span>
+                    <span className="font-heading text-3xl text-[#c9a83f]">0{index + 1}</span>
                   </div>
-
-                  <div>
-                    <div className="flex items-baseline gap-3">
-                      <span className="text-[12px] text-[#C27A05]">
-                        0{index + 1}
-                      </span>
-                      <h3 className="font-heading text-2xl text-[#12324A]">
-                        {item.title}
-                      </h3>
-                    </div>
-
-                    <p className="mt-3 max-w-2xl text-sm leading-7 text-[#64748B]">
-                      {item.text}
-                    </p>
-                  </div>
+                  <h3 className="mt-8 font-heading text-2xl leading-snug text-[#124c36]">{item.title}</h3>
+                  <p className="mt-3 flex-1 text-[15px] leading-7 text-[#58645c]">{item.text}</p>
                 </article>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Mission and vision */}
-      <section className="border-y border-[#D9E2EC] bg-[#12324A] text-[#F8FAFC]">
-        <div className="mx-auto grid max-w-[1440px] lg:grid-cols-2">
-          <div className="border-b border-white/15 px-6 py-14 sm:px-10 lg:border-r lg:border-b-0 lg:px-16 lg:py-20">
-            <span className="kc-light-kicker">{bn ? "লক্ষ্য" : "Mission"}</span>
-
-            <p className="mt-7 max-w-2xl font-heading text-[clamp(2rem,3.5vw,3.7rem)] leading-[1.02] tracking-[-.03em]">
-              “{dict.about.mission}”
-            </p>
-          </div>
-
-          <div className="px-6 py-14 sm:px-10 lg:px-16 lg:py-20">
-            <span className="kc-light-kicker">
-              {bn ? "দৃষ্টিভঙ্গি" : "Vision"}
-            </span>
-
-            <p className="mt-7 max-w-2xl font-heading text-[clamp(2rem,3.5vw,3.7rem)] leading-[1.02] tracking-[-.03em]">
-              “{dict.about.vision}”
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Leadership and community */}
-      <section className="kc-classic-section bg-[#ebe7dc]">
-        <div className="mx-auto max-w-[1240px] px-6 sm:px-10">
-          <div className="grid overflow-hidden border border-[#D9E2EC] bg-[#f7f4ec] lg:grid-cols-[1.18fr_.82fr]">
-            <div className="relative min-h-[300px] lg:min-h-[560px]">
-              <Image
-                src="/kcmsc/about/leadership-gathering.jpg"
-                alt="KCMSC leadership and school community gathering"
-                fill
-                sizes="(min-width: 1024px) 58vw, 100vw"
-                className="object-cover object-center"
-                quality={90}
-              />
-            </div>
-
-            <div className="flex flex-col justify-center p-8 sm:p-12 lg:p-16">
-              <span className="kc-classic-kicker">
-                {bn ? "মানুষ ও নেতৃত্ব" : "People behind the school"}
-              </span>
-
-              <h2 className="mt-5 font-heading text-4xl leading-[.98] tracking-[-.035em] text-[#12324A] sm:text-5xl">
-                {bn
-                  ? "একটি প্রতিষ্ঠানের পরিচয় তার মানুষদের মধ্যেও ফুটে ওঠে।"
-                  : "A school is shaped by the people who serve it."}
-              </h2>
-
-              <p className="mt-6 text-sm leading-7 text-[#64748B]">
-                {bn
-                  ? "প্রতিষ্ঠাতা, প্রশাসন ও শিক্ষক নেতৃত্ব কেসিএমএসসির শিক্ষা কার্যক্রমকে এগিয়ে নিয়ে যায়।"
-                  : "The founders, administration and academic leadership form the people responsible for guiding KCMSC’s educational environment."}
-              </p>
-
-              <div className="mt-8 border-t border-[#D9E2EC] pt-5 text-[12px] font-semibold uppercase tracking-[.13em] text-[#8a8d87]">
-                {bn
-                  ? "কেসিএমএসসি · নেতৃত্ব ও কমিউনিটি"
-                  : "KCMSC · leadership and community"}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Leadership list */}
-      <section className="kc-classic-section bg-[#FFFFFF]">
-        <div className="mx-auto max-w-[1240px] px-6 sm:px-10">
-          <div className="flex flex-col justify-between gap-6 border-b border-[#D9E2EC] pb-8 md:flex-row md:items-end">
-            <div>
-              <span className="kc-classic-kicker">
-                {bn ? "নেতৃত্ব" : "Leadership"}
-              </span>
-
-              <h2 className="mt-4 font-heading text-4xl tracking-[-.03em] text-[#12324A] sm:text-5xl">
-                {bn
-                  ? "যাঁরা প্রতিষ্ঠানটির নেতৃত্ব দেন।"
-                  : "The people who lead the institution."}
-              </h2>
-            </div>
-
-            <p className="max-w-sm text-sm leading-6 text-[#727970]">
-              {bn
-                ? "প্রতিষ্ঠানের নেতৃত্বের প্রধান দায়িত্বগুলো এক নজরে।"
-                : "The institution’s principal leadership roles."}
-            </p>
-          </div>
-
-          <div className="mt-2 divide-y divide-[#D9E2EC]">
-            {dict.leadership.map((person, index) => (
-              <div
-                key={person.name}
-                className="grid gap-3 py-6 sm:grid-cols-[80px_1fr_auto] sm:items-center"
-              >
-                <span className="text-xs font-bold tracking-[.14em] text-[#C27A05]">
-                  0{index + 1}
-                </span>
-
-                <div>
-                  <p className="font-heading text-2xl text-[#12324A]">
-                    {person.name}
-                  </p>
-                  <p className="mt-1 text-sm text-[#747b74]">{person.role}</p>
-                </div>
-
-                <span className="hidden text-[12px] font-bold uppercase tracking-[.16em] text-[#C27A05] sm:block">
-                  KCMSC
-                </span>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Trustee board */}
-      <section className="border-t border-[#D9E2EC] bg-[#e9e5da] py-16 sm:py-20">
-        <div className="mx-auto max-w-[1240px] px-6 sm:px-10">
-          <div className="grid gap-8 lg:grid-cols-[.55fr_1.45fr]">
-            <div>
-              <span className="kc-classic-kicker">
-                {bn ? "ট্রাস্টি বোর্ড" : "Trustee board"}
-              </span>
-
-              <h2 className="mt-4 font-heading text-4xl leading-[.98] tracking-[-.03em] text-[#12324A] sm:text-5xl">
-                {dict.trusteeBoard.heading}
-              </h2>
+      {/* Mission and vision */}
+      <section className="pb-20 lg:pb-28">
+        <div className="mx-auto grid max-w-[1180px] gap-5 px-5 sm:px-8 lg:grid-cols-2 lg:px-10">
+          <Reveal className="h-full">
+            <div className="kc-faculty-band h-full rounded-[28px] p-9 sm:p-12 lg:p-14">
+              <p className="kc-sub-hero-kicker">{bn ? "লক্ষ্য" : "Mission"}</p>
+              <p className="mt-6 font-heading text-[clamp(1.9rem,3vw,3rem)] leading-[1.1] tracking-[-.02em]">
+                “{dict.about.mission}”
+              </p>
             </div>
+          </Reveal>
+          <Reveal delay={120} className="h-full">
+            <div className="kc-sub-panel h-full rounded-[28px] p-9 sm:p-12 lg:p-14">
+              <p className="kc-classic-kicker">{bn ? "দৃষ্টিভঙ্গি" : "Vision"}</p>
+              <p className="mt-6 font-heading text-[clamp(1.9rem,3vw,3rem)] leading-[1.1] tracking-[-.02em] text-[#124c36]">
+                “{dict.about.vision}”
+              </p>
+            </div>
+          </Reveal>
+        </div>
+      </section>
 
-            <div className="grid border-t border-[#CBD5E1] sm:grid-cols-2">
-              {dict.trusteeBoard.members.map((member, index) => (
+      {/* People behind the school */}
+      <section className="pb-20 lg:pb-28">
+        <div className="mx-auto max-w-[1180px] px-5 sm:px-8 lg:px-10">
+          <Reveal>
+            <div className="grid overflow-hidden rounded-[32px] border border-[#e4e2da] bg-[#fffdf8] shadow-[var(--kc-shadow-card)] lg:grid-cols-[1.1fr_.9fr]">
+              <div className="relative min-h-[300px] lg:min-h-[520px]">
+                <Image
+                  src="/kcmsc/about/leadership-gathering.jpg"
+                  alt="KCMSC leadership and school community gathering"
+                  fill
+                  sizes="(min-width: 1024px) 55vw, 100vw"
+                  className="object-cover object-center transition duration-700 ease-out hover:scale-[1.03]"
+                  quality={90}
+                />
+              </div>
+              <div className="flex flex-col justify-center p-8 sm:p-12 lg:p-16">
+                <p className="kc-classic-kicker">{bn ? "মানুষ ও নেতৃত্ব" : "People behind the school"}</p>
+                <h2 className="kc-classic-title mt-5">
+                  {bn
+                    ? "একটি প্রতিষ্ঠানের পরিচয় তার মানুষদের মধ্যেও ফুটে ওঠে।"
+                    : "A school is shaped by the people who serve it."}
+                </h2>
+                <p className="mt-6 text-[15px] leading-7 text-[#69716b]">
+                  {bn
+                    ? "প্রতিষ্ঠাতা, প্রশাসন ও শিক্ষক নেতৃত্ব কেসিএমএসসির শিক্ষা কার্যক্রমকে এগিয়ে নিয়ে যায়।"
+                    : "The founders, administration and academic leadership form the people responsible for guiding KCMSC’s educational environment."}
+                </p>
+                <div className="mt-8 border-t border-[#e4e2da] pt-5 text-[12px] font-semibold uppercase tracking-[.14em] text-[#1f8a5b]">
+                  {bn ? "কেসিএমএসসি · নেতৃত্ব ও কমিউনিটি" : "KCMSC · leadership and community"}
+                </div>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Leadership */}
+      <section className="pb-20 lg:pb-28">
+        <div className="mx-auto max-w-[1180px] px-5 sm:px-8 lg:px-10">
+          <SubpageIntro
+            kicker={bn ? "নেতৃত্ব" : "Leadership"}
+            title={bn ? "যাঁরা প্রতিষ্ঠানটির নেতৃত্ব দেন।" : "The people who lead the institution."}
+            aside={
+              <p className="max-w-sm text-[15px] leading-7 text-[#69716b]">
+                {bn
+                  ? "প্রতিষ্ঠানের নেতৃত্বের প্রধান দায়িত্বগুলো এক নজরে।"
+                  : "The institution’s principal leadership roles."}
+              </p>
+            }
+          />
+
+          <Reveal className="mt-12">
+            <div className="overflow-hidden rounded-3xl border border-[#e4e2da] bg-[#fffdf8] shadow-[var(--kc-shadow-card)]">
+              {dict.leadership.map((person, index) => (
                 <div
-                  key={member.name}
-                  className="border-b border-[#CBD5E1] py-5 sm:[&:nth-child(odd)]:border-r sm:[&:nth-child(odd)]:pr-6 sm:[&:nth-child(even)]:pl-6"
+                  key={person.name}
+                  className="kc-sub-row grid items-center gap-3 border-t border-[#e4e2da] px-6 py-6 first:border-t-0 sm:grid-cols-[72px_1fr_auto] sm:px-10"
                 >
-                  <span className="text-[12px] font-bold tracking-[.14em] text-[#C27A05]">
-                    0{index + 1}
+                  <span className="text-xs font-bold tracking-[.14em] text-[#1f8a5b]">0{index + 1}</span>
+                  <div>
+                    <p className="font-heading text-2xl text-[#124c36]">{person.name}</p>
+                    <p className="mt-1 text-sm text-[#69716b]">{person.role}</p>
+                  </div>
+                  <span className="hidden text-[12px] font-semibold uppercase tracking-[.16em] text-[#c9a83f] sm:block">
+                    KCMSC
                   </span>
-
-                  <p className="mt-2 font-medium text-[#26382f]">
-                    {member.name}
-                  </p>
-
-                  <p className="mt-1 text-sm text-[#727970]">
-                    {member.designation}
-                  </p>
                 </div>
               ))}
             </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Trustee board */}
+      <section className="pb-20 lg:pb-28">
+        <div className="mx-auto grid max-w-[1180px] gap-10 px-5 sm:px-8 lg:grid-cols-[.8fr_1.2fr] lg:items-start lg:px-10">
+          <Reveal>
+            <p className="kc-classic-kicker">{bn ? "ট্রাস্টি বোর্ড" : "Trustee board"}</p>
+            <h2 className="kc-classic-title mt-3">{dict.trusteeBoard.heading}</h2>
+          </Reveal>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            {dict.trusteeBoard.members.map((member, index) => (
+              <Reveal key={member.name} delay={index * 80} className="h-full">
+                <div className="kc-sub-panel flex h-full items-start gap-4 p-6">
+                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-[#e3f2e9] font-heading text-lg text-[#176b45]">
+                    0{index + 1}
+                  </span>
+                  <div className="min-w-0">
+                    <p className="font-medium text-[#26382f]">{member.name}</p>
+                    <p className="mt-1 text-sm text-[#69716b]">{member.designation}</p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Institutional information */}
-      <section className="border-t border-[#D9E2EC] bg-[#F8FAFC] py-14 sm:py-16">
-        <div className="mx-auto max-w-[1240px] px-6 sm:px-10">
-          <div className="max-w-2xl">
-            <span className="kc-classic-kicker">
-              {bn ? "প্রাতিষ্ঠানিক পরিচিতি" : "Official identification"}
-            </span>
-
-            <h2 className="mt-4 font-heading text-3xl leading-tight tracking-[-.03em] text-[#12324A] sm:text-4xl">
-              {bn ? "প্রাতিষ্ঠানিক তথ্য" : "Institutional information"}
-            </h2>
-
-            <p className="mt-3 text-sm leading-6 text-[#747b74]">
-              {bn
+      {/* Official identification */}
+      <section className="pb-20 lg:pb-28">
+        <div className="mx-auto max-w-[1180px] px-5 sm:px-8 lg:px-10">
+          <SubpageIntro
+            kicker={bn ? "প্রাতিষ্ঠানিক পরিচিতি" : "Official identification"}
+            title={bn ? "প্রাতিষ্ঠানিক তথ্য" : "Institutional information"}
+            body={
+              bn
                 ? "প্রতিষ্ঠানটির পরিচিতিমূলক তথ্য ও কোড।"
-                : "Official identification details for K C Model School & College."}
-            </p>
+                : "Official identification details for K C Model School & College."
+            }
+          />
+
+          <div className="mt-12 grid gap-5 sm:grid-cols-3">
+            {identity.map((item, index) => (
+              <Reveal key={item.label} delay={index * 120} className="h-full">
+                <div className="kc-sub-panel relative h-full overflow-hidden p-7 sm:p-8">
+                  <div className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-[#27a872] to-[#176b45]" aria-hidden="true" />
+                  <p className="text-xs font-semibold uppercase tracking-[.16em] text-[#69716b]">{item.label}</p>
+                  <p className="mt-4 font-heading text-4xl tabular-nums text-[#176b45]">{item.value}</p>
+                </div>
+              </Reveal>
+            ))}
           </div>
-
-          <dl className="mt-8 grid overflow-hidden border-y border-[#D9E2EC] sm:grid-cols-3">
-            <div className="py-5 sm:py-7 sm:pr-6">
-              <dt className="text-[12px] uppercase tracking-[.16em] text-[#747b74]">
-                EIIN
-              </dt>
-              <dd className="mt-2 font-heading text-3xl text-[#176b45] sm:text-4xl">
-                137368
-              </dd>
-            </div>
-
-            <div className="border-t border-[#D9E2EC] py-5 sm:border-l sm:border-t-0 sm:px-6 sm:py-7">
-              <dt className="text-[12px] uppercase tracking-[.16em] text-[#747b74]">
-                {bn ? "স্কুল কোড" : "School Code"}
-              </dt>
-              <dd className="mt-2 font-heading text-3xl text-[#176b45] sm:text-4xl">
-                1417
-              </dd>
-            </div>
-
-            <div className="border-t border-[#D9E2EC] py-5 sm:border-l sm:border-t-0 sm:pl-6 sm:py-7">
-              <dt className="text-[12px] uppercase tracking-[.16em] text-[#747b74]">
-                {bn ? "কলেজ কোড" : "College Code"}
-              </dt>
-              <dd className="mt-2 font-heading text-3xl text-[#176b45] sm:text-4xl">
-                1290
-              </dd>
-            </div>
-          </dl>
         </div>
       </section>
 
-      {/* Continue exploring */}
-      <section className="bg-[#12324A] px-6 py-14 text-[#F8FAFC] sm:px-10 sm:py-16">
-        <div className="mx-auto flex max-w-[1240px] flex-col justify-between gap-8 md:flex-row md:items-end">
-          <div>
-            <span className="kc-light-kicker">
-              {bn ? "আরও জানুন" : "Continue exploring"}
-            </span>
-
-            <h2 className="mt-4 max-w-2xl font-heading text-4xl leading-[.98] tracking-[-.03em] sm:text-5xl">
-              {bn
-                ? "শিক্ষা ও দৈনন্দিন কার্যক্রমের মাধ্যমে কেসিএমএসসিকে আরও কাছ থেকে দেখুন।"
-                : "See KCMSC through its teaching and everyday school life."}
-            </h2>
-          </div>
-
-          <div className="flex flex-wrap gap-3">
-            <Link
-              href={`/${locale}/academics`}
-              className="kc-classic-button kc-classic-button-light"
-            >
+      <SubpageCTA
+        kicker={bn ? "আরও জানুন" : "Continue exploring"}
+        title={
+          bn
+            ? "শিক্ষা ও দৈনন্দিন কার্যক্রমের মাধ্যমে কেসিএমএসসিকে আরও কাছ থেকে দেখুন।"
+            : "See KCMSC through its teaching and everyday school life."
+        }
+        actions={
+          <>
+            <Link href={`/${locale}/academics`} className="kc-classic-button kc-classic-button-light">
               {bn ? "শিক্ষাব্যবস্থা" : "Academics"}
             </Link>
-
-            <Link
-              href={`/${locale}/student-life`}
-              className="kc-classic-button kc-classic-button-ghost-light"
-            >
+            <Link href={`/${locale}/student-life`} className="kc-classic-button kc-classic-button-ghost-light">
               {bn ? "শিক্ষাজীবন" : "Student life"}
             </Link>
-          </div>
-        </div>
-      </section>
-    </main>
+          </>
+        }
+      />
+    </div>
   );
 }

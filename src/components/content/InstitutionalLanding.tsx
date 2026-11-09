@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { isLocale, type Locale } from "@/i18n/config";
 import AcademicCalendar from "@/components/content/AcademicCalendar";
+import { SubpageHero } from "@/components/subpage/SubpageKit";
 
 type Item = {
   title: string;
@@ -579,32 +580,35 @@ export function InstitutionalLanding({
         ];
     return (
       <main className="kc-why-journey bg-[#f8f7f1] text-[#173f32]">
-        {/* The tall stage keeps the video pinned while the next section rises over it. */}
-        <div className="kc-why-scroll-stage relative h-[140svh] -mb-[40svh]">
-        <section className="kc-why-hero sticky top-0 isolate flex h-[100svh] min-h-[600px] overflow-hidden bg-[#102f25] text-[#fffdf7]">
-          <video className="kc-why-hero-video absolute inset-0 -z-20 h-full w-full object-cover" autoPlay muted loop playsInline preload="metadata" poster="/kcmsc/hero/kcmsc-building.jpg" aria-hidden="true">
-            <source src="/videos/kcmsc-campus.mp4" type="video/mp4" />
-          </video>
-          <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(7,34,25,.91)_0%,rgba(7,34,25,.76)_42%,rgba(7,34,25,.35)_100%)]" />
-          <div className="absolute inset-0 -z-10 bg-[linear-gradient(0deg,rgba(7,34,25,.74)_0%,transparent_55%)]" />
-          <div className="mx-auto flex w-full max-w-[1440px] flex-col justify-between px-6 pb-8 pt-20 sm:px-10 sm:pb-10 sm:pt-24 lg:px-14 lg:pb-12 lg:pt-28">
-            <div className="max-w-4xl">
-              <p className="kc-light-kicker">{bn ? "কেন KCMSC · আমাদের শিক্ষাযাত্রা" : "WHY KCMSC · OUR LEARNING JOURNEY"}</p>
-              <h1 className="mt-6 max-w-5xl font-heading text-[clamp(3.15rem,8vw,7.8rem)] leading-[.88] tracking-[-.06em]">{bn ? "শেখার প্রতিটি ধাপে, সম্ভাবনার আরও কাছে।" : "A school journey shaped by learning, discovery and possibility."}</h1>
-              <p className="mt-7 max-w-2xl text-base leading-7 text-white/85 sm:text-lg sm:leading-8">{bn ? "প্লে গ্রুপ থেকে দ্বাদশ শ্রেণি পর্যন্ত বাংলা ও ইংরেজি ভার্সনে জাতীয় শিক্ষাক্রম অনুসরণ করে KCMSC শিক্ষার্থীদের শেখার ধারাবাহিক যাত্রায় সঙ্গী হয়।" : "From Play Group to Grade XII, KCMSC serves learners through Bangla and English Versions of the National Curriculum, connecting each stage of school life to the next."}</p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <Link href={`/${locale}/academics`} className="inline-flex min-h-12 items-center gap-3 border border-[#e6d69a] bg-[#e6d69a] px-5 text-sm font-semibold text-[#173f32] transition hover:bg-[#f3e7bd]">{bn ? "একাডেমিক কাঠামো দেখুন" : "Explore academics"}<span aria-hidden="true">↗</span></Link>
-                <Link href={`/${locale}/admissions`} className="inline-flex min-h-12 items-center gap-3 border border-white/55 px-5 text-sm font-semibold text-white transition hover:bg-white/10">{bn ? "ভর্তি তথ্য" : "Admissions information"}<span aria-hidden="true">↗</span></Link>
+        <SubpageHero
+          kicker={bn ? "কেন KCMSC · আমাদের শিক্ষাযাত্রা" : "WHY KCMSC · OUR LEARNING JOURNEY"}
+          title={bn ? "শেখার প্রতিটি ধাপে, সম্ভাবনার আরও কাছে।" : "A school journey shaped by learning, discovery and possibility."}
+          body={bn ? "প্লে গ্রুপ থেকে দ্বাদশ শ্রেণি পর্যন্ত বাংলা ও ইংরেজি ভার্সনে জাতীয় শিক্ষাক্রম অনুসরণ করে KCMSC শিক্ষার্থীদের শেখার ধারাবাহিক যাত্রায় সঙ্গী হয়।" : "From Play Group to Grade XII, KCMSC serves learners through Bangla and English Versions of the National Curriculum, connecting each stage of school life to the next."}
+          image="/kcmsc/hero/kcmsc-building.jpg"
+          imageAlt="K C Model School & College building"
+          priority
+          actions={
+            <>
+              <Link href={`/${locale}/academics`} className="kc-classic-button kc-classic-button-light">
+                {bn ? "একাডেমিক কাঠামো দেখুন" : "Explore academics"}
+              </Link>
+              <Link href={`/${locale}/admissions`} className="kc-classic-button kc-classic-button-ghost-light">
+                {bn ? "ভর্তি তথ্য" : "Admissions information"}
+              </Link>
+            </>
+          }
+        />
+
+        <section className="border-b border-[#e4e2da] bg-[#f8f7f1] py-10">
+          <div className="mx-auto grid max-w-[1180px] gap-5 px-5 sm:grid-cols-3 sm:px-8 lg:px-10">
+            {(bn ? [{ label: "শিক্ষার পরিসর", value: "প্লে গ্রুপ – দ্বাদশ" }, { label: "পাঠ্যক্রম", value: "বাংলা ও ইংরেজি ভার্সন" }, { label: "অবস্থান", value: "দক্ষিণখান, ঢাকা" }] : [{ label: "LEARNING SPAN", value: "Play Group – Grade XII" }, { label: "CURRICULUM", value: "Bangla & English Versions" }, { label: "LOCATION", value: "Dakshinkhan, Dhaka" }]).map((fact) => (
+              <div key={fact.label} className="kc-sub-panel p-6">
+                <p className="kc-classic-kicker">{fact.label}</p>
+                <p className="mt-3 font-heading text-2xl text-[#124c36]">{fact.value}</p>
               </div>
-            </div>
-            <div className="mt-16 grid gap-5 border-t border-white/30 pt-5 sm:grid-cols-3 sm:gap-8">
-              <div><p className="text-[12px] font-semibold uppercase tracking-[.2em] text-[#e6d69a]">{bn ? "শিক্ষার পরিসর" : "LEARNING SPAN"}</p><p className="mt-2 font-heading text-2xl sm:text-3xl">{bn ? "প্লে গ্রুপ – দ্বাদশ" : "Play Group – Grade XII"}</p></div>
-              <div><p className="text-[12px] font-semibold uppercase tracking-[.2em] text-[#e6d69a]">{bn ? "পাঠ্যক্রম" : "CURRICULUM"}</p><p className="mt-2 font-heading text-2xl sm:text-3xl">{bn ? "বাংলা ও ইংরেজি ভার্সন" : "Bangla & English Versions"}</p></div>
-              <div><p className="text-[12px] font-semibold uppercase tracking-[.2em] text-[#e6d69a]">{bn ? "অবস্থান" : "LOCATION"}</p><p className="mt-2 font-heading text-2xl sm:text-3xl">{bn ? "দক্ষিণখান, ঢাকা" : "Dakshinkhan, Dhaka"}</p></div>
-            </div>
+            ))}
           </div>
         </section>
-        </div>
 
         <section className="kc-why-intro relative z-10 border-b border-[#deddd3] bg-[#fffdf7]">
           <div className="mx-auto grid max-w-[1240px] gap-8 px-6 py-16 sm:px-10 sm:py-20 lg:grid-cols-[.72fr_1.28fr] lg:px-12 lg:py-24">

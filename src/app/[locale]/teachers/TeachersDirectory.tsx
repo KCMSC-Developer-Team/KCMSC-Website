@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import type { Locale } from "@/i18n/config";
+import { SubpageHero } from "@/components/subpage/SubpageKit";
+import { Reveal } from "@/components/home/Reveal";
 
 type Teacher = {
   id: string;
@@ -57,131 +59,267 @@ export default function TeachersDirectory({ locale, teachers, initialWing = "all
     setPage(1);
   }
 
-  return (
-    <main className="min-h-screen bg-[#edf1ed] text-[#17352a]">
-      <section className="kc-feature-hero relative isolate min-h-[390px] overflow-hidden border-b border-[#b59a4a] bg-[#102f24] text-white sm:min-h-[450px] lg:min-h-[490px]">
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 -z-20 bg-cover bg-center"
-          style={{ backgroundImage: "url('/kcmsc/hero/kcmsc-building.jpg')" }}
-        />
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 -z-10"
-          style={{
-            backgroundImage:
-              "linear-gradient(90deg, rgba(8,31,23,.94) 0%, rgba(13,48,35,.86) 48%, rgba(13,48,35,.54) 100%), linear-gradient(0deg, rgba(8,31,23,.35), transparent 55%)",
-          }}
-        />
-        <div className="kc-feature-hero mx-auto flex min-h-[390px] max-w-[1240px] items-center px-5 py-16 sm:min-h-[450px] sm:px-10 sm:py-20 lg:min-h-[490px]">
-          <div className="max-w-[780px]">
-            <div className="flex items-center gap-3">
-              <span className="h-px w-10 bg-[#d7bd68]" />
-              <p className="text-[12px] font-semibold uppercase tracking-[.25em] text-[#e5cf83]">
-                {bn ? "কে সি মডেল স্কুল অ্যান্ড কলেজ · শিক্ষকবৃন্দ" : "K C MODEL SCHOOL & COLLEGE · FACULTY"}
-              </p>
-            </div>
-            <h1 className="mt-6 max-w-[760px] font-heading text-[2.8rem] font-normal leading-[.98] tracking-[-.045em] sm:text-6xl lg:text-[5.1rem]">
-              {bn ? "শিক্ষার পেছনের মানুষগুলো" : <>Meet the people<br className="hidden sm:block" /> behind learning.</>}
-            </h1>
-            <p className="mt-6 max-w-[550px] text-sm leading-7 text-white/80 sm:text-base sm:leading-8">
-              {bn
-                ? "আমাদের শিক্ষকবৃন্দের পরিচিতি, একাডেমিক দক্ষতা ও বিষয়ভিত্তিক তথ্য খুঁজে দেখুন।"
-                : "Get to know the educators who guide our students, share their expertise and bring learning to life across KCMSC."}
-            </p>
-            <div className="mt-8 flex flex-wrap items-center gap-4">
-              <a href="#faculty-directory" className="inline-flex min-h-12 items-center gap-5 border border-[#d9c47e] bg-[#d9c47e] px-5 text-xs font-semibold uppercase tracking-[.13em] text-[#17382a] transition hover:bg-[#eadba7]">
-                {bn ? "শিক্ষক খুঁজুন" : "Explore faculty"} <span aria-hidden="true" className="text-base">↘</span>
-              </a>
-              <span className="text-xs tracking-wide text-white/65">{bn ? "নাম, বিষয় ও বিভাগ দিয়ে অনুসন্ধান করুন" : "Search by name, subject or division"}</span>
-            </div>
-          </div>
-        </div>
-        <div className="absolute bottom-0 left-0 h-1 w-2/5 bg-[#d9c47e]" />
-      </section>
+  const hasFilter = Boolean(search || wing !== "all" || subject !== "all");
+  const pageButtonBase =
+    "min-w-10 rounded-full border px-3.5 py-2 text-xs font-semibold transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-40";
+  const pageButton = (active: boolean) =>
+    `${pageButtonBase} ${
+      active
+        ? "border-[#1f8a5b] bg-[#1f8a5b] text-white"
+        : "border-[#d3e3d8] bg-white text-[#365443] hover:border-[#1f8a5b] hover:text-[#1f8a5b]"
+    }`;
+  const filterLabel = "mb-2 block text-[11px] font-semibold uppercase tracking-[.16em] text-[#607266]";
+  const selectClass =
+    "h-12 w-full rounded-xl border border-[#d3e3d8] bg-white px-4 text-sm text-[#17352a] outline-none transition focus:border-[#1f8a5b] focus:shadow-[0_0_0_4px_rgba(31,138,91,.12)]";
 
-      <section id="faculty-directory" className="mx-auto max-w-[1240px] px-5 py-8 sm:px-10 sm:py-12">
-        <div className="border border-[#d3ddd4] bg-[#f8faf7]">
-          <div className="grid gap-4 p-4 sm:grid-cols-[minmax(220px,1fr)_220px_220px] sm:p-5">
-            <label className="block">
-              <span className="mb-2 block text-[12px] font-semibold uppercase tracking-[.16em] text-[#607266]">{bn ? "শিক্ষক খুঁজুন" : "Search faculty"}</span>
-              <div className="flex h-11 items-center border border-[#cbd7cd] bg-white focus-within:border-[#176b45]">
-                <span aria-hidden="true" className="pl-3 text-[#718477]">⌕</span>
-                <input value={search} onChange={e => { setSearch(e.target.value); setPage(1); }} placeholder={bn ? "নাম, বিষয় বা পদবি..." : "Name, subject or designation..."} className="h-full min-w-0 flex-1 bg-transparent px-3 text-sm text-[#17352a] outline-none placeholder:text-[#8b9990]" />
-                {search && <button onClick={() => { setSearch(""); setPage(1); }} className="px-3 text-xs text-[#607266]" aria-label="Clear search">×</button>}
-              </div>
-            </label>
-            <label className="block">
-              <span className="mb-2 block text-[12px] font-semibold uppercase tracking-[.16em] text-[#607266]">{bn ? "বিভাগ" : "School division"}</span>
-              <select value={wing} onChange={e => { setWing(e.target.value); setPage(1); }} className="h-11 w-full border border-[#cbd7cd] bg-white px-3 text-sm text-[#17352a] outline-none focus:border-[#176b45]">
-                <option value="all">{bn ? "সব বিভাগ" : "All divisions"}</option>
-                {wings.map(w => <option key={w} value={w}>{w}</option>)}
-              </select>
-            </label>
-            <label className="block">
-              <span className="mb-2 block text-[12px] font-semibold uppercase tracking-[.16em] text-[#607266]">{bn ? "বিষয়" : "Subject"}</span>
-              <select value={subject} onChange={e => { setSubject(e.target.value); setPage(1); }} className="h-11 w-full border border-[#cbd7cd] bg-white px-3 text-sm text-[#17352a] outline-none focus:border-[#176b45]">
-                <option value="all">{bn ? "সব বিষয়" : "All subjects"}</option>
-                {subjects.map(s => <option key={s} value={s}>{s}</option>)}
-              </select>
-            </label>
+  return (
+    <div className="kc-sub-page min-h-screen">
+      <SubpageHero
+        kicker={bn ? "কে সি মডেল স্কুল অ্যান্ড কলেজ · শিক্ষকবৃন্দ" : "K C MODEL SCHOOL & COLLEGE · FACULTY"}
+        title={bn ? "শিক্ষার পেছনের মানুষগুলো" : "Meet the people behind learning."}
+        body={
+          bn
+            ? "আমাদের শিক্ষকবৃন্দের পরিচিতি, একাডেমিক দক্ষতা ও বিষয়ভিত্তিক তথ্য খুঁজে দেখুন।"
+            : "Get to know the educators who guide our students, share their expertise and bring learning to life across KCMSC."
+        }
+        image="/kcmsc/hero/kcmsc-building.jpg"
+        imageAlt="K C Model School & College campus"
+        priority
+        actions={
+          <>
+            <a href="#faculty-directory" className="kc-classic-button kc-classic-button-light gap-2">
+              {bn ? "শিক্ষক খুঁজুন" : "Explore faculty"} <span aria-hidden="true">↘</span>
+            </a>
+            <span className="self-center text-sm text-white/75">
+              {bn ? "নাম, বিষয় ও বিভাগ দিয়ে অনুসন্ধান করুন" : "Search by name, subject or division"}
+            </span>
+          </>
+        }
+      />
+
+      <section id="faculty-directory" className="mx-auto max-w-[1180px] px-5 pb-20 pt-12 sm:px-8 lg:px-10 lg:pb-28">
+        {/* Filters */}
+        <Reveal>
+          <div className="kc-sub-panel p-5 sm:p-6">
+            <div className="grid gap-5 sm:grid-cols-[minmax(0,1fr)_220px_220px]">
+              <label className="block">
+                <span className={filterLabel}>{bn ? "শিক্ষক খুঁজুন" : "Search faculty"}</span>
+                <div className="flex h-12 items-center gap-3 rounded-xl border border-[#d3e3d8] bg-white px-4 transition focus-within:border-[#1f8a5b] focus-within:shadow-[0_0_0_4px_rgba(31,138,91,.12)]">
+                  <span aria-hidden="true" className="text-[#718477]">⌕</span>
+                  <input
+                    value={search}
+                    onChange={(e) => {
+                      setSearch(e.target.value);
+                      setPage(1);
+                    }}
+                    placeholder={bn ? "নাম, বিষয় বা পদবি..." : "Name, subject or designation..."}
+                    className="h-full min-w-0 flex-1 bg-transparent text-sm text-[#17352a] outline-none placeholder:text-[#8b9990]"
+                  />
+                  {search && (
+                    <button
+                      onClick={() => {
+                        setSearch("");
+                        setPage(1);
+                      }}
+                      className="rounded-full px-2 text-sm text-[#607266] hover:text-[#1f8a5b]"
+                      aria-label="Clear search"
+                    >
+                      ×
+                    </button>
+                  )}
+                </div>
+              </label>
+
+              <label className="block">
+                <span className={filterLabel}>{bn ? "বিভাগ" : "School division"}</span>
+                <select
+                  value={wing}
+                  onChange={(e) => {
+                    setWing(e.target.value);
+                    setPage(1);
+                  }}
+                  className={selectClass}
+                >
+                  <option value="all">{bn ? "সব বিভাগ" : "All divisions"}</option>
+                  {wings.map((w) => (
+                    <option key={w} value={w}>
+                      {w}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label className="block">
+                <span className={filterLabel}>{bn ? "বিষয়" : "Subject"}</span>
+                <select
+                  value={subject}
+                  onChange={(e) => {
+                    setSubject(e.target.value);
+                    setPage(1);
+                  }}
+                  className={selectClass}
+                >
+                  <option value="all">{bn ? "সব বিষয়" : "All subjects"}</option>
+                  {subjects.map((s) => (
+                    <option key={s} value={s}>
+                      {s}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+
+            <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-[#e4e2da] pt-4">
+              <p className="text-sm text-[#64776a]">
+                <strong className="font-semibold text-[#17352a]">{filtered.length}</strong>{" "}
+                {bn ? "টি প্রোফাইল পাওয়া গেছে" : `of ${teachers.length} faculty profiles`}
+              </p>
+              {hasFilter && (
+                <button onClick={resetFilters} className="kc-classic-link text-sm">
+                  {bn ? "ফিল্টার মুছুন" : "Clear filters"}
+                </button>
+              )}
+            </div>
           </div>
-          <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#dbe3dc] px-4 py-3 sm:px-5">
-            <p className="text-xs text-[#64776a]"><strong className="font-semibold text-[#17352a]">{filtered.length}</strong> {bn ? "টি প্রোফাইল পাওয়া গেছে" : `of ${teachers.length} faculty profiles`}</p>
-            {(search || wing !== "all" || subject !== "all") && <button onClick={resetFilters} className="text-xs font-semibold text-[#176b45] underline decoration-[#b7c8ba] underline-offset-4">{bn ? "ফিল্টার মুছুন" : "Clear filters"}</button>}
-          </div>
-        </div>
+        </Reveal>
 
         {teachers.length === 0 ? (
-          <div className="mt-8 border border-[#d3ddd4] bg-[#f8faf7] px-6 py-16 text-center">
-            <p className="text-[12px] font-semibold uppercase tracking-[.18em] text-[#9a854a]">KCMSC FACULTY</p>
-            <h2 className="mt-3 font-heading text-2xl text-[#17352a]">{bn ? "শিক্ষক পরিচিতি প্রস্তুত করা হচ্ছে" : "Teacher profiles are being prepared"}</h2>
-            <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-[#64776a]">{bn ? "যাচাইকৃত তথ্য প্রকাশের সঙ্গে সঙ্গে এই তালিকা হালনাগাদ করা হবে।" : "Verified teacher profiles will appear here as they are approved for publication."}</p>
+          <div className="kc-sub-panel mt-10 px-6 py-16 text-center">
+            <p className="kc-classic-kicker">KCMSC FACULTY</p>
+            <h2 className="mt-3 font-heading text-3xl text-[#124c36]">
+              {bn ? "শিক্ষক পরিচিতি প্রস্তুত করা হচ্ছে" : "Teacher profiles are being prepared"}
+            </h2>
+            <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-[#64776a]">
+              {bn
+                ? "যাচাইকৃত তথ্য প্রকাশের সঙ্গে সঙ্গে এই তালিকা হালনাগাদ করা হবে।"
+                : "Verified teacher profiles will appear here as they are approved for publication."}
+            </p>
           </div>
         ) : visible.length === 0 ? (
-          <div className="mt-8 border border-[#d3ddd4] bg-[#f8faf7] px-6 py-16 text-center">
-            <h2 className="font-heading text-2xl text-[#17352a]">{bn ? "কোনো প্রোফাইল পাওয়া যায়নি" : "No matching faculty found"}</h2>
-            <p className="mt-2 text-sm text-[#64776a]">{bn ? "অনুসন্ধান বা ফিল্টার পরিবর্তন করে দেখুন।" : "Try another name, subject or division."}</p>
-            <button onClick={resetFilters} className="mt-5 border border-[#176b45] px-4 py-2 text-xs font-semibold uppercase tracking-wider text-[#176b45]">{bn ? "সব প্রোফাইল দেখুন" : "Show all profiles"}</button>
+          <div className="kc-sub-panel mt-10 px-6 py-16 text-center">
+            <h2 className="font-heading text-3xl text-[#124c36]">
+              {bn ? "কোনো প্রোফাইল পাওয়া যায়নি" : "No matching faculty found"}
+            </h2>
+            <p className="mt-2 text-sm text-[#64776a]">
+              {bn ? "অনুসন্ধান বা ফিল্টার পরিবর্তন করে দেখুন।" : "Try another name, subject or division."}
+            </p>
+            <button onClick={resetFilters} className="kc-classic-button kc-classic-button-primary mt-6">
+              {bn ? "সব প্রোফাইল দেখুন" : "Show all profiles"}
+            </button>
           </div>
         ) : (
           <>
-            <div className="mb-4 mt-8 flex items-end justify-between border-b border-[#cbd7cd] pb-3">
+            <div className="mb-6 mt-12 flex items-end justify-between gap-4 border-b border-[#e4e2da] pb-5">
               <div>
-                <p className="text-[12px] font-semibold uppercase tracking-[.18em] text-[#9a854a]">{bn ? "শিক্ষক ডিরেক্টরি" : "Faculty directory"}</p>
-                <h2 className="mt-1 font-heading text-2xl tracking-tight text-[#17352a]">{wing === "all" ? (bn ? "সকল শিক্ষক" : "All faculty") : wing}</h2>
+                <p className="kc-classic-kicker">{bn ? "শিক্ষক ডিরেক্টরি" : "Faculty directory"}</p>
+                <h2 className="kc-classic-title mt-2">
+                  {wing === "all" ? (bn ? "সকল শিক্ষক" : "All faculty") : wing}
+                </h2>
               </div>
-              <p className="text-xs text-[#64776a]">{bn ? `পৃষ্ঠা ${currentPage} / ${pageCount}` : `Page ${currentPage} of ${pageCount}`}</p>
+              <p className="shrink-0 text-sm text-[#64776a]">
+                {bn ? `পৃষ্ঠা ${currentPage} / ${pageCount}` : `Page ${currentPage} of ${pageCount}`}
+              </p>
             </div>
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {visible.map(t => (
-                <Link key={t.id} href={`/${locale}/teachers/${t.id}`} className="group flex min-h-[122px] border border-[#d3ddd4] bg-[#f9fbf8] transition-colors hover:border-[#176b45] hover:bg-white focus-visible:outline-[#176b45]">
-                  <div className="flex w-[94px] shrink-0 items-start justify-center border-r border-[#e0e7e0] bg-[#e7eee7] p-3">
-                    <div className="h-[76px] w-[62px] overflow-hidden bg-[#d5e2d6]">
-                      {t.photoUrl ? <img src={t.photoUrl} alt={t.name} loading="lazy" className="h-full w-full object-cover" /> : <div className="grid h-full place-items-center font-heading text-xl text-[#176b45]">{t.name.trim().split(/\s+/).slice(0,2).map(n => n[0]).join("").toUpperCase()}</div>}
+
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {visible.map((t, i) => (
+                <Reveal key={t.id} delay={Math.min(i, 5) * 60} className="h-full">
+                  <Link
+                    href={`/${locale}/teachers/${t.id}`}
+                    className="kc-sub-panel group flex h-full overflow-hidden focus-visible:outline-[#1f8a5b]"
+                  >
+                    <div className="relative w-[104px] shrink-0 overflow-hidden bg-gradient-to-br from-[#e3f2e9] via-white to-[#f6e9bf]">
+                      {t.photoUrl ? (
+                        <img
+                          src={t.photoUrl}
+                          alt=""
+                          loading="lazy"
+                          className="h-full w-full object-cover object-top transition duration-700 ease-out group-hover:scale-[1.06]"
+                        />
+                      ) : (
+                        <div className="grid h-full min-h-[150px] place-items-center font-heading text-2xl text-[#176b45]">
+                          {t.name.trim().split(/\s+/).slice(0, 2).map((n) => n[0]).join("").toUpperCase()}
+                        </div>
+                      )}
                     </div>
-                  </div>
-                  <div className="min-w-0 flex-1 p-3.5">
-                    <span className="block text-[12px] font-semibold uppercase tracking-[.12em] text-[#8b7840]">{t.wing}</span>
-                    <h3 className="mt-1 line-clamp-2 font-heading text-[17px] leading-snug text-[#17352a] group-hover:text-[#176b45]">{t.name}</h3>
-                    <p className="mt-1 line-clamp-2 text-xs leading-5 text-[#68796d]">{t.designation}</p>
-                    {t.subjects.length > 0 && <p className="mt-2 line-clamp-1 text-[12px] font-medium text-[#176b45]">{t.subjects.join(" · ")}</p>}
-                    <span className="mt-3 inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[.13em] text-[#176b45]">{bn ? "সম্পূর্ণ পরিচিতি" : "View profile"} <span aria-hidden="true">↗</span></span>
-                  </div>
-                </Link>
+
+                    <div className="flex min-w-0 flex-1 flex-col p-5">
+                      <span className="inline-flex w-fit rounded-full bg-[#f6e9bf] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[.12em] text-[#8a6a12]">
+                        {t.wing}
+                      </span>
+                      <h3 className="mt-3 line-clamp-2 font-heading text-xl leading-snug text-[#124c36] transition-colors duration-300 group-hover:text-[#1f8a5b]">
+                        {t.name}
+                      </h3>
+                      <p className="mt-1.5 line-clamp-2 text-sm leading-5 text-[#69716b]">{t.designation}</p>
+                      {t.subjects.length > 0 && (
+                        <p className="mt-2 line-clamp-1 text-[12px] font-semibold text-[#1f8a5b]">
+                          {t.subjects.join(" · ")}
+                        </p>
+                      )}
+                      <span className="mt-auto inline-flex items-center gap-2 pt-4 text-[12px] font-semibold uppercase tracking-[.13em] text-[#1f8a5b]">
+                        {bn ? "সম্পূর্ণ পরিচিতি" : "View profile"}
+                        <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">↗</span>
+                      </span>
+                    </div>
+                  </Link>
+                </Reveal>
               ))}
             </div>
-            {pageCount > 1 && <nav aria-label="Faculty pages" className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-[#cbd7cd] pt-5">
-              <p className="text-xs text-[#64776a]">{bn ? `${(currentPage - 1) * PAGE_SIZE + 1}–${Math.min(currentPage * PAGE_SIZE, filtered.length)} দেখানো হচ্ছে` : `Showing ${(currentPage - 1) * PAGE_SIZE + 1}–${Math.min(currentPage * PAGE_SIZE, filtered.length)} of ${filtered.length}`}</p>
-              <div className="flex items-center gap-1">
-                <button disabled={currentPage === 1} onClick={() => { setPage(p => Math.max(1, p - 1)); window.scrollTo({ top: 0, behavior: "smooth" }); }} className="border border-[#cbd7cd] px-3 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-40">{bn ? "পূর্ববর্তী" : "Previous"}</button>
-                {Array.from({ length: pageCount }, (_, i) => i + 1).filter(n => n === 1 || n === pageCount || Math.abs(n - currentPage) <= 1).map((n, i, arr) => <span key={n} className="contents">{i > 0 && arr[i - 1] !== n - 1 && <span className="px-1 text-xs text-[#64776a]">…</span>}<button onClick={() => { setPage(n); window.scrollTo({ top: 0, behavior: "smooth" }); }} aria-current={n === currentPage ? "page" : undefined} className={`min-w-9 border px-3 py-2 text-xs ${n === currentPage ? "border-[#176b45] bg-[#176b45] text-white" : "border-[#cbd7cd] text-[#365443] hover:bg-white"}`}>{n}</button></span>)}
-                <button disabled={currentPage === pageCount} onClick={() => { setPage(p => Math.min(pageCount, p + 1)); window.scrollTo({ top: 0, behavior: "smooth" }); }} className="border border-[#cbd7cd] px-3 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-40">{bn ? "পরবর্তী" : "Next"}</button>
-              </div>
-            </nav>}
+
+            {pageCount > 1 && (
+              <nav
+                aria-label="Faculty pages"
+                className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-[#e4e2da] pt-6"
+              >
+                <p className="text-sm text-[#64776a]">
+                  {bn
+                    ? `${(currentPage - 1) * PAGE_SIZE + 1}–${Math.min(currentPage * PAGE_SIZE, filtered.length)} দেখানো হচ্ছে`
+                    : `Showing ${(currentPage - 1) * PAGE_SIZE + 1}–${Math.min(currentPage * PAGE_SIZE, filtered.length)} of ${filtered.length}`}
+                </p>
+                <div className="flex flex-wrap items-center gap-2">
+                  <button
+                    disabled={currentPage === 1}
+                    onClick={() => {
+                      setPage((p) => Math.max(1, p - 1));
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }}
+                    className={pageButton(false)}
+                  >
+                    {bn ? "পূর্ববর্তী" : "Previous"}
+                  </button>
+                  {Array.from({ length: pageCount }, (_, i) => i + 1)
+                    .filter((n) => n === 1 || n === pageCount || Math.abs(n - currentPage) <= 1)
+                    .map((n, i, arr) => (
+                      <span key={n} className="contents">
+                        {i > 0 && arr[i - 1] !== n - 1 && <span className="px-1 text-xs text-[#64776a]">…</span>}
+                        <button
+                          onClick={() => {
+                            setPage(n);
+                            window.scrollTo({ top: 0, behavior: "smooth" });
+                          }}
+                          aria-current={n === currentPage ? "page" : undefined}
+                          className={pageButton(n === currentPage)}
+                        >
+                          {n}
+                        </button>
+                      </span>
+                    ))}
+                  <button
+                    disabled={currentPage === pageCount}
+                    onClick={() => {
+                      setPage((p) => Math.min(pageCount, p + 1));
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }}
+                    className={pageButton(false)}
+                  >
+                    {bn ? "পরবর্তী" : "Next"}
+                  </button>
+                </div>
+              </nav>
+            )}
           </>
         )}
       </section>
-    </main>
+    </div>
   );
 }
