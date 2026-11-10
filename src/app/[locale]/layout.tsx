@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
-import { isLocale, defaultLocale, getDictionary, type Locale } from "@/i18n/config";
+import {
+  isLocale,
+  defaultLocale,
+  getDictionary,
+  type Locale,
+} from "@/i18n/config";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { notFound } from "next/navigation";
@@ -9,17 +14,18 @@ import { SiteNotification } from "@/components/layout/SiteNotification";
 import { KnowledgeQuiz } from "@/components/engagement/KnowledgeQuiz";
 import { FloatingWhatsAppButton } from "@/components/layout/FloatingWhatsAppButton";
 import { ScrollEffects } from "@/components/motion/ScrollEffects";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const banglaSans = Noto_Sans_Bengali({
   subsets: ["bengali"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-bangla"
+  variable: "--font-bangla",
 });
 
 const banglaSerif = Noto_Serif_Bengali({
   subsets: ["bengali"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-bangla-heading"
+  variable: "--font-bangla-heading",
 });
 
 // Knowledge quiz is hidden for now. Set to true to show it again.
@@ -30,7 +36,7 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({
-  params
+  params,
 }: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
@@ -39,7 +45,7 @@ export async function generateMetadata({
   const dict = getDictionary(locale);
   return {
     title: dict.site.name,
-    description: dict.about.body
+    description: dict.about.body,
   };
 }
 
@@ -64,7 +70,7 @@ async function getActiveNotification() {
 
 export default async function LocaleLayout({
   children,
-  params
+  params,
 }: {
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
@@ -89,6 +95,7 @@ export default async function LocaleLayout({
       <Footer locale={locale} />
       {SHOW_KNOWLEDGE_QUIZ && <KnowledgeQuiz locale={locale} />}
       <FloatingWhatsAppButton />
+      <SpeedInsights />
     </div>
   );
 }
