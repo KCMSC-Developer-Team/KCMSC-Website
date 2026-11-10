@@ -3,6 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getDictionary, isLocale, type Locale } from "@/i18n/config";
 import { prisma } from "@/lib/db";
+import { Reveal } from "@/components/home/Reveal";
+import { SubpageHero, SubpageIntro } from "@/components/subpage/SubpageKit";
+import { AchievementTicker } from "@/components/achievements/AchievementTicker";
 
 type Entry = {
   year: string;
@@ -303,27 +306,38 @@ const results = [
 ] as const;
 
 /* =========================================================
-   PASS RATE
+   PASS RATE (green ring, matches the site palette)
 ========================================================= */
 
-function PassRate({ rate }: { rate: number }) {
+function PassRate({ rate, label }: { rate: number; label: string }) {
   const degrees = rate * 3.6;
 
   return (
     <div
       className="relative h-24 w-24 shrink-0 rounded-full"
       style={{
-        background: `conic-gradient(#1D4ED8 0deg ${degrees}deg, #d8d5cc ${degrees}deg 360deg)`,
+        background: `conic-gradient(#1f8a5b 0deg ${degrees}deg, #e6eae7 ${degrees}deg 360deg)`,
       }}
     >
-      <div className="absolute inset-[7px] flex flex-col items-center justify-center rounded-full bg-[#f8f6f0]">
-        <span className="font-heading text-xl text-[#12324A]">{rate}%</span>
-
-        <span className="mt-1 text-[12px] font-bold uppercase tracking-[.14em] text-[#747b74]">
-          pass rate
-        </span>
+      <div className="absolute inset-[7px] flex flex-col items-center justify-center rounded-full bg-[#fffdf8]">
+        <span className="font-heading text-xl text-[#124c36]">{rate}%</span>
+        <span className="mt-1 text-[10px] font-semibold uppercase tracking-[.14em] text-[#69716b]">{label}</span>
       </div>
     </div>
+  );
+}
+
+/* =========================================================
+   SHARED BLOCKS (same language as the landing page)
+========================================================= */
+
+/** Grey arch that rises inside a panel and fills it green on hover. */
+function ArchBackdrop() {
+  return (
+    <span
+      aria-hidden="true"
+      className="pointer-events-none absolute left-1/2 top-[35%] -z-10 h-[260px] w-[260px] -translate-x-1/2 rounded-t-full bg-[#dfe2e0] transition-[transform,background-color] duration-700 ease-out will-change-transform group-hover:scale-[4] group-hover:bg-[#176b45]"
+    />
   );
 }
 
@@ -349,621 +363,428 @@ export default async function AcademicsPage({
 
   const featuredEntries = entries.slice(0, 4);
 
+  const glance = [
+    { value: "2,336", label: t.students, detail: t.studentsDetail },
+    { value: "53%", label: t.bangla, detail: t.banglaDetail },
+    { value: "47%", label: t.english, detail: t.englishDetail },
+    { value: "2", label: t.structure, detail: "Junior + Senior" },
+  ];
+
+  const wings = [
+    {
+      number: "01",
+      title: t.junior,
+      eyebrow: t.juniorEyebrow,
+      body: t.juniorBody,
+      classes: t.juniorClasses,
+      staff: t.juniorStaff,
+      image: "/kcmsc/media/vibrant_student_life2.jpg",
+      alt: "KCMSC students during school life",
+    },
+    {
+      number: "02",
+      title: t.senior,
+      eyebrow: t.seniorEyebrow,
+      body: t.seniorBody,
+      classes: t.seniorClasses,
+      staff: t.seniorStaff,
+      image: "/kcmsc/media/students_at_library.jpg",
+      alt: "KCMSC students studying in the library",
+    },
+  ];
+
   return (
-    <main className="overflow-hidden bg-[#fffdf8] text-[#25362e]">
+    <div className="kc-sub-page" data-no-reveal>
       {/* =====================================================
-          HERO
+          HERO — shared subpage hero (same as About and Leadership)
       ===================================================== */}
-
-      <section className="kc-feature-hero border-b border-[#d9d8cf] bg-[#12324A] text-white">
-        <div className="kc-feature-hero mx-auto grid min-h-[610px] max-w-[1440px] lg:grid-cols-[1.18fr_.82fr]">
-          <div className="relative flex flex-col justify-center px-6 py-20 sm:px-10 lg:px-16 lg:py-24">
-            <div className="relative z-10 max-w-3xl">
-              <p className="flex items-center gap-3 text-[12px] font-bold uppercase tracking-[.28em] text-[#FBBF24]">
-                <span className="h-px w-9 bg-[#FBBF24]" />
-                {t.kicker}
-              </p>
-
-              <h1 className="mt-6 max-w-3xl font-heading text-[clamp(3.2rem,7vw,7rem)] leading-[.86] tracking-[-.06em]">
-                {t.heroTitle}
-              </h1>
-
-              <p className="mt-8 max-w-2xl text-sm leading-7 text-white/70 sm:text-base sm:leading-8">
-                {t.heroBody}
-              </p>
-
-              <div className="mt-9 flex flex-wrap gap-3">
-                <a
-                  href="#results"
-                  className="inline-flex items-center bg-white px-5 py-3 text-[12px] font-bold uppercase tracking-[.16em] text-[#12324A] transition hover:bg-[#b59a4a]"
-                >
-                  {t.explore}
-                </a>
-
-                <Link
-                  href={`/${locale}/admissions`}
-                  className="inline-flex items-center border border-white/25 px-5 py-3 text-[12px] font-bold uppercase tracking-[.16em] text-white/85 transition hover:border-white"
-                >
-                  {t.admissions}
-                </Link>
-              </div>
-            </div>
-          </div>
-
-          <div className="relative m-5 min-h-[300px] overflow-hidden border border-white/10 sm:m-8 lg:m-10 lg:ml-0 lg:min-h-0">
-            <ClearImage
-              src="/kcmsc/media/teacher_taking_class.jpg"
-              alt={t.heroAlt}
-              priority
-              sizes="(min-width: 1024px) 50vw, 100vw"
-              className="object-cover object-center"
-            />
-
-            <div className="absolute inset-0 bg-gradient-to-t from-[#082b20]/85 via-[#082b20]/10 to-transparent" />
-
-            <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
-              <p className="max-w-xs font-heading text-2xl leading-none sm:text-3xl">
-                {t.heroNote}
-              </p>
-
-              <div className="mt-5 h-px w-full bg-white/20" />
-
-              <p className="mt-3 text-[12px] font-bold uppercase tracking-[.18em] text-white/50">
-                K C Model School & College · Est. 2014
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <SubpageHero
+        kicker={t.kicker}
+        title={t.heroTitle}
+        body={t.heroBody}
+        image="/kcmsc/media/teacher_taking_class.jpg"
+        imageAlt={t.heroAlt}
+        priority
+        actions={
+          <>
+            <a
+              href="#results"
+              className="inline-flex items-center rounded-full bg-[#1f8a5b] px-5 py-3 text-sm font-semibold text-white transition-colors duration-300 hover:bg-[#124c36]"
+            >
+              {t.explore}
+            </a>
+            <Link
+              href={`/${locale}/admissions`}
+              className="inline-flex items-center rounded-full border border-white/35 px-5 py-3 text-sm font-semibold text-white transition-colors duration-300 hover:bg-white/10"
+            >
+              {t.admissions}
+            </Link>
+          </>
+        }
+      />
 
       {/* =====================================================
-          AT A GLANCE
+          AT A GLANCE — white cards overlapping the hero, green wave on hover
       ===================================================== */}
+      <section aria-label={t.overview} className="px-4 pt-16 sm:px-6 lg:px-8">
+        <div className="mx-auto grid max-w-[1180px] grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+          {glance.map((item, index) => (
+            <Reveal key={item.label} delay={index * 110} className="h-full">
+              <div className="group relative isolate flex h-full min-h-[150px] cursor-default select-none flex-col justify-between overflow-hidden rounded-2xl border border-[#e4e2da] bg-white px-5 py-5 shadow-[var(--kc-shadow-lift)] sm:px-6">
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 -z-10 bg-[#176b45] [clip-path:ellipse(0%_0%_at_50%_100%)] transition-[clip-path] duration-[900ms] ease-out group-hover:[clip-path:ellipse(150%_150%_at_50%_100%)]"
+                />
 
-      <section className="border-b border-[#d9d8cf] bg-[#eeeae0]">
-        <div className="mx-auto max-w-[1440px] px-6 py-8 sm:px-10 lg:px-16">
-          <div className="mb-6 flex items-center gap-3">
-            <span className="text-[12px] font-bold uppercase tracking-[.24em] text-[#b07a17]">
-              {t.overview}
-            </span>
-
-            <span className="h-px flex-1 bg-[#d4d0c5]" />
-          </div>
-
-          <div className="grid grid-cols-2 lg:grid-cols-4">
-            {[
-              ["2,336", t.students, t.studentsDetail],
-              ["53%", t.bangla, t.banglaDetail],
-              ["47%", t.english, t.englishDetail],
-              ["2", t.structure, "Junior + Senior"],
-            ].map(([value, label, detail], index) => (
-              <div
-                key={label}
-                className={`py-4 pr-6 sm:pr-10 lg:py-2 lg:px-7 ${
-                  index < 3 ? "border-r border-[#d4d0c5]" : ""
-                } ${
-                  index > 1 ? "border-t border-[#d4d0c5] lg:border-t-0" : ""
-                }`}
-              >
-                <p className="font-heading text-4xl tracking-[-.04em] text-[#12324A] sm:text-5xl">
-                  {value}
-                </p>
-
-                <p className="mt-2 text-xs font-semibold text-[#25362e]">
-                  {label}
-                </p>
-
-                <p className="mt-1 text-[12px] uppercase tracking-[.14em] text-[#747b74]">
-                  {detail}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* =====================================================
-          ACADEMIC STRUCTURE
-      ===================================================== */}
-
-      <section className="border-b border-[#d9d8cf] bg-[#fffdf8]">
-        <div className="mx-auto max-w-[1240px] px-6 py-20 sm:px-10 lg:py-28">
-          <div className="grid gap-8 lg:grid-cols-[.8fr_1.2fr] lg:items-end">
-            <div>
-              <p className="text-[12px] font-bold uppercase tracking-[.25em] text-[#b07a17]">
-                {t.structure}
-              </p>
-
-              <h2 className="mt-4 max-w-xl font-heading text-4xl leading-[.92] tracking-[-.045em] text-[#12324A] sm:text-6xl">
-                {t.structureTitle}
-              </h2>
-            </div>
-
-            <p className="max-w-xl text-sm leading-7 text-[#68716a] lg:justify-self-end">
-              {t.structureBody}
-            </p>
-          </div>
-
-          <div className="mt-14 grid gap-4 lg:grid-cols-2">
-            {[
-              {
-                number: "01",
-                title: t.junior,
-                eyebrow: t.juniorEyebrow,
-                body: t.juniorBody,
-                classes: t.juniorClasses,
-                staff: t.juniorStaff,
-                image: "/kcmsc/media/vibrant_student_life2.jpg",
-                alt: "KCMSC students during school life",
-              },
-              {
-                number: "02",
-                title: t.senior,
-                eyebrow: t.seniorEyebrow,
-                body: t.seniorBody,
-                classes: t.seniorClasses,
-                staff: t.seniorStaff,
-                image: "/kcmsc/media/students_at_library.jpg",
-                alt: "KCMSC students studying in the library",
-              },
-            ].map((wing) => (
-              <article
-                key={wing.title}
-                className="group grid overflow-hidden border border-[#d9d3c7] bg-[#f1eee5] sm:grid-cols-[.72fr_1.28fr]"
-              >
-                <div className="relative min-h-[230px] overflow-hidden sm:min-h-full">
-                  <ClearImage
-                    src={wing.image}
-                    alt={wing.alt}
-                    sizes="(min-width: 1024px) 50vw, 100vw"
-                    className="object-cover object-center"
-                  />
-
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#082b20]/55 via-transparent to-transparent" />
-
-                  <span className="absolute bottom-5 left-5 font-heading text-5xl text-white/80">
-                    {wing.number}
+                <div className="flex items-start justify-between">
+                  <span className="font-heading text-sm tabular-nums text-[#8a948e] transition-colors duration-700 group-hover:text-white/70">
+                    {`0${index + 1}`}
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    className="grid h-7 w-7 place-items-center rounded-full bg-[#e6eae7] transition-colors duration-700 group-hover:bg-white"
+                  >
+                    <span className="h-2 w-2 rounded-full bg-[#176b45]" />
                   </span>
                 </div>
 
-                <div className="p-7 sm:p-8">
-                  <p className="text-[12px] font-bold uppercase tracking-[.2em] text-[#b07a17]">
-                    {wing.eyebrow}
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[.2em] text-[#1f8a5b] transition-colors duration-700 group-hover:text-white/85 sm:text-xs">
+                    {item.label}
                   </p>
-
-                  <h3 className="mt-3 font-heading text-3xl text-[#12324A] sm:text-4xl">
-                    {wing.title}
-                  </h3>
-
-                  <p className="mt-4 text-sm leading-6 text-[#68716a]">
-                    {wing.body}
+                  <p className="mt-2 break-words font-heading text-[clamp(1.5rem,2.3vw,2.1rem)] leading-tight tracking-[-.01em] text-[#124c36] transition-colors duration-700 group-hover:text-white">
+                    {item.value}
                   </p>
+                  <p className="mt-1 text-[11px] uppercase tracking-[.14em] text-[#747b74] transition-colors duration-700 group-hover:text-white/70">
+                    {item.detail}
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
 
-                  <div className="mt-7 border-t border-[#d3cdbf] pt-5">
-                    <div className="flex items-start justify-between gap-5">
-                      <div>
-                        <p className="text-[12px] font-bold uppercase tracking-[.18em] text-[#b07a17]">
-                          Classes
-                        </p>
+      {/* =====================================================
+          ACADEMIC STRUCTURE — wing panels with the arch fill
+      ===================================================== */}
+      <section className="py-20 lg:py-28">
+        <div className="mx-auto max-w-[1180px] px-5 sm:px-8 lg:px-10">
+          <SubpageIntro kicker={t.structure} title={t.structureTitle} body={t.structureBody} />
 
-                        <p className="mt-2 text-xs text-[#68716a]">
-                          {wing.classes}
-                        </p>
+          <div className="mt-12 grid gap-5 lg:grid-cols-2">
+            {wings.map((wing, index) => (
+              <Reveal key={wing.number} delay={index * 120} className="h-full">
+                <article className="kc-sub-panel group flex h-full flex-col overflow-hidden sm:flex-row">
+                  <div className="relative min-h-[240px] overflow-hidden sm:w-[40%] sm:min-h-full">
+                    <ClearImage
+                      src={wing.image}
+                      alt={wing.alt}
+                      sizes="(min-width: 1024px) 25vw, 100vw"
+                      className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#082b20]/60 via-transparent to-transparent" />
+                    <span className="absolute bottom-5 left-5 font-heading text-5xl text-white/85">{wing.number}</span>
+                  </div>
+
+                  <div className="relative isolate flex flex-1 flex-col overflow-hidden p-7 sm:p-8">
+                    <ArchBackdrop />
+
+                    <span className="kc-sub-year self-start transition-colors duration-700 group-hover:bg-white/90">
+                      {wing.eyebrow}
+                    </span>
+                    <h3 className="mt-5 font-heading text-3xl text-[#124c36] transition-colors duration-700 group-hover:text-white sm:text-4xl">
+                      {wing.title}
+                    </h3>
+                    <p className="mt-4 text-[15px] leading-7 text-[#58645c] transition-colors duration-700 group-hover:text-white/90">
+                      {wing.body}
+                    </p>
+
+                    <div className="mt-auto border-t border-[#d9d8cf] pt-5 transition-colors duration-700 group-hover:border-white/25">
+                      <div className="flex items-start justify-between gap-5">
+                        <div>
+                          <p className="text-[11px] font-semibold uppercase tracking-[.18em] text-[#1f8a5b] transition-colors duration-700 group-hover:text-white/85">
+                            Classes
+                          </p>
+                          <p className="mt-2 text-xs text-[#58645c] transition-colors duration-700 group-hover:text-white/90">
+                            {wing.classes}
+                          </p>
+                        </div>
+                        <span className="max-w-[200px] text-right text-[11px] font-semibold uppercase leading-4 tracking-[.1em] text-[#176b45] transition-colors duration-700 group-hover:text-white">
+                          {wing.staff}
+                        </span>
                       </div>
-
-                      <span className="max-w-[190px] text-right text-[12px] font-semibold uppercase leading-4 tracking-[.1em] text-[#1D4ED8]">
-                        {wing.staff}
-                      </span>
                     </div>
                   </div>
-                </div>
-              </article>
+                </article>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
       {/* =====================================================
-          CLASSROOM
-          Single background photograph + green overlay
+          CLASSROOM — green band with photo
       ===================================================== */}
+      <section className="pb-20 lg:pb-28">
+        <div className="mx-auto max-w-[1180px] px-5 sm:px-8 lg:px-10">
+          <Reveal>
+            <div className="kc-faculty-band grid overflow-hidden rounded-[32px] lg:grid-cols-[1fr_1fr]">
+              <div className="flex flex-col justify-center p-8 sm:p-12 lg:p-14">
+                <p className="kc-sub-hero-kicker">{t.classroomKicker}</p>
+                <h2 className="mt-4 font-heading text-[clamp(2.2rem,4vw,3.6rem)] font-normal leading-[1.02] tracking-[-.03em]">
+                  {t.classroomTitle}
+                </h2>
+                <p className="mt-6 max-w-lg text-[15px] leading-7 text-white/75">{t.classroomBody}</p>
 
-      <section className="relative min-h-[620px] overflow-hidden bg-[#12324A] text-white">
-        <div className="absolute inset-0">
-          <ClearImage
-            src="/kcmsc/media/students_at_bookfair.jpg"
-            alt={t.classroomAlt}
-            priority
-            sizes="100vw"
-            className="object-cover object-center"
-          />
-
-          <div className="absolute inset-0 bg-[#082b20]/30" />
-
-          <div className="absolute inset-0 bg-black/15" />
-        </div>
-
-        <div className="relative z-10 mx-auto flex min-h-[620px] max-w-[1240px] items-stretch px-6 sm:px-10">
-          <div className="flex w-full max-w-[520px] flex-col justify-center bg-[#12324A]/95 px-7 py-16 backdrop-blur-[2px] sm:px-10 lg:px-14">
-            <p className="text-[12px] font-bold uppercase tracking-[.25em] text-[#FBBF24]">
-              {t.classroomKicker}
-            </p>
-
-            <h2 className="mt-5 max-w-md font-heading text-4xl leading-[.92] tracking-[-.04em] sm:text-5xl lg:text-6xl">
-              {t.classroomTitle}
-            </h2>
-
-            <p className="mt-6 max-w-lg text-sm leading-7 text-white/70">
-              {t.classroomBody}
-            </p>
-
-            <div className="mt-10 grid grid-cols-2 gap-6 border-t border-white/15 pt-6">
-              <div>
-                <p className="text-[12px] uppercase tracking-[.16em] text-white/40">
-                  {t.schoolHours}
-                </p>
-
-                <p className="mt-2 font-heading text-lg leading-tight sm:text-xl">
-                  {t.schoolHoursValue}
-                </p>
+                <div className="mt-10 grid grid-cols-2 gap-6 border-t border-white/15 pt-6">
+                  <div>
+                    <p className="text-[11px] uppercase tracking-[.16em] text-white/50">{t.schoolHours}</p>
+                    <p className="mt-2 font-heading text-lg leading-tight sm:text-xl">{t.schoolHoursValue}</p>
+                  </div>
+                  <div>
+                    <p className="text-[11px] uppercase tracking-[.16em] text-white/50">Days</p>
+                    <p className="mt-2 font-heading text-lg leading-tight sm:text-xl">{t.schoolHoursDetail}</p>
+                  </div>
+                </div>
               </div>
 
-              <div>
-                <p className="text-[12px] uppercase tracking-[.16em] text-white/40">
-                  Days
-                </p>
-
-                <p className="mt-2 font-heading text-lg leading-tight sm:text-xl">
-                  {t.schoolHoursDetail}
-                </p>
+              <div className="relative min-h-[320px] lg:min-h-[480px]">
+                <ClearImage
+                  src="/kcmsc/media/students_at_bookfair.jpg"
+                  alt={t.classroomAlt}
+                  priority
+                  sizes="(min-width: 1024px) 50vw, 100vw"
+                  className="object-cover object-center"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#082b20]/40 via-transparent to-transparent" />
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
       {/* =====================================================
-          ACADEMIC JOURNEY
+          ACADEMIC JOURNEY — class rows in a rounded panel
       ===================================================== */}
+      <section className="pb-20 lg:pb-28">
+        <div className="mx-auto grid max-w-[1180px] gap-12 px-5 sm:px-8 lg:grid-cols-[.72fr_1.28fr] lg:items-start lg:px-10">
+          <Reveal>
+            <p className="kc-classic-kicker">{t.journeyKicker}</p>
+            <h2 className="kc-classic-title mt-3">{t.journeyTitle}</h2>
+            <p className="mt-5 max-w-md text-[15px] leading-7 text-[#69716b]">{t.journeyBody}</p>
+          </Reveal>
 
-      <section className="border-b border-[#d9d8cf] bg-[#eae6db]">
-        <div className="mx-auto max-w-[1240px] px-6 py-20 sm:px-10 lg:py-24">
-          <div className="grid gap-12 lg:grid-cols-[.72fr_1.28fr]">
-            <div>
-              <p className="text-[12px] font-bold uppercase tracking-[.25em] text-[#b07a17]">
-                {t.journeyKicker}
-              </p>
-
-              <h2 className="mt-4 max-w-md font-heading text-4xl leading-[.94] tracking-[-.04em] text-[#12324A] sm:text-5xl">
-                {t.journeyTitle}
-              </h2>
-
-              <p className="mt-6 max-w-md text-sm leading-7 text-[#68716a]">
-                {t.journeyBody}
-              </p>
-            </div>
-
-            <div className="border-t border-[#cbc5b7]">
+          <Reveal delay={120}>
+            <div className="kc-sub-panel divide-y divide-[#e4e2da] overflow-hidden p-2 sm:p-3">
               {classes.map(([name, age], index) => (
                 <div
                   key={name}
-                  className="grid grid-cols-[35px_1fr_auto] items-center gap-3 border-b border-[#cbc5b7] py-4 sm:grid-cols-[50px_1fr_190px]"
+                  className="grid grid-cols-[40px_1fr_auto] items-center gap-3 rounded-2xl px-4 py-4 transition-colors duration-500 hover:bg-[#eef6f1] sm:grid-cols-[56px_1fr_220px] sm:px-6"
                 >
-                  <span className="text-[12px] font-bold tracking-[.15em] text-[#b07a17]">
+                  <span className="text-[12px] font-bold tracking-[.15em] text-[#c9a83f]">
                     {String(index + 1).padStart(2, "0")}
                   </span>
-
-                  <span className="font-heading text-lg text-[#12324A] sm:text-xl">
-                    {name}
-                  </span>
-
-                  <span className="text-right text-[12px] uppercase tracking-[.1em] text-[#747b74]">
-                    {age}
-                  </span>
+                  <span className="font-heading text-lg text-[#124c36] sm:text-xl">{name}</span>
+                  <span className="text-right text-[11px] uppercase tracking-[.1em] text-[#69716b]">{age}</span>
                 </div>
               ))}
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
       {/* =====================================================
           RESULTS
       ===================================================== */}
+      <section id="results" className="pb-20 lg:pb-28">
+        <div className="mx-auto max-w-[1180px] px-5 sm:px-8 lg:px-10">
+          <SubpageIntro kicker={t.resultsKicker} title={t.resultsTitle} body={t.resultsBody} />
 
-      <section id="results" className="border-b border-[#d9d8cf] bg-[#fffdf8]">
-        <div className="mx-auto max-w-[1240px] px-6 py-20 sm:px-10 lg:py-28">
-          <div className="grid gap-8 lg:grid-cols-[.72fr_1.28fr] lg:items-end">
-            <div>
-              <p className="text-[12px] font-bold uppercase tracking-[.25em] text-[#b07a17]">
-                {t.resultsKicker}
-              </p>
-
-              <h2 className="mt-4 max-w-xl font-heading text-4xl leading-[.92] tracking-[-.045em] text-[#12324A] sm:text-6xl">
-                {t.resultsTitle}
-              </h2>
-            </div>
-
-            <p className="max-w-xl text-sm leading-7 text-[#68716a] lg:justify-self-end">
-              {t.resultsBody}
-            </p>
-          </div>
-
-          <div className="mt-12 grid gap-4 lg:grid-cols-2">
-            {results.map((result) => (
-              <article
-                key={result.exam}
-                className="border border-[#d9d8cf] bg-[#f1eee5] p-6 sm:p-8"
-              >
-                <div className="flex items-start justify-between gap-5">
-                  <div>
-                    <p className="text-[12px] font-bold uppercase tracking-[.2em] text-[#b07a17]">
-                      {result.year}
-                    </p>
-
-                    <h3 className="mt-2 font-heading text-4xl text-[#12324A]">
-                      {result.exam}
-                    </h3>
+          <div className="mt-12 grid gap-5 lg:grid-cols-2">
+            {results.map((result, index) => (
+              <Reveal key={result.exam} delay={index * 120} className="h-full">
+                <article className="kc-sub-panel flex h-full flex-col p-7 sm:p-9">
+                  <div className="flex items-start justify-between gap-5">
+                    <div>
+                      <span className="kc-sub-year">{result.year}</span>
+                      <h3 className="mt-4 font-heading text-4xl text-[#124c36]">{result.exam}</h3>
+                    </div>
+                    <PassRate rate={result.rate} label={t.passRate} />
                   </div>
 
-                  <PassRate rate={result.rate} />
-                </div>
-
-                <div className="mt-8 grid grid-cols-3 border-t border-[#d9d8cf] pt-5">
-                  {[
-                    [t.appeared, result.appeared],
-                    [t.passed, result.passed],
-                    [t.gpa5, result.gpa],
-                  ].map(([label, value], index) => (
-                    <div
-                      key={label}
-                      className={index ? "border-l border-[#d9d8cf] pl-4" : ""}
-                    >
-                      <p className="text-[12px] uppercase tracking-[.13em] text-[#747b74]">
-                        {label}
-                      </p>
-
-                      <p
-                        className={`mt-2 font-heading text-2xl ${
-                          index === 2 ? "text-[#1D4ED8]" : "text-[#12324A]"
-                        }`}
-                      >
-                        {value}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </article>
+                  <div className="mt-8 grid grid-cols-3 border-t border-[#e4e2da] pt-5">
+                    {[
+                      [t.appeared, result.appeared],
+                      [t.passed, result.passed],
+                      [t.gpa5, result.gpa],
+                    ].map(([label, value], position) => (
+                      <div key={label} className={position ? "border-l border-[#e4e2da] pl-4" : ""}>
+                        <p className="text-[11px] uppercase tracking-[.13em] text-[#747b74]">{label}</p>
+                        <p
+                          className={`mt-2 font-heading text-2xl ${
+                            position === 2 ? "text-[#1f8a5b]" : "text-[#124c36]"
+                          }`}
+                        >
+                          {value}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </article>
+              </Reveal>
             ))}
           </div>
 
-          <p className="mt-5 text-[12px] font-semibold uppercase tracking-[.12em] text-[#858a83]">
-            {t.resultNote}
-          </p>
+          <p className="mt-5 text-[11px] font-semibold uppercase tracking-[.14em] text-[#858a83]">{t.resultNote}</p>
         </div>
       </section>
 
       {/* =====================================================
-          CURRICULUM
+          CURRICULUM — green panel, numbered rows
       ===================================================== */}
-
-      <section className="border-b border-white/10 bg-[#12324A] text-white">
-        <div className="mx-auto max-w-[1240px] px-6 py-20 sm:px-10 lg:py-24">
-          <div className="grid gap-12 lg:grid-cols-[.68fr_1.32fr]">
-            <div>
-              <p className="text-[12px] font-bold uppercase tracking-[.25em] text-[#FBBF24]">
-                {t.curriculumKicker}
-              </p>
-
-              <h2 className="mt-4 max-w-md font-heading text-4xl leading-[.93] tracking-[-.04em] sm:text-5xl">
-                {t.curriculumTitle}
-              </h2>
-
-              <p className="mt-6 max-w-md text-sm leading-7 text-white/60">
-                {t.curriculumBody}
-              </p>
-            </div>
-
-            <div className="border-t border-white/15">
-              {t.curriculumItems.map(([number, title, body]) => (
-                <div
-                  key={number}
-                  className="grid gap-4 border-b border-white/15 py-6 sm:grid-cols-[45px_190px_1fr] sm:items-start"
-                >
-                  <span className="text-[12px] font-bold tracking-[.16em] text-[#FBBF24]">
-                    {number}
-                  </span>
-
-                  <h3 className="font-heading text-xl">{title}</h3>
-
-                  <p className="text-sm leading-6 text-white/55">{body}</p>
+      <section className="pb-20 lg:pb-28">
+        <div className="mx-auto max-w-[1180px] px-5 sm:px-8 lg:px-10">
+          <Reveal>
+            <div className="kc-faculty-band rounded-[32px] p-8 sm:p-12 lg:p-14">
+              <div className="grid gap-12 lg:grid-cols-[.68fr_1.32fr]">
+                <div>
+                  <p className="kc-sub-hero-kicker">{t.curriculumKicker}</p>
+                  <h2 className="mt-4 font-heading text-[clamp(2.2rem,4vw,3.4rem)] font-normal leading-[1.02] tracking-[-.03em]">
+                    {t.curriculumTitle}
+                  </h2>
+                  <p className="mt-6 max-w-md text-[15px] leading-7 text-white/70">{t.curriculumBody}</p>
                 </div>
-              ))}
+
+                <div className="border-t border-white/15">
+                  {t.curriculumItems.map(([number, title, body]) => (
+                    <div
+                      key={number}
+                      className="grid gap-4 border-b border-white/15 py-6 sm:grid-cols-[45px_190px_1fr] sm:items-start"
+                    >
+                      <span className="text-[12px] font-bold tracking-[.16em] text-[#6fe0a9]">{number}</span>
+                      <h3 className="font-heading text-xl">{title}</h3>
+                      <p className="text-sm leading-6 text-white/65">{body}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
       {/* =====================================================
           ACHIEVEMENTS
       ===================================================== */}
+      <section className="pb-20 lg:pb-28">
+        <div className="mx-auto max-w-[1180px] px-5 sm:px-8 lg:px-10">
+          <SubpageIntro kicker={t.beyondKicker} title={t.beyondTitle} body={t.beyondBody} />
 
-      <section className="border-b border-[#d9d8cf] bg-[#f4f1e8]">
-        <div className="mx-auto max-w-[1240px] px-6 py-20 sm:px-10 lg:py-28">
-          <div className="grid gap-10 lg:grid-cols-[.72fr_1.28fr] lg:items-end">
-            <div>
-              <p className="text-[12px] font-bold uppercase tracking-[.25em] text-[#b07a17]">
-                {t.beyondKicker}
-              </p>
-
-              <h2 className="mt-4 max-w-lg font-heading text-4xl leading-[.92] tracking-[-.045em] text-[#12324A] sm:text-6xl">
-                {t.beyondTitle}
-              </h2>
-            </div>
-
-            <p className="max-w-xl text-sm leading-7 text-[#68716a] lg:justify-self-end">
-              {t.beyondBody}
-            </p>
-          </div>
-
-          <div className="mt-12 grid gap-4 lg:grid-cols-[.8fr_1.2fr]">
-            {/* Achievement feature image */}
-
-            <div className="relative min-h-[360px] overflow-hidden bg-[#12324A]">
-              <ClearImage
-                src="/kcmsc/media/ict_olympiad_at_kc.jpg"
-                alt={
-                  locale === "bn"
-                    ? "কেসিএমএসসির শিক্ষার্থীদের অলিম্পিয়াডে অংশগ্রহণ"
-                    : "KCMSC students at an ICT Olympiad"
-                }
-                sizes="(min-width: 1024px) 45vw, 100vw"
-                className="object-cover object-center"
-              />
-
-              <div className="absolute inset-0 bg-gradient-to-t from-[#082b20]/90 via-[#082b20]/15 to-transparent" />
-
-              <div className="absolute bottom-0 left-0 right-0 p-7 sm:p-8">
-                <p className="text-[12px] font-bold uppercase tracking-[.2em] text-[#FBBF24]">
-                  {t.highlights}
-                </p>
-
-                <p className="mt-3 max-w-sm font-heading text-2xl leading-tight text-white">
-                  {locale === "bn"
-                    ? "শেখার সুযোগ শ্রেণিকক্ষের বাইরেও আছে।"
-                    : "Another classroom begins beyond the classroom."}
-                </p>
+          <div className="mt-12 grid gap-5 lg:grid-cols-[.8fr_1.2fr]">
+            <Reveal className="h-full">
+              <div className="group relative min-h-[360px] overflow-hidden rounded-[28px] bg-[#124c36] lg:h-full">
+                <ClearImage
+                  src="/kcmsc/media/ict_olympiad_at_kc.jpg"
+                  alt={
+                    locale === "bn"
+                      ? "কেসিএমএসসির শিক্ষার্থীদের অলিম্পিয়াডে অংশগ্রহণ"
+                      : "KCMSC students at an ICT Olympiad"
+                  }
+                  sizes="(min-width: 1024px) 45vw, 100vw"
+                  className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#082b20]/90 via-[#082b20]/15 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-7 sm:p-8">
+                  <p className="kc-sub-hero-kicker">{t.highlights}</p>
+                  <p className="mt-3 max-w-sm font-heading text-2xl leading-tight text-white">
+                    {locale === "bn"
+                      ? "শেখার সুযোগ শ্রেণিকক্ষের বাইরেও আছে।"
+                      : "Another classroom begins beyond the classroom."}
+                  </p>
+                </div>
               </div>
-            </div>
+            </Reveal>
 
-            {/* Achievement records */}
-
-            <div className="border border-[#d9d8cf] bg-[#fffdf8]">
+            <Reveal delay={120} className="h-full">
               {featuredEntries.length ? (
-                featuredEntries.map((entry, index) => (
-                  <article
-                    key={`${entry.year}-${entry.title}-${index}`}
-                    className="grid gap-4 border-b border-[#d9d8cf] p-6 last:border-b-0 sm:grid-cols-[70px_1fr_auto] sm:items-start sm:p-7"
-                  >
-                    <span className="font-heading text-2xl text-[#12324A]">
-                      {entry.year}
-                    </span>
-
-                    <div>
-                      <p className="text-[12px] font-bold uppercase tracking-[.18em] text-[#b07a17]">
-                        {entry.category}
-                      </p>
-
-                      <h3 className="mt-2 font-heading text-xl leading-tight text-[#12324A]">
-                        {entry.title}
-                      </h3>
-
-                      <p className="mt-2 max-w-2xl text-xs leading-5 text-[#68716a]">
-                        {entry.details}
-                      </p>
-                    </div>
-
-                    <span className="hidden text-[12px] font-bold uppercase tracking-[.15em] text-[#9a9f98] sm:block">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                  </article>
-                ))
-              ) : (
-                <p className="p-8 text-sm leading-6 text-[#68716a]">
-                  {t.noEntries}
-                </p>
-              )}
-            </div>
+                  <AchievementTicker
+                    items={featuredEntries}
+                    ariaLabel={locale === "bn" ? "সাম্প্রতিক অর্জনের তালিকা" : "Recent achievements"}
+                  />
+                ) : (
+                  <div className="kc-sub-panel p-8">
+                    <p className="text-sm leading-6 text-[#69716b]">{t.noEntries}</p>
+                  </div>
+                )}
+            </Reveal>
           </div>
 
-          {/* =================================================
-              ACHIEVEMENT FOOTER
-          ================================================= */}
-
-          <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-[#d9d8cf] pt-5">
-            <p className="text-[12px] uppercase tracking-[.14em] text-[#858a83]">
-              {entries.length}{" "}
-              {locale === "bn" ? "টি প্রকাশিত রেকর্ড" : "published records"}
+          <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-[#e4e2da] pt-5">
+            <p className="text-[11px] uppercase tracking-[.14em] text-[#858a83]">
+              {entries.length} {locale === "bn" ? "টি প্রকাশিত রেকর্ড" : "published records"}
             </p>
 
-            <Link
-              href={`/${locale}/achievements`}
-              className="text-[12px] font-bold uppercase tracking-[.16em] text-[#12324A] underline decoration-[#b07a17] underline-offset-4 transition hover:text-[#1D4ED8]"
-            >
-              {t.allAchievements} ↗
+            <Link href={`/${locale}/achievements`} className="kc-classic-link">
+              {t.allAchievements}
+              <span>↗</span>
             </Link>
           </div>
         </div>
       </section>
 
       {/* =====================================================
-          FINAL SCHOOL-LIFE END CAP
+          END CAP — green panel with photo, same as the landing close
       ===================================================== */}
-
-      <section className="bg-[#12324A] text-white">
-        <div className="mx-auto max-w-[1240px] px-6 py-14 sm:px-10 lg:py-16">
-          <div className="grid overflow-hidden border border-white/10 lg:grid-cols-[.8fr_1.2fr]">
-            {/* Text panel */}
-
-            <div className="flex flex-col justify-center bg-[#12324A] px-7 py-12 sm:px-10 lg:px-12">
-              <p className="text-[12px] font-bold uppercase tracking-[.25em] text-[#FBBF24]">
-                K C Model School & College
-              </p>
-
-              <h2 className="mt-5 max-w-xl font-heading text-4xl leading-[.94] tracking-[-.04em] sm:text-5xl">
+      <section className="px-4 pb-20 sm:px-8 sm:pb-28">
+        <Reveal>
+          <div className="kc-dash-hero relative mx-auto grid max-w-[1180px] overflow-hidden rounded-[32px] shadow-lift lg:grid-cols-[1fr_.9fr]">
+            <div className="relative flex flex-col justify-center p-8 sm:p-12">
+              <p className="kc-light-kicker">K C Model School & College</p>
+              <h2 className="mt-4 max-w-xl font-heading text-[clamp(2.1rem,4vw,3.4rem)] font-normal leading-[1.02] tracking-[-.03em]">
                 {locale === "bn"
                   ? "ফলাফলের পেছনের শিক্ষাজীবনও দেখুন।"
                   : "See the school life behind the results."}
               </h2>
-
-              <p className="mt-5 max-w-md text-sm leading-7 text-white/60">
+              <p className="mt-5 max-w-md text-[15px] leading-7 text-white/75">
                 {locale === "bn"
                   ? "শ্রেণিকক্ষ, প্রতিযোগিতা, বন্ধুত্ব ও প্রতিদিনের অভিজ্ঞতাই একটি পূর্ণ শিক্ষাজীবনের অংশ।"
                   : "Classrooms, competitions, friendships and everyday experiences are all part of the academic journey."}
               </p>
 
-              <div className="mt-7 flex flex-wrap gap-3">
+              <div className="mt-8 flex flex-wrap gap-3">
                 <Link
                   href={`/${locale}/student-life`}
-                  className="inline-flex bg-white px-5 py-3 text-[12px] font-bold uppercase tracking-[.16em] text-[#12324A] transition hover:bg-[#FBBF24]"
+                  className="inline-flex rounded-full bg-[#c9a83f] px-5 py-3 text-sm font-semibold text-[#10372a] transition-colors duration-300 hover:bg-[#f2c94c]"
                 >
                   {t.studentLife}
                 </Link>
-
                 <Link
                   href={`/${locale}/admissions`}
-                  className="inline-flex border border-white/30 px-5 py-3 text-[12px] font-bold uppercase tracking-[.16em] text-white transition hover:border-white hover:bg-white/5"
+                  className="inline-flex rounded-full border border-white/35 px-5 py-3 text-sm font-semibold text-white transition-colors duration-300 hover:bg-white/10"
                 >
                   {t.admissions}
                 </Link>
               </div>
             </div>
 
-            {/* Image */}
-
-            <div className="relative min-h-[320px]">
+            <div className="relative min-h-[300px] lg:min-h-[420px]">
               <ClearImage
                 src="/kcmsc/media/winner.jpg"
-                alt={
-                  locale === "bn"
-                    ? "কেসিএমএসসির শিক্ষার্থীর পুরস্কার অর্জন"
-                    : "KCMSC student receiving an award"
-                }
-                sizes="(min-width: 1024px) 60vw, 100vw"
+                alt={locale === "bn" ? "কেসিএমএসসির শিক্ষার্থীর পুরস্কার অর্জন" : "KCMSC student receiving an award"}
+                sizes="(min-width: 1024px) 45vw, 100vw"
                 className="object-cover object-center"
               />
-
-              <div className="absolute inset-0 bg-gradient-to-r from-[#12324A]/55 via-transparent to-transparent" />
-
-              <div className="absolute bottom-5 left-5 border border-white/20 bg-[#12324A]/60 px-4 py-2 backdrop-blur-sm">
-                <p className="text-[12px] font-bold uppercase tracking-[.18em] text-white/75">
+              <div className="absolute inset-0 bg-gradient-to-r from-[#0f4a34]/50 via-transparent to-transparent" />
+              <div className="absolute bottom-5 left-5 rounded-full border border-white/25 bg-[#124c36]/70 px-4 py-2 backdrop-blur-sm">
+                <p className="text-[11px] font-semibold uppercase tracking-[.16em] text-white/85">
                   K C Model School & College
                 </p>
               </div>
             </div>
           </div>
-        </div>
+        </Reveal>
       </section>
-    </main>
+    </div>
   );
 }

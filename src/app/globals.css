@@ -1701,3 +1701,29 @@ html {
     linear-gradient(90deg, rgba(6, 28, 20, 0.8) 0%, rgba(6, 28, 20, 0.4) 60%, rgba(6, 28, 20, 0.22) 100%),
     linear-gradient(0deg, rgba(5, 22, 16, 0.85) 0%, rgba(5, 22, 16, 0.1) 70%);
 }
+
+/* ---------- Vertical achievements ticker ---------- */
+.kc-ticker-track {
+  display: flex;
+  flex-direction: column;
+  animation: kc-ticker-up linear infinite;
+}
+@keyframes kc-ticker-up {
+  from { transform: translateY(0); }
+  to { transform: translateY(-50%); }
+}
+.kc-ticker-panel:hover .kc-ticker-track,
+.kc-ticker-panel:focus-within .kc-ticker-track {
+  animation-play-state: paused;
+}
+.kc-ticker-fade {
+  background: linear-gradient(to bottom, #fffdf8, rgba(255, 253, 248, 0));
+}
+.kc-ticker-fade-bottom {
+  background: linear-gradient(to top, #fffdf8, rgba(255, 253, 248, 0));
+}
+@media (prefers-reduced-motion: reduce) {
+  .kc-ticker-track { animation: none; }
+  .kc-ticker-panel { overflow-y: auto; }
+  .kc-ticker-track ul[aria-hidden="true"] { display: none; }
+}

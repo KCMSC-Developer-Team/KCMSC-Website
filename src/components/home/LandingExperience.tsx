@@ -150,12 +150,13 @@ export function LandingExperience({
 }) {
   const t = copy[locale];
 
-  // Glance cards: each card fills with its own colour on hover.
+  // Glance cards: white by default; a grey dot in each card grows and fills the
+  // whole card with the main green on hover (the card itself does not move).
   const stats = [
-    { label: t.students, value: t.studentsValue, hover: "hover:bg-[#2fbf7f] hover:border-[#2fbf7f]", hoverText: "group-hover:text-white" },
-    { label: t.range, value: t.rangeValue, hover: "hover:bg-[#22a6b3] hover:border-[#22a6b3]", hoverText: "group-hover:text-white" },
-    { label: t.versions, value: t.versionsValue, hover: "hover:bg-[#f2b134] hover:border-[#f2b134]", hoverText: "group-hover:text-[#10372a]" },
-    { label: t.hours, value: t.hoursValue, hover: "hover:bg-[#ef6f5e] hover:border-[#ef6f5e]", hoverText: "group-hover:text-white" },
+    { label: t.students, value: t.studentsValue },
+    { label: t.range, value: t.rangeValue },
+    { label: t.versions, value: t.versionsValue },
+    { label: t.hours, value: t.hoursValue },
   ];
 
   const leaders = [
@@ -216,20 +217,38 @@ export function LandingExperience({
     <div className="kc-homepage bg-[#f7f5ef] text-[#242824]" data-no-reveal>
       <HeroSlideshow locale={locale} />
 
-      {/* ───────── At a glance: cards floating over the bottom of the hero ───────── */}
+      {/* ───────── At a glance: stat cards floating over the bottom of the hero ───────── */}
       <section aria-label={t.glanceKicker} className="relative z-20 -mt-[64px] w-full px-4 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-[1180px] grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {stats.map((s, index) => (
             <Reveal key={s.label} delay={index * 110} className="h-full">
-              <div
-                className={`group cursor-default select-none flex h-full min-h-[128px] min-w-0 flex-col justify-between rounded-2xl border border-[#e4e2da] bg-[#fffdf8] px-5 py-5 shadow-[var(--kc-shadow-lift)] transition-all duration-500 ease-out hover:-translate-y-1 hover:border-transparent sm:px-6 ${s.hover}`}
-              >
-                <p className={`text-[11px] font-semibold uppercase tracking-[.2em] text-[#1f8a5b] transition-colors duration-500 sm:text-xs ${s.hoverText}`}>
-                  {s.label}
-                </p>
-                <p className={`mt-4 break-words font-heading text-[clamp(1.5rem,2.3vw,2.1rem)] leading-tight tracking-[-.01em] text-[#124c36] transition-colors duration-500 ${s.hoverText}`}>
-                  {index === 0 ? <CountUp text={s.value} duration={1800} /> : s.value}
-                </p>
+              <div className="group relative isolate flex h-full min-h-[150px] cursor-default select-none flex-col justify-between overflow-hidden rounded-2xl border border-[#e4e2da] bg-white px-5 py-5 shadow-[var(--kc-shadow-lift)] sm:px-6">
+                {/* Green wave that expands from the bottom centre and fills the card on hover */}
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 -z-10 bg-[#176b45] [clip-path:ellipse(0%_0%_at_50%_100%)] transition-[clip-path] duration-[900ms] ease-out group-hover:[clip-path:ellipse(150%_150%_at_50%_100%)]"
+                />
+
+                <div className="flex items-start justify-between">
+                  <span className="font-heading text-sm tabular-nums text-[#8a948e] transition-colors duration-700 group-hover:text-white/70">
+                    {`0${index + 1}`}
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    className="grid h-7 w-7 place-items-center rounded-full bg-[#e6eae7] transition-colors duration-700 group-hover:bg-white"
+                  >
+                    <span className="h-2 w-2 rounded-full bg-[#176b45]" />
+                  </span>
+                </div>
+
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[.2em] text-[#1f8a5b] transition-colors duration-700 group-hover:text-white/85 sm:text-xs">
+                    {s.label}
+                  </p>
+                  <p className="mt-2 break-words font-heading text-[clamp(1.5rem,2.3vw,2.1rem)] leading-tight tracking-[-.01em] text-[#124c36] transition-colors duration-700 group-hover:text-white">
+                    {index === 0 ? <CountUp text={s.value} duration={1800} /> : s.value}
+                  </p>
+                </div>
               </div>
             </Reveal>
           ))}
@@ -250,23 +269,41 @@ export function LandingExperience({
           </Reveal>
           <Reveal variant="right" delay={120}>
             <div className="relative">
-              <div className="relative aspect-[5/4] overflow-hidden rounded-[28px] bg-[#e5e2d8] shadow-lift">
+              <div
+                tabIndex={0}
+                className="group relative aspect-[5/4] cursor-default overflow-hidden rounded-[28px] bg-[#e5e2d8] shadow-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#176b45] focus-visible:ring-offset-4"
+              >
                 <Image
                   src={images.story}
                   alt="KCMSC students and staff on campus"
                   fill
                   sizes="(min-width: 1024px) 55vw, 100vw"
-                  className="object-cover transition duration-700 ease-out hover:scale-[1.03]"
+                  className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.08] group-focus-visible:scale-[1.08]"
                 />
-              </div>
-              <div className="absolute -bottom-6 left-4 right-4 flex gap-3 sm:left-auto sm:right-8 sm:w-auto">
-                <div className="flex-1 rounded-2xl bg-[#176b45] px-5 py-4 text-white shadow-[var(--kc-shadow-lift)] sm:min-w-[170px]">
-                  <p className="text-[11px] font-semibold uppercase tracking-[.16em] text-white/75">{t.foundedLabel}</p>
-                  <p className="mt-1 font-heading text-2xl">{t.foundedValue}</p>
-                </div>
-                <div className="flex-1 rounded-2xl bg-[#c9a83f] px-5 py-4 text-[#10372a] shadow-[var(--kc-shadow-lift)] sm:min-w-[190px]">
-                  <p className="text-[11px] font-semibold uppercase tracking-[.16em] text-[#10372a]/70">{t.openedLabel}</p>
-                  <p className="mt-1 font-heading text-2xl">{t.openedValue}</p>
+
+                {/* Hover overlay: a deep-green circular reveal that opens from the bottom-right corner */}
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 bg-[#0d3b2a]/90 [clip-path:circle(0%_at_90%_100%)] transition-[clip-path] duration-[900ms] ease-out group-hover:[clip-path:circle(150%_at_90%_100%)] group-focus-visible:[clip-path:circle(150%_at_90%_100%)]"
+                />
+
+                <div className="pointer-events-none absolute inset-0 flex flex-col justify-center px-7 text-white sm:px-12">
+                  <p className="translate-y-4 text-[11px] font-semibold uppercase tracking-[.3em] text-[#d8b878] opacity-0 transition duration-700 ease-out delay-[150ms] group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">
+                    {t.storyKicker}
+                  </p>
+
+                  <ol className="relative mt-6 space-y-7 border-l border-white/20 pl-7">
+                    <li className="relative translate-y-6 opacity-0 transition duration-700 ease-out delay-[300ms] group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">
+                      <span aria-hidden="true" className="absolute -left-[31px] top-2 h-2.5 w-2.5 rounded-full bg-[#d8b878] ring-4 ring-[#0d3b2a]" />
+                      <p className="text-[11px] font-semibold uppercase tracking-[.2em] text-white/60">{t.foundedLabel}</p>
+                      <p className="mt-1 font-heading text-[clamp(2.75rem,5vw,4rem)] leading-none">{t.foundedValue}</p>
+                    </li>
+                    <li className="relative translate-y-6 opacity-0 transition duration-700 ease-out delay-[450ms] group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100">
+                      <span aria-hidden="true" className="absolute -left-[31px] top-2 h-2.5 w-2.5 rounded-full bg-white ring-4 ring-[#0d3b2a]" />
+                      <p className="text-[11px] font-semibold uppercase tracking-[.2em] text-white/60">{t.openedLabel}</p>
+                      <p className="mt-1 font-heading text-[clamp(1.5rem,2.6vw,2rem)] leading-tight">{t.openedValue}</p>
+                    </li>
+                  </ol>
                 </div>
               </div>
             </div>
@@ -310,23 +347,28 @@ export function LandingExperience({
                     </span>
                   </div>
                   <div className="kc-accent-bar" aria-hidden="true" />
-                  <div className="flex flex-1 flex-col p-5 sm:p-6">
-                    <p className="text-[11px] font-semibold uppercase tracking-[.14em] text-[#1f8a5b]">{leader.role}</p>
+                  <div className="relative isolate flex flex-1 flex-col overflow-hidden p-5 sm:p-6">
+                    {/* Grey arch backdrop behind the text only; on hover it grows and fills this panel green */}
+                    <span
+                      aria-hidden="true"
+                      className="pointer-events-none absolute left-1/2 top-[35%] -z-10 h-[260px] w-[260px] -translate-x-1/2 rounded-t-full bg-[#dfe2e0] transition-[transform,background-color] duration-700 ease-out will-change-transform group-hover:scale-[4] group-hover:bg-[#176b45]"
+                    />
+                    <p className="text-[11px] font-semibold uppercase tracking-[.14em] text-[#1f8a5b] transition-colors duration-700 group-hover:text-white/85">{leader.role}</p>
                     <h3
-                      className={`mt-2 font-heading text-xl leading-snug text-[#124c36] ${locale === "bn" ? "font-bangla" : ""}`}
+                      className={`mt-2 font-heading text-xl leading-snug text-[#124c36] transition-colors duration-700 group-hover:text-white ${locale === "bn" ? "font-bangla" : ""}`}
                       lang={locale === "bn" ? "bn" : undefined}
                     >
                       {leader.name}
                     </h3>
                     <p
-                      className={`mt-4 flex-1 text-[14px] leading-7 text-[#58645c] ${locale === "bn" ? "font-bangla" : ""}`}
+                      className={`mt-4 flex-1 text-[14px] leading-7 text-[#58645c] transition-colors duration-700 group-hover:text-white/90 ${locale === "bn" ? "font-bangla" : ""}`}
                       lang={locale === "bn" ? "bn" : undefined}
                     >
                       “{leader.excerpt}”
                     </p>
                     <Link
                       href={`/${locale}/leadership-messages#message-${leader.number}`}
-                      className="mt-5 inline-flex items-center gap-2 border-t border-[#e4e2da] pt-4 text-sm font-semibold text-[#176b45] transition-all duration-300 hover:gap-3 hover:text-[#1f8a5b]"
+                      className="mt-5 inline-flex items-center gap-2 border-t border-[#e4e2da] pt-4 text-sm font-semibold text-[#176b45] transition-all duration-700 group-hover:border-white/25 group-hover:text-white hover:gap-3"
                     >
                       {t.readMessage}
                       <span aria-hidden="true">↗</span>
