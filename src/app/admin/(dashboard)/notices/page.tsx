@@ -5,6 +5,12 @@ import { deleteNoticeAction } from "./actions";
 
 export const dynamic = "force-dynamic";
 
+// Tolerates a Prisma client generated before the imageUrls column existed.
+function imageCountLabel(urls: string[] | undefined) {
+  const count = urls?.length ?? 0;
+  return count > 0 ? ` · ${count} image${count > 1 ? "s" : ""}` : "";
+}
+
 export default async function NoticesListPage() {
   const notices = await prisma.notice.findMany({
     orderBy: { createdAt: "desc" },
@@ -43,11 +49,9 @@ export default async function NoticesListPage() {
                   >
                     {n.isPublished ? "Published" : "Draft"}
                   </span>
-                  {n.isImportant ? (
-                    <span className="text-brick">
-                      Popup{n.imageUrls.length > 0 ? ` · ${n.imageUrls.length} image${n.imageUrls.length > 1 ? "s" : ""}` : ""}
-                    </span>
-                  ) : null}
+                  <span className="text-brick">
+                    {n.isImportant ? `Popup${imageCountLabel(n.imageUrls)}` : "Top bar"}
+                  </span>
                 </p>
               </div>
               <div className="flex shrink-0 items-center gap-4">

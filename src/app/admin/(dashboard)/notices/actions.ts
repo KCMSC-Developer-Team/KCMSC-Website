@@ -9,6 +9,7 @@ import { prisma } from "@/lib/db";
 import { requireAdmin } from "@/lib/session";
 import { logAudit } from "@/lib/audit";
 import { NOTICE_UPLOAD_DIR, noticeImageFilename } from "@/lib/notice-images";
+import { parseDhakaDateTime } from "@/lib/notice-format";
 
 // Only images this site uploaded to the notices folder can be attached.
 const noticeImageUrl = z
@@ -22,6 +23,7 @@ const noticeSchema = z.object({
   bodyBn: z.string().min(1, "Bangla body is required"),
   isImportant: z.boolean(),
   isPublished: z.boolean(),
+  noticeAt: z.date().nullable(),
   imageUrls: z.array(noticeImageUrl).max(10, "A notice can have up to 10 images")
 });
 
@@ -33,6 +35,7 @@ function parseForm(formData: FormData) {
     bodyBn: formData.get("bodyBn"),
     isImportant: formData.get("isImportant") === "on",
     isPublished: formData.get("isPublished") === "on",
+    noticeAt: parseDhakaDateTime(String(formData.get("noticeAt") ?? "")),
     imageUrls: formData.getAll("imageUrls").map(String).filter(Boolean)
   });
 }
@@ -43,6 +46,14 @@ async function removeNoticeImages(urls: string[]) {
     if (!filename) continue;
     await unlink(path.join(NOTICE_UPLOAD_DIR, filename)).catch(() => undefined);
   }
+}
+
+function revalidateNotices() {
+  revalidatePath("/admin/notices");
+  revalidatePath("/en/notices");
+  revalidatePath("/bn/notices");
+  revalidatePath("/en", "layout");
+  revalidatePath("/bn", "layout");
 }
 
 export async function createNoticeAction(formData: FormData) {
@@ -61,11 +72,7 @@ export async function createNoticeAction(formData: FormData) {
     targetId: notice.id
   });
 
-  revalidatePath("/admin/notices");
-  revalidatePath("/en/notices");
-  revalidatePath("/bn/notices");
-  revalidatePath("/en", "layout");
-  revalidatePath("/bn", "layout");
+  revalidateNotices();
   redirect("/admin/notices");
 }
 
@@ -95,11 +102,7 @@ export async function updateNoticeAction(id: string, formData: FormData) {
     targetId: id
   });
 
-  revalidatePath("/admin/notices");
-  revalidatePath("/en/notices");
-  revalidatePath("/bn/notices");
-  revalidatePath("/en", "layout");
-  revalidatePath("/bn", "layout");
+  revalidateNotices();
   redirect("/admin/notices");
 }
 
@@ -123,9 +126,5 @@ export async function deleteNoticeAction(formData: FormData) {
     targetId: id
   });
 
-  revalidatePath("/admin/notices");
-  revalidatePath("/en/notices");
-  revalidatePath("/bn/notices");
-  revalidatePath("/en", "layout");
-  revalidatePath("/bn", "layout");
+  revalidateNotices();
 }

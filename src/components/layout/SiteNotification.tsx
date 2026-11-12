@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { FiChevronLeft, FiChevronRight, FiX } from "react-icons/fi";
+import { formatNoticeDate } from "@/lib/notice-format";
 
 export type SiteNotificationData = {
   id: string;
@@ -10,6 +11,7 @@ export type SiteNotificationData = {
   bodyEn: string;
   bodyBn: string;
   imageUrls: string[];
+  displayAt: string | null;
   updatedAt: string;
 };
 
@@ -156,6 +158,11 @@ export function SiteNotification({
           >
             {title}
           </h2>
+          {notification.displayAt ? (
+            <p className="mt-2 text-xs font-medium text-[#176b45]">
+              {formatNoticeDate(notification.displayAt, locale)}
+            </p>
+          ) : null}
           {body ? (
             <p className="mt-3 whitespace-pre-line text-sm leading-6 text-[#4b5b55]">{body}</p>
           ) : null}
