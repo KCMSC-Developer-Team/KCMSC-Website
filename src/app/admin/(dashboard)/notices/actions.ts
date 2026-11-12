@@ -3,9 +3,17 @@
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { unlink } from "node:fs/promises";
+import path from "node:path";
 import { prisma } from "@/lib/db";
 import { requireAdmin } from "@/lib/session";
 import { logAudit } from "@/lib/audit";
+import { NOTICE_UPLOAD_DIR, noticeImageFilename } from "@/lib/notice-images";
+
+// Only images this site uploaded to the notices folder can be attached.
+const noticeImageUrl = z
+  .string()
+  .refine((value) => noticeImageFilename(value) !== null, "Invalid image address");
 
 const noticeSchema = z.object({
   titleEn: z.string().min(1, "English title is required"),
@@ -13,7 +21,8 @@ const noticeSchema = z.object({
   bodyEn: z.string().min(1, "English body is required"),
   bodyBn: z.string().min(1, "Bangla body is required"),
   isImportant: z.boolean(),
-  isPublished: z.boolean()
+  isPublished: z.boolean(),
+  imageUrls: z.array(noticeImageUrl).max(10, "A notice can have up to 10 images")
 });
 
 function parseForm(formData: FormData) {
@@ -23,8 +32,17 @@ function parseForm(formData: FormData) {
     bodyEn: formData.get("bodyEn"),
     bodyBn: formData.get("bodyBn"),
     isImportant: formData.get("isImportant") === "on",
-    isPublished: formData.get("isPublished") === "on"
+    isPublished: formData.get("isPublished") === "on",
+    imageUrls: formData.getAll("imageUrls").map(String).filter(Boolean)
   });
+}
+
+async function removeNoticeImages(urls: string[]) {
+  for (const url of urls) {
+    const filename = noticeImageFilename(url);
+    if (!filename) continue;
+    await unlink(path.join(NOTICE_UPLOAD_DIR, filename)).catch(() => undefined);
+  }
 }
 
 export async function createNoticeAction(formData: FormData) {
@@ -65,6 +83,10 @@ export async function updateNoticeAction(id: string, formData: FormData) {
     }
   });
 
+  // Images removed from this notice are deleted from disk.
+  const removed = existing.imageUrls.filter((url) => !data.imageUrls.includes(url));
+  await removeNoticeImages(removed);
+
   await logAudit({
     userId: actor.id,
     actorLabel: actor.email,
@@ -85,7 +107,13 @@ export async function deleteNoticeAction(formData: FormData) {
   const actor = await requireAdmin();
   const id = String(formData.get("id") ?? "");
 
+  const existing = await prisma.notice.findUnique({
+    where: { id },
+    select: { imageUrls: true }
+  });
+
   await prisma.notice.delete({ where: { id } });
+  await removeNoticeImages(existing?.imageUrls ?? []);
 
   await logAudit({
     userId: actor.id,

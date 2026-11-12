@@ -44,7 +44,9 @@ export default async function NoticesListPage() {
                     {n.isPublished ? "Published" : "Draft"}
                   </span>
                   {n.isImportant ? (
-                    <span className="text-brick">Top notification</span>
+                    <span className="text-brick">
+                      Popup{n.imageUrls.length > 0 ? ` · ${n.imageUrls.length} image${n.imageUrls.length > 1 ? "s" : ""}` : ""}
+                    </span>
                   ) : null}
                 </p>
               </div>

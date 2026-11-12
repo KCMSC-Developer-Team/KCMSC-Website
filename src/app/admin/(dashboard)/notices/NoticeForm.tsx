@@ -1,4 +1,5 @@
 import { SubmitButton } from "@/components/admin/SubmitButton";
+import { NoticeImageField } from "./NoticeImageField";
 
 type NoticeDefaults = {
   titleEn?: string;
@@ -7,6 +8,7 @@ type NoticeDefaults = {
   bodyBn?: string;
   isImportant?: boolean;
   isPublished?: boolean;
+  imageUrls?: string[];
 };
 
 export function NoticeForm({
@@ -62,10 +64,12 @@ export function NoticeForm({
         </div>
       </div>
 
-      <div className="flex gap-6">
+      <NoticeImageField defaultUrls={defaults.imageUrls ?? []} />
+
+      <div className="flex flex-wrap gap-6">
         <label className="flex items-center gap-2 text-sm text-ink">
           <input type="checkbox" name="isImportant" defaultChecked={defaults.isImportant} />
-          Show as top notification
+          Show as popup on website
         </label>
         <label className="flex items-center gap-2 text-sm text-ink">
           <input type="checkbox" name="isPublished" defaultChecked={defaults.isPublished} />
@@ -73,7 +77,7 @@ export function NoticeForm({
         </label>
       </div>
 
-      <p className="text-xs leading-5 text-ink-muted">When “Show as top notification” and “Published” are enabled, this notice appears in the notification bar at the top of the public website. The newest active notification is shown.</p>
+      <p className="text-xs leading-5 text-ink-muted">When “Show as popup on website” and “Published” are enabled, this notice opens as a popup each time a visitor loads or refreshes the website. It does not reopen while they move between pages. The newest active notice is shown.</p>
 
       <SubmitButton label="Save notice" pendingLabel="Saving…" />
     </form>

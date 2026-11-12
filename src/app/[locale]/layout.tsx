@@ -60,6 +60,7 @@ async function getActiveNotification() {
         titleBn: true,
         bodyEn: true,
         bodyBn: true,
+        imageUrls: true,
         updatedAt: true,
       },
     });
