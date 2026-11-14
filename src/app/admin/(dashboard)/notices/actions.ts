@@ -9,7 +9,7 @@ import { prisma } from "@/lib/db";
 import { requireAdmin } from "@/lib/session";
 import { logAudit } from "@/lib/audit";
 import { NOTICE_UPLOAD_DIR, noticeImageFilename } from "@/lib/notice-images";
-import { parseDhakaDateTime } from "@/lib/notice-format";
+import { parseDhakaDate } from "@/lib/notice-format";
 
 // Only images this site uploaded to the notices folder can be attached.
 const noticeImageUrl = z
@@ -25,6 +25,13 @@ const noticeSchema = z.object({
   isPublished: z.boolean(),
   noticeAt: z.date().nullable(),
   imageUrls: z.array(noticeImageUrl).max(10, "A notice can have up to 10 images")
+}).superRefine((data, ctx) => {
+  if (data.isPublished && !data.noticeAt) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["noticeAt"], message: "Set a publishing date before publishing." });
+  }
+  if (data.isPublished && data.imageUrls.length === 0) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["imageUrls"], message: "Add at least one image before publishing." });
+  }
 });
 
 function parseForm(formData: FormData) {
@@ -33,9 +40,9 @@ function parseForm(formData: FormData) {
     titleBn: formData.get("titleBn"),
     bodyEn: formData.get("bodyEn"),
     bodyBn: formData.get("bodyBn"),
-    isImportant: formData.get("isImportant") === "on",
+    isImportant: false,
     isPublished: formData.get("isPublished") === "on",
-    noticeAt: parseDhakaDateTime(String(formData.get("noticeAt") ?? "")),
+    noticeAt: parseDhakaDate(String(formData.get("noticeAt") ?? "")),
     imageUrls: formData.getAll("imageUrls").map(String).filter(Boolean)
   });
 }
@@ -52,6 +59,8 @@ function revalidateNotices() {
   revalidatePath("/admin/notices");
   revalidatePath("/en/notices");
   revalidatePath("/bn/notices");
+  revalidatePath("/en");
+  revalidatePath("/bn");
   revalidatePath("/en", "layout");
   revalidatePath("/bn", "layout");
 }

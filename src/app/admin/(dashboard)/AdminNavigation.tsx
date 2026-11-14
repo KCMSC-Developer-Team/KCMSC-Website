@@ -44,7 +44,7 @@ const NAV_GROUPS = [
     items: [
       {
         href: "/admin/notices",
-        label: "Notices & notifications",
+        label: "Notices & latest news",
         icon: FiBell,
       },
       { href: "/admin/events", label: "Events & activities", icon: FiCalendar },

@@ -8,6 +8,11 @@ export const dynamic = "force-dynamic";
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   if (!isLocale((await params).locale)) notFound();
   const locale: Locale = (await params).locale as Locale;
+  const notices = await prisma.notice.findMany({
+    where: { isPublished: true, noticeAt: { not: null }, imageUrls: { isEmpty: false } },
+    orderBy: [{ noticeAt: "desc" }, { publishedAt: "desc" }],
+    take: 3,
+  });
   const alumni = await prisma.alumniMessage.findMany({
     where: { isPublished: true, isFeatured: true },
     orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
@@ -19,5 +24,5 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     select: { id: true, name: true, designation: true, wing: true, photoUrl: true, subjects: true },
     take: 30,
   });
-  return <LandingExperience locale={locale} alumni={alumni} faculty={faculty} />;
+  return <LandingExperience locale={locale} alumni={alumni} faculty={faculty} notices={notices} />;
 }

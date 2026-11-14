@@ -12,8 +12,8 @@ import { formatNoticeDate } from "@/lib/notice-format";
 async function getPublishedNotices() {
   try {
     return await prisma.notice.findMany({
-      where: { isPublished: true },
-      orderBy: [{ isImportant: "desc" }, { publishedAt: "desc" }]
+      where: { isPublished: true, noticeAt: { not: null }, imageUrls: { isEmpty: false } },
+      orderBy: [{ noticeAt: "desc" }, { publishedAt: "desc" }]
     });
   } catch {
     return null;
@@ -36,29 +36,28 @@ export default async function NoticesPage({ params }: { params: Promise<{ locale
             {page.empty}
           </div>
         ) : (
-          <ul className="space-y-4">
+          <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {notices.map((n) => {
-              const when = formatNoticeDate(n.noticeAt ?? n.publishedAt, locale);
+              const when = formatNoticeDate(n.noticeAt, locale);
+              const title = locale === "bn" ? n.titleBn : n.titleEn;
+              const body = locale === "bn" ? n.bodyBn : n.bodyEn;
+              const image = n.imageUrls?.[0];
               return (
-                <li key={n.id} className="rounded-lg border border-border bg-surface p-6">
-                  <div className="flex items-start justify-between gap-4">
-                    <h2 className="font-medium text-ink">{locale === "bn" ? n.titleBn : n.titleEn}</h2>
-                    {n.isImportant ? (
-                      <span className="shrink-0 rounded-full bg-brick/10 px-3 py-1 text-xs font-medium text-brick">
-                        {locale === "bn" ? "গুরুত্বপূর্ণ" : "Important"}
-                      </span>
+                <li key={n.id} className="group overflow-hidden rounded-2xl border border-border bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+                  <Link href={`/${locale}/notices/${n.id}`} className="block">
+                    {image ? (
+                      <div className="aspect-[16/9] overflow-hidden bg-[#f4f5f1]">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={image} alt={title} className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]" />
+                      </div>
                     ) : null}
-                  </div>
-                  <p className="mt-2 line-clamp-2 text-sm text-ink-muted">{locale === "bn" ? n.bodyBn : n.bodyEn}</p>
-                  <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
-                    {when ? <p className="text-xs text-ink-muted">{when}</p> : <span />}
-                    <Link
-                      href={`/${locale}/notices/${n.id}`}
-                      className="text-sm font-medium text-[#176b45] hover:underline"
-                    >
-                      {locale === "bn" ? "আরও পড়ুন →" : "Read more →"}
-                    </Link>
-                  </div>
+                    <div className="p-5">
+                      {when ? <p className="text-xs font-semibold uppercase tracking-wide text-[#176b45]">{when}</p> : null}
+                      <h2 className="mt-3 font-heading text-xl leading-snug text-ink">{title}</h2>
+                      <p className="mt-3 line-clamp-3 text-sm leading-6 text-ink-muted">{body}</p>
+                      <span className="mt-5 inline-flex text-sm font-semibold text-[#176b45]">{locale === "bn" ? "বিস্তারিত পড়ুন →" : "Read more →"}</span>
+                    </div>
+                  </Link>
                 </li>
               );
             })}

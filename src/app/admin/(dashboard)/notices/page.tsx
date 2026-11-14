@@ -5,12 +5,6 @@ import { deleteNoticeAction } from "./actions";
 
 export const dynamic = "force-dynamic";
 
-// Tolerates a Prisma client generated before the imageUrls column existed.
-function imageCountLabel(urls: string[] | undefined) {
-  const count = urls?.length ?? 0;
-  return count > 0 ? ` · ${count} image${count > 1 ? "s" : ""}` : "";
-}
-
 export default async function NoticesListPage() {
   const notices = await prisma.notice.findMany({
     orderBy: { createdAt: "desc" },
@@ -19,7 +13,7 @@ export default async function NoticesListPage() {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h1 className="font-heading text-2xl text-ink">Notices</h1>
+        <h1 className="font-heading text-2xl text-ink">Notices & latest news</h1>
         <Link
           href="/admin/notices/new"
           className="rounded-full bg-primary px-5 py-2 text-sm font-medium text-white hover:bg-primary-dark"
@@ -30,7 +24,7 @@ export default async function NoticesListPage() {
 
       {notices.length === 0 ? (
         <p className="mt-8 rounded-lg border border-dashed border-border p-8 text-center text-ink-muted">
-          No notices yet. Create the first one.
+          No news or notices yet. Create the first one.
         </p>
       ) : (
         <ul className="mt-6 divide-y divide-border rounded-lg border border-border bg-white">
@@ -50,7 +44,7 @@ export default async function NoticesListPage() {
                     {n.isPublished ? "Published" : "Draft"}
                   </span>
                   <span className="text-brick">
-                    {n.isImportant ? `Popup${imageCountLabel(n.imageUrls)}` : "Top bar"}
+                    {`${n.imageUrls?.length ?? 0} image${(n.imageUrls?.length ?? 0) === 1 ? "" : "s"}` }
                   </span>
                 </p>
               </div>

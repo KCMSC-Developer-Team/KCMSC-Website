@@ -8,6 +8,8 @@ import { ExploreTabs } from "./ExploreTabs";
 import { Reveal } from "./Reveal";
 import { CountUp } from "@/components/motion/CountUp";
 import { Bar, Ring } from "@/components/motion/Charts";
+import { NoticeNewsSection } from "./NoticeNewsSection";
+import type { Notice } from "@prisma/client";
 
 const copy = {
   en: {
@@ -143,10 +145,12 @@ export function LandingExperience({
   locale,
   alumni = [],
   faculty = [],
+  notices = [],
 }: {
   locale: Locale;
   alumni?: AlumniMessage[];
   faculty?: FacultyCard[];
+  notices?: Notice[];
 }) {
   const t = copy[locale];
 
@@ -310,6 +314,8 @@ export function LandingExperience({
           </Reveal>
         </div>
       </section>
+
+      <NoticeNewsSection locale={locale} notices={notices} />
 
       {/* ───────── Leadership ───────── */}
       <section className="relative overflow-hidden bg-[#fffdf8] py-20 lg:py-28">

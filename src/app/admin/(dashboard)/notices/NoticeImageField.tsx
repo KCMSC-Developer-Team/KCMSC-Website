@@ -49,7 +49,7 @@ export function NoticeImageField({ defaultUrls = [] }: { defaultUrls?: string[] 
 
   return (
     <div>
-      <p className="block text-sm font-medium text-ink">Popup images</p>
+      <p className="block text-sm font-medium text-ink">News image(s)</p>
       <p className="mt-0.5 text-xs leading-5 text-ink-muted">
         JPG, PNG or WebP. Each image is optimised and stored as soon as it is chosen. Up to {MAX_IMAGES} images.
       </p>
@@ -59,7 +59,7 @@ export function NoticeImageField({ defaultUrls = [] }: { defaultUrls?: string[] 
           {urls.map((url, index) => (
             <li key={url} className="relative overflow-hidden rounded-md border border-border bg-white">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={url} alt={`Popup image ${index + 1}`} className="aspect-square w-full object-cover" />
+              <img src={url} alt={`News image ${index + 1}`} className="aspect-square w-full object-cover" />
               <input type="hidden" name="imageUrls" value={url} />
               <button
                 type="button"

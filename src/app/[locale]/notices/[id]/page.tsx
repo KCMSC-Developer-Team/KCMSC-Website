@@ -24,7 +24,7 @@ export default async function NoticeDetailPage({
   const isBn = locale === "bn";
   const title = isBn ? notice.titleBn : notice.titleEn;
   const body = isBn ? notice.bodyBn : notice.bodyEn;
-  const when = formatNoticeDate(notice.noticeAt ?? notice.publishedAt, locale);
+  const when = formatNoticeDate(notice.noticeAt, locale);
   const images = notice.imageUrls ?? [];
 
   return (
